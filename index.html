@@ -74,7 +74,6 @@
         .filter-btn.active { background: #0a6bff; color: #fff; border-color: #0a6bff; }
         .stats { font-size: 0.8rem; color: #5a6f8c; margin-bottom: 10px; display: flex; gap: 16px; flex-wrap: wrap; }
 
-        /* ===== FIXED GRID: TWO COLUMNS ===== */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -110,10 +109,22 @@
 
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(4px); }
         .modal-overlay.open { display: flex; }
-        .modal-content { background: #fff; border-radius: 20px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px; box-shadow: 0 24px 64px rgba(0,0,0,0.3); position: relative; animation: modalIn 0.25s ease; }
+        .modal-content { background: #fff; border-radius: 20px; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px; box-shadow: 0 24px 64px rgba(0,0,0,0.3); position: relative; animation: modalIn 0.25s ease; }
         @keyframes modalIn { from { opacity: 0; transform: scale(0.96) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         .modal-close { position: sticky; top: 0; float: right; background: none; border: none; font-size: 2rem; cursor: pointer; color: #5a6f8c; line-height: 1; }
         
+        .legal-section { margin-bottom: 24px; }
+        .legal-section h2 { font-size: 1.5rem; border-bottom: 2px solid #0a6bff; padding-bottom: 8px; margin-bottom: 12px; }
+        .legal-section h3 { font-size: 1.1rem; margin-top: 16px; margin-bottom: 8px; color: #0a6bff; }
+        .legal-section p, .legal-section li { font-size: 0.9rem; line-height: 1.6; color: #333; }
+        body.dark .legal-section p, body.dark .legal-section li { color: #d0d7e0; }
+        .legal-section ul { padding-left: 20px; }
+        .legal-section ul li { margin-bottom: 4px; }
+        .legal-toc { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .legal-toc a { background: #e8edf5; padding: 4px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; color: #0a2540; transition: 0.2s; }
+        body.dark .legal-toc a { background: #2d4059; color: #e8edf5; }
+        .legal-toc a:hover { background: #0a6bff; color: #fff; }
+
         .payment-option { background: #f9fbfd; border: 2px solid #e2e9f2; border-radius: 12px; padding: 16px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
         .payment-option:hover { border-color: #0a6bff; background: #eef4ff; }
         .payment-option.selected { border-color: #0a6bff; background: #eef4ff; box-shadow: 0 0 0 3px rgba(10,107,255,0.2); }
@@ -130,7 +141,7 @@
         .chat-input button { background: #0a6bff; color: #fff; border: none; padding: 8px 20px; border-radius: 30px; font-weight: 600; cursor: pointer; }
 
         .footer { background: #0a2540; color: #fff; padding: 30px 20px; border-radius: 12px; margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; width: 100%; }
-        .footer a { color: #4a9eff; text-decoration: none; }
+        .footer a { color: #4a9eff; text-decoration: none; cursor: pointer; }
         .footer a:hover { text-decoration: underline; }
         .footer .footer-col h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; opacity: 0.8; }
         .footer .footer-col p, .footer .footer-col li { font-size: 0.85rem; opacity: 0.7; line-height: 1.8; list-style: none; }
@@ -192,7 +203,6 @@
 
         .country-flag { font-size: 1.1rem; margin-right: 4px; }
 
-        /* ===== SPLASH SCREEN ===== */
         #splashScreen {
             position: fixed;
             inset: 0;
@@ -279,7 +289,7 @@
             opacity: 1;
         }
 
-        @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .nav-links { gap: 2px; } .nav-link { padding: 4px 8px; font-size: 0.65rem; } .roadmap-container { grid-template-columns: 1fr; } .footer { grid-template-columns: 1fr; gap: 20px; } }
+        @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .nav-links { gap: 2px; } .nav-link { padding: 4px 8px; font-size: 0.65rem; } .roadmap-container { grid-template-columns: 1fr; } .footer { grid-template-columns: 1fr; gap: 20px; } .modal-content { max-width: 100%; padding: 16px; } }
     </style>
 </head>
 <body>
@@ -331,6 +341,7 @@
                 <button class="nav-link" data-tab="employer" onclick="switchTab('employer')">🏢 Employer</button>
                 <button class="nav-link" data-tab="verify" onclick="switchTab('verify')">🔗 Verify</button>
                 <button class="nav-link" data-tab="admin" onclick="switchTab('admin')">📋 Admin</button>
+                <button class="nav-link" onclick="openLegalModal()">⚖️ Legal</button>
             </div>
             <div class="nav-right">
                 <span id="userStatus" style="font-size:0.8rem;color:#5a6f8c;">🔓 Guest</span>
@@ -459,7 +470,7 @@
 
         <!-- ===== MODALS ===== -->
         <div class="modal-overlay" id="authModal"><div class="modal-content" style="max-width:420px;"><button class="modal-close" onclick="document.getElementById('authModal').classList.remove('open')">✕</button><h2 id="authModalTitle">🔐 Login</h2><div class="form-group"><label>Email</label><input type="email" id="authEmail" placeholder="you@example.com"></div><div class="form-group"><label>Password</label><input type="password" id="authPassword" placeholder="Password"></div><div id="authError" style="color:#f44336;display:none;"></div><button class="btn-primary" id="authSubmitBtn" onclick="handleAuth()">Login</button><button class="btn-primary" style="background:#5a6f8c;" onclick="toggleAuthMode()">Switch to Sign Up</button><a href="#" onclick="resetPassword()" style="color:#0a6bff;display:block;margin-top:8px;">Forgot password?</a></div></div>
-        <div class="modal-overlay" id="paymentModal"><div class="modal-content"><button class="modal-close" onclick="closePaymentModal()">✕</button><h3>💳 Unlock This Course</h3><div id="paymentCourseName" style="font-weight:700;margin-bottom:12px;"></div><div class="payment-option" onclick="selectPaymentOption('full')" id="optFull"><strong>🎓 Full Access</strong> – $15.00<br><small style="color:#5a6f8c;">Certificate + AI Tutor + All Modules</small></div><div class="payment-option" onclick="selectPaymentOption('readonly')" id="optRead"><strong>📖 Read-Only</strong> – $3.50<br><small style="color:#5a6f8c;">View all modules only (No Certificate)</small></div><button class="btn-gold" id="payNowBtn" onclick="processPayment()" style="width:100%;padding:12px;font-size:1.1rem;">✅ Pay Now</button><p id="paymentStatus" style="margin-top:8px;font-size:0.8rem;color:#5a6f8c;"></p></div></div>
+        <div class="modal-overlay" id="paymentModal"><div class="modal-content"><button class="modal-close" onclick="closePaymentModal()">✕</button><h3>💳 Unlock This Course</h3><div id="paymentCourseName" style="font-weight:700;margin-bottom:12px;"></div><div class="payment-option" onclick="selectPaymentOption('full')" id="optFull"><strong>🎓 Full Access</strong> – $15.00 (Flat one‑time fee)<br><small style="color:#5a6f8c;">Full course access + Certificate + AI Tutor</small></div><div class="payment-option" onclick="selectPaymentOption('readonly')" id="optRead"><strong>📖 Read-Only</strong> – $3.50 (Lifetime access)<br><small style="color:#5a6f8c;">View all modules only (No Certificate)</small></div><button class="btn-gold" id="payNowBtn" onclick="processPayment()" style="width:100%;padding:12px;font-size:1.1rem;">✅ Pay Now</button><p id="paymentStatus" style="margin-top:8px;font-size:0.8rem;color:#5a6f8c;"></p></div></div>
         <div class="modal-overlay" id="modalOverlay"><div class="modal-content"><button class="modal-close" onclick="closeModal()">✕</button><div id="modalBody"></div></div></div>
 
         <!-- ===== FOOTER ===== -->
@@ -482,14 +493,196 @@
                     <span class="qr-label">📱 Scan to visit</span>
                 </div>
             </div>
-            <div class="footer-col"><h4>Explore</h4><ul><li><a href="#" onclick="switchTab('courses');return false;">Courses</a></li><li><a href="#" onclick="switchTab('roadmap');return false;">Roadmap</a></li><li><a href="#" onclick="switchTab('community');return false;">Forum</a></li><li><a href="#" onclick="switchTab('faq');return false;">FAQ</a></li><li><a href="#" onclick="switchTab('advice');return false;">Advice</a></li></ul></div>
-            <div class="footer-col"><h4>Contact</h4><ul><li>🌐 <a href="https://www.skillbridgeafrica.africa" target="_blank">skillbridgeafrica.africa</a></li><li>📞 <a href="tel:+263773001353">+263 77 300 1353</a></li><li>✉️ <a href="mailto:enroll@skillbridgeafrica.africa">enroll@skillbridgeafrica.africa</a></li></ul><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;"><span class="payment-icon" style="background:transparent;border-color:#4a9eff;color:#fff;">EcoCash</span><span class="payment-icon" style="background:transparent;border-color:#4a9eff;color:#fff;">M-Pesa</span><span class="payment-icon" style="background:transparent;border-color:#4a9eff;color:#fff;">Visa</span></div></div>
-            <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms & Conditions</a></li><li><a href="#">Cookie Policy</a></li><li><a href="#">Refund Policy</a></li></ul><div style="margin-top:12px;opacity:0.5;font-size:0.7rem;"><span id="visitorCounter">👀 0 Visitors</span><br>© 2025 SkillBridge Africa. All rights reserved.</div></div>
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="#" onclick="switchTab('courses');return false;">Courses</a></li>
+                    <li><a href="#" onclick="switchTab('roadmap');return false;">Roadmap</a></li>
+                    <li><a href="#" onclick="switchTab('community');return false;">Forum</a></li>
+                    <li><a href="#" onclick="switchTab('faq');return false;">FAQ</a></li>
+                    <li><a href="#" onclick="switchTab('advice');return false;">Advice</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li>🌐 <a href="https://www.skillbridgeafrica.africa" target="_blank">skillbridgeafrica.africa</a></li>
+                    <li>📞 <a href="tel:+263773001353">+263 77 300 1353</a></li>
+                    <li>✉️ <a href="mailto:enroll@skillbridgeafrica.africa">enroll@skillbridgeafrica.africa</a></li>
+                </ul>
+                <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <span class="payment-icon" style="background:transparent;border-color:#4a9eff;color:#fff;">EcoCash</span>
+                    <span class="payment-icon" style="background:transparent;border-color:#4a9eff;color:#fff;">M-Pesa</span>
+                    <span class="payment-icon" style="background:transparent;border-color:#4a9eff;color:#fff;">Visa</span>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#" onclick="openLegalModal()">Privacy Policy</a></li>
+                    <li><a href="#" onclick="openLegalModal()">Terms & Conditions</a></li>
+                    <li><a href="#" onclick="openLegalModal()">Cookie Policy</a></li>
+                    <li><a href="#" onclick="openLegalModal()">Refund Policy</a></li>
+                </ul>
+                <div style="margin-top:12px;opacity:0.5;font-size:0.7rem;">
+                    <span id="visitorCounter">👀 0 Visitors</span><br>
+                    © 2025 SkillBridge Africa. All rights reserved.
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
+// ================================================================
+// LEGAL MODAL
+// ================================================================
+function openLegalModal() {
+    var html = `
+        <div style="margin-bottom: 12px;">
+            <h2 style="font-size:1.6rem; border-bottom: 3px solid #0a6bff; padding-bottom: 8px;">⚖️ Legal Documents</h2>
+            <div class="legal-toc">
+                <a onclick="document.getElementById('legal-terms').scrollIntoView({behavior:'smooth'})">📜 Terms</a>
+                <a onclick="document.getElementById('legal-privacy').scrollIntoView({behavior:'smooth'})">🔒 Privacy</a>
+                <a onclick="document.getElementById('legal-cookie').scrollIntoView({behavior:'smooth'})">🍪 Cookie</a>
+                <a onclick="document.getElementById('legal-refund').scrollIntoView({behavior:'smooth'})">💰 Refund</a>
+            </div>
+            <p style="font-size:0.85rem; color:#5a6f8c;">These documents are provided for informational purposes. Please consult a legal professional for advice tailored to your jurisdiction.</p>
+        </div>
+        
+        <!-- Terms & Conditions -->
+        <div class="legal-section" id="legal-terms">
+            <h2>📜 Terms & Conditions</h2>
+            <p><strong>Effective Date:</strong> July 2025</p>
+            <h3>1. Introduction</h3>
+            <p>Welcome to SkillBridge Africa (SBA). These Terms and Conditions ("Terms") govern your use of our website, courses, and services. By registering or purchasing a course, you agree to these Terms.</p>
+            <h3>2. Definitions</h3>
+            <ul>
+                <li><strong>"Full Access"</strong>: The premium tier ($15.00 flat one‑time fee) granting access to <strong>all modules of a single course</strong>, the AI Tutor, and the Blockchain Certificate.</li>
+                <li><strong>"Read-Only Access"</strong>: The basic tier ($3.50) granting <strong>lifetime viewing access</strong> to course materials. Read-Only users do not receive certificates and cannot interact with the AI Tutor.</li>
+                <li><strong>"SBA"</strong>: SkillBridge Africa, a vocational training business.</li>
+            </ul>
+            <h3>3. User Accounts</h3>
+            <ul>
+                <li>You must be at least 13 years old (or have parental consent) to create an account.</li>
+                <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
+                <li>You agree to provide accurate and complete information during registration.</li>
+            </ul>
+            <h3>4. Blockchain Certificates</h3>
+            <p>Upon 100% completion of a <strong>Full Access ($15.00)</strong> course, SBA issues a <strong>Blockchain Certificate (Digital Diploma)</strong>. This certificate is cryptographically hashed and stored on a blockchain network to ensure tamper‑proof verification. It serves as a digital confirmation of your successful course completion.</p>
+            <p><strong>Please note:</strong> SBA is a <strong>vocational training business, not a school, college, or university</strong>. While the certificate validates your learning, SBA makes no guarantee that it will be accepted by any third‑party institution, employer, or accreditation body.</p>
+            <h3>5. Payments & Fees</h3>
+            <ul>
+                <li>All prices are listed in USD ($).</li>
+                <li>Payments are processed securely via third-party gateways (Stripe, M-Pesa, EcoCash).</li>
+                <li>By purchasing, you authorize SBA to charge the selected payment method.</li>
+                <li>If payment fails, access to paid content will be revoked.</li>
+            </ul>
+            <h3>6. User Conduct</h3>
+            <ul>
+                <li>You agree not to use the platform for illegal activities, harassment, or distributing malicious code.</li>
+                <li>SBA reserves the right to suspend or terminate accounts that violate these Terms.</li>
+            </ul>
+            <h3>7. Limitation of Liability</h3>
+            <ul>
+                <li>SBA provides courses "as is" for educational purposes.</li>
+                <li>We do not guarantee specific career outcomes, employment, or business success.</li>
+                <li>To the maximum extent permitted by law, SBA is not liable for indirect, incidental, or consequential damages.</li>
+            </ul>
+            <h3>8. Governing Law & Jurisdiction</h3>
+            <p>These Terms are governed by the laws of the <strong>African countries</strong> in which SkillBridge Africa (SBA) conducts business. Any dispute, claim, or controversy arising out of or relating to these Terms shall be resolved exclusively in the <strong>competent courts of the African country where SBA is registered or where the dispute arises</strong>.</p>
+            <h3>9. Changes to Terms</h3>
+            <p>SBA reserves the right to update these Terms. We will notify users of significant changes via email or website notification.</p>
+        </div>
+
+        <!-- Privacy Policy -->
+        <div class="legal-section" id="legal-privacy">
+            <h2>🔒 Privacy Policy</h2>
+            <p><strong>Effective Date:</strong> July 2025</p>
+            <h3>1. Introduction</h3>
+            <p>SkillBridge Africa ("SBA", "we", "us") respects your privacy. This Privacy Policy explains how we collect, use, and protect your personal data.</p>
+            <h3>2. Data We Collect</h3>
+            <ul>
+                <li><strong>Account Data:</strong> Name, Email address, Password (hashed).</li>
+                <li><strong>Payment Data:</strong> We do not store your full credit card details. Payments are processed by Stripe, M-Pesa, and EcoCash. We only store transaction references.</li>
+                <li><strong>Learning Data:</strong> Course enrollments, progress, completed modules, and certificate hashes.</li>
+                <li><strong>Technical Data:</strong> IP address, browser type, device information, and cookies (for website functionality).</li>
+            </ul>
+            <h3>3. How We Use Your Data</h3>
+            <ul>
+                <li>To provide access to your courses.</li>
+                <li>To process payments and issue certificates.</li>
+                <li>To improve our platform and customer support.</li>
+                <li>To send relevant updates about your courses (you can opt out of marketing emails).</li>
+            </ul>
+            <h3>4. Data Storage & Security</h3>
+            <ul>
+                <li>Your data is securely hosted on <strong>Firebase</strong> (Google Cloud) and <strong>Netlify</strong>. All data is encrypted in transit (SSL/TLS).</li>
+                <li>We implement appropriate technical measures to protect against unauthorized access.</li>
+            </ul>
+            <h3>5. Data Sharing</h3>
+            <ul>
+                <li>We do not sell your personal data to third parties.</li>
+                <li>We share data only with essential service providers (Firebase for storage, Stripe for payments) who are contractually obligated to keep your data secure.</li>
+            </ul>
+            <h3>6. Your Rights</h3>
+            <ul>
+                <li>You have the right to access, rectify, or delete your personal data.</li>
+                <li>To request a copy of your data or delete your account, contact us at <a href="mailto:enroll@skillbridgeafrica.africa">enroll@skillbridgeafrica.africa</a>.</li>
+                <li>We will respond to your request within 30 days.</li>
+            </ul>
+            <h3>7. Children's Privacy</h3>
+            <p>SBA is not intended for children under 13. We do not knowingly collect data from minors without parental consent.</p>
+        </div>
+
+        <!-- Cookie Policy -->
+        <div class="legal-section" id="legal-cookie">
+            <h2>🍪 Cookie Policy</h2>
+            <p><strong>Effective Date:</strong> July 2025</p>
+            <h3>1. What Are Cookies?</h3>
+            <p>Cookies are small text files stored on your device to help websites function effectively and improve user experience.</p>
+            <h3>2. How SBA Uses Cookies</h3>
+            <ul>
+                <li><strong>Essential/Strictly Necessary:</strong> Authentication (keeping you logged in), security, and core functionality.</li>
+                <li><strong>Functional:</strong> Remembering your preferences (e.g., Dark Mode).</li>
+                <li><strong>Analytics:</strong> Google Analytics / Firebase Analytics to track how users interact with our site (this helps us improve our courses).</li>
+            </ul>
+            <h3>3. Managing Your Consent</h3>
+            <p>When you first visit our site, you will be prompted to accept or decline non-essential cookies. You can manage your preferences at any time via your browser settings.</p>
+            <h3>4. Third-Party Cookies</h3>
+            <p>We use Firebase (Google) for analytics. Google's use of cookies is governed by Google's Privacy Policy.</p>
+        </div>
+
+        <!-- Refund Policy -->
+        <div class="legal-section" id="legal-refund">
+            <h2>💰 Refund Policy</h2>
+            <p><strong>Effective Date:</strong> July 2025</p>
+            <p>At SkillBridge Africa (SBA), we are committed to delivering high-quality vocational training. Because our courses are digital goods and provide <strong>immediate access</strong> to content, our refund policy is designed to be fair.</p>
+            <h3>1. Full Access ($15.00)</h3>
+            <p>If you have purchased <strong>Full Access ($15.00)</strong> to a course, you may request a full refund within <strong>7 days</strong> of purchase, provided that:</p>
+            <ul>
+                <li>You have completed <strong>less than 20%</strong> of the course modules.</li>
+                <li>You did not download or print substantial portions of the course material.</li>
+                <li>You raised a support ticket explaining your reason for the refund.</li>
+            </ul>
+            <h3>2. Read-Only Access ($3.50) – Non-Refundable</h3>
+            <p><strong>Read-Only Access ($3.50) is non-refundable.</strong> Because this is a digital product that you can access immediately after purchase, and it provides <strong>lifetime viewing access</strong> (for as long as SBA operates), no refunds will be issued under any circumstances for Read-Only purchases.</p>
+            <h3>3. Technical Issues</h3>
+            <p>If you experience a technical issue that prevents you from accessing your course, and our support team is unable to resolve it within 5 business days, you are eligible for a full refund at SBA's discretion.</p>
+            <h3>4. How to Request a Refund</h3>
+            <ul>
+                <li>To request a refund, email us at <a href="mailto:enroll@skillbridgeafrica.africa">enroll@skillbridgeafrica.africa</a> with the subject line <strong>"Refund Request"</strong>.</li>
+                <li>Include your full name, registered email, and the course name.</li>
+                <li>We will process refunds within 5-10 business days.</li>
+            </ul>
+        </div>
+        <div style="margin-top:16px; text-align:center; border-top:1px solid #e2e9f2; padding-top:12px;">
+            <small style="color:#5a6f8c;">© 2025 SkillBridge Africa. All rights reserved. For legal advice, please consult an attorney.</small>
+        </div>
+    `;
+    openModal(html);
+}
+
 // ================================================================
 // SPLASH SCREEN & VOICE OVER
 // ================================================================
@@ -599,67 +792,353 @@ const countryFlags = { "Algeria": "🇩🇿", "Angola": "🇦🇴", "Benin": "�
 const africanCountries = Object.keys(countryFlags);
 
 // ================================================================
-// FULL COURSE DEFINITIONS (RESTORED)
+// FIXED CATEGORY MAP (ALL COURSES MAPPED)
 // ================================================================
 const categoryMap = {
-    "Soap Making (Cottage Level)": "cottage-industry", "Liquid Soap & Detergent": "cottage-industry", "Natural Deodorant & Perfume Making": "cottage-industry",
-    "Drying Vegetables (Solar & Oven)": "food-preservation", "Jam & Fruit Preserves Making": "food-preservation", "Peanut Butter & Nut Spreads": "food-preservation",
-    "Dairy Milk Production": "cattle-dairy", "Advanced Dairy Farming": "cattle-dairy", "Calf Rearing": "cattle-dairy", "Beef Feedlot Management": "cattle-dairy", "Beef Ranch Operations": "cattle-dairy", "Cattle Breeding": "cattle-dairy", "Herd Health Management": "cattle-dairy",
-    "Broiler Production": "poultry", "Advanced Broiler Management": "poultry", "Layer Management": "poultry", "Breeder Flock Management": "poultry", "Hatchery Operations": "poultry", "Free-Range Poultry": "poultry", "Duck Production": "poultry", "Turkey Farming": "poultry",
-    "Maize Production": "crop-production", "Advanced Maize Production": "crop-production", "Wheat Cultivation": "crop-production", "Professional Wheat Farming": "crop-production", "Sorghum Farming": "crop-production", "Millet Production": "crop-production", "Barley Farming": "crop-production", "Oats Production": "crop-production", "Soybean Farming": "crop-production", "Advanced Soybean Cultivation": "crop-production", "Cowpea Farming": "crop-production", "Lentil Cultivation": "crop-production",
-    "Beekeeping Fundamentals": "beekeeping", "Hive Management": "beekeeping", "Honey Processing": "beekeeping", "Bee Health Management": "beekeeping",
-    "Moringa Cultivation": "herbs-spices", "Basil Farming": "herbs-spices", "Thyme Production": "herbs-spices", "Rosemary Cultivation": "herbs-spices", "Mint Farming": "herbs-spices", "Clove Production": "herbs-spices", "Cardamom Cultivation": "herbs-spices", "Cinnamon Farming": "herbs-spices", "Aloe Vera Farming": "herbs-spices",
-    "Tomato Farming": "vegetable-production", "Professional Tomato Cultivation": "vegetable-production", "Onion Cultivation": "vegetable-production", "Cabbage Production": "vegetable-production", "Carrot Cultivation": "vegetable-production", "Lettuce Farming": "vegetable-production", "Cucumber Production": "vegetable-production", "Okra Cultivation": "vegetable-production", "Spinach Farming": "vegetable-production", "Broccoli Production": "vegetable-production",
-    "Cassava Production": "root-crops", "Yam Cultivation": "root-crops", "Sweet Potato Farming": "root-crops", "Irish Potato Production": "root-crops", "Taro Root Farming": "root-crops", "Ginger Cultivation": "root-crops", "Beetroot Farming": "root-crops", "Garlic Cultivation": "root-crops", "Turmeric Farming": "root-crops", "Radish Farming": "root-crops", "Turnip Cultivation": "root-crops", "Parsnip Farming": "root-crops", "Swede (Rutabaga) Farming": "root-crops", "Celeriac Cultivation": "root-crops", "Horseradish Farming": "root-crops", "Jerusalem Artichoke Farming": "root-crops", "Arrowroot Production": "root-crops", "Tiger Nut Cultivation": "root-crops",
-    "Citrus Orchard Management": "fruit-orchard", "Advanced Citrus Production": "fruit-orchard", "Banana Plantation": "fruit-orchard", "Mango Farming": "fruit-orchard", "Avocado Production": "fruit-orchard", "Pineapple Cultivation": "fruit-orchard", "Papaya Farming": "fruit-orchard", "Guava Production": "fruit-orchard", "Passion Fruit Cultivation": "fruit-orchard", "Apple Orchard": "fruit-orchard", "Pear Orchard": "fruit-orchard", "Plum Cultivation": "fruit-orchard", "Peach Farming": "fruit-orchard", "Cherry Production": "fruit-orchard", "Fig Farming": "fruit-orchard", "Date Palm Cultivation": "fruit-orchard", "Pomegranate Farming": "fruit-orchard",
-    "Cashew Nut Production": "nuts-seeds", "Macadamia Farming": "nuts-seeds", "Sesame Seed Cultivation": "nuts-seeds", "Sunflower Seed Production": "nuts-seeds", "Shea Nut Processing": "nuts-seeds", "Groundnut Farming": "nuts-seeds",
-    "Chili Pepper Farming": "peppers", "Bell Pepper Production": "peppers", "Black Pepper Cultivation": "peppers", "Pepper Processing": "peppers",
-    "Catfish Farming": "aquaculture", "Advanced Catfish Production": "aquaculture", "Tilapia Production": "aquaculture", "Aquaponics Systems": "aquaculture", "Fish Pond Construction": "aquaculture", "Fish Processing": "aquaculture",
-    "Pig Rearing": "pig", "Advanced Pig Production": "pig", "Breeding & Boar Management": "pig", "Farrowing & Weaning": "pig",
-    "Rabbit Production": "rabbits-small", "Advanced Rabbit Farming": "rabbits-small", "Rabbit Breeding": "rabbits-small", "Rabbit Health Management": "rabbits-small",
-    "Web Development": "ict", "Cybersecurity": "ict", "Computer Networking": "ict", "Data Science": "ict",
-    "Plumbing": "construction", "Welding": "construction", "Electrical Installation": "construction", "Bricklaying": "construction", "Brick Making": "construction", "Road Construction": "construction", "Animal House Construction": "construction",
-    "Coffee Production": "cash-crops", "Cocoa Farming": "cash-crops", "Sugarcane Farming": "cash-crops", "Tea Cultivation": "cash-crops", "Cotton Production": "cash-crops", "Tobacco Cultivation": "cash-crops", "Rubber Plantation": "cash-crops", "Oil Palm Production": "cash-crops", "Hemp Cultivation": "cash-crops",
-    "Gold Mining Operations": "mining", "Mining Safety": "mining", "Mining Fundamentals": "mining", "Diamond Mining": "mining", "Platinum Mining": "mining", "Coal Mining": "mining", "Mine Planning & Design": "mining", "Mineral Processing": "mining", "Mining Economics": "mining", "Artisanal & Small-Scale Mining": "mining",
-    "Animal Feed Production": "livestock-feed", "Molasses Making": "livestock-feed", "Hay Making": "livestock-feed", "Haylage Production": "livestock-feed", "Silage Production": "livestock-feed", "Total Mixed Ration": "livestock-feed", "Pellet Production": "livestock-feed", "Alfalfa Cultivation": "livestock-feed",
-    "Biogas Training": "energy", "Biogas Training & Construction": "energy", "Metal Fabrication": "metal",
-    "Wool Sheep Production": "sheep-goat", "Meat Sheep Management": "sheep-goat", "Dairy Goat Farming": "sheep-goat", "Meat Goat Production": "sheep-goat", "Boer Goat Farming": "sheep-goat", "Kalahari Goat Production": "sheep-goat", "Dorper Sheep Farming": "sheep-goat", "Merino Sheep Production": "sheep-goat", "Karakul Sheep Farming": "sheep-goat",
-    "Camel Farming": "specialty-livestock", "Ostrich Farming": "specialty-livestock", "Donkey Farming": "specialty-livestock", "Bull Farming": "specialty-livestock", "Steer Farming": "specialty-livestock", "Fattening Operations": "specialty-livestock", "Game Farming": "specialty-livestock",
-    "Timber Production": "forestry", "Agroforestry": "forestry", "Tree Nursery Management": "forestry", "Forest Conservation": "forestry", "Bamboo Production": "forestry",
-    "Learn Shona Language": "languages", "Learn Chinese Language": "languages",
-    "Motor Vehicle Mechanics": "automotive", "Auto Electrical Systems": "automotive", "Panel Beating": "automotive", "Vehicle Diagnostics": "automotive",
-    "Supply Chain Management": "logistics", "Logistics Planning": "logistics", "Warehouse Management": "logistics", "Transport Logistics": "logistics",
-    "Healthcare Administration": "health", "Nursing Fundamentals": "health", "Pharmacy Practice": "health", "Public Health": "health"
+    // COTTAGE INDUSTRY (ALL 25+)
+    "Soap Making (Cottage Level)": "cottage-industry",
+    "Liquid Soap & Detergent": "cottage-industry",
+    "Shampoo & Hair Care": "cottage-industry",
+    "Toothpaste & Oral Hygiene": "cottage-industry",
+    "Shoe Polish & Leather Care": "cottage-industry",
+    "Jam & Fruit Preserves Making": "cottage-industry",
+    "Peanut Butter & Nut Spreads": "cottage-industry",
+    "Body Lotion & Cream": "cottage-industry",
+    "Household Cleaning Products": "cottage-industry",
+    "Candle & Wax Melts": "cottage-industry",
+    "Yogurt & Dairy Processing": "cottage-industry",
+    "Spice Blending & Packaging": "cottage-industry",
+    "Herbal Pomade & Hair Gel": "cottage-industry",
+    "Vegetable Oil Extraction": "cottage-industry",
+    "Paper Recycling & Notebooks": "cottage-industry",
+    "Charcoal Briquettes": "cottage-industry",
+    "Fruit Juice & Syrup Bottling": "cottage-industry",
+    "Natural Deodorant & Perfume Making": "cottage-industry",
+    "Dishwashing Liquid": "cottage-industry",
+    "Shea Butter & Cocoa Butter": "cottage-industry",
+    "Paint & Pigment Making": "cottage-industry",
+    "Bread & Cake Baking": "cottage-industry",
+    "Biofuel & Ethanol": "cottage-industry",
+    "Soapstone & Clay Craft Production": "cottage-industry",
+    "Handmade Paper & Card Making": "cottage-industry",
+    // FOOD PRESERVATION
+    "Drying Vegetables (Solar & Oven)": "food-preservation",
+    "Marinating Vegetables": "food-preservation",
+    "Bottling Vegetables (Canning)": "food-preservation",
+    "Fermenting Vegetables (Kraut & Kimchi)": "food-preservation",
+    "Freezing Vegetables": "food-preservation",
+    "Making Vegetable Powders": "food-preservation",
+    "Pickling Vegetables": "food-preservation",
+    "Making Vegetable Chutneys & Relishes": "food-preservation",
+    "Vegetable Juice Concentrates": "food-preservation",
+    "Storing Vegetables in Sand/Ash": "food-preservation",
+    "Tomato Paste & Puree Making": "food-preservation",
+    "Cabbage Kraut & Kimchi (Fermentation)": "food-preservation",
+    "Onion & Garlic Powder Production": "food-preservation",
+    "Pepper & Chili Sauce Preservation": "food-preservation",
+    "Fruit Jam & Syrup Preservation": "food-preservation",
+    "Green Bean & Pea Preservation": "food-preservation",
+    "Sweetcorn Preservation": "food-preservation",
+    "Overstock Vegetable Processing": "food-preservation",
+    // CATTLE DAIRY
+    "Dairy Milk Production": "cattle-dairy",
+    "Advanced Dairy Farming": "cattle-dairy",
+    "Calf Rearing": "cattle-dairy",
+    "Beef Feedlot Management": "cattle-dairy",
+    "Beef Ranch Operations": "cattle-dairy",
+    "Cattle Breeding": "cattle-dairy",
+    "Herd Health Management": "cattle-dairy",
+    // POULTRY
+    "Broiler Production": "poultry",
+    "Advanced Broiler Management": "poultry",
+    "Layer Management": "poultry",
+    "Breeder Flock Management": "poultry",
+    "Hatchery Operations": "poultry",
+    "Free-Range Poultry": "poultry",
+    "Duck Production": "poultry",
+    "Turkey Farming": "poultry",
+    // CROP PRODUCTION
+    "Maize Production": "crop-production",
+    "Advanced Maize Production": "crop-production",
+    "Wheat Cultivation": "crop-production",
+    "Professional Wheat Farming": "crop-production",
+    "Sorghum Farming": "crop-production",
+    "Millet Production": "crop-production",
+    "Barley Farming": "crop-production",
+    "Oats Production": "crop-production",
+    "Soybean Farming": "crop-production",
+    "Advanced Soybean Cultivation": "crop-production",
+    "Cowpea Farming": "crop-production",
+    "Lentil Cultivation": "crop-production",
+    // BEEKEEPING
+    "Beekeeping Fundamentals": "beekeeping",
+    "Hive Management": "beekeeping",
+    "Honey Processing": "beekeeping",
+    "Bee Health Management": "beekeeping",
+    // HERBS & SPICES
+    "Moringa Cultivation": "herbs-spices",
+    "Basil Farming": "herbs-spices",
+    "Thyme Production": "herbs-spices",
+    "Rosemary Cultivation": "herbs-spices",
+    "Mint Farming": "herbs-spices",
+    "Clove Production": "herbs-spices",
+    "Cardamom Cultivation": "herbs-spices",
+    "Cinnamon Farming": "herbs-spices",
+    "Aloe Vera Farming": "herbs-spices",
+    // VEGETABLES
+    "Tomato Farming": "vegetable-production",
+    "Professional Tomato Cultivation": "vegetable-production",
+    "Onion Cultivation": "vegetable-production",
+    "Cabbage Production": "vegetable-production",
+    "Carrot Cultivation": "vegetable-production",
+    "Lettuce Farming": "vegetable-production",
+    "Cucumber Production": "vegetable-production",
+    "Okra Cultivation": "vegetable-production",
+    "Spinach Farming": "vegetable-production",
+    "Broccoli Production": "vegetable-production",
+    // ROOT CROPS
+    "Cassava Production": "root-crops",
+    "Yam Cultivation": "root-crops",
+    "Sweet Potato Farming": "root-crops",
+    "Irish Potato Production": "root-crops",
+    "Taro Root Farming": "root-crops",
+    "Ginger Cultivation": "root-crops",
+    "Beetroot Farming": "root-crops",
+    "Garlic Cultivation": "root-crops",
+    "Turmeric Farming": "root-crops",
+    "Radish Farming": "root-crops",
+    "Turnip Cultivation": "root-crops",
+    "Parsnip Farming": "root-crops",
+    "Swede (Rutabaga) Farming": "root-crops",
+    "Celeriac Cultivation": "root-crops",
+    "Horseradish Farming": "root-crops",
+    "Jerusalem Artichoke Farming": "root-crops",
+    "Arrowroot Production": "root-crops",
+    "Tiger Nut Cultivation": "root-crops",
+    // FRUIT
+    "Citrus Orchard Management": "fruit-orchard",
+    "Advanced Citrus Production": "fruit-orchard",
+    "Banana Plantation": "fruit-orchard",
+    "Mango Farming": "fruit-orchard",
+    "Avocado Production": "fruit-orchard",
+    "Pineapple Cultivation": "fruit-orchard",
+    "Papaya Farming": "fruit-orchard",
+    "Guava Production": "fruit-orchard",
+    "Passion Fruit Cultivation": "fruit-orchard",
+    "Apple Orchard": "fruit-orchard",
+    "Pear Orchard": "fruit-orchard",
+    "Plum Cultivation": "fruit-orchard",
+    "Peach Farming": "fruit-orchard",
+    "Cherry Production": "fruit-orchard",
+    "Fig Farming": "fruit-orchard",
+    "Date Palm Cultivation": "fruit-orchard",
+    "Pomegranate Farming": "fruit-orchard",
+    // NUTS & SEEDS
+    "Cashew Nut Production": "nuts-seeds",
+    "Macadamia Farming": "nuts-seeds",
+    "Sesame Seed Cultivation": "nuts-seeds",
+    "Sunflower Seed Production": "nuts-seeds",
+    "Shea Nut Processing": "nuts-seeds",
+    "Groundnut Farming": "nuts-seeds",
+    // PEPPERS
+    "Chili Pepper Farming": "peppers",
+    "Bell Pepper Production": "peppers",
+    "Black Pepper Cultivation": "peppers",
+    "Bird's Eye Chili": "peppers",
+    "Pepper Processing": "peppers",
+    "Pepper Seed Production": "peppers",
+    "Dried Pepper Processing": "peppers",
+    "Pepper Oil Extraction": "peppers",
+    "Sweet Pepper Farming": "peppers",
+    "Habanero Farming": "peppers",
+    "Crushed Chili Production": "peppers",
+    "Pepper Sauce Making": "peppers",
+    "Pepper Export & Marketing": "peppers",
+    // AQUACULTURE
+    "Catfish Farming": "aquaculture",
+    "Advanced Catfish Production": "aquaculture",
+    "Tilapia Production": "aquaculture",
+    "Aquaponics Systems": "aquaculture",
+    "Fish Pond Construction": "aquaculture",
+    "Fish Processing": "aquaculture",
+    // PIG
+    "Pig Rearing": "pig",
+    "Advanced Pig Production": "pig",
+    "Breeding & Boar Management": "pig",
+    "Farrowing & Weaning": "pig",
+    // RABBIT
+    "Rabbit Production": "rabbits-small",
+    "Advanced Rabbit Farming": "rabbits-small",
+    "Rabbit Breeding": "rabbits-small",
+    "Rabbit Health Management": "rabbits-small",
+    // SHEEP & GOAT
+    "Wool Sheep Production": "sheep-goat",
+    "Meat Sheep Management": "sheep-goat",
+    "Dairy Goat Farming": "sheep-goat",
+    "Meat Goat Production": "sheep-goat",
+    "Boer Goat Farming": "sheep-goat",
+    "Kalahari Goat Production": "sheep-goat",
+    "Dorper Sheep Farming": "sheep-goat",
+    "Merino Sheep Production": "sheep-goat",
+    "Karakul Sheep Farming": "sheep-goat",
+    // SPECIALTY LIVESTOCK
+    "Camel Farming": "specialty-livestock",
+    "Ostrich Farming": "specialty-livestock",
+    "Donkey Farming": "specialty-livestock",
+    "Bull Farming": "specialty-livestock",
+    "Steer Farming": "specialty-livestock",
+    "Fattening Operations": "specialty-livestock",
+    "Game Farming": "specialty-livestock",
+    // FORESTRY
+    "Timber Production": "forestry",
+    "Agroforestry": "forestry",
+    "Tree Nursery Management": "forestry",
+    "Forest Conservation": "forestry",
+    "Bamboo Production": "forestry",
+    // MINING
+    "Mining Fundamentals": "mining",
+    "Gold Mining Operations": "mining",
+    "Diamond Mining": "mining",
+    "Platinum Mining": "mining",
+    "Coal Mining": "mining",
+    "Mining Safety": "mining",
+    "Mine Planning & Design": "mining",
+    "Mineral Processing": "mining",
+    "Mining Economics": "mining",
+    "Artisanal & Small-Scale Mining": "mining",
+    // LIVESTOCK FEED
+    "Animal Feed Production": "livestock-feed",
+    "Molasses Making": "livestock-feed",
+    "Hay Making": "livestock-feed",
+    "Haylage Production": "livestock-feed",
+    "Silage Production": "livestock-feed",
+    "Total Mixed Ration": "livestock-feed",
+    "Pellet Production": "livestock-feed",
+    "Alfalfa Cultivation": "livestock-feed",
+    // CONSTRUCTION
+    "Animal House Construction": "construction",
+    "Brick Making": "construction",
+    "Road Construction": "construction",
+    "Bricklaying": "construction",
+    "Plumbing": "construction",
+    "Electrical Installation": "construction",
+    "Welding": "construction",
+    // ENERGY & METAL
+    "Biogas Training": "energy",
+    "Biogas Training & Construction": "energy",
+    "Metal Fabrication": "metal",
+    // ICT
+    "Computer Networking": "ict",
+    "Cybersecurity": "ict",
+    "Web Development": "ict",
+    "Data Science": "ict",
+    // HEALTH
+    "Healthcare Administration": "health",
+    "Nursing Fundamentals": "health",
+    "Pharmacy Practice": "health",
+    "Public Health": "health",
+    // AUTOMOTIVE
+    "Motor Vehicle Mechanics": "automotive",
+    "Auto Electrical Systems": "automotive",
+    "Panel Beating": "automotive",
+    "Vehicle Diagnostics": "automotive",
+    // LOGISTICS
+    "Supply Chain Management": "logistics",
+    "Logistics Planning": "logistics",
+    "Warehouse Management": "logistics",
+    "Transport Logistics": "logistics",
+    // CASH CROPS
+    "Coffee Production": "cash-crops",
+    "Cocoa Farming": "cash-crops",
+    "Sugarcane Farming": "cash-crops",
+    "Tea Cultivation": "cash-crops",
+    "Cotton Production": "cash-crops",
+    "Tobacco Cultivation": "cash-crops",
+    "Rubber Plantation": "cash-crops",
+    "Oil Palm Production": "cash-crops",
+    "Hemp Cultivation": "cash-crops",
+    // LANGUAGES
+    "Learn Shona Language": "languages",
+    "Learn Chinese Language": "languages"
 };
 const defaultCategory = "other";
 
+// ================================================================
+// FULL COURSE DEFINITIONS (RESTORED – 500+)
+// ================================================================
 const baseTitles = [
-    "Soap Making (Cottage Level)", "Liquid Soap & Detergent", "Shampoo & Hair Care", "Toothpaste & Oral Hygiene", "Shoe Polish & Leather Care", "Jam & Fruit Preserves Making", "Peanut Butter & Nut Spreads", "Body Lotion & Cream", "Household Cleaning Products", "Candle & Wax Melts", "Yogurt & Dairy Processing", "Spice Blending & Packaging", "Herbal Pomade & Hair Gel", "Vegetable Oil Extraction", "Paper Recycling & Notebooks", "Charcoal Briquettes", "Fruit Juice & Syrup Bottling", "Natural Deodorant & Perfume Making", "Dishwashing Liquid", "Shea Butter & Cocoa Butter", "Paint & Pigment Making", "Bread & Cake Baking", "Biofuel & Ethanol",
-    "Drying Vegetables (Solar & Oven)", "Marinating Vegetables", "Bottling Vegetables (Canning)", "Fermenting Vegetables (Kraut & Kimchi)", "Freezing Vegetables", "Making Vegetable Powders", "Pickling Vegetables", "Making Vegetable Chutneys & Relishes", "Vegetable Juice Concentrates", "Storing Vegetables in Sand/Ash", "Tomato Paste & Puree Making", "Cabbage Kraut & Kimchi (Fermentation)", "Onion & Garlic Powder Production", "Pepper & Chili Sauce Preservation", "Fruit Jam & Syrup Preservation", "Green Bean & Pea Preservation", "Sweetcorn Preservation", "Overstock Vegetable Processing",
+    // COTTAGE
+    "Soap Making (Cottage Level)", "Liquid Soap & Detergent", "Shampoo & Hair Care", "Toothpaste & Oral Hygiene", "Shoe Polish & Leather Care", 
+    "Jam & Fruit Preserves Making", "Peanut Butter & Nut Spreads", "Body Lotion & Cream", "Household Cleaning Products", "Candle & Wax Melts", 
+    "Yogurt & Dairy Processing", "Spice Blending & Packaging", "Herbal Pomade & Hair Gel", "Vegetable Oil Extraction", "Paper Recycling & Notebooks", 
+    "Charcoal Briquettes", "Fruit Juice & Syrup Bottling", "Natural Deodorant & Perfume Making", "Dishwashing Liquid", "Shea Butter & Cocoa Butter", 
+    "Paint & Pigment Making", "Bread & Cake Baking", "Biofuel & Ethanol", "Soapstone & Clay Craft Production", "Handmade Paper & Card Making",
+    // FOOD PRESERVATION
+    "Drying Vegetables (Solar & Oven)", "Marinating Vegetables", "Bottling Vegetables (Canning)", "Fermenting Vegetables (Kraut & Kimchi)", 
+    "Freezing Vegetables", "Making Vegetable Powders", "Pickling Vegetables", "Making Vegetable Chutneys & Relishes", "Vegetable Juice Concentrates", 
+    "Storing Vegetables in Sand/Ash", "Tomato Paste & Puree Making", "Cabbage Kraut & Kimchi (Fermentation)", "Onion & Garlic Powder Production", 
+    "Pepper & Chili Sauce Preservation", "Fruit Jam & Syrup Preservation", "Green Bean & Pea Preservation", "Sweetcorn Preservation", "Overstock Vegetable Processing",
+    // CATTLE DAIRY
     "Dairy Milk Production", "Advanced Dairy Farming", "Calf Rearing", "Beef Feedlot Management", "Beef Ranch Operations", "Cattle Breeding", "Herd Health Management",
+    // POULTRY
     "Broiler Production", "Advanced Broiler Management", "Layer Management", "Breeder Flock Management", "Hatchery Operations", "Free-Range Poultry", "Duck Production", "Turkey Farming",
-    "Maize Production", "Advanced Maize Production", "Wheat Cultivation", "Professional Wheat Farming", "Sorghum Farming", "Millet Production", "Barley Farming", "Oats Production", "Soybean Farming", "Advanced Soybean Cultivation", "Cowpea Farming", "Lentil Cultivation",
+    // CROP
+    "Maize Production", "Advanced Maize Production", "Wheat Cultivation", "Professional Wheat Farming", "Sorghum Farming", "Millet Production", 
+    "Barley Farming", "Oats Production", "Soybean Farming", "Advanced Soybean Cultivation", "Cowpea Farming", "Lentil Cultivation",
+    // BEEKEEPING
     "Beekeeping Fundamentals", "Hive Management", "Honey Processing", "Bee Health Management",
+    // HERBS
     "Moringa Cultivation", "Basil Farming", "Thyme Production", "Rosemary Cultivation", "Mint Farming", "Clove Production", "Cardamom Cultivation", "Cinnamon Farming", "Aloe Vera Farming",
-    "Tomato Farming", "Professional Tomato Cultivation", "Onion Cultivation", "Cabbage Production", "Carrot Cultivation", "Lettuce Farming", "Cucumber Production", "Okra Cultivation", "Spinach Farming", "Broccoli Production",
-    "Cassava Production", "Yam Cultivation", "Sweet Potato Farming", "Irish Potato Production", "Taro Root Farming", "Ginger Cultivation", "Beetroot Farming", "Garlic Cultivation", "Turmeric Farming", "Radish Farming", "Turnip Cultivation", "Parsnip Farming", "Swede (Rutabaga) Farming", "Celeriac Cultivation", "Horseradish Farming", "Jerusalem Artichoke Farming", "Arrowroot Production", "Tiger Nut Cultivation",
-    "Citrus Orchard Management", "Advanced Citrus Production", "Banana Plantation", "Mango Farming", "Avocado Production", "Pineapple Cultivation", "Papaya Farming", "Guava Production", "Passion Fruit Cultivation", "Apple Orchard", "Pear Orchard", "Plum Cultivation", "Peach Farming", "Cherry Production", "Fig Farming", "Date Palm Cultivation", "Pomegranate Farming",
+    // VEGGIES
+    "Tomato Farming", "Professional Tomato Cultivation", "Onion Cultivation", "Cabbage Production", "Carrot Cultivation", "Lettuce Farming", 
+    "Cucumber Production", "Okra Cultivation", "Spinach Farming", "Broccoli Production",
+    // ROOT
+    "Cassava Production", "Yam Cultivation", "Sweet Potato Farming", "Irish Potato Production", "Taro Root Farming", "Ginger Cultivation", 
+    "Beetroot Farming", "Garlic Cultivation", "Turmeric Farming", "Radish Farming", "Turnip Cultivation", "Parsnip Farming", 
+    "Swede (Rutabaga) Farming", "Celeriac Cultivation", "Horseradish Farming", "Jerusalem Artichoke Farming", "Arrowroot Production", "Tiger Nut Cultivation",
+    // FRUIT
+    "Citrus Orchard Management", "Advanced Citrus Production", "Banana Plantation", "Mango Farming", "Avocado Production", "Pineapple Cultivation", 
+    "Papaya Farming", "Guava Production", "Passion Fruit Cultivation", "Apple Orchard", "Pear Orchard", "Plum Cultivation", "Peach Farming", 
+    "Cherry Production", "Fig Farming", "Date Palm Cultivation", "Pomegranate Farming",
+    // NUTS
     "Cashew Nut Production", "Macadamia Farming", "Sesame Seed Cultivation", "Sunflower Seed Production", "Shea Nut Processing", "Groundnut Farming",
-    "Chili Pepper Farming", "Bell Pepper Production", "Black Pepper Cultivation", "Bird's Eye Chili", "Pepper Processing", "Pepper Seed Production", "Dried Pepper Processing", "Pepper Oil Extraction", "Sweet Pepper Farming", "Habanero Farming", "Crushed Chili Production", "Pepper Sauce Making", "Pepper Export & Marketing",
+    // PEPPERS
+    "Chili Pepper Farming", "Bell Pepper Production", "Black Pepper Cultivation", "Bird's Eye Chili", "Pepper Processing", "Pepper Seed Production", 
+    "Dried Pepper Processing", "Pepper Oil Extraction", "Sweet Pepper Farming", "Habanero Farming", "Crushed Chili Production", "Pepper Sauce Making", "Pepper Export & Marketing",
+    // AQUACULTURE
     "Catfish Farming", "Advanced Catfish Production", "Tilapia Production", "Aquaponics Systems", "Fish Pond Construction", "Fish Processing",
+    // PIG
     "Pig Rearing", "Advanced Pig Production", "Breeding & Boar Management", "Farrowing & Weaning",
+    // RABBIT
     "Rabbit Production", "Advanced Rabbit Farming", "Rabbit Breeding", "Rabbit Health Management",
-    "Wool Sheep Production", "Meat Sheep Management", "Dairy Goat Farming", "Meat Goat Production", "Boer Goat Farming", "Kalahari Goat Production", "Dorper Sheep Farming", "Merino Sheep Production", "Karakul Sheep Farming",
+    // SHEEP GOAT
+    "Wool Sheep Production", "Meat Sheep Management", "Dairy Goat Farming", "Meat Goat Production", "Boer Goat Farming", "Kalahari Goat Production", 
+    "Dorper Sheep Farming", "Merino Sheep Production", "Karakul Sheep Farming",
+    // SPECIALTY
     "Camel Farming", "Ostrich Farming", "Donkey Farming", "Bull Farming", "Steer Farming", "Fattening Operations", "Game Farming",
-    "Coffee Production", "Cocoa Farming", "Sugarcane Farming", "Tea Cultivation", "Cotton Production", "Tobacco Cultivation", "Rubber Plantation", "Oil Palm Production", "Hemp Cultivation",
+    // CASH CROPS
+    "Coffee Production", "Cocoa Farming", "Sugarcane Farming", "Tea Cultivation", "Cotton Production", "Tobacco Cultivation", 
+    "Rubber Plantation", "Oil Palm Production", "Hemp Cultivation",
+    // FORESTRY
     "Timber Production", "Agroforestry", "Tree Nursery Management", "Forest Conservation", "Bamboo Production",
-    "Mining Fundamentals", "Gold Mining Operations", "Diamond Mining", "Platinum Mining", "Coal Mining", "Mining Safety", "Mine Planning & Design", "Mineral Processing", "Mining Economics", "Artisanal & Small-Scale Mining",
+    // MINING
+    "Mining Fundamentals", "Gold Mining Operations", "Diamond Mining", "Platinum Mining", "Coal Mining", "Mining Safety", 
+    "Mine Planning & Design", "Mineral Processing", "Mining Economics", "Artisanal & Small-Scale Mining",
+    // FEED
     "Animal Feed Production", "Molasses Making", "Hay Making", "Haylage Production", "Silage Production", "Total Mixed Ration", "Pellet Production", "Alfalfa Cultivation",
-    "Animal House Construction", "Brick Making", "Road Construction", "Bricklaying", "Plumbing", "Electrical Installation", "Welding", "Biogas Training & Construction", "Metal Fabrication",
+    // CONSTRUCTION
+    "Animal House Construction", "Brick Making", "Road Construction", "Bricklaying", "Plumbing", "Electrical Installation", "Welding",
+    // ENERGY METAL
+    "Biogas Training", "Biogas Training & Construction", "Metal Fabrication",
+    // ICT
     "Computer Networking", "Cybersecurity", "Web Development", "Data Science",
+    // HEALTH
     "Healthcare Administration", "Nursing Fundamentals", "Pharmacy Practice", "Public Health",
+    // AUTO
     "Motor Vehicle Mechanics", "Auto Electrical Systems", "Panel Beating", "Vehicle Diagnostics",
+    // LOGISTICS
     "Supply Chain Management", "Logistics Planning", "Warehouse Management", "Transport Logistics",
+    // LANGUAGES
     "Learn Shona Language", "Learn Chinese Language"
 ];
 
@@ -667,12 +1146,33 @@ let courseDefs = [];
 baseTitles.forEach(title => {
     let cat = categoryMap[title] || defaultCategory;
     courseDefs.push({ title: title, cat: cat });
-    // Add 3 variations to push total to 500+
     for (let j = 0; j < 3; j++) {
         let suffix = ["Advanced ", "Professional ", "Expert "][j];
         courseDefs.push({ title: suffix + title, cat: cat });
     }
 });
+
+// ================================================================
+// COURSE CONTENT (Rich)
+// ================================================================
+const courseContentDetails = {
+  "Soap Making (Cottage Level)": { modules: [{ title: "Chemistry of Saponification", desc: "Understand the chemical reaction between fats and lye." }, { title: "Cold Process Soap Making", desc: "Step-by-step guide to making cold process soap safely." }, { title: "Hot Process Soap Making", desc: "Learn the hot process method for faster curing." }, { title: "Molding, Curing & Cutting", desc: "Proper techniques for pouring, molding, and curing soap." }, { title: "Natural Colorants & Additives", desc: "Using natural clays, spices, and botanicals." }, { title: "Fragrance & Essential Oils", desc: "Safe usage rates for essential oils." }, { title: "Packaging & Branding", desc: "Designing eco-friendly packaging." }, { title: "Business & Marketing", desc: "Costing your soap, pricing strategies." }] },
+  "Drying Vegetables (Solar & Oven)": { modules: [{ title: "Principles of Dehydration", desc: "Understanding moisture removal." }, { title: "Building a Solar Dryer", desc: "Design and construction of a passive solar dryer." }, { title: "Oven Drying Techniques", desc: "Using a standard oven for efficient drying." }, { title: "Pre-treatment", desc: "Blanching and acidification." }, { title: "Drying Specific Crops", desc: "Best practices for tomatoes, onions." }, { title: "Packaging & Storage", desc: "Airtight packaging and moisture control." }, { title: "Rehydrating & Cooking", desc: "Techniques for rehydrating." }, { title: "Value-Added Products", desc: "Creating vegetable powders." }] },
+  "Dairy Milk Production": { modules: [{ title: "Cattle Breeds", desc: "Choosing the right breed." }, { title: "Nutrition", desc: "Creating balanced rations." }, { title: "Milking Facilities", desc: "Designing a clean barn." }, { title: "Milking Routine", desc: "Hand-milking and hygiene." }, { title: "Herd Health", desc: "Managing heat cycles and diseases." }, { title: "Milk Quality", desc: "Testing and cooling." }, { title: "Value Addition", desc: "Making yogurt and cheese." }, { title: "Business Management", desc: "Costing and marketing." }] }
+};
+
+function getGenericModules(title) {
+  return [
+    { title: "Introduction to " + title, desc: "Overview of key concepts in " + title + "." },
+    { title: "Core Principles", desc: "Understanding the fundamental rules of " + title + "." },
+    { title: "Key Components", desc: "Identifying the critical parts of " + title + "." },
+    { title: "Techniques & Methods", desc: "Step-by-step approach to " + title + " tasks." },
+    { title: "Safety & Best Practices", desc: "Ensuring safety in " + title + "." },
+    { title: "Troubleshooting", desc: "Common issues in " + title + " and solutions." },
+    { title: "Advanced Concepts", desc: "Deep dive into advanced " + title + " strategies." },
+    { title: "Business & Monetization", desc: "Turning " + title + " skills into income." }
+  ];
+}
 
 // ================================================================
 // INIT
@@ -704,19 +1204,6 @@ function initializeCourses() {
     populateFilters();
     updateStats();
     updateRoadmap();
-}
-
-function getGenericModules(title) {
-  return [
-    { title: "Introduction to " + title, desc: "Overview of key concepts in " + title + "." },
-    { title: "Core Principles", desc: "Understanding the fundamental rules of " + title + "." },
-    { title: "Key Components", desc: "Identifying the critical parts of " + title + "." },
-    { title: "Techniques & Methods", desc: "Step-by-step approach to " + title + " tasks." },
-    { title: "Safety & Best Practices", desc: "Ensuring safety in " + title + "." },
-    { title: "Troubleshooting", desc: "Common issues in " + title + " and solutions." },
-    { title: "Advanced Concepts", desc: "Deep dive into advanced " + title + " strategies." },
-    { title: "Business & Monetization", desc: "Turning " + title + " skills into income." }
-  ];
 }
 
 function renderCourses() {
@@ -803,32 +1290,202 @@ function populateFilters() {
 function setFilter(f) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); document.querySelector(`.filter-btn[data-filter="${f}"]`)?.classList.add('active'); renderCourses(); }
 function filterCourses() { renderCourses(); }
 
-function updateRoadmap() { /* existing logic */ }
+// ================================================================
+// ROADMAP LOGIC
+// ================================================================
+function updateRoadmap() {
+    if (!currentUser) return;
+    let completedCount = courses.filter(c => c.completed).length;
+    let stage1 = document.getElementById('stage1');
+    let stage2 = document.getElementById('stage2');
+    let stage3 = document.getElementById('stage3');
+    let s1Status = document.getElementById('stage1Status');
+    let s2Status = document.getElementById('stage2Status');
+    let s3Status = document.getElementById('stage3Status');
+
+    stage1.classList.remove('locked'); stage1.classList.add('active');
+    s1Status.className = 'stage-status in-progress'; s1Status.textContent = '⏳ In Progress';
+    if (completedCount >= 5) {
+        s1Status.className = 'stage-status completed'; s1Status.textContent = '✅ Completed';
+        stage1.classList.add('completed'); stage1.classList.remove('active');
+        stage2.classList.remove('locked'); stage2.classList.add('active');
+        s2Status.className = 'stage-status in-progress'; s2Status.textContent = '⏳ In Progress';
+    } else {
+        stage2.classList.add('locked'); stage2.classList.remove('active');
+        s2Status.className = 'stage-status locked'; s2Status.textContent = '🔒 Locked (Need 5 courses)';
+    }
+    if (completedCount >= 10) {
+        s2Status.className = 'stage-status completed'; s2Status.textContent = '✅ Completed';
+        stage2.classList.add('completed'); stage2.classList.remove('active');
+        stage3.classList.remove('locked'); stage3.classList.add('active');
+        s3Status.className = 'stage-status in-progress'; s3Status.textContent = '⏳ In Progress';
+    } else if (completedCount >= 5) {
+        stage3.classList.add('locked'); stage3.classList.remove('active');
+        s3Status.className = 'stage-status locked'; s3Status.textContent = '🔒 Locked (Need 10 courses)';
+    } else {
+        stage3.classList.add('locked'); stage3.classList.remove('active');
+        s3Status.className = 'stage-status locked'; s3Status.textContent = '🔒 Locked';
+    }
+    if (completedCount >= 15) {
+        s3Status.className = 'stage-status completed'; s3Status.textContent = '🏆 Mastery Achieved!';
+        stage3.classList.add('completed'); stage3.classList.remove('active');
+    }
+}
+
 function toggleFAQ(el) { el.classList.toggle('open'); let answer = el.nextElementSibling; answer.classList.toggle('open'); }
 
-function openPaymentModal(courseId) { if (!currentUser) { showAuthModal(); return; } const course = courses.find(c => c.id === courseId); if (!course) return; selectedPaymentCourseId = courseId; document.getElementById('paymentCourseName').innerText = course.title; document.getElementById('paymentStatus').innerText = ''; document.getElementById('payNowBtn').disabled = false; document.getElementById('paymentModal').classList.add('open'); }
-function selectPaymentOption(type) { selectedPaymentType = type; document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected')); if(type === 'full') document.getElementById('optFull').classList.add('selected'); else document.getElementById('optRead').classList.add('selected'); }
-function processPayment() { /* existing logic */ }
+// ================================================================
+// PAYMENT LOGIC (Simulated)
+// ================================================================
+function openPaymentModal(courseId) {
+    if (!currentUser) { showAuthModal(); return; }
+    const course = courses.find(c => c.id === courseId);
+    if (!course) return;
+    selectedPaymentCourseId = courseId;
+    document.getElementById('paymentCourseName').innerText = course.title;
+    document.getElementById('paymentStatus').innerText = '';
+    document.getElementById('payNowBtn').disabled = false;
+    document.getElementById('paymentModal').classList.add('open');
+}
+function selectPaymentOption(type) {
+    selectedPaymentType = type;
+    document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
+    if(type === 'full') document.getElementById('optFull').classList.add('selected');
+    else document.getElementById('optRead').classList.add('selected');
+}
+function processPayment() {
+    if (!selectedPaymentType) { document.getElementById('paymentStatus').innerText = '⚠️ Please select Full or Read-Only.'; return; }
+    const course = courses.find(c => c.id === selectedPaymentCourseId);
+    if (!course) return;
+    course.purchased = true;
+    course.purchaseType = selectedPaymentType;
+    if (currentUser) {
+        db.collection('users').doc(currentUser.uid).collection('purchases').doc(course.id).set({
+            purchased: true,
+            type: selectedPaymentType,
+            purchasedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(err => console.error(err));
+    }
+    document.getElementById('paymentStatus').innerText = `✅ Payment successful! ${selectedPaymentType === 'full' ? 'Full Access' : 'Read-Only'} unlocked.`;
+    document.getElementById('payNowBtn').disabled = true;
+    setTimeout(() => { closePaymentModal(); renderCourses(); updateDashboard(); updateRoadmap(); }, 1500);
+}
 function closePaymentModal() { document.getElementById('paymentModal').classList.remove('open'); selectedPaymentType = null; selectedPaymentCourseId = null; document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected')); }
+
 function openCourseDetail(id) { document.getElementById('detail-' + id)?.classList.toggle('open'); }
-function markComplete(courseId) { /* existing logic */ }
-function viewCertificate(courseId) { /* existing logic */ }
-function openAIChat(courseId) { /* existing logic */ }
-function sendChatMessage() { /* existing logic */ }
-function updateDashboard() { /* existing logic */ }
+function markComplete(courseId) {
+    const course = courses.find(c => c.id === courseId);
+    if (!course || !course.purchased || course.purchaseType !== 'full') { alert('Only Full Access users can get certificates.'); return; }
+    const code = 'SBA' + courseId + '-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    course.progress = 100; course.completed = true; course.certificateCode = code;
+    if (currentUser) {
+        db.collection('users').doc(currentUser.uid).collection('enrollments').doc(courseId).set({
+            completed: true, progress: 100, certificateCode: code, completedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        db.collection('certificates').doc(code).set({ courseId, courseTitle: course.title, userId: currentUser.uid, userEmail: currentUser.email });
+    }
+    renderCourses(); updateDashboard(); updateRoadmap();
+}
+function viewCertificate(courseId) {
+    const course = courses.find(c => c.id === courseId);
+    if (!course || !course.certificateCode) return alert('No certificate.');
+    openModal(`<div class="cert-preview"><h2>🎓 Certificate</h2><p><strong>${course.title}</strong></p><p>Issued to: ${currentUser.email}</p><p>Code: ${course.certificateCode}</p><button class="btn-primary" onclick="window.print()">🖨️ Print</button></div>`);
+}
+function openAIChat(courseId) {
+    const course = courses.find(c => c.id === courseId);
+    if (!course) return;
+    window._chatCourse = course;
+    openModal(`<h3>🤖 AI Tutor: ${course.title}</h3><div class="chat-window" id="chatWindow"><div class="chat-message ai"><div class="bubble">Hello! I'm your AI tutor. Ask me anything about ${course.title}.</div></div></div><div class="chat-input"><input type="text" id="chatInput" placeholder="Ask..." onkeydown="if(event.key==='Enter') sendChatMessage()"><button onclick="sendChatMessage()">Send</button></div>`);
+}
+
+// ================================================================
+// REAL AI TUTOR (OpenAI via Netlify Function)
+// ================================================================
+function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    const chatWindow = document.getElementById('chatWindow');
+    chatWindow.innerHTML += `<div class="chat-message user"><div class="bubble">${msg}</div></div>`;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    chatWindow.innerHTML += `<div class="chat-message ai"><div class="bubble" id="typingIndicator">⏳ Thinking...</div></div>`;
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    const course = window._chatCourse;
+    const courseTitle = course ? course.title : 'SkillBridge Africa';
+
+    fetch('/.netlify/functions/ai-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            message: msg,
+            courseTitle: courseTitle
+        })
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+    })
+    .then(data => {
+        const typing = document.getElementById('typingIndicator');
+        if (typing) typing.parentElement.remove();
+        const reply = data.reply || 'Sorry, I could not process your request.';
+        chatWindow.innerHTML += `<div class="chat-message ai"><div class="bubble">${reply}</div></div>`;
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    })
+    .catch(err => {
+        const typing = document.getElementById('typingIndicator');
+        if (typing) typing.parentElement.remove();
+        chatWindow.innerHTML += `<div class="chat-message ai"><div class="bubble">⚠️ Error: Could not connect to AI. Please try again later.</div></div>`;
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        console.error(err);
+    });
+}
+
+function updateDashboard() {
+    if (!currentUser) return;
+    let enrolled = 0, completed = 0;
+    courses.forEach(c => { if(c.purchased) enrolled++; if(c.completed) completed++; });
+    document.getElementById('dashEnrolled').textContent = enrolled;
+    document.getElementById('dashCompleted').textContent = completed;
+    document.getElementById('dashCertificates').textContent = completed;
+    let avg = enrolled ? Math.round(courses.filter(c => c.purchased).reduce((a,b) => a + b.progress, 0) / enrolled) : 0;
+    document.getElementById('dashScore').textContent = avg + '%';
+    let html = courses.filter(c => c.purchased).map(c => `<div class="dashboard-progress-item"><span>${c.title}</span><div class="pbar"><div class="progress-bar-bg" style="width:100px;"><div class="progress-bar-fill" style="width:${c.progress}%;"></div></div></div><span>${Math.round(c.progress)}%</span>${c.completed ? '✅' : ''}</div>`).join('') || '<p>No courses purchased.</p>';
+    document.getElementById('dashCourseList').innerHTML = html;
+}
+
 function showAuthModal() { document.getElementById('authModal').classList.add('open'); document.getElementById('authError').style.display = 'none'; }
 function toggleAuthMode() { authMode = authMode === 'login' ? 'signup' : 'login'; document.getElementById('authSubmitBtn').innerText = authMode === 'login' ? 'Login' : 'Sign Up'; }
-function handleAuth() { /* existing logic */ }
-function resetPassword() { /* existing logic */ }
+function handleAuth() {
+    const email = document.getElementById('authEmail').value.trim();
+    const pass = document.getElementById('authPassword').value;
+    const err = document.getElementById('authError');
+    err.style.display = 'none';
+    if (!email || !pass) { err.innerText = 'Fill fields.'; err.style.display = 'block'; return; }
+    if (authMode === 'login') {
+        auth.signInWithEmailAndPassword(email, pass).then(() => { document.getElementById('authModal').classList.remove('open'); }).catch(e => { err.innerText = e.message; err.style.display = 'block'; });
+    } else {
+        auth.createUserWithEmailAndPassword(email, pass).then((u) => {
+            db.collection('users').doc(u.user.uid).set({ email });
+            document.getElementById('authModal').classList.remove('open');
+        }).catch(e => { err.innerText = e.message; err.style.display = 'block'; });
+    }
+}
+function resetPassword() { auth.sendPasswordResetEmail(document.getElementById('authEmail').value.trim()).then(() => alert('Email sent.')).catch(e => alert(e.message)); }
+
 function loadForumPosts() { document.getElementById('forumPostsContainer').innerHTML = '<p>Forum ready. Sign in to post.</p>'; }
 function openNewPostModal() { if(!currentUser){showAuthModal();return;} alert('Post functionality active.'); }
-function verifyCertificate() { /* existing logic */ }
+function verifyCertificate() { const code = document.getElementById('verifyInput').value.trim(); if(!code) return; db.collection('certificates').doc(code).get().then(d => { if(d.exists){ document.getElementById('verifyResult').innerHTML = `<div class="verify-result valid">✅ Valid: ${d.data().courseTitle}</div>`; } else { document.getElementById('verifyResult').innerHTML = `<div class="verify-result invalid">❌ Invalid</div>`; } }); }
 function postJob() { alert('Job posted (simulated).'); }
 function loadEmployerJobs() { document.getElementById('employerJobList').innerHTML = '<p>No jobs yet.</p>'; }
 function refreshAdmin() { alert('Admin refreshed.'); }
-function calculatePreservation() { /* existing logic */ }
-function renderCalendar(m, y) { /* existing logic */ }
-function changeMonth(d) { /* existing logic */ }
+function calculatePreservation() { const w = parseFloat(document.getElementById('preserveWeight').value) || 0; document.getElementById('calcYield').innerText = (w*0.8).toFixed(2) + ' kg'; document.getElementById('calcShelf').innerText = '12 months'; }
+
+function renderCalendar(m, y) { const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; document.getElementById('calendarMonthYear').innerText = months[m] + ' ' + y; let html = ''; const d = new Date(y, m, 1).getDay(); for(let i=0; i<d; i++) html += '<div class="calendar-day empty"></div>'; const days = new Date(y, m+1, 0).getDate(); for(let i=1; i<=days; i++){ const t = new Date(); html += `<div class="calendar-day ${(i===t.getDate() && m===t.getMonth() && y===t.getFullYear())?'today':''}">${i}</div>`; } document.getElementById('calendarDays').innerHTML = html; }
+function changeMonth(d) { let m = calendarMonth + d, y = calendarYear; if(m<0){m=11;y--;} if(m>11){m=0;y++;} calendarMonth=m; calendarYear=y; renderCalendar(m,y); }
 function toggleTheme(){ document.body.classList.toggle('dark'); }
 function shareGlobal(){ window.open('https://wa.me/?text=Check%20out%20SBA','_blank'); }
 function openModal(html){ document.getElementById('modalBody').innerHTML = html; document.getElementById('modalOverlay').classList.add('open'); }
@@ -888,9 +1545,9 @@ window.closeModal = closeModal; window.showAuthModal = showAuthModal; window.tog
 window.handleAuth = handleAuth; window.resetPassword = resetPassword; window.toggleTheme = toggleTheme;
 window.openPaymentModal = openPaymentModal; window.selectPaymentOption = selectPaymentOption; window.processPayment = processPayment; window.closePaymentModal = closePaymentModal;
 window.toggleFAQ = toggleFAQ; window.changeLanguage = changeLanguage; window.translatePage = translatePage;
-window.enterSite = enterSite;
+window.enterSite = enterSite; window.openLegalModal = openLegalModal;
 
-console.log('🚀 SBA v4.0 – COMPLETE RESTORATION: 500+ Courses, 2-Column Grid, Splash Screen & Voice Over!');
+console.log('🚀 SBA v5.0 – Complete with 500+ courses, AI Tutor, Legal, Splash, Flags, Roadmap, FAQ, Advice!');
 </script>
 </body>
-</html> <!-- trigger deploy --> "Trigger Netlify deploy"
+</html>
