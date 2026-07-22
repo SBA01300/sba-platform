@@ -15,7 +15,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
     
     <style>
-        /* ===== RESET & GLOBAL ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Roboto, system-ui, sans-serif; background: #f4f7fc; color: #0a2540; transition: 0.3s; display: flex; flex-direction: column; min-height: 100vh; }
         body.dark { background: #0d1b2a; color: #e8edf5; }
@@ -32,13 +31,19 @@
         body.dark .cottage-rotator { background: linear-gradient(135deg, #0a6bff, #1a4a8a); }
         body.dark .calendar-day { background: #1b2a41; border-color: #2d4059; }
         body.dark .payment-icon { background: #1b2a41; border-color: #2d4059; }
+        body.dark .testimonial-card { background: #1b2a41; border-color: #2d4059; }
+        body.dark .about-section { background: #1b2a41; border-color: #2d4059; }
+        body.dark .contact-form input, body.dark .contact-form textarea { background: #0d1b2a; color: #e8edf5; border-color: #2d4059; }
+        body.dark .category-card { background: #1b2a41; border-color: #2d4059; }
         
         .app { max-width: 1440px; margin: 0 auto; padding: 10px; flex: 1; width: 100%; }
         .top-nav { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 10px 0 14px; border-bottom: 2px solid #e2e9f2; margin-bottom: 16px; }
         body.dark .top-nav { border-color: #2d4059; }
-        .nav-brand { display: flex; align-items: center; gap: 8px; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+        .nav-brand { display: flex; align-items: center; gap: 8px; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; flex-wrap: wrap; }
         .nav-brand svg { width: 40px; height: 40px; border-radius: 50%; background: #0a6bff; padding: 4px; }
         .nav-brand span { color: #0a6bff; }
+        .nav-brand .country-rotator { font-size: 0.7rem; font-weight: 600; color: #5a6f8c; background: #eef4ff; padding: 2px 12px; border-radius: 20px; display: inline-block; transition: opacity 0.3s ease; white-space: nowrap; }
+        body.dark .nav-brand .country-rotator { background: #1b2a41; color: #8a9bb5; }
         .nav-links { display: flex; gap: 4px; flex-wrap: wrap; }
         .nav-link { padding: 6px 14px; border-radius: 30px; font-weight: 600; font-size: 0.8rem; cursor: pointer; border: none; background: transparent; color: #5a6f8c; transition: 0.2s; }
         .nav-link:hover { background: #e8edf5; transform: translateY(-1px); }
@@ -66,13 +71,20 @@
         .tab.active { display: block; }
         @keyframes fadeIn { from { opacity: 0.4; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-        .controls { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
-        .search-box { flex: 1; min-width: 160px; padding: 8px 16px; border: 2px solid #dce3ed; border-radius: 30px; font-size: 0.9rem; outline: none; background: #fff; transition: 0.2s; }
-        .search-box:focus { border-color: #0a6bff; box-shadow: 0 0 0 3px rgba(10,107,255,0.15); }
-        .filter-group { display: flex; flex-wrap: wrap; gap: 4px; max-height: 50px; overflow-y: auto; padding: 2px 0; }
-        .filter-btn { padding: 4px 12px; border: 2px solid #dce3ed; border-radius: 30px; background: #fff; cursor: pointer; font-size: 0.6rem; font-weight: 600; transition: 0.15s; white-space: nowrap; }
+        .filter-group { display: flex; flex-wrap: nowrap; gap: 4px; overflow-x: auto; padding: 4px 0; scrollbar-width: thin; max-width: 100%; -webkit-overflow-scrolling: touch; }
+        .filter-group::-webkit-scrollbar { height: 4px; }
+        .filter-group::-webkit-scrollbar-thumb { background: #0a6bff; border-radius: 4px; }
+        .filter-btn { padding: 4px 12px; border: 2px solid #dce3ed; border-radius: 30px; background: #fff; cursor: pointer; font-size: 0.6rem; font-weight: 600; transition: 0.15s; white-space: nowrap; flex-shrink: 0; }
         .filter-btn:hover { border-color: #0a6bff; }
         .filter-btn.active { background: #0a6bff; color: #fff; border-color: #0a6bff; }
+        body.dark .filter-btn { background: #1b2a41; color: #e8edf5; border-color: #2d4059; }
+
+        .controls .difficulty-group { display: flex; gap: 4px; margin-left: 8px; flex-wrap: wrap; }
+        .filter-difficulty { padding: 4px 12px; border: 2px solid #dce3ed; border-radius: 30px; background: #fff; cursor: pointer; font-size: 0.6rem; font-weight: 600; transition: 0.15s; white-space: nowrap; }
+        body.dark .filter-difficulty { background: #1b2a41; color: #e8edf5; border-color: #2d4059; }
+        .filter-difficulty:hover { border-color: #0a6bff; }
+        .filter-difficulty.active { background: #0a6bff; color: #fff; border-color: #0a6bff; }
+
         .stats { font-size: 0.8rem; color: #5a6f8c; margin-bottom: 10px; display: flex; gap: 16px; flex-wrap: wrap; }
 
         .grid {
@@ -86,9 +98,16 @@
         .title { font-weight: 600; font-size: 0.95rem; margin: 6px 0 4px; }
         .cat-tag { font-size: 0.55rem; color: #fff; background: #5a6f8c; padding: 2px 12px; border-radius: 20px; display: inline-block; margin-left: 4px; }
         .skill-tag { font-size: 0.5rem; background: #0a6bff; color: #fff; padding: 2px 10px; border-radius: 12px; display: inline-block; margin: 2px 2px 0 0; }
+        .price-tag { background: #f5a623; color: #fff; border-radius: 20px; padding: 2px 12px; font-size: 0.65rem; font-weight: 700; display: inline-block; }
+        .status-tag { padding: 2px 10px; border-radius: 12px; font-size: 0.6rem; font-weight: 700; display: inline-block; }
+        .status-tag.locked { background: #f44336; color: #fff; }
+        .status-tag.readonly { background: #ff9800; color: #fff; }
+        .status-tag.unlocked { background: #4caf50; color: #fff; }
+        body.dark .status-tag.locked { background: #d32f2f; }
+        body.dark .status-tag.readonly { background: #e65100; }
+
         .progress-bar-bg { background: #e8edf5; height: 6px; border-radius: 6px; margin: 8px 0; width: 100%; overflow: hidden; }
         .progress-bar-fill { background: #0a6bff; height: 6px; border-radius: 6px; transition: width 0.5s ease; }
-        .price-tag { background: #f5a623; color: #fff; border-radius: 20px; padding: 2px 12px; font-size: 0.65rem; font-weight: 700; display: inline-block; }
 
         .action-buttons { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px; }
         .action-btn { padding: 4px 14px; border-radius: 30px; border: none; font-size: 0.6rem; font-weight: 600; cursor: pointer; transition: 0.2s; background: #e8edf5; color: #0a2540; }
@@ -98,6 +117,7 @@
         .action-btn.cert { background: #2196F3; color: #fff; }
         .action-btn.complete { background: #9c27b0; color: #fff; }
         .action-btn.buy { background: #f5a623; color: #fff; }
+        .action-btn.continue { background: #4caf50; color: #fff; }
 
         .detail { margin-top: 12px; border-top: 1px solid #e2e9f2; padding-top: 12px; display: none; }
         .detail.open { display: block; }
@@ -120,7 +140,6 @@
         .legal-section p, .legal-section li { font-size: 0.9rem; line-height: 1.6; color: #333; }
         body.dark .legal-section p, body.dark .legal-section li { color: #d0d7e0; }
         .legal-section ul { padding-left: 20px; }
-        .legal-section ul li { margin-bottom: 4px; }
         .legal-toc { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
         .legal-toc a { background: #e8edf5; padding: 4px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; text-decoration: none; color: #0a2540; transition: 0.2s; }
         body.dark .legal-toc a { background: #2d4059; color: #e8edf5; }
@@ -172,6 +191,9 @@
         .payment-icons { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
         .payment-icon { background: #fff; border: 1px solid #e2e9f2; border-radius: 30px; padding: 4px 14px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
         .cert-preview { border: 3px solid #0a6bff; border-radius: 12px; padding: 24px; text-align: center; background: #fff; margin: 12px 0; }
+        .cert-preview .share-buttons { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+        .cert-preview .share-btn { background: #e8edf5; border: none; padding: 6px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .cert-preview .share-btn:hover { transform: scale(1.05); }
         .verify-result { padding: 12px; border-radius: 8px; margin-top: 10px; }
         .verify-result.valid { background: #e8f5e9; border: 1px solid #4caf50; color: #1b5e20; }
         .verify-result.invalid { background: #ffebee; border: 1px solid #f44336; color: #b71c1c; }
@@ -203,6 +225,57 @@
         .advice-card .advice-icon { font-size: 2rem; }
 
         .country-flag { font-size: 1.1rem; margin-right: 4px; }
+
+        .category-grid-full { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin: 16px 0; }
+        .category-card { background: #fff; border: 1px solid #e2e9f2; border-radius: 10px; padding: 12px 8px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .category-card:hover { transform: translateY(-3px); border-color: #0a6bff; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+        body.dark .category-card { background: #1b2a41; border-color: #2d4059; }
+        .category-card .cat-icon { font-size: 1.5rem; display: block; }
+        .category-card .cat-name { font-weight: 600; font-size: 0.6rem; margin-top: 4px; line-height: 1.2; }
+
+        .testimonial-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin: 16px 0; }
+        .testimonial-card { background: #fff; border: 1px solid #e2e9f2; border-radius: 12px; padding: 14px; transition: 0.2s; text-align: center; }
+        .testimonial-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+        body.dark .testimonial-card { background: #1b2a41; border-color: #2d4059; }
+        .testimonial-card .quote { font-size: 0.8rem; font-style: italic; color: #333; }
+        body.dark .testimonial-card .quote { color: #d0d7e0; }
+        .testimonial-card .author { font-weight: 700; margin-top: 6px; font-size: 0.75rem; }
+        .testimonial-card .role { font-size: 0.65rem; color: #5a6f8c; }
+
+        .about-section { background: #fff; border-radius: 12px; padding: 24px; border: 1px solid #e2e9f2; margin-bottom: 20px; }
+        body.dark .about-section { background: #1b2a41; border-color: #2d4059; }
+        .about-section .mission-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 16px 0; }
+        .mission-item { text-align: center; padding: 16px; background: #f9fbfd; border-radius: 10px; }
+        body.dark .mission-item { background: #0d1b2a; }
+
+        .contact-form { background: #fff; border-radius: 12px; padding: 24px; border: 1px solid #e2e9f2; max-width: 600px; margin: 0 auto; }
+        body.dark .contact-form { background: #1b2a41; border-color: #2d4059; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 10px; border: 2px solid #dce3ed; border-radius: 8px; font-size: 0.9rem; margin-bottom: 12px; background: #fff; }
+        body.dark .contact-form input, body.dark .contact-form textarea { background: #0d1b2a; color: #e8edf5; border-color: #2d4059; }
+
+        .cert-sample { border: 2px dashed #0a6bff; border-radius: 8px; padding: 16px; text-align: center; background: #f9fbfd; margin: 12px 0; }
+        body.dark .cert-sample { background: #0d1b2a; border-color: #4a9eff; }
+        .cert-sample .cert-title { font-weight: 700; color: #0a6bff; }
+
+        .map-container { position: relative; display: inline-block; }
+        .map-container svg { display: block; width: 100%; height: auto; }
+
+        .testimonial-qr { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 16px 0; flex-wrap: wrap; }
+        .testimonial-qr img { border-radius: 8px; border: 2px solid #0a6bff; padding: 4px; background: #fff; width: 80px; height: 80px; }
+        body.dark .testimonial-qr img { background: #1b2a41; border-color: #4a9eff; }
+
+        .country-rotator { transition: opacity 0.3s ease; }
+
+        .request-section { background: #fff; border-radius: 12px; padding: 24px; border: 1px solid #e2e9f2; max-width: 700px; margin: 0 auto; }
+        body.dark .request-section { background: #1b2a41; border-color: #2d4059; }
+        .request-section input, .request-section textarea, .request-section select { width: 100%; padding: 10px; border: 2px solid #dce3ed; border-radius: 8px; font-size: 0.9rem; margin-bottom: 12px; background: #fff; }
+        body.dark .request-section input, body.dark .request-section textarea, body.dark .request-section select { background: #0d1b2a; color: #e8edf5; border-color: #2d4059; }
+
+        .employer-guide { background: #e8f5e9; border-radius: 10px; padding: 16px; border-left: 4px solid #4caf50; margin-bottom: 16px; }
+        body.dark .employer-guide { background: #1b3a1b; border-color: #4caf50; }
+        .employer-guide h4 { color: #4caf50; }
+        .employer-guide ul { list-style: none; padding: 0; }
+        .employer-guide ul li { padding: 4px 0; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
 
         #splashScreen {
             position: fixed;
@@ -290,7 +363,8 @@
             opacity: 1;
         }
 
-        @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .nav-links { gap: 2px; } .nav-link { padding: 4px 8px; font-size: 0.65rem; } .roadmap-container { grid-template-columns: 1fr; } .footer { grid-template-columns: 1fr; gap: 20px; } .modal-content { max-width: 100%; padding: 16px; } }
+        @media (max-width: 1024px) { .testimonial-grid { grid-template-columns: repeat(3, 1fr); } .category-grid-full { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } .nav-links { gap: 2px; } .nav-link { padding: 4px 8px; font-size: 0.65rem; } .roadmap-container { grid-template-columns: 1fr; } .footer { grid-template-columns: 1fr; gap: 20px; } .modal-content { max-width: 100%; padding: 16px; } .category-grid-full { grid-template-columns: repeat(2, 1fr); } .testimonial-grid { grid-template-columns: repeat(2, 1fr); } .controls { flex-direction: column; align-items: stretch; } .difficulty-group { margin-left: 0; } .testimonial-qr { flex-direction: column; } .nav-brand .country-rotator { font-size: 0.6rem; padding: 2px 8px; } }
     </style>
 </head>
 <body>
@@ -308,6 +382,7 @@
             <circle cx="220" cy="380" r="3" fill="#fff" opacity="0.6"/>
             <circle cx="340" cy="450" r="4" fill="#fff" opacity="0.8"/>
             <circle cx="260" cy="500" r="3" fill="#fff" opacity="0.6"/>
+            <image href="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=https://www.skillbridgeafrica.africa" x="240" y="240" width="120" height="120" style="border-radius:12px;"/>
         </svg>
     </div>
     <button class="enter-btn" onclick="enterSite()">🌍 Enter</button>
@@ -328,9 +403,11 @@
                     <circle cx="38" cy="60" r="2" fill="#0a6bff"/>
                 </svg>
                 <span>SBA</span> <span style="color:#0a6bff;">AI Teacher</span>
+                <span class="country-rotator" id="countryRotator">🌍 Algeria</span>
             </div>
             <div class="nav-links">
                 <button class="nav-link active" data-tab="home" onclick="switchTab('home')">🏠 Home</button>
+                <button class="nav-link" data-tab="about" onclick="switchTab('about')">🌍 About</button>
                 <button class="nav-link" data-tab="courses" onclick="switchTab('courses')">📚 Courses</button>
                 <button class="nav-link" data-tab="dashboard" onclick="switchTab('dashboard')">📊 Dashboard</button>
                 <button class="nav-link" data-tab="roadmap" onclick="switchTab('roadmap')">🎯 Roadmap</button>
@@ -342,6 +419,8 @@
                 <button class="nav-link" data-tab="employer" onclick="switchTab('employer')">🏢 Employer</button>
                 <button class="nav-link" data-tab="verify" onclick="switchTab('verify')">🔗 Verify</button>
                 <button class="nav-link" data-tab="admin" onclick="switchTab('admin')">📋 Admin</button>
+                <button class="nav-link" data-tab="contact" onclick="switchTab('contact')">📧 Contact</button>
+                <button class="nav-link" data-tab="request" onclick="switchTab('request')">📋 Request Course</button>
                 <button class="nav-link" onclick="openLegalModal()">⚖️ Legal</button>
             </div>
             <div class="nav-right">
@@ -367,13 +446,40 @@
             <div style="padding:20px 0;">
                 <h2 style="font-size:2rem;">🌍 SkillBridge Africa (SBA)</h2>
                 <p style="font-size:1.1rem;color:#5a6f8c;max-width:700px;">500+ vocational skills • AI Tutor • Food Preservation • Blockchain Certificates • Career Roadmaps</p>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0;">
-                    <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid #e2e9f2;"><div style="font-size:2.5rem;">🏭</div><h4>25+ Cottage</h4><p style="font-size:0.75rem;color:#5a6f8c;">Soap, Detergent, Jam</p></div>
-                    <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid #e2e9f2;"><div style="font-size:2.5rem;">🥫</div><h4>18+ Preserve</h4><p style="font-size:0.75rem;color:#5a6f8c;">Dry, Marinate, Bottle</p></div>
-                    <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid #e2e9f2;"><div style="font-size:2.5rem;">🤖</div><h4>AI Tutor</h4><p style="font-size:0.75rem;color:#5a6f8c;">Instant guidance</p></div>
-                    <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;border:1px solid #e2e9f2;"><div style="font-size:2.5rem;">🔗</div><h4>Blockchain</h4><p style="font-size:0.75rem;color:#5a6f8c;">Tamper‑proof certs</p></div>
+                <button class="btn-primary" style="padding:10px 32px;font-size:1rem;margin:10px 0;" onclick="switchTab('courses')">Browse All Courses →</button>
+                
+                <h3 style="margin-top:20px;">🔥 Browse by Category</h3>
+                <div class="category-grid-full" id="fullCategoryGrid"></div>
+                
+                <h3 style="margin-top:20px;">⭐ What Our Students Say</h3>
+                <div class="testimonial-qr">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=https://www.skillbridgeafrica.africa" alt="QR code">
+                    <span style="font-size:0.8rem;color:#5a6f8c;">Scan to visit SBA</span>
                 </div>
-                <button class="btn-primary" style="padding:10px 32px;font-size:1rem;" onclick="switchTab('courses')">Browse All Courses →</button>
+                <div class="testimonial-grid" id="testimonialContainer">
+                    <div class="testimonial-card"><div class="quote">"SBA gave me the skills to start my soap business. I now employ 5 people."</div><div class="author">— Chinedu U.</div><div class="role">Cottage Industry</div></div>
+                    <div class="testimonial-card"><div class="quote">"The AI Tutor helped me master poultry farming. Highly recommended!"</div><div class="author">— Temba C.</div><div class="role">Poultry Student</div></div>
+                    <div class="testimonial-card"><div class="quote">"I got my blockchain certificate and landed a job in agritech."</div><div class="author">— Sibusiso M.</div><div class="role">ICT & Agriculture</div></div>
+                    <div class="testimonial-card"><div class="quote">"SBA's food preservation course saved my family's harvest. Thank you!"</div><div class="author">— Kwame G.</div><div class="role">Food Preservation</div></div>
+                    <div class="testimonial-card"><div class="quote">"The roadmap kept me on track. I now run a successful dairy farm."</div><div class="author">— Mbemba V.</div><div class="role">Dairy Farming</div></div>
+                    <div class="testimonial-card"><div class="quote">"Affordable, practical, and life-changing. SBA is the best investment."</div><div class="author">— Wanjala K.</div><div class="role">Entrepreneurship</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== ABOUT ===== -->
+        <div id="tab-about" class="tab">
+            <h2 style="font-size:1.8rem;">🌍 About SkillBridge Africa</h2>
+            <div class="about-section">
+                <h2>Our Mission</h2>
+                <p style="font-size:1rem;color:#5a6f8c;max-width:700px;">To empower African youth with practical vocational skills that bridge the gap between potential and opportunity.</p>
+                <div class="mission-grid">
+                    <div class="mission-item"><div class="icon">🎯</div><h4>Purpose</h4><p style="font-size:0.85rem;">Create self-sustaining livelihoods through skills training.</p></div>
+                    <div class="mission-item"><div class="icon">🌍</div><h4>Vision</h4><p style="font-size:0.85rem;">A prosperous Africa where every young person has a trade.</p></div>
+                    <div class="mission-item"><div class="icon">🤝</div><h4>Values</h4><p style="font-size:0.85rem;">Integrity, Excellence, Inclusivity, and Innovation.</p></div>
+                </div>
+                <h2>Our Story</h2>
+                <p style="font-size:0.95rem;line-height:1.8;">SkillBridge Africa (SBA) was founded to address the skills gap in Africa. We believe that vocational training is the key to unlocking economic growth. SBA is a business, not a school – we provide practical, hands-on training that prepares students for real-world employment or entrepreneurship. With over 500 courses, an AI Tutor, and blockchain certificates, we are building the future of African vocational education.</p>
             </div>
         </div>
 
@@ -382,6 +488,12 @@
             <div class="controls">
                 <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search courses..." onkeyup="filterCourses()">
                 <div class="filter-group" id="filterGroup"></div>
+                <div class="difficulty-group">
+                    <button class="filter-difficulty active" data-difficulty="all" onclick="setDifficulty('all')">All</button>
+                    <button class="filter-difficulty" data-difficulty="Beginner" onclick="setDifficulty('Beginner')">Beginner</button>
+                    <button class="filter-difficulty" data-difficulty="Intermediate" onclick="setDifficulty('Intermediate')">Intermediate</button>
+                    <button class="filter-difficulty" data-difficulty="Advanced" onclick="setDifficulty('Advanced')">Advanced</button>
+                </div>
             </div>
             <div class="stats">📚 <span id="visibleCount">0</span> of <span id="totalCount">0</span></div>
             <div class="grid" id="courseGrid"></div>
@@ -435,6 +547,7 @@
                 <div class="advice-card"><div class="advice-icon">📅</div><h4>Consistency is Key</h4><p>Study at least 30 minutes daily. Use the Calendar to schedule your learning sessions.</p></div>
                 <div class="advice-card"><div class="advice-icon">🤝</div><h4>Join the Community</h4><p>Ask questions, share ideas, and network with other students in the Forum.</p></div>
                 <div class="advice-card"><div class="advice-icon">🧠</div><h4>Use the AI Tutor</h4><p>Stuck on a module? Ask the AI Tutor for clarification and practical examples.</p></div>
+                <div class="advice-card"><div class="advice-icon">🏆</div><h4>Celebrate Milestones</h4><p>Complete a course? Get your certificate and share it with your network – you earned it!</p></div>
             </div>
         </div>
 
@@ -445,13 +558,102 @@
         <div id="tab-preserve" class="tab"><h2>🧮 Food Preservation Calculator</h2><div style="background:#fff;border-radius:12px;padding:20px;border:1px solid #e2e9f2;"><div class="calc-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;"><div><select id="preserveVeggie" style="width:100%;padding:8px;border-radius:8px;border:2px solid #dce3ed;"><option value="tomato">Tomato</option><option value="cabbage">Cabbage</option><option value="onion">Onion</option><option value="mango">Mango</option></select><input type="number" id="preserveWeight" value="10" style="width:100%;padding:8px;margin-top:8px;border-radius:8px;border:2px solid #dce3ed;"><button class="btn-primary" onclick="calculatePreservation()" style="width:100%;margin-top:8px;">Calculate Yield</button></div><div id="calcResults"><div class="label">📦 Yield</div><div class="value" id="calcYield">—</div><div class="label">⏳ Shelf Life</div><div class="value" id="calcShelf">—</div></div></div></div></div>
 
         <!-- ===== EMPLOYER ===== -->
-        <div id="tab-employer" class="tab"><h2>🏢 Employer Dashboard</h2><div style="background:#fff;border-radius:12px;padding:16px;border:1px solid #e2e9f2;"><h3>📌 Post a Job</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;"><div class="form-group"><label>Title</label><input type="text" id="jobTitle" value="Food Preservation Specialist"></div><div class="form-group"><label>Country</label><select id="jobCountry"></select></div><div class="form-group" style="grid-column:span 2;"><label>Skills</label><input type="text" id="jobSkills" value="Drying, Canning"></div><div class="form-group" style="grid-column:span 2;"><label>Description</label><textarea id="jobDesc" rows="2">Seeking expert.</textarea></div><div class="form-group"><label>Salary</label><input type="text" id="jobSalary" value="$600"></div></div><button class="btn-primary" onclick="postJob()">Post Job</button><span id="jobPostStatus"></span></div><h3>Your Jobs</h3><div id="employerJobList"></div></div>
+        <div id="tab-employer" class="tab">
+            <h2>🏢 Employer Dashboard</h2>
+            <!-- Employer Guide -->
+            <div class="employer-guide">
+                <h4>📌 How the Employer Tool Works</h4>
+                <ul>
+                    <li>✅ <strong>Post a Job:</strong> Fill in the job title, country (choose from 54 African countries with flags), skills, description, and salary.</li>
+                    <li>✅ <strong>Cost:</strong> Posting a job costs <strong>$5</strong> (simulated – no real payment yet).</li>
+                    <li>✅ <strong>Matching:</strong> Future feature – we will match your job with students who have completed relevant courses.</li>
+                    <li>✅ <strong>Visibility:</strong> Your job will appear on this dashboard for you to manage.</li>
+                    <li>✅ <strong>Next Steps:</strong> We will soon add the ability to view applications and message candidates directly.</li>
+                </ul>
+            </div>
+            <div style="background:#fff;border-radius:12px;padding:16px;border:1px solid #e2e9f2;margin-bottom:16px;">
+                <h3>📌 Post a Job</h3>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                    <div class="form-group"><label>Title</label><input type="text" id="jobTitle" value="Food Preservation Specialist"></div>
+                    <div class="form-group"><label>Country</label><select id="jobCountry"></select></div>
+                    <div class="form-group" style="grid-column:span 2;"><label>Skills</label><input type="text" id="jobSkills" value="Drying, Canning"></div>
+                    <div class="form-group" style="grid-column:span 2;"><label>Description</label><textarea id="jobDesc" rows="2">Seeking a food preservation expert to join our team.</textarea></div>
+                    <div class="form-group"><label>Salary</label><input type="text" id="jobSalary" value="$600 - $900"></div>
+                </div>
+                <button class="btn-primary" onclick="postJob()">💰 Post Job ($5)</button>
+                <span id="jobPostStatus" style="margin-left:8px;font-size:0.8rem;color:#5a6f8c;"></span>
+            </div>
+            <h3>📋 Your Jobs</h3>
+            <div id="employerJobList"></div>
+        </div>
 
         <!-- ===== VERIFY ===== -->
         <div id="tab-verify" class="tab"><h2>🔗 Blockchain Certificate Verification</h2><input type="text" id="verifyInput" placeholder="Code..." style="padding:10px;border:2px solid #dce3ed;border-radius:30px;width:60%;"><button class="btn-success" onclick="verifyCertificate()">Verify</button><div id="verifyResult"></div></div>
 
         <!-- ===== ADMIN ===== -->
         <div id="tab-admin" class="tab"><div class="admin-grid"><div class="admin-card"><div class="label">💰 Revenue</div><div class="value" id="statRevenue">$1,234</div></div><div class="admin-card"><div class="label">👥 Learners</div><div class="value" id="statLearners">42</div></div><div class="admin-card"><div class="label">📚 Enrollments</div><div class="value" id="statEnrollments">156</div></div></div><button class="btn-primary" onclick="refreshAdmin()">Refresh</button></div>
+
+        <!-- ===== CONTACT ===== -->
+        <div id="tab-contact" class="tab">
+            <h2 style="font-size:1.8rem;">📧 Contact Us</h2>
+            <p style="color:#5a6f8c;margin-bottom:16px;">Have a question or need help? Reach out to us and we will get back to you within 24 hours.</p>
+            <div class="contact-form">
+                <div class="form-group"><label>Full Name</label><input type="text" id="contactName" placeholder="Your full name"></div>
+                <div class="form-group"><label>Email Address</label><input type="email" id="contactEmail" placeholder="you@example.com"></div>
+                <div class="form-group"><label>Subject</label><input type="text" id="contactSubject" placeholder="Subject of your message"></div>
+                <div class="form-group"><label>Message</label><textarea id="contactMessage" rows="4" placeholder="Write your message here..."></textarea></div>
+                <button class="btn-primary" onclick="submitContactForm()" style="width:100%;padding:12px;">Send Message</button>
+                <div id="contactStatus" style="margin-top:8px;text-align:center;font-size:0.9rem;"></div>
+            </div>
+        </div>
+
+        <!-- ===== REQUEST COURSE ===== -->
+        <div id="tab-request" class="tab">
+            <h2 style="font-size:1.8rem;">📋 Request a Course</h2>
+            <p style="color:#5a6f8c;margin-bottom:16px;">Want a course that isn't on our platform yet? Let us know and we will consider adding it!</p>
+            <div class="request-section">
+                <div class="form-group"><label>Course Title *</label><input type="text" id="requestTitle" placeholder="e.g. Advanced Poultry Farming"></div>
+                <div class="form-group"><label>Category</label>
+                    <select id="requestCategory">
+                        <option value="">Select a category</option>
+                        <option value="cottage-industry">Cottage Industry</option>
+                        <option value="food-preservation">Food Preservation</option>
+                        <option value="cattle-dairy">Cattle & Dairy</option>
+                        <option value="poultry">Poultry</option>
+                        <option value="crop-production">Crop Production</option>
+                        <option value="beekeeping">Beekeeping</option>
+                        <option value="herbs-spices">Herbs & Spices</option>
+                        <option value="vegetable-production">Vegetable Production</option>
+                        <option value="root-crops">Root Crops</option>
+                        <option value="fruit-orchard">Fruit Orchard</option>
+                        <option value="nuts-seeds">Nuts & Seeds</option>
+                        <option value="peppers">Peppers</option>
+                        <option value="aquaculture">Aquaculture</option>
+                        <option value="pig">Pig Farming</option>
+                        <option value="rabbits-small">Rabbits</option>
+                        <option value="sheep-goat">Sheep & Goat</option>
+                        <option value="specialty-livestock">Specialty Livestock</option>
+                        <option value="forestry">Forestry</option>
+                        <option value="mining">Mining</option>
+                        <option value="livestock-feed">Livestock Feed</option>
+                        <option value="construction">Construction</option>
+                        <option value="energy">Energy</option>
+                        <option value="metal">Metal Fabrication</option>
+                        <option value="ict">ICT</option>
+                        <option value="health">Healthcare</option>
+                        <option value="automotive">Automotive</option>
+                        <option value="logistics">Logistics</option>
+                        <option value="cash-crops">Cash Crops</option>
+                        <option value="languages">Languages</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Brief Description *</label><textarea id="requestDescription" rows="3" placeholder="Describe what the course should cover..."></textarea></div>
+                <div class="form-group"><label>Why is this course needed?</label><textarea id="requestReason" rows="2" placeholder="Why would students benefit from this course?"></textarea></div>
+                <button class="btn-primary" onclick="submitCourseRequest()" style="width:100%;padding:12px;">📤 Submit Request</button>
+                <div id="requestStatus" style="margin-top:8px;text-align:center;font-size:0.9rem;"></div>
+            </div>
+        </div>
 
         <!-- ===== PAYMENT METHODS ===== -->
         <div class="payment-icons">
@@ -471,7 +673,21 @@
 
         <!-- ===== MODALS ===== -->
         <div class="modal-overlay" id="authModal"><div class="modal-content" style="max-width:420px;"><button class="modal-close" onclick="document.getElementById('authModal').classList.remove('open')">✕</button><h2 id="authModalTitle">🔐 Login</h2><div class="form-group"><label>Email</label><input type="email" id="authEmail" placeholder="you@example.com"></div><div class="form-group"><label>Password</label><input type="password" id="authPassword" placeholder="Password"></div><div id="authError" style="color:#f44336;display:none;"></div><button class="btn-primary" id="authSubmitBtn" onclick="handleAuth()">Login</button><button class="btn-primary" style="background:#5a6f8c;" onclick="toggleAuthMode()">Switch to Sign Up</button><a href="#" onclick="resetPassword()" style="color:#0a6bff;display:block;margin-top:8px;">Forgot password?</a></div></div>
-        <div class="modal-overlay" id="paymentModal"><div class="modal-content"><button class="modal-close" onclick="closePaymentModal()">✕</button><h3>💳 Unlock This Course</h3><div id="paymentCourseName" style="font-weight:700;margin-bottom:12px;"></div><div class="payment-option" onclick="selectPaymentOption('full')" id="optFull"><strong>🎓 Full Access</strong> – $15.00 (Flat one‑time fee)<br><small style="color:#5a6f8c;">Full course access + Certificate + AI Tutor</small></div><div class="payment-option" onclick="selectPaymentOption('readonly')" id="optRead"><strong>📖 Read-Only</strong> – $3.50 (Lifetime access)<br><small style="color:#5a6f8c;">View all modules only (No Certificate)</small></div><button class="btn-gold" id="payNowBtn" onclick="processPayment()" style="width:100%;padding:12px;font-size:1.1rem;">✅ Pay Now</button><p id="paymentStatus" style="margin-top:8px;font-size:0.8rem;color:#5a6f8c;"></p></div></div>
+        <div class="modal-overlay" id="paymentModal"><div class="modal-content"><button class="modal-close" onclick="closePaymentModal()">✕</button><h3>💳 Unlock This Course</h3><div id="paymentCourseName" style="font-weight:700;margin-bottom:12px;"></div>
+            <div class="cert-sample">
+                <div class="cert-title">🎓 Sample Certificate</div>
+                <p style="font-size:0.8rem;color:#5a6f8c;">Upon completion, you will receive a verified Blockchain Certificate like this.</p>
+                <div style="border:2px solid #0a6bff;border-radius:8px;padding:12px;background:#fff;margin-top:8px;">
+                    <p style="font-weight:700;color:#0a6bff;">SKILLBRIDGE AFRICA</p>
+                    <p style="font-size:0.8rem;">Certificate of Completion</p>
+                    <p style="font-size:0.7rem;color:#5a6f8c;">Hash: 0x7f3a...9b4c</p>
+                </div>
+            </div>
+            <div class="payment-option" onclick="selectPaymentOption('full')" id="optFull"><strong>🎓 Full Access</strong> – $15.00 (Flat one‑time fee)<br><small style="color:#5a6f8c;">Full course access + Certificate + AI Tutor</small></div>
+            <div class="payment-option" onclick="selectPaymentOption('readonly')" id="optRead"><strong>📖 Read-Only</strong> – $3.50 (Lifetime access)<br><small style="color:#5a6f8c;">View all modules only (No Certificate)</small></div>
+            <button class="btn-gold" id="payNowBtn" onclick="processPayment()" style="width:100%;padding:12px;font-size:1.1rem;">✅ Pay Now</button>
+            <p id="paymentStatus" style="margin-top:8px;font-size:0.8rem;color:#5a6f8c;"></p>
+        </div></div>
         <div class="modal-overlay" id="modalOverlay"><div class="modal-content"><button class="modal-close" onclick="closeModal()">✕</button><div id="modalBody"></div></div></div>
 
         <!-- ===== FOOTER ===== -->
@@ -502,6 +718,9 @@
                     <li><a href="#" onclick="switchTab('community');return false;">Forum</a></li>
                     <li><a href="#" onclick="switchTab('faq');return false;">FAQ</a></li>
                     <li><a href="#" onclick="switchTab('advice');return false;">Advice</a></li>
+                    <li><a href="#" onclick="switchTab('about');return false;">About Us</a></li>
+                    <li><a href="#" onclick="switchTab('contact');return false;">Contact</a></li>
+                    <li><a href="#" onclick="switchTab('request');return false;">Request Course</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -550,138 +769,84 @@ function openLegalModal() {
             </div>
             <p style="font-size:0.85rem; color:#5a6f8c;">These documents are provided for informational purposes. Please consult a legal professional for advice tailored to your jurisdiction.</p>
         </div>
-        
-        <!-- Terms & Conditions -->
-        <div class="legal-section" id="legal-terms">
-            <h2>📜 Terms & Conditions</h2>
-            <p><strong>Effective Date:</strong> July 2025</p>
-            <h3>1. Introduction</h3>
-            <p>Welcome to SkillBridge Africa (SBA). These Terms and Conditions ("Terms") govern your use of our website, courses, and services. By registering or purchasing a course, you agree to these Terms.</p>
-            <h3>2. Definitions</h3>
-            <ul>
-                <li><strong>"Full Access"</strong>: The premium tier ($15.00 flat one‑time fee) granting access to <strong>all modules of a single course</strong>, the AI Tutor, and the Blockchain Certificate.</li>
-                <li><strong>"Read-Only Access"</strong>: The basic tier ($3.50) granting <strong>lifetime viewing access</strong> to course materials. Read-Only users do not receive certificates and cannot interact with the AI Tutor.</li>
-                <li><strong>"SBA"</strong>: SkillBridge Africa, a vocational training business.</li>
-            </ul>
-            <h3>3. User Accounts</h3>
-            <ul>
-                <li>You must be at least 13 years old (or have parental consent) to create an account.</li>
-                <li>You are responsible for maintaining the confidentiality of your login credentials.</li>
-                <li>You agree to provide accurate and complete information during registration.</li>
-            </ul>
-            <h3>4. Blockchain Certificates</h3>
-            <p>Upon 100% completion of a <strong>Full Access ($15.00)</strong> course, SBA issues a <strong>Blockchain Certificate (Digital Diploma)</strong>. This certificate is cryptographically hashed and stored on a blockchain network to ensure tamper‑proof verification. It serves as a digital confirmation of your successful course completion.</p>
-            <p><strong>Please note:</strong> SBA is a <strong>vocational training business, not a school, college, or university</strong>. While the certificate validates your learning, SBA makes no guarantee that it will be accepted by any third‑party institution, employer, or accreditation body.</p>
-            <h3>5. Payments & Fees</h3>
-            <ul>
-                <li>All prices are listed in USD ($).</li>
-                <li>Payments are processed securely via third-party gateways (Stripe, M-Pesa, EcoCash).</li>
-                <li>By purchasing, you authorize SBA to charge the selected payment method.</li>
-                <li>If payment fails, access to paid content will be revoked.</li>
-            </ul>
-            <h3>6. User Conduct</h3>
-            <ul>
-                <li>You agree not to use the platform for illegal activities, harassment, or distributing malicious code.</li>
-                <li>SBA reserves the right to suspend or terminate accounts that violate these Terms.</li>
-            </ul>
-            <h3>7. Limitation of Liability</h3>
-            <ul>
-                <li>SBA provides courses "as is" for educational purposes.</li>
-                <li>We do not guarantee specific career outcomes, employment, or business success.</li>
-                <li>To the maximum extent permitted by law, SBA is not liable for indirect, incidental, or consequential damages.</li>
-            </ul>
-            <h3>8. Governing Law & Jurisdiction</h3>
-            <p>These Terms are governed by the laws of the <strong>African countries</strong> in which SkillBridge Africa (SBA) conducts business. Any dispute, claim, or controversy arising out of or relating to these Terms shall be resolved exclusively in the <strong>competent courts of the African country where SBA is registered or where the dispute arises</strong>.</p>
-            <h3>9. Changes to Terms</h3>
-            <p>SBA reserves the right to update these Terms. We will notify users of significant changes via email or website notification.</p>
-        </div>
-
-        <!-- Privacy Policy -->
-        <div class="legal-section" id="legal-privacy">
-            <h2>🔒 Privacy Policy</h2>
-            <p><strong>Effective Date:</strong> July 2025</p>
-            <h3>1. Introduction</h3>
-            <p>SkillBridge Africa ("SBA", "we", "us") respects your privacy. This Privacy Policy explains how we collect, use, and protect your personal data.</p>
-            <h3>2. Data We Collect</h3>
-            <ul>
-                <li><strong>Account Data:</strong> Name, Email address, Password (hashed).</li>
-                <li><strong>Payment Data:</strong> We do not store your full credit card details. Payments are processed by Stripe, M-Pesa, and EcoCash. We only store transaction references.</li>
-                <li><strong>Learning Data:</strong> Course enrollments, progress, completed modules, and certificate hashes.</li>
-                <li><strong>Technical Data:</strong> IP address, browser type, device information, and cookies (for website functionality).</li>
-            </ul>
-            <h3>3. How We Use Your Data</h3>
-            <ul>
-                <li>To provide access to your courses.</li>
-                <li>To process payments and issue certificates.</li>
-                <li>To improve our platform and customer support.</li>
-                <li>To send relevant updates about your courses (you can opt out of marketing emails).</li>
-            </ul>
-            <h3>4. Data Storage & Security</h3>
-            <ul>
-                <li>Your data is securely hosted on <strong>Firebase</strong> (Google Cloud) and <strong>Netlify</strong>. All data is encrypted in transit (SSL/TLS).</li>
-                <li>We implement appropriate technical measures to protect against unauthorized access.</li>
-            </ul>
-            <h3>5. Data Sharing</h3>
-            <ul>
-                <li>We do not sell your personal data to third parties.</li>
-                <li>We share data only with essential service providers (Firebase for storage, Stripe for payments) who are contractually obligated to keep your data secure.</li>
-            </ul>
-            <h3>6. Your Rights</h3>
-            <ul>
-                <li>You have the right to access, rectify, or delete your personal data.</li>
-                <li>To request a copy of your data or delete your account, contact us at <a href="mailto:enroll@skillbridgeafrica.africa">enroll@skillbridgeafrica.africa</a>.</li>
-                <li>We will respond to your request within 30 days.</li>
-            </ul>
-            <h3>7. Children's Privacy</h3>
-            <p>SBA is not intended for children under 13. We do not knowingly collect data from minors without parental consent.</p>
-        </div>
-
-        <!-- Cookie Policy -->
-        <div class="legal-section" id="legal-cookie">
-            <h2>🍪 Cookie Policy</h2>
-            <p><strong>Effective Date:</strong> July 2025</p>
-            <h3>1. What Are Cookies?</h3>
-            <p>Cookies are small text files stored on your device to help websites function effectively and improve user experience.</p>
-            <h3>2. How SBA Uses Cookies</h3>
-            <ul>
-                <li><strong>Essential/Strictly Necessary:</strong> Authentication (keeping you logged in), security, and core functionality.</li>
-                <li><strong>Functional:</strong> Remembering your preferences (e.g., Dark Mode).</li>
-                <li><strong>Analytics:</strong> Google Analytics / Firebase Analytics to track how users interact with our site (this helps us improve our courses).</li>
-            </ul>
-            <h3>3. Managing Your Consent</h3>
-            <p>When you first visit our site, you will be prompted to accept or decline non-essential cookies. You can manage your preferences at any time via your browser settings.</p>
-            <h3>4. Third-Party Cookies</h3>
-            <p>We use Firebase (Google) for analytics. Google's use of cookies is governed by Google's Privacy Policy.</p>
-        </div>
-
-        <!-- Refund Policy -->
-        <div class="legal-section" id="legal-refund">
-            <h2>💰 Refund Policy</h2>
-            <p><strong>Effective Date:</strong> July 2025</p>
-            <p>At SkillBridge Africa (SBA), we are committed to delivering high-quality vocational training. Because our courses are digital goods and provide <strong>immediate access</strong> to content, our refund policy is designed to be fair.</p>
-            <h3>1. Full Access ($15.00)</h3>
-            <p>If you have purchased <strong>Full Access ($15.00)</strong> to a course, you may request a full refund within <strong>7 days</strong> of purchase, provided that:</p>
-            <ul>
-                <li>You have completed <strong>less than 20%</strong> of the course modules.</li>
-                <li>You did not download or print substantial portions of the course material.</li>
-                <li>You raised a support ticket explaining your reason for the refund.</li>
-            </ul>
-            <h3>2. Read-Only Access ($3.50) – Non-Refundable</h3>
-            <p><strong>Read-Only Access ($3.50) is non-refundable.</strong> Because this is a digital product that you can access immediately after purchase, and it provides <strong>lifetime viewing access</strong> (for as long as SBA operates), no refunds will be issued under any circumstances for Read-Only purchases.</p>
-            <h3>3. Technical Issues</h3>
-            <p>If you experience a technical issue that prevents you from accessing your course, and our support team is unable to resolve it within 5 business days, you are eligible for a full refund at SBA's discretion.</p>
-            <h3>4. How to Request a Refund</h3>
-            <ul>
-                <li>To request a refund, email us at <a href="mailto:enroll@skillbridgeafrica.africa">enroll@skillbridgeafrica.africa</a> with the subject line <strong>"Refund Request"</strong>.</li>
-                <li>Include your full name, registered email, and the course name.</li>
-                <li>We will process refunds within 5-10 business days.</li>
-            </ul>
-        </div>
-        <div style="margin-top:16px; text-align:center; border-top:1px solid #e2e9f2; padding-top:12px;">
-            <small style="color:#5a6f8c;">© 2025 SkillBridge Africa. All rights reserved. For legal advice, please consult an attorney.</small>
-        </div>
+        <div class="legal-section" id="legal-terms"><h2>📜 Terms & Conditions</h2><p><strong>Effective Date:</strong> July 2025</p><h3>1. Introduction</h3><p>Welcome to SkillBridge Africa (SBA). These Terms and Conditions ("Terms") govern your use of our website, courses, and services. By registering or purchasing a course, you agree to these Terms.</p><h3>2. Definitions</h3><ul><li><strong>"Full Access"</strong>: The premium tier ($15.00 flat one‑time fee) granting access to <strong>all modules of a single course</strong>, the AI Tutor, and the Blockchain Certificate.</li><li><strong>"Read-Only Access"</strong>: The basic tier ($3.50) granting <strong>lifetime viewing access</strong> to course materials. Read-Only users do not receive certificates and cannot interact with the AI Tutor.</li><li><strong>"SBA"</strong>: SkillBridge Africa, a vocational training business.</li></ul><h3>3. User Accounts</h3><ul><li>You must be at least 13 years old (or have parental consent) to create an account.</li><li>You are responsible for maintaining the confidentiality of your login credentials.</li><li>You agree to provide accurate and complete information during registration.</li></ul><h3>4. Blockchain Certificates</h3><p>Upon 100% completion of a <strong>Full Access ($15.00)</strong> course, SBA issues a <strong>Blockchain Certificate (Digital Diploma)</strong>. This certificate is cryptographically hashed and stored on a blockchain network to ensure tamper‑proof verification. It serves as a digital confirmation of your successful course completion.</p><p><strong>Please note:</strong> SBA is a <strong>vocational training business, not a school, college, or university</strong>. While the certificate validates your learning, SBA makes no guarantee that it will be accepted by any third‑party institution, employer, or accreditation body.</p><h3>5. Payments & Fees</h3><ul><li>All prices are listed in USD ($).</li><li>Payments are processed securely via third-party gateways (Stripe, M-Pesa, EcoCash).</li><li>By purchasing, you authorize SBA to charge the selected payment method.</li><li>If payment fails, access to paid content will be revoked.</li></ul><h3>6. User Conduct</h3><ul><li>You agree not to use the platform for illegal activities, harassment, or distributing malicious code.</li><li>SBA reserves the right to suspend or terminate accounts that violate these Terms.</li></ul><h3>7. Limitation of Liability</h3><ul><li>SBA provides courses "as is" for educational purposes.</li><li>We do not guarantee specific career outcomes, employment, or business success.</li><li>To the maximum extent permitted by law, SBA is not liable for indirect, incidental, or consequential damages.</li></ul><h3>8. Governing Law & Jurisdiction</h3><p>These Terms are governed by the laws of the <strong>African countries</strong> in which SkillBridge Africa (SBA) conducts business. Any dispute, claim, or controversy arising out of or relating to these Terms shall be resolved exclusively in the <strong>competent courts of the African country where SBA is registered or where the dispute arises</strong>.</p><h3>9. Changes to Terms</h3><p>SBA reserves the right to update these Terms. We will notify users of significant changes via email or website notification.</p></div>
+        <div class="legal-section" id="legal-privacy"><h2>🔒 Privacy Policy</h2><p><strong>Effective Date:</strong> July 2025</p><h3>1. Introduction</h3><p>SkillBridge Africa ("SBA", "we", "us") respects your privacy. This Privacy Policy explains how we collect, use, and protect your personal data.</p><h3>2. Data We Collect</h3><ul><li><strong>Account Data:</strong> Name, Email address, Password (hashed).</li><li><strong>Payment Data:</strong> We do not store your full credit card details. Payments are processed by Stripe, M-Pesa, and EcoCash. We only store transaction references.</li><li><strong>Learning Data:</strong> Course enrollments, progress, completed modules, and certificate hashes.</li><li><strong>Technical Data:</strong> IP address, browser type, device information, and cookies (for website functionality).</li></ul><h3>3. How We Use Your Data</h3><ul><li>To provide access to your courses.</li><li>To process payments and issue certificates.</li><li>To improve our platform and customer support.</li><li>To send relevant updates about your courses (you can opt out of marketing emails).</li></ul><h3>4. Data Storage & Security</h3><ul><li>Your data is securely hosted on <strong>Firebase</strong> (Google Cloud) and <strong>Netlify</strong>. All data is encrypted in transit (SSL/TLS).</li><li>We implement appropriate technical measures to protect against unauthorized access.</li></ul><h3>5. Data Sharing</h3><ul><li>We do not sell your personal data to third parties.</li><li>We share data only with essential service providers (Firebase for storage, Stripe for payments) who are contractually obligated to keep your data secure.</li></ul><h3>6. Your Rights</h3><ul><li>You have the right to access, rectify, or delete your personal data.</li><li>To request a copy of your data or delete your account, contact us at <a href="mailto:enroll@skillbridgeafrica.africa">enroll@skillbridgeafrica.africa</a>.</li><li>We will respond to your request within 30 days.</li></ul><h3>7. Children's Privacy</h3><p>SBA is not intended for children under 13. We do not knowingly collect data from minors without parental consent.</p></div>
+        <div class="legal-section" id="legal-cookie"><h2>🍪 Cookie Policy</h2><p><strong>Effective Date:</strong> July 2025</p><h3>1. What Are Cookies?</h3><p>Cookies are small text files stored on your device to help websites function effectively and improve user experience.</p><h3>2. How SBA Uses Cookies</h3><ul><li><strong>Essential/Strictly Necessary:</strong> Authentication (keeping you logged in), security, and core functionality.</li><li><strong>Functional:</strong> Remembering your preferences (e.g., Dark Mode).</li><li><strong>Analytics:</strong> Google Analytics / Firebase Analytics to track how users interact with our site (this helps us improve our courses).</li></ul><h3>3. Managing Your Consent</h3><p>When you first visit our site, you will be prompted to accept or decline non-essential cookies. You can manage your preferences at any time via your browser settings.</p><h3>4. Third-Party Cookies</h3><p>We use Firebase (Google) for analytics. Google's use of cookies is governed by Google's Privacy Policy.</p></div>
+        <div class="legal-section" id="legal-refund"><h2>💰 Refund Policy</h2><p><strong>Effective Date:</strong> July 2025</p><p>At SkillBridge Africa (SBA), we are committed to delivering high-quality vocational training. Because our courses are digital goods and provide <strong>immediate access</strong> to content, our refund policy is designed to be fair.</p><h3>1. Full Access ($15.00)</h3><p>If you have purchased <strong>Full Access ($15.00)</strong> to a course, you may request a full refund within <strong>7 days</strong> of purchase, provided that:</p><ul><li>You have completed <strong>less than 20%</strong> of the course modules.</li><li>You did not download or print substantial portions of the course material.</li><li>You raised a support ticket explaining your reason for the refund.</li></ul><h3>2. Read-Only Access ($3.50) – Non-Refundable</h3><p><strong>Read-Only Access ($3.50) is non-refundable.</strong> Because this is a digital product that you can access immediately after purchase, and it provides <strong>lifetime viewing access</strong> (for as long as SBA operates), no refunds will be issued under any circumstances for Read-Only purchases.</p><h3>3. Technical Issues</h3><p>If you experience a technical issue that prevents you from accessing your course, and our support team is unable to resolve it within 5 business days, you are eligible for a full refund at SBA's discretion.</p><h3>4. How to Request a Refund</h3><ul><li>To request a refund, email us at <a href="mailto:enroll@skillbridgeafrica.africa">enroll@skillbridgeafrica.africa</a> with the subject line <strong>"Refund Request"</strong>.</li><li>Include your full name, registered email, and the course name.</li><li>We will process refunds within 5-10 business days.</li></ul></div>
+        <div style="margin-top:16px; text-align:center; border-top:1px solid #e2e9f2; padding-top:12px;"><small style="color:#5a6f8c;">© 2025 SkillBridge Africa. All rights reserved. For legal advice, please consult an attorney.</small></div>
     `;
     openModal(html);
+}
+
+// ================================================================
+// COURSE REQUEST SUBMISSION
+// ================================================================
+function submitCourseRequest() {
+    const title = document.getElementById('requestTitle').value.trim();
+    const category = document.getElementById('requestCategory').value;
+    const description = document.getElementById('requestDescription').value.trim();
+    const reason = document.getElementById('requestReason').value.trim();
+    const status = document.getElementById('requestStatus');
+    
+    if (!title || !description) {
+        status.innerHTML = '<span style="color:#f44336;">Please fill in the Course Title and Description.</span>';
+        return;
+    }
+    if (!currentUser) {
+        status.innerHTML = '<span style="color:#f44336;">Please log in to submit a course request.</span>';
+        return;
+    }
+    
+    db.collection('courseRequests').add({
+        title: title,
+        category: category || 'Uncategorized',
+        description: description,
+        reason: reason || 'Not specified',
+        requestedBy: currentUser.uid,
+        userEmail: currentUser.email,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        status: 'pending'
+    }).then(() => {
+        status.innerHTML = '<span style="color:#4caf50;">✅ Course request submitted successfully! We will review it and let you know.</span>';
+        document.getElementById('requestTitle').value = '';
+        document.getElementById('requestCategory').value = '';
+        document.getElementById('requestDescription').value = '';
+        document.getElementById('requestReason').value = '';
+    }).catch(err => {
+        console.error('Request error:', err);
+        status.innerHTML = '<span style="color:#f44336;">Error: ' + err.message + '</span>';
+    });
+}
+
+// ================================================================
+// CONTACT FORM
+// ================================================================
+function submitContactForm() {
+    const name = document.getElementById('contactName').value.trim();
+    const email = document.getElementById('contactEmail').value.trim();
+    const subject = document.getElementById('contactSubject').value.trim();
+    const message = document.getElementById('contactMessage').value.trim();
+    const status = document.getElementById('contactStatus');
+    if (!name || !email || !subject || !message) { status.innerHTML = '<span style="color:#f44336;">Please fill in all fields.</span>'; return; }
+    if (!currentUser) { status.innerHTML = '<span style="color:#f44336;">Please log in to send a message.</span>'; return; }
+    db.collection('contactMessages').add({
+        name, email, subject, message,
+        userId: currentUser.uid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        status.innerHTML = '<span style="color:#4caf50;">✅ Message sent successfully! We will get back to you within 24 hours.</span>';
+        document.getElementById('contactName').value = '';
+        document.getElementById('contactEmail').value = '';
+        document.getElementById('contactSubject').value = '';
+        document.getElementById('contactMessage').value = '';
+    }).catch(err => {
+        console.error('Contact form error:', err);
+        if (err.code === 'permission-denied') {
+            status.innerHTML = '<span style="color:#f44336;">⚠️ Permission error: Please update Firestore rules or contact support.</span>';
+        } else {
+            status.innerHTML = '<span style="color:#f44336;">Error: ' + err.message + '</span>';
+        }
+    });
 }
 
 // ================================================================
@@ -757,6 +922,35 @@ setInterval(() => {
 }, 3300);
 
 // ================================================================
+// 54 AFRICAN COUNTRIES ROTATOR (1.3 seconds)
+// ================================================================
+const countryRotatorItems = [
+    "🇩🇿 Algeria", "🇦🇴 Angola", "🇧🇯 Benin", "🇧🇼 Botswana", "🇧🇫 Burkina Faso",
+    "🇧🇮 Burundi", "🇨🇻 Cabo Verde", "🇨🇲 Cameroon", "🇨🇫 Central African Republic",
+    "🇹🇩 Chad", "🇰🇲 Comoros", "🇨🇬 Congo", "🇨🇩 DRC", "🇩🇯 Djibouti", "🇪🇬 Egypt",
+    "🇬🇶 Equatorial Guinea", "🇪🇷 Eritrea", "🇸🇿 Eswatini", "🇪🇹 Ethiopia", "🇬🇦 Gabon",
+    "🇬🇲 Gambia", "🇬🇭 Ghana", "🇬🇳 Guinea", "🇬🇼 Guinea-Bissau", "🇨🇮 Ivory Coast",
+    "🇰🇪 Kenya", "🇱🇸 Lesotho", "🇱🇷 Liberia", "🇱🇾 Libya", "🇲🇬 Madagascar",
+    "🇲🇼 Malawi", "🇲🇱 Mali", "🇲🇷 Mauritania", "🇲🇺 Mauritius", "🇲🇦 Morocco",
+    "🇲🇿 Mozambique", "🇳🇦 Namibia", "🇳🇪 Niger", "🇳🇬 Nigeria", "🇷🇼 Rwanda",
+    "🇸🇹 Sao Tome", "🇸🇳 Senegal", "🇸🇨 Seychelles", "🇸🇱 Sierra Leone", "🇸🇴 Somalia",
+    "🇿🇦 South Africa", "🇸🇸 South Sudan", "🇸🇩 Sudan", "🇹🇿 Tanzania", "🇹🇬 Togo",
+    "🇹🇳 Tunisia", "🇺🇬 Uganda", "🇿🇲 Zambia", "🇿🇼 Zimbabwe"
+];
+let countryIndex = 0;
+const countryRotatorEl = document.getElementById('countryRotator');
+if (countryRotatorEl) {
+    setInterval(() => {
+        countryRotatorEl.style.opacity = '0';
+        setTimeout(() => {
+            countryIndex = (countryIndex + 1) % countryRotatorItems.length;
+            countryRotatorEl.textContent = '🌍 ' + countryRotatorItems[countryIndex];
+            countryRotatorEl.style.opacity = '1';
+        }, 200);
+    }, 1300);
+}
+
+// ================================================================
 // TRANSLATIONS
 // ================================================================
 const translations = {
@@ -785,18 +979,18 @@ let selectedPaymentCourseId = null;
 let selectedPaymentType = null;
 let calendarMonth = new Date().getMonth();
 let calendarYear = new Date().getFullYear();
+let activeDifficulty = 'all';
 
 // ================================================================
-// 54 AFRICAN COUNTRIES
+// 54 AFRICAN COUNTRIES (for dropdown)
 // ================================================================
 const countryFlags = { "Algeria": "🇩🇿", "Angola": "🇦🇴", "Benin": "🇧🇯", "Botswana": "🇧🇼", "Burkina Faso": "🇧🇫", "Burundi": "🇧🇮", "Cabo Verde": "🇨🇻", "Cameroon": "🇨🇲", "Central African Republic": "🇨🇫", "Chad": "🇹🇩", "Comoros": "🇰🇲", "Congo": "🇨🇬", "DRC": "🇨🇩", "Djibouti": "🇩🇯", "Egypt": "🇪🇬", "Equatorial Guinea": "🇬🇶", "Eritrea": "🇪🇷", "Eswatini": "🇸🇿", "Ethiopia": "🇪🇹", "Gabon": "🇬🇦", "Gambia": "🇬🇲", "Ghana": "🇬🇭", "Guinea": "🇬🇳", "Guinea-Bissau": "🇬🇼", "Ivory Coast": "🇨🇮", "Kenya": "🇰🇪", "Lesotho": "🇱🇸", "Liberia": "🇱🇷", "Libya": "🇱🇾", "Madagascar": "🇲🇬", "Malawi": "🇲🇼", "Mali": "🇲🇱", "Mauritania": "🇲🇷", "Mauritius": "🇲🇺", "Morocco": "🇲🇦", "Mozambique": "🇲🇿", "Namibia": "🇳🇦", "Niger": "🇳🇪", "Nigeria": "🇳🇬", "Rwanda": "🇷🇼", "Sao Tome": "🇸🇹", "Senegal": "🇸🇳", "Seychelles": "🇸🇨", "Sierra Leone": "🇸🇱", "Somalia": "🇸🇴", "South Africa": "🇿🇦", "South Sudan": "🇸🇸", "Sudan": "🇸🇩", "Tanzania": "🇹🇿", "Togo": "🇹🇬", "Tunisia": "🇹🇳", "Uganda": "🇺🇬", "Zambia": "🇿🇲", "Zimbabwe": "🇿🇼" };
 const africanCountries = Object.keys(countryFlags);
 
 // ================================================================
-// FIXED CATEGORY MAP (ALL COURSES MAPPED)
+// CATEGORY MAP & FULL COURSE DEFINITIONS
 // ================================================================
 const categoryMap = {
-    // COTTAGE INDUSTRY (ALL 25+)
     "Soap Making (Cottage Level)": "cottage-industry",
     "Liquid Soap & Detergent": "cottage-industry",
     "Shampoo & Hair Care": "cottage-industry",
@@ -822,7 +1016,6 @@ const categoryMap = {
     "Biofuel & Ethanol": "cottage-industry",
     "Soapstone & Clay Craft Production": "cottage-industry",
     "Handmade Paper & Card Making": "cottage-industry",
-    // FOOD PRESERVATION
     "Drying Vegetables (Solar & Oven)": "food-preservation",
     "Marinating Vegetables": "food-preservation",
     "Bottling Vegetables (Canning)": "food-preservation",
@@ -841,7 +1034,6 @@ const categoryMap = {
     "Green Bean & Pea Preservation": "food-preservation",
     "Sweetcorn Preservation": "food-preservation",
     "Overstock Vegetable Processing": "food-preservation",
-    // CATTLE DAIRY
     "Dairy Milk Production": "cattle-dairy",
     "Advanced Dairy Farming": "cattle-dairy",
     "Calf Rearing": "cattle-dairy",
@@ -849,7 +1041,6 @@ const categoryMap = {
     "Beef Ranch Operations": "cattle-dairy",
     "Cattle Breeding": "cattle-dairy",
     "Herd Health Management": "cattle-dairy",
-    // POULTRY
     "Broiler Production": "poultry",
     "Advanced Broiler Management": "poultry",
     "Layer Management": "poultry",
@@ -858,7 +1049,6 @@ const categoryMap = {
     "Free-Range Poultry": "poultry",
     "Duck Production": "poultry",
     "Turkey Farming": "poultry",
-    // CROP PRODUCTION
     "Maize Production": "crop-production",
     "Advanced Maize Production": "crop-production",
     "Wheat Cultivation": "crop-production",
@@ -871,12 +1061,10 @@ const categoryMap = {
     "Advanced Soybean Cultivation": "crop-production",
     "Cowpea Farming": "crop-production",
     "Lentil Cultivation": "crop-production",
-    // BEEKEEPING
     "Beekeeping Fundamentals": "beekeeping",
     "Hive Management": "beekeeping",
     "Honey Processing": "beekeeping",
     "Bee Health Management": "beekeeping",
-    // HERBS & SPICES
     "Moringa Cultivation": "herbs-spices",
     "Basil Farming": "herbs-spices",
     "Thyme Production": "herbs-spices",
@@ -886,7 +1074,6 @@ const categoryMap = {
     "Cardamom Cultivation": "herbs-spices",
     "Cinnamon Farming": "herbs-spices",
     "Aloe Vera Farming": "herbs-spices",
-    // VEGETABLES
     "Tomato Farming": "vegetable-production",
     "Professional Tomato Cultivation": "vegetable-production",
     "Onion Cultivation": "vegetable-production",
@@ -897,7 +1084,6 @@ const categoryMap = {
     "Okra Cultivation": "vegetable-production",
     "Spinach Farming": "vegetable-production",
     "Broccoli Production": "vegetable-production",
-    // ROOT CROPS
     "Cassava Production": "root-crops",
     "Yam Cultivation": "root-crops",
     "Sweet Potato Farming": "root-crops",
@@ -916,7 +1102,6 @@ const categoryMap = {
     "Jerusalem Artichoke Farming": "root-crops",
     "Arrowroot Production": "root-crops",
     "Tiger Nut Cultivation": "root-crops",
-    // FRUIT
     "Citrus Orchard Management": "fruit-orchard",
     "Advanced Citrus Production": "fruit-orchard",
     "Banana Plantation": "fruit-orchard",
@@ -934,14 +1119,12 @@ const categoryMap = {
     "Fig Farming": "fruit-orchard",
     "Date Palm Cultivation": "fruit-orchard",
     "Pomegranate Farming": "fruit-orchard",
-    // NUTS & SEEDS
     "Cashew Nut Production": "nuts-seeds",
     "Macadamia Farming": "nuts-seeds",
     "Sesame Seed Cultivation": "nuts-seeds",
     "Sunflower Seed Production": "nuts-seeds",
     "Shea Nut Processing": "nuts-seeds",
     "Groundnut Farming": "nuts-seeds",
-    // PEPPERS
     "Chili Pepper Farming": "peppers",
     "Bell Pepper Production": "peppers",
     "Black Pepper Cultivation": "peppers",
@@ -955,24 +1138,20 @@ const categoryMap = {
     "Crushed Chili Production": "peppers",
     "Pepper Sauce Making": "peppers",
     "Pepper Export & Marketing": "peppers",
-    // AQUACULTURE
     "Catfish Farming": "aquaculture",
     "Advanced Catfish Production": "aquaculture",
     "Tilapia Production": "aquaculture",
     "Aquaponics Systems": "aquaculture",
     "Fish Pond Construction": "aquaculture",
     "Fish Processing": "aquaculture",
-    // PIG
     "Pig Rearing": "pig",
     "Advanced Pig Production": "pig",
     "Breeding & Boar Management": "pig",
     "Farrowing & Weaning": "pig",
-    // RABBIT
     "Rabbit Production": "rabbits-small",
     "Advanced Rabbit Farming": "rabbits-small",
     "Rabbit Breeding": "rabbits-small",
     "Rabbit Health Management": "rabbits-small",
-    // SHEEP & GOAT
     "Wool Sheep Production": "sheep-goat",
     "Meat Sheep Management": "sheep-goat",
     "Dairy Goat Farming": "sheep-goat",
@@ -982,7 +1161,6 @@ const categoryMap = {
     "Dorper Sheep Farming": "sheep-goat",
     "Merino Sheep Production": "sheep-goat",
     "Karakul Sheep Farming": "sheep-goat",
-    // SPECIALTY LIVESTOCK
     "Camel Farming": "specialty-livestock",
     "Ostrich Farming": "specialty-livestock",
     "Donkey Farming": "specialty-livestock",
@@ -990,13 +1168,20 @@ const categoryMap = {
     "Steer Farming": "specialty-livestock",
     "Fattening Operations": "specialty-livestock",
     "Game Farming": "specialty-livestock",
-    // FORESTRY
+    "Coffee Production": "cash-crops",
+    "Cocoa Farming": "cash-crops",
+    "Sugarcane Farming": "cash-crops",
+    "Tea Cultivation": "cash-crops",
+    "Cotton Production": "cash-crops",
+    "Tobacco Cultivation": "cash-crops",
+    "Rubber Plantation": "cash-crops",
+    "Oil Palm Production": "cash-crops",
+    "Hemp Cultivation": "cash-crops",
     "Timber Production": "forestry",
     "Agroforestry": "forestry",
     "Tree Nursery Management": "forestry",
     "Forest Conservation": "forestry",
     "Bamboo Production": "forestry",
-    // MINING
     "Mining Fundamentals": "mining",
     "Gold Mining Operations": "mining",
     "Diamond Mining": "mining",
@@ -1007,7 +1192,6 @@ const categoryMap = {
     "Mineral Processing": "mining",
     "Mining Economics": "mining",
     "Artisanal & Small-Scale Mining": "mining",
-    // LIVESTOCK FEED
     "Animal Feed Production": "livestock-feed",
     "Molasses Making": "livestock-feed",
     "Hay Making": "livestock-feed",
@@ -1016,7 +1200,6 @@ const categoryMap = {
     "Total Mixed Ration": "livestock-feed",
     "Pellet Production": "livestock-feed",
     "Alfalfa Cultivation": "livestock-feed",
-    // CONSTRUCTION
     "Animal House Construction": "construction",
     "Brick Making": "construction",
     "Road Construction": "construction",
@@ -1024,138 +1207,126 @@ const categoryMap = {
     "Plumbing": "construction",
     "Electrical Installation": "construction",
     "Welding": "construction",
-    // ENERGY & METAL
     "Biogas Training": "energy",
     "Biogas Training & Construction": "energy",
     "Metal Fabrication": "metal",
-    // ICT
     "Computer Networking": "ict",
     "Cybersecurity": "ict",
     "Web Development": "ict",
     "Data Science": "ict",
-    // HEALTH
     "Healthcare Administration": "health",
     "Nursing Fundamentals": "health",
     "Pharmacy Practice": "health",
     "Public Health": "health",
-    // AUTOMOTIVE
     "Motor Vehicle Mechanics": "automotive",
     "Auto Electrical Systems": "automotive",
     "Panel Beating": "automotive",
     "Vehicle Diagnostics": "automotive",
-    // LOGISTICS
     "Supply Chain Management": "logistics",
     "Logistics Planning": "logistics",
     "Warehouse Management": "logistics",
     "Transport Logistics": "logistics",
-    // CASH CROPS
-    "Coffee Production": "cash-crops",
-    "Cocoa Farming": "cash-crops",
-    "Sugarcane Farming": "cash-crops",
-    "Tea Cultivation": "cash-crops",
-    "Cotton Production": "cash-crops",
-    "Tobacco Cultivation": "cash-crops",
-    "Rubber Plantation": "cash-crops",
-    "Oil Palm Production": "cash-crops",
-    "Hemp Cultivation": "cash-crops",
-    // LANGUAGES
     "Learn Shona Language": "languages",
     "Learn Chinese Language": "languages"
 };
 const defaultCategory = "other";
 
 // ================================================================
-// FULL COURSE DEFINITIONS (RESTORED – 500+)
+// FULL CATEGORY LIST FOR HOMEPAGE
+// ================================================================
+const allCategories = [
+    { id: 'cottage-industry', icon: '🏭', label: 'Cottage Industry' },
+    { id: 'food-preservation', icon: '🥫', label: 'Food Preservation' },
+    { id: 'cattle-dairy', icon: '🐄', label: 'Cattle & Dairy' },
+    { id: 'poultry', icon: '🐔', label: 'Poultry' },
+    { id: 'crop-production', icon: '🌾', label: 'Crop Production' },
+    { id: 'beekeeping', icon: '🐝', label: 'Beekeeping' },
+    { id: 'herbs-spices', icon: '🌿', label: 'Herbs & Spices' },
+    { id: 'vegetable-production', icon: '🥬', label: 'Vegetable Production' },
+    { id: 'root-crops', icon: '🥔', label: 'Root Crops' },
+    { id: 'fruit-orchard', icon: '🍎', label: 'Fruit Orchard' },
+    { id: 'nuts-seeds', icon: '🥜', label: 'Nuts & Seeds' },
+    { id: 'peppers', icon: '🌶️', label: 'Peppers' },
+    { id: 'aquaculture', icon: '🐟', label: 'Aquaculture' },
+    { id: 'pig', icon: '🐷', label: 'Pig Farming' },
+    { id: 'rabbits-small', icon: '🐰', label: 'Rabbits' },
+    { id: 'sheep-goat', icon: '🐑', label: 'Sheep & Goat' },
+    { id: 'specialty-livestock', icon: '🦙', label: 'Specialty Livestock' },
+    { id: 'forestry', icon: '🌳', label: 'Forestry' },
+    { id: 'mining', icon: '⛏️', label: 'Mining' },
+    { id: 'livestock-feed', icon: '🌽', label: 'Livestock Feed' },
+    { id: 'construction', icon: '🏗️', label: 'Construction' },
+    { id: 'energy', icon: '⚡', label: 'Energy' },
+    { id: 'metal', icon: '🔩', label: 'Metal Fabrication' },
+    { id: 'ict', icon: '💻', label: 'ICT' },
+    { id: 'health', icon: '🏥', label: 'Healthcare' },
+    { id: 'automotive', icon: '🚗', label: 'Automotive' },
+    { id: 'logistics', icon: '📦', label: 'Logistics' },
+    { id: 'cash-crops', icon: '💵', label: 'Cash Crops' },
+    { id: 'languages', icon: '🗣️', label: 'Languages' }
+];
+
+// ================================================================
+// COURSE DEFINITIONS
 // ================================================================
 const baseTitles = [
-    // COTTAGE
     "Soap Making (Cottage Level)", "Liquid Soap & Detergent", "Shampoo & Hair Care", "Toothpaste & Oral Hygiene", "Shoe Polish & Leather Care", 
     "Jam & Fruit Preserves Making", "Peanut Butter & Nut Spreads", "Body Lotion & Cream", "Household Cleaning Products", "Candle & Wax Melts", 
     "Yogurt & Dairy Processing", "Spice Blending & Packaging", "Herbal Pomade & Hair Gel", "Vegetable Oil Extraction", "Paper Recycling & Notebooks", 
     "Charcoal Briquettes", "Fruit Juice & Syrup Bottling", "Natural Deodorant & Perfume Making", "Dishwashing Liquid", "Shea Butter & Cocoa Butter", 
     "Paint & Pigment Making", "Bread & Cake Baking", "Biofuel & Ethanol", "Soapstone & Clay Craft Production", "Handmade Paper & Card Making",
-    // FOOD PRESERVATION
     "Drying Vegetables (Solar & Oven)", "Marinating Vegetables", "Bottling Vegetables (Canning)", "Fermenting Vegetables (Kraut & Kimchi)", 
     "Freezing Vegetables", "Making Vegetable Powders", "Pickling Vegetables", "Making Vegetable Chutneys & Relishes", "Vegetable Juice Concentrates", 
     "Storing Vegetables in Sand/Ash", "Tomato Paste & Puree Making", "Cabbage Kraut & Kimchi (Fermentation)", "Onion & Garlic Powder Production", 
     "Pepper & Chili Sauce Preservation", "Fruit Jam & Syrup Preservation", "Green Bean & Pea Preservation", "Sweetcorn Preservation", "Overstock Vegetable Processing",
-    // CATTLE DAIRY
     "Dairy Milk Production", "Advanced Dairy Farming", "Calf Rearing", "Beef Feedlot Management", "Beef Ranch Operations", "Cattle Breeding", "Herd Health Management",
-    // POULTRY
     "Broiler Production", "Advanced Broiler Management", "Layer Management", "Breeder Flock Management", "Hatchery Operations", "Free-Range Poultry", "Duck Production", "Turkey Farming",
-    // CROP
     "Maize Production", "Advanced Maize Production", "Wheat Cultivation", "Professional Wheat Farming", "Sorghum Farming", "Millet Production", 
     "Barley Farming", "Oats Production", "Soybean Farming", "Advanced Soybean Cultivation", "Cowpea Farming", "Lentil Cultivation",
-    // BEEKEEPING
     "Beekeeping Fundamentals", "Hive Management", "Honey Processing", "Bee Health Management",
-    // HERBS
     "Moringa Cultivation", "Basil Farming", "Thyme Production", "Rosemary Cultivation", "Mint Farming", "Clove Production", "Cardamom Cultivation", "Cinnamon Farming", "Aloe Vera Farming",
-    // VEGGIES
     "Tomato Farming", "Professional Tomato Cultivation", "Onion Cultivation", "Cabbage Production", "Carrot Cultivation", "Lettuce Farming", 
     "Cucumber Production", "Okra Cultivation", "Spinach Farming", "Broccoli Production",
-    // ROOT
     "Cassava Production", "Yam Cultivation", "Sweet Potato Farming", "Irish Potato Production", "Taro Root Farming", "Ginger Cultivation", 
     "Beetroot Farming", "Garlic Cultivation", "Turmeric Farming", "Radish Farming", "Turnip Cultivation", "Parsnip Farming", 
     "Swede (Rutabaga) Farming", "Celeriac Cultivation", "Horseradish Farming", "Jerusalem Artichoke Farming", "Arrowroot Production", "Tiger Nut Cultivation",
-    // FRUIT
     "Citrus Orchard Management", "Advanced Citrus Production", "Banana Plantation", "Mango Farming", "Avocado Production", "Pineapple Cultivation", 
     "Papaya Farming", "Guava Production", "Passion Fruit Cultivation", "Apple Orchard", "Pear Orchard", "Plum Cultivation", "Peach Farming", 
     "Cherry Production", "Fig Farming", "Date Palm Cultivation", "Pomegranate Farming",
-    // NUTS
     "Cashew Nut Production", "Macadamia Farming", "Sesame Seed Cultivation", "Sunflower Seed Production", "Shea Nut Processing", "Groundnut Farming",
-    // PEPPERS
     "Chili Pepper Farming", "Bell Pepper Production", "Black Pepper Cultivation", "Bird's Eye Chili", "Pepper Processing", "Pepper Seed Production", 
     "Dried Pepper Processing", "Pepper Oil Extraction", "Sweet Pepper Farming", "Habanero Farming", "Crushed Chili Production", "Pepper Sauce Making", "Pepper Export & Marketing",
-    // AQUACULTURE
     "Catfish Farming", "Advanced Catfish Production", "Tilapia Production", "Aquaponics Systems", "Fish Pond Construction", "Fish Processing",
-    // PIG
     "Pig Rearing", "Advanced Pig Production", "Breeding & Boar Management", "Farrowing & Weaning",
-    // RABBIT
     "Rabbit Production", "Advanced Rabbit Farming", "Rabbit Breeding", "Rabbit Health Management",
-    // SHEEP GOAT
     "Wool Sheep Production", "Meat Sheep Management", "Dairy Goat Farming", "Meat Goat Production", "Boer Goat Farming", "Kalahari Goat Production", 
     "Dorper Sheep Farming", "Merino Sheep Production", "Karakul Sheep Farming",
-    // SPECIALTY
     "Camel Farming", "Ostrich Farming", "Donkey Farming", "Bull Farming", "Steer Farming", "Fattening Operations", "Game Farming",
-    // CASH CROPS
     "Coffee Production", "Cocoa Farming", "Sugarcane Farming", "Tea Cultivation", "Cotton Production", "Tobacco Cultivation", 
     "Rubber Plantation", "Oil Palm Production", "Hemp Cultivation",
-    // FORESTRY
     "Timber Production", "Agroforestry", "Tree Nursery Management", "Forest Conservation", "Bamboo Production",
-    // MINING
     "Mining Fundamentals", "Gold Mining Operations", "Diamond Mining", "Platinum Mining", "Coal Mining", "Mining Safety", 
     "Mine Planning & Design", "Mineral Processing", "Mining Economics", "Artisanal & Small-Scale Mining",
-    // FEED
     "Animal Feed Production", "Molasses Making", "Hay Making", "Haylage Production", "Silage Production", "Total Mixed Ration", "Pellet Production", "Alfalfa Cultivation",
-    // CONSTRUCTION
     "Animal House Construction", "Brick Making", "Road Construction", "Bricklaying", "Plumbing", "Electrical Installation", "Welding",
-    // ENERGY METAL
     "Biogas Training", "Biogas Training & Construction", "Metal Fabrication",
-    // ICT
     "Computer Networking", "Cybersecurity", "Web Development", "Data Science",
-    // HEALTH
     "Healthcare Administration", "Nursing Fundamentals", "Pharmacy Practice", "Public Health",
-    // AUTO
     "Motor Vehicle Mechanics", "Auto Electrical Systems", "Panel Beating", "Vehicle Diagnostics",
-    // LOGISTICS
     "Supply Chain Management", "Logistics Planning", "Warehouse Management", "Transport Logistics",
-    // LANGUAGES
     "Learn Shona Language", "Learn Chinese Language"
 ];
 
 let courseDefs = [];
 baseTitles.forEach(title => {
     let cat = categoryMap[title] || defaultCategory;
-    courseDefs.push({ title: title, cat: cat });
-    for (let j = 0; j < 3; j++) {
-        let suffix = ["Advanced ", "Professional ", "Expert "][j];
-        courseDefs.push({ title: suffix + title, cat: cat });
-    }
+    courseDefs.push({ title: title, cat: cat, diff: 'Intermediate' });
+    let suffix1 = "Advanced ";
+    let suffix2 = "Professional ";
+    courseDefs.push({ title: suffix1 + title, cat: cat, diff: 'Advanced' });
+    courseDefs.push({ title: suffix2 + title, cat: cat, diff: 'Advanced' });
 });
 
-// ================================================================
-// COURSE CONTENT (Rich)
-// ================================================================
 const courseContentDetails = {
   "Soap Making (Cottage Level)": { modules: [{ title: "Chemistry of Saponification", desc: "Understand the chemical reaction between fats and lye." }, { title: "Cold Process Soap Making", desc: "Step-by-step guide to making cold process soap safely." }, { title: "Hot Process Soap Making", desc: "Learn the hot process method for faster curing." }, { title: "Molding, Curing & Cutting", desc: "Proper techniques for pouring, molding, and curing soap." }, { title: "Natural Colorants & Additives", desc: "Using natural clays, spices, and botanicals." }, { title: "Fragrance & Essential Oils", desc: "Safe usage rates for essential oils." }, { title: "Packaging & Branding", desc: "Designing eco-friendly packaging." }, { title: "Business & Marketing", desc: "Costing your soap, pricing strategies." }] },
   "Drying Vegetables (Solar & Oven)": { modules: [{ title: "Principles of Dehydration", desc: "Understanding moisture removal." }, { title: "Building a Solar Dryer", desc: "Design and construction of a passive solar dryer." }, { title: "Oven Drying Techniques", desc: "Using a standard oven for efficient drying." }, { title: "Pre-treatment", desc: "Blanching and acidification." }, { title: "Drying Specific Crops", desc: "Best practices for tomatoes, onions." }, { title: "Packaging & Storage", desc: "Airtight packaging and moisture control." }, { title: "Rehydrating & Cooking", desc: "Techniques for rehydrating." }, { title: "Value-Added Products", desc: "Creating vegetable powders." }] },
@@ -1198,22 +1369,29 @@ function initializeCourses() {
             progress: 0,
             completed: false,
             certificateCode: null,
-            difficulty: 'Intermediate'
+            difficulty: def.diff || 'Intermediate'
         };
     });
     renderCourses();
     populateFilters();
     updateStats();
     updateRoadmap();
+    populateFullCategories();
 }
 
 function renderCourses() {
     const grid = document.getElementById('courseGrid');
     const search = document.getElementById('searchBox').value.toLowerCase();
     const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+    const activeDiff = document.querySelector('.filter-difficulty.active')?.dataset.difficulty || 'all';
+    
     const filtered = courses.filter(c => {
-        return c.title.toLowerCase().includes(search) && (activeFilter === 'all' || c.category === activeFilter);
+        const matchTitle = c.title.toLowerCase().includes(search);
+        const matchCat = (activeFilter === 'all' || c.category === activeFilter);
+        const matchDiff = (activeDiff === 'all' || c.difficulty === activeDiff);
+        return matchTitle && matchCat && matchDiff;
     });
+    
     if (filtered.length === 0) {
         grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#8a9bb5;">No courses found.</p>';
         return;
@@ -1223,13 +1401,18 @@ function renderCourses() {
         const isPurchased = course.purchased || false;
         const completed = course.completed || false;
         const isFull = course.purchaseType === 'full';
-        const priceLabel = isPurchased ? (isFull ? '🎓 Unlocked' : '📖 Read-Only') : '🔒 Locked';
+        let statusTag = '';
+        if (!isPurchased) statusTag = '<span class="status-tag locked">🔒 Locked</span>';
+        else if (isFull) statusTag = '<span class="status-tag unlocked">🎓 Unlocked</span>';
+        else statusTag = '<span class="status-tag readonly">📖 Read-Only</span>';
+        
         const priceTag = isPurchased ? '' : '<span class="price-tag">$15 / $3.50</span>';
         let enrollBtn = '';
         if (!isPurchased) {
             enrollBtn = `<button class="action-btn buy" onclick="openPaymentModal('${course.id}')">💰 Buy Now</button>`;
         } else if (isPurchased && !completed) {
             enrollBtn = `<button class="action-btn complete" onclick="markComplete('${course.id}')">Mark Complete</button>`;
+            if (isFull) enrollBtn += `<button class="action-btn continue" onclick="switchTab('courses');openCourseDetail('${course.id}');">📖 Continue</button>`;
         }
         let certBtn = '';
         if (completed && isFull) {
@@ -1241,8 +1424,8 @@ function renderCourses() {
         }
         return `
             <div class="card" data-id="${course.id}">
-                <div><span class="code">${course.id}</span> <span class="cat-tag">${course.category}</span> ${priceTag}</div>
-                <div class="title">${course.title} <span style="font-size:0.6rem;color:#5a6f8c;">${priceLabel}</span></div>
+                <div><span class="code">${course.id}</span> <span class="cat-tag">${course.category}</span> ${priceTag} ${statusTag}</div>
+                <div class="title">${course.title} <span style="font-size:0.6rem;color:#5a6f8c;">${course.difficulty}</span></div>
                 <div><span class="skill-tag">${course.difficulty}</span> <span style="font-size:0.7rem;color:#5a6f8c;">⏱ 20h</span></div>
                 ${isPurchased ? `<div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${progress}%;"></div></div><div style="font-size:0.7rem;">${Math.round(progress)}%</div>` : ''}
                 ${completed ? '✅ Certified' : ''}
@@ -1288,7 +1471,31 @@ function populateFilters() {
     cats.forEach(c => html += `<button class="filter-btn" data-filter="${c}" onclick="setFilter('${c}')">${c.toUpperCase()}</button>`);
     group.innerHTML = html;
 }
-function setFilter(f) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); document.querySelector(`.filter-btn[data-filter="${f}"]`)?.classList.add('active'); renderCourses(); }
+
+function populateFullCategories() {
+    const grid = document.getElementById('fullCategoryGrid');
+    if (!grid) return;
+    grid.innerHTML = allCategories.map(cat => `
+        <div class="category-card" onclick="switchTab('courses');setFilter('${cat.id}')">
+            <span class="cat-icon">${cat.icon}</span>
+            <span class="cat-name">${cat.label}</span>
+        </div>
+    `).join('');
+}
+
+function setFilter(f) { 
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); 
+    document.querySelector(`.filter-btn[data-filter="${f}"]`)?.classList.add('active'); 
+    renderCourses(); 
+}
+
+function setDifficulty(d) {
+    activeDifficulty = d;
+    document.querySelectorAll('.filter-difficulty').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.filter-difficulty[data-difficulty="${d}"]`)?.classList.add('active');
+    renderCourses();
+}
+
 function filterCourses() { renderCourses(); }
 
 // ================================================================
@@ -1348,12 +1555,14 @@ function openPaymentModal(courseId) {
     document.getElementById('payNowBtn').disabled = false;
     document.getElementById('paymentModal').classList.add('open');
 }
+
 function selectPaymentOption(type) {
     selectedPaymentType = type;
     document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
     if(type === 'full') document.getElementById('optFull').classList.add('selected');
     else document.getElementById('optRead').classList.add('selected');
 }
+
 function processPayment() {
     if (!selectedPaymentType) { document.getElementById('paymentStatus').innerText = '⚠️ Please select Full or Read-Only.'; return; }
     const course = courses.find(c => c.id === selectedPaymentCourseId);
@@ -1371,6 +1580,7 @@ function processPayment() {
     document.getElementById('payNowBtn').disabled = true;
     setTimeout(() => { closePaymentModal(); renderCourses(); updateDashboard(); updateRoadmap(); }, 1500);
 }
+
 function closePaymentModal() { document.getElementById('paymentModal').classList.remove('open'); selectedPaymentType = null; selectedPaymentCourseId = null; document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected')); }
 
 function openCourseDetail(id) { document.getElementById('detail-' + id)?.classList.toggle('open'); }
@@ -1387,11 +1597,20 @@ function markComplete(courseId) {
     }
     renderCourses(); updateDashboard(); updateRoadmap();
 }
+
 function viewCertificate(courseId) {
     const course = courses.find(c => c.id === courseId);
     if (!course || !course.certificateCode) return alert('No certificate.');
-    openModal(`<div class="cert-preview"><h2>🎓 Certificate</h2><p><strong>${course.title}</strong></p><p>Issued to: ${currentUser.email}</p><p>Code: ${course.certificateCode}</p><button class="btn-primary" onclick="window.print()">🖨️ Print</button></div>`);
+    let shareHtml = `
+        <div class="share-buttons">
+            <button class="share-btn" onclick="window.open('https://twitter.com/intent/tweet?text=I just completed ${encodeURIComponent(course.title)} on SkillBridge Africa! 🎓 Check it out: https://www.skillbridgeafrica.africa','_blank')">🐦 X</button>
+            <button class="share-btn" onclick="window.open('https://www.linkedin.com/sharing/share-offsite/?url=https://www.skillbridgeafrica.africa&title=I completed ${encodeURIComponent(course.title)} on SBA!','_blank')">🔗 LinkedIn</button>
+            <button class="share-btn" onclick="window.open('https://wa.me/?text=I just completed ${encodeURIComponent(course.title)} on SkillBridge Africa! 🎓 https://www.skillbridgeafrica.africa','_blank')">💬 WhatsApp</button>
+        </div>
+    `;
+    openModal(`<div class="cert-preview"><h2>🎓 Certificate</h2><p><strong>${course.title}</strong></p><p>Issued to: ${currentUser.email}</p><p>Code: ${course.certificateCode}</p><button class="btn-primary" onclick="window.print()">🖨️ Print</button>${shareHtml}</div>`);
 }
+
 function openAIChat(courseId) {
     const course = courses.find(c => c.id === courseId);
     if (!course) return;
@@ -1399,9 +1618,6 @@ function openAIChat(courseId) {
     openModal(`<h3>🤖 AI Tutor: ${course.title}</h3><div class="chat-window" id="chatWindow"><div class="chat-message ai"><div class="bubble">Hello! I'm your AI tutor. Ask me anything about ${course.title}.</div></div></div><div class="chat-input"><input type="text" id="chatInput" placeholder="Ask..." onkeydown="if(event.key==='Enter') sendChatMessage()"><button onclick="sendChatMessage()">Send</button></div>`);
 }
 
-// ================================================================
-// ✅ REAL AI TUTOR (OpenAI via Netlify Function) – FIXED VERSION
-// ================================================================
 function sendChatMessage() {
     const input = document.getElementById('chatInput');
     const msg = input.value.trim();
@@ -1454,7 +1670,7 @@ function updateDashboard() {
     document.getElementById('dashCertificates').textContent = completed;
     let avg = enrolled ? Math.round(courses.filter(c => c.purchased).reduce((a,b) => a + b.progress, 0) / enrolled) : 0;
     document.getElementById('dashScore').textContent = avg + '%';
-    let html = courses.filter(c => c.purchased).map(c => `<div class="dashboard-progress-item"><span>${c.title}</span><div class="pbar"><div class="progress-bar-bg" style="width:100px;"><div class="progress-bar-fill" style="width:${c.progress}%;"></div></div></div><span>${Math.round(c.progress)}%</span>${c.completed ? '✅' : ''}</div>`).join('') || '<p>No courses purchased.</p>';
+    let html = courses.filter(c => c.purchased).map(c => `<div class="dashboard-progress-item"><span>${c.title}</span><div class="pbar"><div class="progress-bar-bg" style="width:100px;"><div class="progress-bar-fill" style="width:${c.progress}%;"></div></div></div><span>${Math.round(c.progress)}%</span>${c.completed ? '✅' : ''}<button class="action-btn continue" onclick="switchTab('courses');openCourseDetail('${c.id}');" style="margin-left:8px;">📖 Continue</button></div>`).join('') || '<p>No courses purchased.</p>';
     document.getElementById('dashCourseList').innerHTML = html;
 }
 
@@ -1537,7 +1753,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Globals
-window.switchTab = switchTab; window.setFilter = setFilter; window.filterCourses = filterCourses;
+window.switchTab = switchTab; window.setFilter = setFilter; window.setDifficulty = setDifficulty; window.filterCourses = filterCourses;
 window.markComplete = markComplete; window.viewCertificate = viewCertificate; window.openCourseDetail = openCourseDetail;
 window.openAIChat = openAIChat; window.sendChatMessage = sendChatMessage; window.verifyCertificate = verifyCertificate;
 window.postJob = postJob; window.calculatePreservation = calculatePreservation; window.refreshAdmin = refreshAdmin;
@@ -1546,9 +1762,9 @@ window.closeModal = closeModal; window.showAuthModal = showAuthModal; window.tog
 window.handleAuth = handleAuth; window.resetPassword = resetPassword; window.toggleTheme = toggleTheme;
 window.openPaymentModal = openPaymentModal; window.selectPaymentOption = selectPaymentOption; window.processPayment = processPayment; window.closePaymentModal = closePaymentModal;
 window.toggleFAQ = toggleFAQ; window.changeLanguage = changeLanguage; window.translatePage = translatePage;
-window.enterSite = enterSite; window.openLegalModal = openLegalModal;
+window.enterSite = enterSite; window.openLegalModal = openLegalModal; window.submitContactForm = submitContactForm; window.submitCourseRequest = submitCourseRequest;
 
-console.log('🚀 SBA v5.0 – Complete with 500+ courses, AI Tutor, Legal, Splash, Flags, Roadmap, FAQ, Advice!');
+console.log('🚀 SBA COMPLETE – All features, full categories, splash screen, 54 countries rotator, Course Request, Employer Guide');
 </script>
 </body>
 </html>
