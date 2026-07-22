@@ -2,13 +2,16 @@
 const OpenAI = require('openai');
 
 exports.handler = async (event) => {
+  // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
+    // Parse the request body
     const { message, courseTitle } = JSON.parse(event.body);
-    
+
+    // Initialise the OpenRouter client
     const openai = new OpenAI({
       baseURL: 'https://openrouter.ai/api/v1',
       apiKey: process.env.OPENAI_API_KEY,
@@ -18,11 +21,13 @@ exports.handler = async (event) => {
       },
     });
 
+    // System prompt – note the backticks for template literal
     const systemPrompt = `You are an AI tutor for SkillBridge Africa (SBA). 
 You are helping a student with the course: "${courseTitle}".
 Provide helpful, clear, and practical answers. Keep your responses concise (under 150 words).
 If you don't know the answer, say "I don't have that information yet – please check the course material or contact support."`;
 
+    // Call the OpenRouter API
     const response = await openai.chat.completions.create({
       model: 'openai/gpt-4o-mini',
       messages: [
@@ -33,19 +38,24 @@ If you don't know the answer, say "I don't have that information yet – please 
       temperature: 0.7,
     });
 
+    // Extract the reply
     const reply = response.choices[0].message.content;
 
+    // Return a successful response
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ reply }),
     };
   } catch (error) {
+    // Log the error to Netlify logs
     console.error('Error:', error);
+
+    // Return a proper error response
     return {
       statusCode: 500,
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ error: 'Failed to get response' }),
     };
   }
 };
-"Fix broken ai-chat.js syntax"
