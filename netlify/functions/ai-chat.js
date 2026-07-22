@@ -48,3 +48,4 @@ If you don't know the answer, say "I don't have that information yet – please 
     };
   }
 };
+"Fix AI Tutor – use OpenRouter baseURL"
