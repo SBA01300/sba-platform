@@ -1,3 +1,4 @@
+// netlify/functions/ai-chat.js
 const OpenAI = require('openai');
 
 exports.handler = async (event) => {
@@ -9,7 +10,12 @@ exports.handler = async (event) => {
     const { message, courseTitle } = JSON.parse(event.body);
     
     const openai = new OpenAI({
+      baseURL: 'https://openrouter.ai/api/v1',
       apiKey: process.env.OPENAI_API_KEY,
+      defaultHeaders: {
+        'HTTP-Referer': 'https://www.skillbridgeafrica.africa',
+        'X-Title': 'SkillBridge Africa AI Tutor',
+      },
     });
 
     const systemPrompt = `You are an AI tutor for SkillBridge Africa (SBA). 
@@ -18,7 +24,7 @@ Provide helpful, clear, and practical answers. Keep your responses concise (unde
 If you don't know the answer, say "I don't have that information yet – please check the course material or contact support."`;
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'openai/gpt-4o-mini',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: message }
