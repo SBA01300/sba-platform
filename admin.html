@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBA Admin Panel</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Roboto, system-ui, sans-serif; background: #0d1117; color: #e6edf3; transition: 0.3s; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { font-size: 2rem; margin-bottom: 20px; color: #58a6ff; border-bottom: 2px solid #21262d; padding-bottom: 12px; }
+        h2 { color: #58a6ff; margin: 20px 0 12px; font-size: 1.3rem; }
+        h3 { color: #8b949e; margin: 12px 0 8px; font-size: 1rem; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+        .card:hover { border-color: #58a6ff; }
+        .stat { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 14px; text-align: center; }
+        .stat .number { font-size: 2rem; font-weight: 700; color: #58a6ff; }
+        .stat .label { color: #8b949e; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; color: #8b949e; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 8px 12px; border: 2px solid #21262d; border-radius: 6px; background: #0d1117; color: #e6edf3; font-size: 0.9rem; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #58a6ff; outline: none; }
+        .btn { padding: 8px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
+        .btn-primary { background: #238636; color: #fff; }
+        .btn-primary:hover { background: #2ea043; transform: scale(1.02); }
+        .btn-danger { background: #da3633; color: #fff; }
+        .btn-danger:hover { background: #f85149; transform: scale(1.02); }
+        .btn-secondary { background: #21262d; color: #e6edf3; }
+        .btn-secondary:hover { background: #30363d; transform: scale(1.02); }
+        .btn-success { background: #1f6feb; color: #fff; }
+        .btn-success:hover { background: #388bfd; transform: scale(1.02); }
+        .btn-warning { background: #d29922; color: #fff; }
+        .btn-warning:hover { background: #e3b341; transform: scale(1.02); }
+        .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; margin: 2px; }
+        .tag-success { background: #238636; color: #fff; }
+        .tag-warning { background: #d29922; color: #fff; }
+        .tag-danger { background: #da3633; color: #fff; }
+        .module-item { background: #0d1117; border: 1px solid #21262d; border-radius: 6px; padding: 10px 14px; margin: 4px 0; }
+        .module-item .module-title { font-weight: 600; color: #58a6ff; }
+        .module-item .module-meta { font-size: 0.75rem; color: #8b949e; }
+        .flex { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .mt-8 { margin-top: 8px; }
+        .mt-16 { margin-top: 16px; }
+        .mb-8 { margin-bottom: 8px; }
+        .mb-16 { margin-bottom: 16px; }
+        .hidden { display: none; }
+        .status-badge { display: inline-block; padding: 2px 12px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; }
+        .status-badge.complete { background: #238636; color: #fff; }
+        .status-badge.pending { background: #d29922; color: #fff; }
+        .status-badge.empty { background: #da3633; color: #fff; }
+        .progress-bar { width: 100%; height: 6px; background: #21262d; border-radius: 3px; overflow: hidden; margin: 6px 0; }
+        .progress-bar .fill { height: 100%; background: #58a6ff; border-radius: 3px; transition: width 0.5s; }
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        table th { text-align: left; padding: 8px 12px; border-bottom: 2px solid #21262d; color: #8b949e; font-weight: 600; }
+        table td { padding: 8px 12px; border-bottom: 1px solid #21262d; }
+        table tr:hover { background: #161b22; }
+        .toast { position: fixed; bottom: 20px; right: 20px; padding: 12px 24px; border-radius: 8px; background: #238636; color: #fff; font-weight: 600; opacity: 0; transform: translateY(20px); transition: 0.3s; z-index: 9999; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast.error { background: #da3633; }
+        .nav-tabs { display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 2px solid #21262d; flex-wrap: wrap; }
+        .nav-tab { padding: 8px 20px; border: none; background: transparent; color: #8b949e; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.2s; }
+        .nav-tab:hover { color: #e6edf3; }
+        .nav-tab.active { color: #58a6ff; border-bottom-color: #58a6ff; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .media-preview { max-width: 200px; max-height: 120px; border-radius: 4px; border: 1px solid #21262d; }
+        .file-upload-area { border: 2px dashed #21262d; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .file-upload-area:hover { border-color: #58a6ff; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } .container { padding: 10px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ===== HEADER ===== -->
+        <div class="flex-between">
+            <h1>⚙️ SBA Admin Panel</h1>
+            <div>
+                <span id="adminUser" style="color:#8b949e;margin-right:12px;">Loading...</span>
+                <button class="btn btn-danger" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- ===== NAV TABS ===== -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="dashboard" onclick="switchTab('dashboard')">📊 Dashboard</button>
+            <button class="nav-tab" data-tab="courses" onclick="switchTab('courses')">📚 Courses</button>
+            <button class="nav-tab" data-tab="content" onclick="switchTab('content')">📝 Content Manager</button>
+            <button class="nav-tab" data-tab="quiz" onclick="switchTab('quiz')">🧪 Quiz Builder</button>
+            <button class="nav-tab" data-tab="media" onclick="switchTab('media')">📁 Media Library</button>
+            <button class="nav-tab" data-tab="analytics" onclick="switchTab('analytics')">📈 Analytics</button>
+        </div>
+
+        <!-- ===== TAB: DASHBOARD ===== -->
+        <div id="tab-dashboard" class="tab-content active">
+            <div class="grid-3" id="dashboardStats">
+                <div class="stat"><div class="number" id="statCourses">0</div><div class="label">Total Courses</div></div>
+                <div class="stat"><div class="number" id="statModules">0</div><div class="label">Total Modules</div></div>
+                <div class="stat"><div class="number" id="statContentComplete">0%</div><div class="label">Content Complete</div></div>
+                <div class="stat"><div class="number" id="statVideos">0</div><div class="label">Videos</div></div>
+                <div class="stat"><div class="number" id="statQuizzes">0</div><div class="label">Quizzes</div></div>
+                <div class="stat"><div class="number" id="statAssignments">0</div><div class="label">Assignments</div></div>
+            </div>
+            <div class="card">
+                <h3>📋 Quick Actions</h3>
+                <div class="flex" style="margin-top:12px;">
+                    <button class="btn btn-success" onclick="switchTab('content')">➕ Add Module</button>
+                    <button class="btn btn-primary" onclick="switchTab('quiz')">🧪 Create Quiz</button>
+                    <button class="btn btn-warning" onclick="switchTab('media')">📁 Upload Media</button>
+                    <button class="btn btn-secondary" onclick="refreshAll()">🔄 Refresh All</button>
+                </div>
+            </div>
+            <div class="card">
+                <h3>📊 Content Quality Overview</h3>
+                <div id="qualityOverview"><p style="color:#8b949e;">Loading...</p></div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: COURSES ===== -->
+        <div id="tab-courses" class="tab-content">
+            <div class="card">
+                <div class="flex-between">
+                    <h3>📚 All Courses</h3>
+                    <button class="btn btn-success" onclick="refreshCourses()">🔄 Refresh</button>
+                </div>
+                <div id="courseList"><p style="color:#8b949e;">Loading courses...</p></div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: CONTENT MANAGER ===== -->
+        <div id="tab-content" class="tab-content">
+            <div class="grid-2">
+                <!-- Left Panel: Select Course & Module -->
+                <div class="card">
+                    <h3>📝 Select Course</h3>
+                    <div class="form-group">
+                        <label>Course Title</label>
+                        <select id="contentCourseSelect" onchange="loadModulesForContent()"></select>
+                    </div>
+                    <div id="moduleListContent"><p style="color:#8b949e;">Select a course to view modules.</p></div>
+                </div>
+                <!-- Right Panel: Edit Module -->
+                <div class="card">
+                    <h3>✏️ Edit Module</h3>
+                    <div id="moduleEditor">
+                        <p style="color:#8b949e;">Select a module to edit.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-16">
+                <h3>➕ Add New Module</h3>
+                <div id="addModuleForm">
+                    <div class="form-group"><label>Module Title</label><input type="text" id="newModuleTitle" placeholder="e.g., Chemistry of Saponification"></div>
+                    <div class="form-group"><label>Description</label><textarea id="newModuleDesc" rows="2" placeholder="Brief description..."></textarea></div>
+                    <div class="form-group"><label>Learning Objectives (one per line)</label><textarea id="newModuleObjectives" rows="2" placeholder="Explain saponification&#10;Identify ingredients"></textarea></div>
+                    <div class="form-group"><label>Estimated Time</label><input type="text" id="newModuleTime" placeholder="e.g., 45 min"></div>
+                    <button class="btn btn-success" onclick="addModule()">➕ Add Module</button>
+                    <span id="addModuleStatus" style="margin-left:8px;color:#8b949e;"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: QUIZ BUILDER ===== -->
+        <div id="tab-quiz" class="tab-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>🧪 Create Quiz</h3>
+                    <div class="form-group"><label>Course</label><select id="quizCourseSelect"></select></div>
+                    <div class="form-group"><label>Module Title</label><input type="text" id="quizModuleTitle" placeholder="e.g., Chemistry of Saponification"></div>
+                    <div id="quizQuestionsContainer">
+                        <div class="form-group"><label>Question 1</label><input type="text" id="quizQ1" placeholder="What is saponification?"></div>
+                        <div class="form-group"><label>Options (comma separated)</label><input type="text" id="quizOpt1" placeholder="A chemical reaction, A type of soap, A fat"></div>
+                        <div class="form-group"><label>Correct Answer (0, 1, 2)</label><input type="number" id="quizCorrect1" placeholder="0" min="0"></div>
+                        <div class="form-group"><label>Explanation</label><input type="text" id="quizExp1" placeholder="Saponification is the reaction between fat and lye."></div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="addQuizQuestion()">➕ Add Question</button>
+                    <button class="btn btn-success" onclick="saveQuiz()">💾 Save Quiz</button>
+                    <span id="quizStatus" style="margin-left:8px;color:#8b949e;"></span>
+                </div>
+                <div class="card">
+                    <h3>📋 Existing Quizzes</h3>
+                    <div id="quizList"><p style="color:#8b949e;">Loading quizzes...</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: MEDIA LIBRARY ===== -->
+        <div id="tab-media" class="tab-content">
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📁 Upload Media</h3>
+                    <div class="form-group"><label>Course</label><select id="mediaCourseSelect"></select></div>
+                    <div class="form-group"><label>Module Title</label><input type="text" id="mediaModuleTitle" placeholder="Module title"></div>
+                    <div class="form-group"><label>Media Type</label>
+                        <select id="mediaType">
+                            <option value="video">Video</option>
+                            <option value="pdf">PDF Guide</option>
+                            <option value="image">Image</option>
+                        </select>
+                    </div>
+                    <div class="file-upload-area" onclick="document.getElementById('mediaFileInput').click()">
+                        <p>📤 Click to upload file</p>
+                        <input type="file" id="mediaFileInput" style="display:none;" onchange="uploadMedia()">
+                    </div>
+                    <div id="uploadProgress" style="margin:8px 0;display:none;"><div class="progress-bar"><div class="fill" id="uploadProgressFill" style="width:0%;"></div></div></div>
+                    <span id="uploadStatus" style="color:#8b949e;"></span>
+                </div>
+                <div class="card">
+                    <h3>📂 Media Library</h3>
+                    <div id="mediaList"><p style="color:#8b949e;">Loading media...</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB: ANALYTICS ===== -->
+        <div id="tab-analytics" class="tab-content">
+            <div class="card">
+                <h3>📈 Content Analytics</h3>
+                <div id="analyticsContent"><p style="color:#8b949e;">Loading analytics...</p></div>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>📊 Course Completion Rates</h3>
+                    <div id="completionRates"><p style="color:#8b949e;">Loading...</p></div>
+                </div>
+                <div class="card">
+                    <h3>⭐ Quality Scores</h3>
+                    <div id="qualityScores"><p style="color:#8b949e;">Loading...</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // ================================================================
+        // FIREBASE CONFIG
+        // ================================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5jPAcpowlM_QTU029Q5McavBkBi91xRo",
+            authDomain: "it-lives-in-us-all.firebaseapp.com",
+            projectId: "it-lives-in-us-all",
+            storageBucket: "it-lives-in-us-all.firebasestorage.app",
+            messagingSenderId: "949966080551",
+            appId: "1:949966080551:web:4df95edfbfb4301ad3dc02"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // ================================================================
+        // GLOBAL STATE
+        // ================================================================
+        let currentUser = null;
+        let courses = [];
+        let courseContent = {};
+        let currentCourse = null;
+        let currentModuleIndex = null;
+        let quizQuestions = [];
+        let mediaFiles = [];
+
+        // ================================================================
+        // AUTH
+        // ================================================================
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user;
+                document.getElementById('adminUser').textContent = '👤 ' + user.email;
+                // Check if admin (you can add admin emails here)
+                const adminEmails = ['admin@afriaquaticweedharvesters.com', 'enroll@skillbridgeafrica.africa'];
+                if (!adminEmails.includes(user.email)) {
+                    document.getElementById('adminUser').textContent = '⚠️ Not an admin';
+                    showToast('You are not authorized to access this panel.', 'error');
+                } else {
+                    loadAllData();
+                }
+            } else {
+                document.getElementById('adminUser').textContent = '🔓 Not logged in';
+                showToast('Please log in to access the admin panel.', 'error');
+                setTimeout(() => { window.location.href = '/'; }, 2000);
+            }
+        });
+
+        function logout() {
+            auth.signOut().then(() => { window.location.href = '/'; });
+        }
+
+        // ================================================================
+        // NAVIGATION
+        // ================================================================
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+            document.querySelector(`.nav-tab[data-tab="${tab}"]`).classList.add('active');
+            if (tab === 'dashboard') refreshAll();
+            if (tab === 'courses') refreshCourses();
+            if (tab === 'content') loadModulesForContent();
+            if (tab === 'quiz') loadQuizzes();
+            if (tab === 'media') loadMediaLibrary();
+            if (tab === 'analytics') loadAnalytics();
+        }
+
+        // ================================================================
+        // TOAST NOTIFICATIONS
+        // ================================================================
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show';
+            if (type === 'error') toast.classList.add('error');
+            setTimeout(() => { toast.classList.remove('show'); }, 4000);
+        }
+
+        // ================================================================
+        // LOAD ALL DATA
+        // ================================================================
+        async function loadAllData() {
+            await loadCourses();
+            await loadCourseContent();
+            await loadMediaLibrary();
+            await refreshAll();
+        }
+
+        async function loadCourses() {
+            try {
+                const snapshot = await db.collection('courseContent').get();
+                courses = [];
+                snapshot.forEach(doc => {
+                    courses.push({ id: doc.id, ...doc.data() });
+                });
+                populateCourseSelects();
+            } catch (e) {
+                console.error('Load courses error:', e);
+                showToast('Error loading courses: ' + e.message, 'error');
+            }
+        }
+
+        async function loadCourseContent() {
+            try {
+                const snapshot = await db.collection('courseContent').get();
+                courseContent = {};
+                snapshot.forEach(doc => {
+                    courseContent[doc.id] = doc.data();
+                });
+            } catch (e) {
+                console.error('Load content error:', e);
+            }
+        }
+
+        function populateCourseSelects() {
+            const selects = ['contentCourseSelect', 'quizCourseSelect', 'mediaCourseSelect'];
+            selects.forEach(id => {
+                const sel = document.getElementById(id);
+                if (!sel) return;
+                sel.innerHTML = '<option value="">Select a course</option>';
+                courses.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c.id;
+                    opt.textContent = c.id;
+                    sel.appendChild(opt);
+                });
+            });
+        }
+
+        // ================================================================
+        // DASHBOARD
+        // ================================================================
+        async function refreshAll() {
+            await loadCourses();
+            await loadCourseContent();
+            updateDashboardStats();
+            updateQualityOverview();
+        }
+
+        function updateDashboardStats() {
+            let totalModules = 0;
+            let totalVideos = 0;
+            let totalQuizzes = 0;
+            let totalAssignments = 0;
+            let contentComplete = 0;
+
+            courses.forEach(c => {
+                if (c.modules) {
+                    totalModules += c.modules.length;
+                    c.modules.forEach(m => {
+                        if (m.video && m.video.url) totalVideos++;
+                        if (m.quiz && m.quiz.questions) totalQuizzes++;
+                        if (m.assignment && m.assignment.instructions) totalAssignments++;
+                    });
+                }
+            });
+
+            // Calculate content completeness (rough estimate)
+            const totalPossible = courses.length * 8; // 8 modules per course
+            contentComplete = totalPossible > 0 ? Math.round((totalModules / totalPossible) * 100) : 0;
+
+            document.getElementById('statCourses').textContent = courses.length;
+            document.getElementById('statModules').textContent = totalModules;
+            document.getElementById('statContentComplete').textContent = contentComplete + '%';
+            document.getElementById('statVideos').textContent = totalVideos;
+            document.getElementById('statQuizzes').textContent = totalQuizzes;
+            document.getElementById('statAssignments').textContent = totalAssignments;
+        }
+
+        function updateQualityOverview() {
+            const container = document.getElementById('qualityOverview');
+            let html = '<div class="flex" style="flex-wrap:wrap;gap:16px;">';
+            let totalComplete = 0;
+            let totalCourses = courses.length;
+
+            courses.forEach(c => {
+                if (c.modules && c.modules.length >= 8) totalComplete++;
+            });
+
+            const pct = totalCourses > 0 ? Math.round((totalComplete / totalCourses) * 100) : 0;
+
+            html += `
+                <div class="stat" style="flex:1;min-width:150px;">
+                    <div class="number">${pct}%</div>
+                    <div class="label">Courses with Full Content</div>
+                </div>
+                <div class="stat" style="flex:1;min-width:150px;">
+                    <div class="number">${totalComplete}/${totalCourses}</div>
+                    <div class="label">Complete Courses</div>
+                </div>
+            `;
+
+            // Show individual course status
+            html += '</div><div style="margin-top:12px;">';
+            courses.slice(0, 10).forEach(c => {
+                const modCount = c.modules ? c.modules.length : 0;
+                const isComplete = modCount >= 8;
+                const status = isComplete ? '✅ Complete' : '⏳ In Progress';
+                const color = isComplete ? '#238636' : '#d29922';
+                html += `
+                    <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #21262d;font-size:0.85rem;">
+                        <span>${c.id.substring(0, 40)}${c.id.length > 40 ? '…' : ''}</span>
+                        <span style="color:${color};">${status} (${modCount}/8 modules)</span>
+                    </div>
+                `;
+            });
+            if (courses.length > 10) html += `<div style="color:#8b949e;font-size:0.8rem;margin-top:4px;">And ${courses.length - 10} more...</div>`;
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // ================================================================
+        // COURSES TAB
+        // ================================================================
+        async function refreshCourses() {
+            await loadCourses();
+            const container = document.getElementById('courseList');
+            if (courses.length === 0) {
+                container.innerHTML = '<p style="color:#8b949e;">No courses found. Import content first.</p>';
+                return;
+            }
+            let html = '<div class="table-wrap"><table><tr><th>Course Title</th><th>Modules</th><th>Videos</th><th>Quizzes</th><th>Status</th></tr>';
+            courses.forEach(c => {
+                const mods = c.modules || [];
+                const videos = mods.filter(m => m.video && m.video.url).length;
+                const quizzes = mods.filter(m => m.quiz && m.quiz.questions && m.quiz.questions.length > 0).length;
+                const isComplete = mods.length >= 8;
+                const status = isComplete ? '<span class="tag tag-success">Complete</span>' : `<span class="tag tag-warning">${mods.length}/8</span>`;
+                html += `<tr><td><strong>${c.id}</strong></td><td>${mods.length}</td><td>${videos}</td><td>${quizzes}</td><td>${status}</td></tr>`;
+            });
+            html += '</table></div>';
+            container.innerHTML = html;
+        }
+
+        // ================================================================
+        // CONTENT MANAGER
+        // ================================================================
+        function loadModulesForContent() {
+            const sel = document.getElementById('contentCourseSelect');
+            const courseTitle = sel.value;
+            if (!courseTitle) {
+                document.getElementById('moduleListContent').innerHTML = '<p style="color:#8b949e;">Select a course to view modules.</p>';
+                return;
+            }
+            const course = courses.find(c => c.id === courseTitle);
+            if (!course) {
+                document.getElementById('moduleListContent').innerHTML = '<p style="color:#8b949e;">Course not found.</p>';
+                return;
+            }
+            currentCourse = courseTitle;
+            const modules = course.modules || [];
+            let html = '<div style="max-height:400px;overflow-y:auto;">';
+            if (modules.length === 0) {
+                html += '<p style="color:#8b949e;">No modules yet.</p>';
+            } else {
+                modules.forEach((m, idx) => {
+                    const hasVideo = m.video && m.video.url ? '📹' : '⬜';
+                    const hasQuiz = m.quiz && m.quiz.questions && m.quiz.questions.length > 0 ? '🧪' : '⬜';
+                    const hasAssignment = m.assignment && m.assignment.instructions ? '📝' : '⬜';
+                    html += `
+                        <div class="module-item" onclick="editModule('${courseTitle}', ${idx})" style="cursor:pointer;">
+                            <div class="flex-between">
+                                <span class="module-title">${m.title || 'Untitled'}</span>
+                                <span>${hasVideo} ${hasQuiz} ${hasAssignment}</span>
+                            </div>
+                            <div class="module-meta">${m.description || ''} • ${m.estimatedTime || 'N/A'}</div>
+                            <div class="flex mt-8">
+                                <button class="btn btn-secondary" onclick="event.stopPropagation();editModule('${courseTitle}', ${idx})">✏️ Edit</button>
+                                <button class="btn btn-danger" onclick="event.stopPropagation();deleteModule('${courseTitle}', ${idx})">🗑️ Delete</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            html += '</div>';
+            document.getElementById('moduleListContent').innerHTML = html;
+            document.getElementById('moduleEditor').innerHTML = '<p style="color:#8b949e;">Select a module to edit.</p>';
+        }
+
+        function editModule(courseTitle, moduleIndex) {
+            const course = courses.find(c => c.id === courseTitle);
+            if (!course || !course.modules || !course.modules[moduleIndex]) return;
+            const m = course.modules[moduleIndex];
+            currentCourse = courseTitle;
+            currentModuleIndex = moduleIndex;
+
+            const editor = document.getElementById('moduleEditor');
+            editor.innerHTML = `
+                <div class="form-group"><label>Module Title</label><input type="text" id="editModuleTitle" value="${m.title || ''}"></div>
+                <div class="form-group"><label>Description</label><textarea id="editModuleDesc" rows="2">${m.description || ''}</textarea></div>
+                <div class="form-group"><label>Learning Objectives (one per line)</label><textarea id="editModuleObjectives" rows="2">${(m.learningObjectives || []).join('\n')}</textarea></div>
+                <div class="form-group"><label>Estimated Time</label><input type="text" id="editModuleTime" value="${m.estimatedTime || ''}"></div>
+                <div class="form-group"><label>Video URL</label><input type="text" id="editVideoUrl" value="${m.video ? m.video.url || '' : ''}" placeholder="https://firebasestorage.googleapis.com/..."></div>
+                <div class="form-group"><label>Video Duration</label><input type="text" id="editVideoDuration" value="${m.video ? m.video.duration || '' : ''}" placeholder="e.g., 10:23"></div>
+                <div class="form-group"><label>PDF Guide URL</label><input type="text" id="editGuideUrl" value="${m.guide ? m.guide.pdfUrl || '' : ''}" placeholder="https://firebasestorage.googleapis.com/..."></div>
+                <div class="form-group"><label>Guide Summary</label><textarea id="editGuideSummary" rows="2">${m.guide ? m.guide.summary || '' : ''}</textarea></div>
+                <div class="form-group"><label>Assignment Instructions</label><textarea id="editAssignmentInstructions" rows="2">${m.assignment ? m.assignment.instructions || '' : ''}</textarea></div>
+                <div class="form-group"><label>Assignment Deliverable</label><input type="text" id="editAssignmentDeliverable" value="${m.assignment ? m.assignment.deliverable || '' : ''}" placeholder="e.g., Submit a PDF"></div>
+                <div class="form-group"><label>Assignment Rubric</label><input type="text" id="editAssignmentRubric" value="${m.assignment ? m.assignment.rubric || '' : ''}" placeholder="e.g., Clarity (50%), Accuracy (50%)"></div>
+                <div class="flex">
+                    <button class="btn btn-success" onclick="saveModuleChanges()">💾 Save Changes</button>
+                    <button class="btn btn-secondary" onclick="loadModulesForContent()">↩️ Cancel</button>
+                </div>
+                <span id="editModuleStatus" style="margin-left:8px;color:#8b949e;"></span>
+            `;
+        }
+
+        async function saveModuleChanges() {
+            const courseTitle = currentCourse;
+            const moduleIndex = currentModuleIndex;
+            if (!courseTitle || moduleIndex === null) return;
+
+            const course = courses.find(c => c.id === courseTitle);
+            if (!course) return;
+
+            const updatedModule = {
+                title: document.getElementById('editModuleTitle').value.trim() || 'Untitled',
+                description: document.getElementById('editModuleDesc').value.trim(),
+                learningObjectives: document.getElementById('editModuleObjectives').value.split('\n').filter(s => s.trim()),
+                estimatedTime: document.getElementById('editModuleTime').value.trim() || 'N/A',
+                video: {
+                    url: document.getElementById('editVideoUrl').value.trim(),
+                    duration: document.getElementById('editVideoDuration').value.trim(),
+                },
+                guide: {
+                    pdfUrl: document.getElementById('editGuideUrl').value.trim(),
+                    summary: document.getElementById('editGuideSummary').value.trim(),
+                },
+                assignment: {
+                    instructions: document.getElementById('editAssignmentInstructions').value.trim(),
+                    deliverable: document.getElementById('editAssignmentDeliverable').value.trim(),
+                    rubric: document.getElementById('editAssignmentRubric').value.trim(),
+                },
+                quiz: course.modules[moduleIndex].quiz || { questions: [], passMark: 70 }
+            };
+
+            try {
+                await db.collection('courseContent').doc(courseTitle).update({
+                    [`modules.${moduleIndex}`]: updatedModule
+                });
+                course.modules[moduleIndex] = updatedModule;
+                showToast('✅ Module saved successfully!');
+                loadModulesForContent();
+                refreshAll();
+            } catch (e) {
+                showToast('❌ Error saving: ' + e.message, 'error');
+                document.getElementById('editModuleStatus').textContent = '❌ Error: ' + e.message;
+            }
+        }
+
+        async function deleteModule(courseTitle, moduleIndex) {
+            if (!confirm('Delete this module? This cannot be undone.')) return;
+            try {
+                const course = courses.find(c => c.id === courseTitle);
+                if (!course) return;
+                course.modules.splice(moduleIndex, 1);
+                await db.collection('courseContent').doc(courseTitle).update({
+                    modules: course.modules
+                });
+                showToast('✅ Module deleted');
+                loadModulesForContent();
+                refreshAll();
+            } catch (e) {
+                showToast('❌ Error deleting: ' + e.message, 'error');
+            }
+        }
+
+        async function addModule() {
+            const sel = document.getElementById('contentCourseSelect');
+            const courseTitle = sel.value;
+            if (!courseTitle) {
+                showToast('Please select a course first.', 'error');
+                return;
+            }
+
+            const title = document.getElementById('newModuleTitle').value.trim();
+            const desc = document.getElementById('newModuleDesc').value.trim();
+            const objectives = document.getElementById('newModuleObjectives').value.split('\n').filter(s => s.trim());
+            const time = document.getElementById('newModuleTime').value.trim();
+
+            if (!title) {
+                showToast('Please enter a module title.', 'error');
+                return;
+            }
+
+            const newModule = {
+                title: title,
+                description: desc || 'No description yet.',
+                learningObjectives: objectives,
+                estimatedTime: time || 'N/A',
+                video: { url: '', duration: '' },
+                guide: { pdfUrl: '', summary: '' },
+                quiz: { questions: [], passMark: 70 },
+                assignment: { instructions: '', deliverable: '', rubric: '' }
+            };
+
+            try {
+                const course = courses.find(c => c.id === courseTitle);
+                if (!course) throw new Error('Course not found');
+                if (!course.modules) course.modules = [];
+                course.modules.push(newModule);
+                await db.collection('courseContent').doc(courseTitle).update({
+                    modules: course.modules
+                });
+                document.getElementById('newModuleTitle').value = '';
+                document.getElementById('newModuleDesc').value = '';
+                document.getElementById('newModuleObjectives').value = '';
+                document.getElementById('newModuleTime').value = '';
+                showToast('✅ Module added successfully!');
+                loadModulesForContent();
+                refreshAll();
+            } catch (e) {
+                showToast('❌ Error adding module: ' + e.message, 'error');
+                document.getElementById('addModuleStatus').textContent = '❌ ' + e.message;
+            }
+        }
+
+        // ================================================================
+        // QUIZ BUILDER
+        // ================================================================
+        function addQuizQuestion() {
+            const container = document.getElementById('quizQuestionsContainer');
+            const idx = container.querySelectorAll('.quiz-question').length + 1;
+            const div = document.createElement('div');
+            div.className = 'quiz-question card';
+            div.style.marginTop = '8px';
+            div.innerHTML = `
+                <div class="flex-between">
+                    <strong>Question ${idx}</strong>
+                    <button class="btn btn-danger" onclick="this.parentElement.parentElement.remove()">✕</button>
+                </div>
+                <div class="form-group"><input type="text" class="quiz-q" placeholder="Question text"></div>
+                <div class="form-group"><input type="text" class="quiz-opts" placeholder="Options (comma separated)"></div>
+                <div class="form-group"><input type="number" class="quiz-correct" placeholder="Correct answer (0,1,2...)" min="0"></div>
+                <div class="form-group"><input type="text" class="quiz-exp" placeholder="Explanation"></div>
+            `;
+            container.appendChild(div);
+        }
+
+        async function saveQuiz() {
+            const courseTitle = document.getElementById('quizCourseSelect').value;
+            const moduleTitle = document.getElementById('quizModuleTitle').value.trim();
+
+            if (!courseTitle || !moduleTitle) {
+                showToast('Please select a course and enter a module title.', 'error');
+                return;
+            }
+
+            const questions = [];
+            document.querySelectorAll('.quiz-question').forEach(el => {
+                const q = el.querySelector('.quiz-q').value.trim();
+                const opts = el.querySelector('.quiz-opts').value.split(',').map(s => s.trim()).filter(s => s);
+                const correct = parseInt(el.querySelector('.quiz-correct').value);
+                const exp = el.querySelector('.quiz-exp').value.trim();
+                if (q && opts.length > 0) {
+                    questions.push({ question: q, options: opts, correctIndex: correct || 0, explanation: exp || '' });
+                }
+            });
+
+            if (questions.length === 0) {
+                showToast('Please add at least one question.', 'error');
+                return;
+            }
+
+            try {
+                const course = courses.find(c => c.id === courseTitle);
+                if (!course) throw new Error('Course not found');
+                if (!course.modules) course.modules = [];
+
+                // Find or create module
+                let moduleIdx = course.modules.findIndex(m => m.title === moduleTitle);
+                if (moduleIdx === -1) {
+                    course.modules.push({
+                        title: moduleTitle,
+                        description: '',
+                        learningObjectives: [],
+                        estimatedTime: 'N/A',
+                        video: { url: '', duration: '' },
+                        guide: { pdfUrl: '', summary: '' },
+                        quiz: { questions: questions, passMark: 70 },
+                        assignment: { instructions: '', deliverable: '', rubric: '' }
+                    });
+                    moduleIdx = course.modules.length - 1;
+                } else {
+                    course.modules[moduleIdx].quiz = { questions: questions, passMark: 70 };
+                }
+
+                await db.collection('courseContent').doc(courseTitle).update({
+                    modules: course.modules
+                });
+
+                showToast(`✅ Quiz saved! (${questions.length} questions)`);
+                document.getElementById('quizModuleTitle').value = '';
+                document.querySelectorAll('.quiz-question').forEach(el => el.remove());
+                loadQuizzes();
+                refreshAll();
+            } catch (e) {
+                showToast('❌ Error saving quiz: ' + e.message, 'error');
+            }
+        }
+
+        async function loadQuizzes() {
+            const container = document.getElementById('quizList');
+            await loadCourseContent();
+            let html = '';
+            for (const [title, data] of Object.entries(courseContent)) {
+                if (data.modules) {
+                    data.modules.forEach((m, idx) => {
+                        if (m.quiz && m.quiz.questions && m.quiz.questions.length > 0) {
+                            html += `
+                                <div class="module-item">
+                                    <div class="flex-between">
+                                        <span class="module-title">${title} → ${m.title}</span>
+                                        <span>🧪 ${m.quiz.questions.length} questions</span>
+                                    </div>
+                                    <div class="module-meta">Pass mark: ${m.quiz.passMark || 70}%</div>
+                                    <div style="font-size:0.7rem;color:#8b949e;margin-top:4px;">
+                                        ${m.quiz.questions.map(q => q.question).join('; ')}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                }
+            }
+            container.innerHTML = html || '<p style="color:#8b949e;">No quizzes found. Create one above.</p>';
+        }
+
+        // ================================================================
+        // MEDIA LIBRARY
+        // ================================================================
+        async function uploadMedia() {
+            const fileInput = document.getElementById('mediaFileInput');
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const courseTitle = document.getElementById('mediaCourseSelect').value;
+            const moduleTitle = document.getElementById('mediaModuleTitle').value.trim();
+            const mediaType = document.getElementById('mediaType').value;
+
+            if (!courseTitle || !moduleTitle) {
+                showToast('Please select a course and enter a module title.', 'error');
+                return;
+            }
+
+            const progressDiv = document.getElementById('uploadProgress');
+            const progressFill = document.getElementById('uploadProgressFill');
+            progressDiv.style.display = 'block';
+
+            try {
+                const path = `courses/${courseTitle}/modules/${moduleTitle}/${Date.now()}_${file.name}`;
+                const ref = storage.ref(path);
+                const uploadTask = ref.put(file);
+
+                uploadTask.on('state_changed',
+                    (snapshot) => {
+                        const pct = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        progressFill.style.width = pct + '%';
+                    },
+                    (error) => {
+                        showToast('❌ Upload failed: ' + error.message, 'error');
+                        progressDiv.style.display = 'none';
+                    },
+                    async () => {
+                        const url = await ref.getDownloadURL();
+                        progressDiv.style.display = 'none';
+                        showToast('✅ Upload complete!');
+
+                        // Update the module with the media URL
+                        try {
+                            const course = courses.find(c => c.id === courseTitle);
+                            if (!course) throw new Error('Course not found');
+                            let moduleIdx = course.modules.findIndex(m => m.title === moduleTitle);
+                            if (moduleIdx === -1) {
+                                course.modules.push({
+                                    title: moduleTitle,
+                                    description: '',
+                                    learningObjectives: [],
+                                    estimatedTime: 'N/A',
+                                    video: mediaType === 'video' ? { url: url, duration: '' } : { url: '', duration: '' },
+                                    guide: mediaType === 'pdf' ? { pdfUrl: url, summary: '' } : { pdfUrl: '', summary: '' },
+                                    quiz: { questions: [], passMark: 70 },
+                                    assignment: { instructions: '', deliverable: '', rubric: '' }
+                                });
+                                moduleIdx = course.modules.length - 1;
+                            } else {
+                                if (mediaType === 'video') course.modules[moduleIdx].video.url = url;
+                                else if (mediaType === 'pdf') course.modules[moduleIdx].guide.pdfUrl = url;
+                            }
+                            await db.collection('courseContent').doc(courseTitle).update({
+                                modules: course.modules
+                            });
+                            showToast('✅ Media linked to module!');
+                            loadMediaLibrary();
+                            refreshAll();
+                        } catch (e) {
+                            showToast('❌ Error linking media: ' + e.message, 'error');
+                        }
+                    }
+                );
+            } catch (e) {
+                showToast('❌ Upload error: ' + e.message, 'error');
+                progressDiv.style.display = 'none';
+            }
+        }
+
+        async function loadMediaLibrary() {
+            const container = document.getElementById('mediaList');
+            try {
+                const snapshot = await storage.ref('courses/').listAll();
+                let html = '';
+                for (const folder of snapshot.prefixes) {
+                    const items = await folder.listAll();
+                    items.items.forEach(item => {
+                        html += `
+                            <div class="module-item">
+                                <div class="flex-between">
+                                    <span class="module-title">📄 ${item.name}</span>
+                                    <span style="font-size:0.7rem;color:#8b949e;">${item.fullPath}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                container.innerHTML = html || '<p style="color:#8b949e;">No media uploaded yet.</p>';
+            } catch (e) {
+                container.innerHTML = '<p style="color:#8b949e;">Media library not available.</p>';
+            }
+        }
+
+        // ================================================================
+        // ANALYTICS
+        // ================================================================
+        async function loadAnalytics() {
+            const container = document.getElementById('analyticsContent');
+            await loadCourseContent();
+            let totalModules = 0;
+            let completedModules = 0;
+            let totalVideos = 0;
+            let totalQuizzes = 0;
+            let totalAssignments = 0;
+
+            for (const [title, data] of Object.entries(courseContent)) {
+                if (data.modules) {
+                    data.modules.forEach(m => {
+                        totalModules++;
+                        if (m.video && m.video.url) totalVideos++;
+                        if (m.quiz && m.quiz.questions && m.quiz.questions.length > 0) totalQuizzes++;
+                        if (m.assignment && m.assignment.instructions) totalAssignments++;
+                        // Estimate completion
+                        const hasAll = (m.video && m.video.url) && (m.quiz && m.quiz.questions.length > 0);
+                        if (hasAll) completedModules++;
+                    });
+                }
+            }
+
+            const completionPct = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
+
+            container.innerHTML = `
+                <div class="grid-3">
+                    <div class="stat"><div class="number">${totalModules}</div><div class="label">Total Modules</div></div>
+                    <div class="stat"><div class="number">${completionPct}%</div><div class="label">Content Complete</div></div>
+                    <div class="stat"><div class="number">${totalVideos}</div><div class="label">Videos</div></div>
+                    <div class="stat"><div class="number">${totalQuizzes}</div><div class="label">Quizzes</div></div>
+                    <div class="stat"><div class="number">${totalAssignments}</div><div class="label">Assignments</div></div>
+                    <div class="stat"><div class="number">${Object.keys(courseContent).length}</div><div class="label">Courses</div></div>
+                </div>
+                <div style="margin-top:16px;">
+                    <h4>📊 Content Quality Score</h4>
+                    <div class="progress-bar" style="height:20px;border-radius:10px;">
+                        <div class="fill" style="width:${completionPct}%;height:20px;border-radius:10px;background:${completionPct > 70 ? '#238636' : completionPct > 40 ? '#d29922' : '#da3633'};"></div>
+                    </div>
+                    <div style="font-size:0.85rem;color:#8b949e;margin-top:4px;">
+                        ${completionPct > 70 ? '✅ Great progress! Most modules are complete.' :
+                          completionPct > 40 ? '⏳ Good start! Keep adding content.' :
+                          '🔴 Needs attention. Start adding content to modules.'}
+                    </div>
+                </div>
+            `;
+
+            // Completion rates per course
+            const ratesContainer = document.getElementById('completionRates');
+            let ratesHtml = '';
+            for (const [title, data] of Object.entries(courseContent)) {
+                if (data.modules) {
+                    const total = data.modules.length;
+                    const complete = data.modules.filter(m => m.video && m.video.url && m.quiz && m.quiz.questions.length > 0).length;
+                    const pct = total > 0 ? Math.round((complete / total) * 100) : 0;
+                    ratesHtml += `
+                        <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #21262d;font-size:0.85rem;">
+                            <span>${title.substring(0, 30)}${title.length > 30 ? '…' : ''}</span>
+                            <span style="color:${pct > 70 ? '#238636' : pct > 40 ? '#d29922' : '#da3633'};">${pct}%</span>
+                        </div>
+                    `;
+                }
+            }
+            ratesContainer.innerHTML = ratesHtml || '<p style="color:#8b949e;">No course data yet.</p>';
+
+            // Quality scores
+            const scoresContainer = document.getElementById('qualityScores');
+            let scoresHtml = '';
+            for (const [title, data] of Object.entries(courseContent)) {
+                if (data.modules) {
+                    let score = 0;
+                    data.modules.forEach(m => {
+                        if (m.video && m.video.url) score += 2;
+                        if (m.quiz && m.quiz.questions && m.quiz.questions.length > 0) score += 2;
+                        if (m.assignment && m.assignment.instructions) score += 1;
+                        if (m.learningObjectives && m.learningObjectives.length > 0) score += 1;
+                        if (m.guide && m.guide.summary) score += 1;
+                    });
+                    const maxScore = data.modules.length * 7;
+                    const pct = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+                    scoresHtml += `
+                        <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #21262d;font-size:0.85rem;">
+                            <span>${title.substring(0, 30)}${title.length > 30 ? '…' : ''}</span>
+                            <span style="color:${pct > 70 ? '#238636' : pct > 40 ? '#d29922' : '#da3633'};">${pct}%</span>
+                        </div>
+                    `;
+                }
+            }
+            scoresContainer.innerHTML = scoresHtml || '<p style="color:#8b949e;">No course data yet.</p>';
+        }
+
+        // ================================================================
+        // INIT
+        // ================================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up file upload click
+            document.getElementById('mediaFileInput').addEventListener('change', uploadMedia);
+            // Load initial data
+            loadAllData();
+        });
+
+        console.log('🚀 SBA Admin Panel loaded successfully.');
+    </script>
+</body>
+</html>
