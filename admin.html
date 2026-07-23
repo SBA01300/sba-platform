@@ -278,7 +278,7 @@
                 currentUser = user;
                 document.getElementById('adminUser').textContent = '👤 ' + user.email;
                 // Check if admin (you can add admin emails here)
-                const adminEmails = ['admin@afriaquaticweedharvesters.com', 'enroll@skillbridgeafrica.africa'];
+                const adminEmails = ['admin@sba.africa', 'admin@afriaquaticweedharvesters.com', 'enroll@skillbridgeafrica.africa'];
                 if (!adminEmails.includes(user.email)) {
                     document.getElementById('adminUser').textContent = '⚠️ Not an admin';
                     showToast('You are not authorized to access this panel.', 'error');
