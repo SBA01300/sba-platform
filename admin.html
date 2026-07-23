@@ -10,7 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
     <style>
-        /* (same as before – keep all styles) */
+        /* (keep all styles the same as before – they are unchanged) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Roboto, system-ui, sans-serif; background: #0d1117; color: #e6edf3; transition: 0.3s; padding: 20px; }
         .container { max-width: 1400px; margin: 0 auto; }
@@ -356,7 +356,7 @@
             if (user) {
                 currentUser = user;
                 document.getElementById('adminUser').textContent = '👤 ' + user.email;
-                const adminEmails = ['admin@afriaquaticweedharvesters.com', 'enroll@skillbridgeafrica.africa'];
+                const adminEmails = ['admin@afriaquaticweedharvesters.com', 'enroll@skillbridgeafrica.africa', 'admin@sba.africa'];
                 if (!adminEmails.includes(user.email)) {
                     document.getElementById('adminUser').textContent = '⚠️ Not an admin';
                     showToast('You are not authorized to access this panel.', 'error');
@@ -421,7 +421,6 @@
                 populateCourseSelects();
             } catch (e) {
                 console.error('Load courses error:', e);
-                // If collection doesn't exist yet, it's fine
                 if (e.code !== 'permission-denied') {
                     showToast('Error loading courses: ' + e.message, 'error');
                 }
@@ -483,7 +482,6 @@
                 }
             });
 
-            // Calculate content completeness (rough estimate)
             const totalPossible = courses.length * 8;
             contentComplete = totalPossible > 0 ? Math.round((totalModules / totalPossible) * 100) : 0;
 
@@ -560,7 +558,7 @@
         }
 
         // ================================================================
-        // CONTENT MANAGER (same as before – kept)
+        // CONTENT MANAGER (kept the same)
         // ================================================================
         function loadModulesForContent() {
             const sel = document.getElementById('contentCourseSelect');
@@ -743,7 +741,7 @@
         }
 
         // ================================================================
-        // QUIZ BUILDER (same as before)
+        // QUIZ BUILDER (same)
         // ================================================================
         function addQuizQuestion() {
             const container = document.getElementById('quizQuestionsContainer');
@@ -853,7 +851,7 @@
         }
 
         // ================================================================
-        // MEDIA LIBRARY
+        // MEDIA LIBRARY (same)
         // ================================================================
         async function uploadMedia() {
             const fileInput = document.getElementById('mediaFileInput');
@@ -954,7 +952,7 @@
         }
 
         // ================================================================
-        // ANALYTICS (same as before)
+        // ANALYTICS (same)
         // ================================================================
         async function loadAnalytics() {
             const container = document.getElementById('analyticsContent');
@@ -1045,10 +1043,9 @@
         }
 
         // ================================================================
-        // GENERATE ALL CONTENT
+        // GENERATE ALL CONTENT (FIXED – sanitizes document IDs)
         // ================================================================
         function getDefaultModules() {
-            // Generate 8 default modules
             const moduleTitles = [
                 "Introduction to {title}",
                 "Core Principles of {title}",
@@ -1075,6 +1072,12 @@
             }));
         }
 
+        function sanitizeId(title) {
+            // Replace any character that is not alphanumeric, dash, or underscore with a dash
+            // Specifically, replace '/' with '-'
+            return title.replace(/\//g, '-').replace(/[^a-zA-Z0-9\-_]/g, '-');
+        }
+
         async function generateAllContent() {
             const button = document.querySelector('#tab-generate .btn-purple');
             const statusSpan = document.getElementById('generateStatus');
@@ -1089,19 +1092,14 @@
             progressDiv.style.display = 'block';
             progressDiv.innerHTML = '';
 
-            // Get all course titles from the list
-            const allTitles = baseTitles.map(title => {
-                // Also create "Advanced" versions? No, we'll only create for the base titles.
-                return title;
-            });
-
             let added = 0;
             let skipped = 0;
             let errors = 0;
 
-            for (const title of allTitles) {
-                // Check if this course already has content
-                const existing = courses.find(c => c.id === title);
+            for (const title of baseTitles) {
+                // Check if this course already exists by checking the sanitized ID
+                const safeId = sanitizeId(title);
+                const existing = courses.find(c => c.id === safeId);
                 if (existing && existing.modules && existing.modules.length > 0) {
                     skipped++;
                     logContainer.innerHTML += `<div class="log-line">⏭️ Skipped: ${title} (already has content)</div>`;
@@ -1110,19 +1108,20 @@
 
                 try {
                     const defaultModules = getDefaultModules();
-                    await db.collection('courseContent').doc(title).set({
-                        modules: defaultModules
+                    // Use the sanitized ID for the document
+                    await db.collection('courseContent').doc(safeId).set({
+                        modules: defaultModules,
+                        originalTitle: title, // store original title for display
+                        generatedAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
                     added++;
-                    logContainer.innerHTML += `<div class="log-line success">✅ Added: ${title}</div>`;
-                    // Update local courses array
-                    courses.push({ id: title, modules: defaultModules });
+                    logContainer.innerHTML += `<div class="log-line success">✅ Added: ${title} (ID: ${safeId})</div>`;
+                    courses.push({ id: safeId, modules: defaultModules, originalTitle: title });
                 } catch (e) {
                     errors++;
                     logContainer.innerHTML += `<div class="log-line error">❌ Error: ${title} - ${e.message}</div>`;
                 }
 
-                // Scroll to bottom
                 logContainer.scrollTop = logContainer.scrollHeight;
             }
 
@@ -1130,7 +1129,6 @@
             button.disabled = false;
             button.textContent = '🚀 Generate All Content';
 
-            // Reload data
             await loadAllData();
             showToast(`Generated content for ${added} courses!`, 'success');
         }
