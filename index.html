@@ -535,7 +535,7 @@
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=https://www.skillbridgeafrica.africa" alt="QR code">
                     <span style="font-size:0.8rem;color:#5a6f8c;">Scan to visit SBA</span>
                 </div>
-                <div class="testimonial-grid" id="testimonialContainer">
+                <div class="testimonial-grid">
                     <div class="testimonial-card"><div class="quote">"SBA gave me the skills to start my soap business. I now employ 5 people."</div><div class="author">— Chinedu U.</div><div class="role">Cottage Industry</div></div>
                     <div class="testimonial-card"><div class="quote">"The AI Tutor helped me master poultry farming. Highly recommended!"</div><div class="author">— Temba C.</div><div class="role">Poultry Student</div></div>
                     <div class="testimonial-card"><div class="quote">"I got my blockchain certificate and landed a job in agritech."</div><div class="author">— Sibusiso M.</div><div class="role">ICT & Agriculture</div></div>
@@ -546,7 +546,7 @@
             </div>
         </div>
 
-        <!-- ===== ABOUT (truncated for length – but complete in your copy) ===== -->
+        <!-- ===== ABOUT ===== -->
         <div id="tab-about" class="tab">
             <h2 style="font-size:1.8rem;">🌍 About SkillBridge Africa</h2>
             <div class="about-section">
@@ -607,7 +607,7 @@
             </div>
         </div>
 
-        <!-- ===== COMMUNITY FORUM (FULLY FUNCTIONAL) ===== -->
+        <!-- ===== COMMUNITY FORUM ===== -->
         <div id="tab-community" class="tab">
             <h2 style="font-size:1.8rem;">💬 Community Forum</h2>
             <button class="btn-primary" onclick="openNewPostModal()">➕ New Post</button>
@@ -643,7 +643,7 @@
         <!-- ===== PRESERVE ===== -->
         <div id="tab-preserve" class="tab"><h2>🧮 Food Preservation Calculator</h2><div style="background:#fff;border-radius:12px;padding:20px;border:1px solid #e2e9f2;"><div class="calc-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;"><div><select id="preserveVeggie" style="width:100%;padding:8px;border-radius:8px;border:2px solid #dce3ed;"><option value="tomato">Tomato</option><option value="cabbage">Cabbage</option><option value="onion">Onion</option><option value="mango">Mango</option></select><input type="number" id="preserveWeight" value="10" style="width:100%;padding:8px;margin-top:8px;border-radius:8px;border:2px solid #dce3ed;"><button class="btn-primary" onclick="calculatePreservation()" style="width:100%;margin-top:8px;">Calculate Yield</button></div><div id="calcResults"><div class="label">📦 Yield</div><div class="value" id="calcYield">—</div><div class="label">⏳ Shelf Life</div><div class="value" id="calcShelf">—</div></div></div></div></div>
 
-        <!-- ===== EMPLOYER (FULLY FUNCTIONAL) ===== -->
+        <!-- ===== EMPLOYER ===== -->
         <div id="tab-employer" class="tab">
             <h2>🏢 Employer Dashboard</h2>
             <div class="employer-guide">
@@ -675,7 +675,7 @@
         <!-- ===== VERIFY ===== -->
         <div id="tab-verify" class="tab"><h2>🔗 Blockchain Certificate Verification</h2><input type="text" id="verifyInput" placeholder="Code..." style="padding:10px;border:2px solid #dce3ed;border-radius:30px;width:60%;"><button class="btn-success" onclick="verifyCertificate()">Verify</button><div id="verifyResult"></div></div>
 
-        <!-- ===== ADMIN (IMPROVED) ===== -->
+        <!-- ===== ADMIN ===== -->
         <div id="tab-admin" class="tab">
             <h2 style="font-size:1.8rem;">📋 Admin Dashboard</h2>
             <div class="admin-grid" id="adminStats">
@@ -790,28 +790,83 @@
         <button class="floating-wa" onclick="shareGlobal()">📱 Share SBA</button>
 
         <!-- ===== MODALS ===== -->
-        <div class="modal-overlay" id="authModal"><div class="modal-content" style="max-width:420px;"><button class="modal-close" onclick="document.getElementById('authModal').classList.remove('open')">✕</button><h2 id="authModalTitle">🔐 Login</h2><div class="form-group"><label>Email</label><input type="email" id="authEmail" placeholder="you@example.com"></div><div class="form-group"><label>Password</label><input type="password" id="authPassword" placeholder="Password"></div><div id="authError" style="color:#f44336;display:none;"></div><button class="btn-primary" id="authSubmitBtn" onclick="handleAuth()">Login</button><button class="btn-primary" style="background:#5a6f8c;" onclick="toggleAuthMode()">Switch to Sign Up</button><a href="#" onclick="resetPassword()" style="color:#0a6bff;display:block;margin-top:8px;">Forgot password?</a></div></div>
-        <div class="modal-overlay" id="paymentModal"><div class="modal-content"><button class="modal-close" onclick="closePaymentModal()">✕</button><h3>💳 Unlock This Course</h3><div id="paymentCourseName" style="font-weight:700;margin-bottom:12px;"></div>
-            <div class="cert-sample">
-                <div class="cert-title">🎓 Sample Certificate</div>
-                <p style="font-size:0.8rem;color:#5a6f8c;">Upon completion, you will receive a verified Blockchain Certificate like this.</p>
-                <div style="border:2px solid #0a6bff;border-radius:8px;padding:12px;background:#fff;margin-top:8px;">
-                    <p style="font-weight:700;color:#0a6bff;">SKILLBRIDGE AFRICA</p>
-                    <p style="font-size:0.8rem;">Certificate of Completion</p>
-                    <p style="font-size:0.7rem;color:#5a6f8c;">Hash: 0x7f3a...9b4c</p>
+        <div class="modal-overlay" id="authModal">
+            <div class="modal-content" style="max-width:420px;">
+                <button class="modal-close" onclick="document.getElementById('authModal').classList.remove('open')">✕</button>
+                <h2 id="authModalTitle">🔐 Login / Sign Up</h2>
+                
+                <!-- Tab Buttons -->
+                <div style="display:flex; gap:8px; margin-bottom:12px;">
+                    <button class="btn-primary" onclick="setAuthTab('login')" id="loginTabBtn" style="background:#0a6bff;">Login</button>
+                    <button class="btn-primary" onclick="setAuthTab('signup')" id="signupTabBtn" style="background:#5a6f8c;">Sign Up</button>
                 </div>
+
+                <!-- Login Form -->
+                <div id="authLoginForm">
+                    <div class="form-group">
+                        <label>Email or Phone</label>
+                        <input type="text" id="authIdentifier" placeholder="Email or Phone (e.g. +263771234567)" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="authPassword" placeholder="Password" required>
+                    </div>
+                </div>
+
+                <!-- Signup Form -->
+                <div id="authSignupForm" style="display:none;">
+                    <div class="form-group">
+                        <label>Phone Number <span style="color:#f44336;">*</span></label>
+                        <input type="tel" id="signupPhone" placeholder="+263 77 123 4567" required>
+                        <small style="font-size:0.65rem;color:#5a6f8c;">We'll use this to log you in if you forget your email.</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Email (Optional)</label>
+                        <input type="email" id="signupEmail" placeholder="you@example.com">
+                        <small style="font-size:0.65rem;color:#5a6f8c;">Only needed if you want email updates.</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Password <span style="color:#f44336;">*</span></label>
+                        <input type="password" id="signupPassword" placeholder="Min 6 characters" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password <span style="color:#f44336;">*</span></label>
+                        <input type="password" id="signupConfirmPassword" placeholder="Confirm password" required>
+                    </div>
+                </div>
+
+                <div id="authError" style="color:#f44336;display:none;"></div>
+                <button class="btn-primary" id="authSubmitBtn" onclick="handleAuth()" style="width:100%;padding:10px;">Login</button>
+                <a href="#" onclick="resetPassword()" style="color:#0a6bff;display:block;margin-top:8px;text-align:center;font-size:0.85rem;">Forgot password?</a>
             </div>
-            <div class="payment-option" onclick="selectPaymentOption('full')" id="optFull"><strong>🎓 Full Access</strong> – $10.00 (Flat one‑time fee)<br><small style="color:#5a6f8c;">Full course access + Certificate + AI Tutor</small></div>
-            <div class="payment-option" onclick="selectPaymentOption('readonly')" id="optRead"><strong>📖 Read-Only</strong> – $3.50 (Lifetime access)<br><small style="color:#5a6f8c;">View all modules only (No Certificate)</small></div>
-            <div style="margin:12px 0;border-top:1px solid #e2e9f2;padding-top:12px;">
-                <h4 style="color:#0a6bff;">💳 Pay with Stripe (Coming Soon!)</h4>
-                <p style="font-size:0.8rem;color:#5a6f8c;margin-bottom:8px;">Real card payments are being integrated. For now, use the simulated "Pay Now" button above.</p>
-                <button class="stripe-btn" onclick="openStripeCheckout()" id="stripeCheckoutBtn">💳 Pay with Card (Stripe)</button>
-                <div class="stripe-loading" id="stripeLoading">⏳ Loading payment...</div>
+        </div>
+
+        <div class="modal-overlay" id="paymentModal">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closePaymentModal()">✕</button>
+                <h3>💳 Unlock This Course</h3>
+                <div id="paymentCourseName" style="font-weight:700;margin-bottom:12px;"></div>
+                <div class="cert-sample">
+                    <div class="cert-title">🎓 Sample Certificate</div>
+                    <p style="font-size:0.8rem;color:#5a6f8c;">Upon completion, you will receive a verified Blockchain Certificate like this.</p>
+                    <div style="border:2px solid #0a6bff;border-radius:8px;padding:12px;background:#fff;margin-top:8px;">
+                        <p style="font-weight:700;color:#0a6bff;">SKILLBRIDGE AFRICA</p>
+                        <p style="font-size:0.8rem;">Certificate of Completion</p>
+                        <p style="font-size:0.7rem;color:#5a6f8c;">Hash: 0x7f3a...9b4c</p>
+                    </div>
+                </div>
+                <div class="payment-option" onclick="selectPaymentOption('full')" id="optFull"><strong>🎓 Full Access</strong> – $10.00 (Flat one‑time fee)<br><small style="color:#5a6f8c;">Full course access + Certificate + AI Tutor</small></div>
+                <div class="payment-option" onclick="selectPaymentOption('readonly')" id="optRead"><strong>📖 Read-Only</strong> – $3.50 (Lifetime access)<br><small style="color:#5a6f8c;">View all modules only (No Certificate)</small></div>
+                <div style="margin:12px 0;border-top:1px solid #e2e9f2;padding-top:12px;">
+                    <h4 style="color:#0a6bff;">💳 Pay with Card (Simulated)</h4>
+                    <p style="font-size:0.8rem;color:#5a6f8c;margin-bottom:8px;">Real card payments coming soon. For now, use the "Pay Now" button below.</p>
+                    <button class="stripe-btn" onclick="alert('Real Stripe payments are coming soon! For now, use the simulated "Pay Now" button below.')" id="stripeCheckoutBtn">💳 Pay with Card (Coming Soon)</button>
+                </div>
+                <button class="btn-gold" id="payNowBtn" onclick="processPayment()" style="width:100%;padding:12px;font-size:1.1rem;margin-top:8px;">✅ Pay Now (Simulated)</button>
+                <p id="paymentStatus" style="margin-top:8px;font-size:0.8rem;color:#5a6f8c;"></p>
             </div>
-            <button class="btn-gold" id="payNowBtn" onclick="processPayment()" style="width:100%;padding:12px;font-size:1.1rem;margin-top:8px;">✅ Pay Now (Simulated)</button>
-            <p id="paymentStatus" style="margin-top:8px;font-size:0.8rem;color:#5a6f8c;"></p>
-        </div></div>
+        </div>
+
         <div class="modal-overlay" id="modalOverlay"><div class="modal-content"><button class="modal-close" onclick="closeModal()">✕</button><div id="modalBody"></div></div></div>
 
         <!-- ===== FOOTER ===== -->
@@ -899,7 +954,7 @@ const db = firebase.firestore();
 // ================================================================
 let courses = [];
 let currentUser = null;
-let authMode = 'login';
+let authTab = 'login';
 let selectedPaymentCourseId = null;
 let selectedPaymentType = null;
 let calendarMonth = new Date().getMonth();
@@ -914,7 +969,7 @@ const countryFlags = { "Algeria": "🇩🇿", "Angola": "🇦🇴", "Benin": "�
 const africanCountries = Object.keys(countryFlags);
 
 // ================================================================
-// CATEGORY MAP (complete)
+// CATEGORY MAP
 // ================================================================
 const categoryMap = {
     "Soap Making (Cottage Level)": "cottage-industry",
@@ -1802,27 +1857,167 @@ function markModuleComplete(courseId, moduleIndex) {
 function openCourseDetail(id) { document.getElementById('detail-' + id)?.classList.toggle('open'); }
 
 // ================================================================
-// AUTH, PAYMENT, CERTIFICATE, ETC.
+// AUTH FUNCTIONS (Phone + Email login)
 // ================================================================
-function showAuthModal() { document.getElementById('authModal').classList.add('open'); document.getElementById('authError').style.display = 'none'; }
-function toggleAuthMode() { authMode = authMode === 'login' ? 'signup' : 'login'; document.getElementById('authSubmitBtn').innerText = authMode === 'login' ? 'Login' : 'Sign Up'; }
-function handleAuth() {
-    const email = document.getElementById('authEmail').value.trim();
-    const pass = document.getElementById('authPassword').value;
+function setAuthTab(tab) {
+    authTab = tab;
+    const loginBtn = document.getElementById('loginTabBtn');
+    const signupBtn = document.getElementById('signupTabBtn');
+    const loginForm = document.getElementById('authLoginForm');
+    const signupForm = document.getElementById('authSignupForm');
+    const submitBtn = document.getElementById('authSubmitBtn');
     const err = document.getElementById('authError');
     err.style.display = 'none';
-    if (!email || !pass) { err.innerText = 'Fill fields.'; err.style.display = 'block'; return; }
-    if (authMode === 'login') {
-        auth.signInWithEmailAndPassword(email, pass).then(() => { document.getElementById('authModal').classList.remove('open'); }).catch(e => { err.innerText = e.message; err.style.display = 'block'; });
+    err.innerText = '';
+
+    if (tab === 'login') {
+        loginBtn.style.background = '#0a6bff';
+        signupBtn.style.background = '#5a6f8c';
+        loginForm.style.display = 'block';
+        signupForm.style.display = 'none';
+        submitBtn.innerText = 'Login';
+        document.getElementById('authModalTitle').innerText = '🔐 Login';
     } else {
-        auth.createUserWithEmailAndPassword(email, pass).then((u) => {
-            db.collection('users').doc(u.user.uid).set({ email });
-            document.getElementById('authModal').classList.remove('open');
-        }).catch(e => { err.innerText = e.message; err.style.display = 'block'; });
+        loginBtn.style.background = '#5a6f8c';
+        signupBtn.style.background = '#0a6bff';
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        submitBtn.innerText = 'Sign Up';
+        document.getElementById('authModalTitle').innerText = '📝 Create Account';
     }
 }
-function resetPassword() { auth.sendPasswordResetEmail(document.getElementById('authEmail').value.trim()).then(() => alert('Email sent.')).catch(e => alert(e.message)); }
 
+function showAuthModal() {
+    document.getElementById('authModal').classList.add('open');
+    document.getElementById('authError').style.display = 'none';
+    document.getElementById('authError').innerText = '';
+    setAuthTab('login');
+    document.getElementById('authIdentifier').value = '';
+    document.getElementById('authPassword').value = '';
+    document.getElementById('signupPhone').value = '';
+    document.getElementById('signupEmail').value = '';
+    document.getElementById('signupPassword').value = '';
+    document.getElementById('signupConfirmPassword').value = '';
+}
+
+function toggleAuthMode() {
+    if (authTab === 'login') setAuthTab('signup');
+    else setAuthTab('login');
+}
+
+function handleAuth() {
+    const err = document.getElementById('authError');
+    err.style.display = 'none';
+    err.innerText = '';
+
+    if (authTab === 'login') {
+        // ----- LOGIN -----
+        const identifier = document.getElementById('authIdentifier').value.trim();
+        const password = document.getElementById('authPassword').value;
+        if (!identifier || !password) {
+            err.innerText = 'Please fill in all fields.';
+            err.style.display = 'block';
+            return;
+        }
+
+        const isEmail = identifier.includes('@') && identifier.includes('.');
+        
+        if (isEmail) {
+            auth.signInWithEmailAndPassword(identifier, password)
+                .then(() => { document.getElementById('authModal').classList.remove('open'); })
+                .catch(e => { err.innerText = e.message; err.style.display = 'block'; });
+        } else {
+            db.collection('users').where('phoneNumber', '==', identifier).get()
+                .then(snap => {
+                    if (snap.empty) {
+                        throw new Error('Phone number not registered. Please sign up first.');
+                    }
+                    const email = snap.docs[0].data().email;
+                    return auth.signInWithEmailAndPassword(email, password);
+                })
+                .then(() => { document.getElementById('authModal').classList.remove('open'); })
+                .catch(e => {
+                    err.innerText = e.message;
+                    err.style.display = 'block';
+                });
+        }
+    } else {
+        // ----- SIGN UP -----
+        const phone = document.getElementById('signupPhone').value.trim();
+        const email = document.getElementById('signupEmail').value.trim();
+        const password = document.getElementById('signupPassword').value;
+        const confirm = document.getElementById('signupConfirmPassword').value;
+
+        if (!phone || !password || !confirm) {
+            err.innerText = 'Phone and Password are required.';
+            err.style.display = 'block';
+            return;
+        }
+        if (password !== confirm) {
+            err.innerText = 'Passwords do not match.';
+            err.style.display = 'block';
+            return;
+        }
+        if (password.length < 6) {
+            err.innerText = 'Password must be at least 6 characters.';
+            err.style.display = 'block';
+            return;
+        }
+        if (!phone.startsWith('+')) {
+            err.innerText = 'Phone number must include country code (e.g. +263...).';
+            err.style.display = 'block';
+            return;
+        }
+
+        const cleanPhone = phone.replace(/[^0-9]/g, '');
+        const authEmail = email || `phone_${cleanPhone}@sba.africa`;
+
+        auth.createUserWithEmailAndPassword(authEmail, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                return db.collection('users').doc(user.uid).set({
+                    phoneNumber: phone,
+                    email: authEmail,
+                    originalEmail: email || null,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            })
+            .then(() => {
+                document.getElementById('authModal').classList.remove('open');
+                location.reload();
+            })
+            .catch(e => {
+                if (e.code === 'auth/email-already-in-use') {
+                    err.innerText = 'This phone or email is already registered. Please login.';
+                } else {
+                    err.innerText = e.message;
+                }
+                err.style.display = 'block';
+            });
+    }
+}
+
+function resetPassword() {
+    const identifier = document.getElementById('authIdentifier').value.trim();
+    if (!identifier) { alert('Please enter your email or phone number first.'); return; }
+    const isEmail = identifier.includes('@') && identifier.includes('.');
+    if (isEmail) {
+        auth.sendPasswordResetEmail(identifier).then(() => alert('Password reset email sent.')).catch(e => alert(e.message));
+    } else {
+        db.collection('users').where('phoneNumber', '==', identifier).get()
+            .then(snap => {
+                if (snap.empty) { throw new Error('Phone number not found.'); }
+                const email = snap.docs[0].data().email;
+                return auth.sendPasswordResetEmail(email);
+            })
+            .then(() => alert('Password reset email sent to the email linked to this phone number.'))
+            .catch(e => alert(e.message));
+    }
+}
+
+// ================================================================
+// PAYMENT, CERTIFICATE, ETC.
+// ================================================================
 function openPaymentModal(courseId) {
     if (!currentUser) { showAuthModal(); return; }
     const course = courses.find(c => c.id === courseId);
@@ -1867,10 +2062,6 @@ function processPayment() {
 }
 
 function closePaymentModal() { document.getElementById('paymentModal').classList.remove('open'); selectedPaymentType = null; selectedPaymentCourseId = null; document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected')); }
-
-function openStripeCheckout() {
-    alert('Stripe integration is ready! When you have your Stripe keys, I will give you the complete backend function.');
-}
 
 function markComplete(courseId) {
     const course = courses.find(c => c.id === courseId);
@@ -1948,6 +2139,7 @@ function openAIChat(courseId) {
     window._chatCourse = course;
     openModal(`<h3>🤖 AI Tutor: ${course.title}</h3><div class="chat-window" id="chatWindow"><div class="chat-message ai"><div class="bubble">Hello! I'm your AI tutor. Ask me anything about ${course.title}.</div></div></div><div class="chat-input"><input type="text" id="chatInput" placeholder="Ask..." onkeydown="if(event.key==='Enter') sendChatMessage()"><button onclick="sendChatMessage()">Send</button></div>`);
 }
+
 function sendChatMessage() {
     const input = document.getElementById('chatInput');
     const msg = input.value.trim();
@@ -2291,6 +2483,18 @@ document.addEventListener('DOMContentLoaded', async function() {
             document.getElementById('userStatus').innerText = '👤 ' + user.email;
             document.getElementById('loginBtn').innerText = 'Logout';
             document.getElementById('loginBtn').onclick = () => { auth.signOut(); location.reload(); };
+            
+            // Fetch phone number from Firestore and display it
+            db.collection('users').doc(user.uid).get().then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    const display = data.phoneNumber || user.email || 'User';
+                    document.getElementById('userStatus').innerText = '👤 ' + display;
+                } else {
+                    document.getElementById('userStatus').innerText = '👤 ' + user.email;
+                }
+            });
+
             db.collection('users').doc(user.uid).collection('purchases').get().then(snap => {
                 snap.forEach(doc => {
                     const c = courses.find(c => c.id === doc.id);
@@ -2326,7 +2530,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }, 1000);
 });
 
-console.log('🚀 SBA – Forum, Jobs & Firestore Content Management fully functional!');
+console.log('🚀 SBA – Phone Login, Forum, Jobs & Content Management fully functional!');
 </script>
 </body>
 </html>
