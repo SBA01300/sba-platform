@@ -1220,5 +1220,16 @@
 
         console.log('✅ SBA – All features restored. Platform is fully operational.');
     </script>
+    <script>
+  document.addEventListener('click', function welcome() {
+    if ('speechSynthesis' in window) {
+      const msg = new SpeechSynthesisUtterance("Welcome to SkillBridge Africa. Explore over 500 vocational skills with our AI tutor.");
+      msg.lang = 'en-ZM';
+      msg.rate = 0.9;
+      speechSynthesis.speak(msg);
+    }
+    document.removeEventListener('click', welcome);
+  });
+</script>
 </body>
 </html>
