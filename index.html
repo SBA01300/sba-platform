@@ -1316,38 +1316,44 @@
         // ===== ROTATING RECOMMENDED CAROUSEL =====
         function renderRecommendedCarousel() {
             const grid = document.getElementById('recommendedGrid');
-            if (!grid || courses.length === 0) return;
-            
-            const start = recommendedIndex * 4;
-            const display = courses.slice(start, start + 4);
-            while (display.length < 4) {
-                display.push(courses[display.length % courses.length]);
-            }
-            
-            grid.innerHTML = display.map(c => `
-                <div class="card" onclick="openCourseModal('${c.id}')" style="cursor:pointer;">
-                    <div class="code">${c.id}</div>
-                    <div class="title">${c.title}</div>
-                    <div class="cat-tag">${c.category}</div>
-                    <div class="skill-tag">${c.difficulty}</div>
-                    <div style="margin-top:6px;font-size:0.75rem;color:#5a6f8c;">
-                        📚 ${c.modules ? c.modules.length : 0} modules
-                    </div>
-                    <div style="margin-top:4px;">
-                        <span class="price-tag">${c.purchased ? '✅ Enrolled' : '🔒 Locked'}</span>
-                        ${c.title === 'Dishwashing Liquid' ? '<span class="status-tag unlocked">🎁 Free</span>' : ''}
-                    </div>
-                </div>
-            `).join('');
-            
-            const totalPages = Math.ceil(courses.length / 4);
-            const indicators = document.getElementById('carouselIndicators');
-            if (indicators) {
-                indicators.innerHTML = Array.from({ length: Math.min(totalPages, 8) }, (_, i) => `
-                    <span class="dot ${i === recommendedIndex ? 'active' : ''}" onclick="goToRecommendedPage(${i})"></span>
-                `).join('');
-            }
-        }
+     // ===== ROTATING RECOMMENDED CAROUSEL =====
+function renderRecommendedCarousel() {
+    const grid = document.getElementById('recommendedGrid');
+    if (!grid || courses.length === 0) return;
+    
+    const start = recommendedIndex * 4;
+    const display = courses.slice(start, start + 4);
+    
+    // If we don't have 4, wrap around
+    while (display.length < 4) {
+        display.push(courses[display.length % courses.length]);
+    }
+    
+    grid.innerHTML = display.map(c => `
+        <div class="card" onclick="openCourseModal('${c.id}')" style="cursor:pointer;">
+            <div class="code">${c.id}</div>
+            <div class="title">${c.title}</div>
+            <div class="cat-tag">${c.category}</div>
+            <div class="skill-tag">${c.difficulty}</div>
+            <div style="margin-top:6px;font-size:0.75rem;color:#5a6f8c;">
+                📚 ${c.modules ? c.modules.length : 0} modules
+            </div>
+            <div style="margin-top:4px;">
+                <span class="price-tag">${c.purchased ? '✅ Enrolled' : '🔒 Locked'}</span>
+                ${c.title === 'Dishwashing Liquid' ? '<span class="status-tag unlocked">🎁 Free</span>' : ''}
+            </div>
+        </div>
+    `).join('');
+    
+    // Update indicators
+    const totalPages = Math.ceil(courses.length / 4);
+    const indicators = document.getElementById('carouselIndicators');
+    if (indicators) {
+        indicators.innerHTML = Array.from({ length: Math.min(totalPages, 8) }, (_, i) => `
+            <span class="dot ${i === recommendedIndex ? 'active' : ''}" onclick="goToRecommendedPage(${i})"></span>
+        `).join('');
+    }
+}
 
         function goToRecommendedPage(index) {
             recommendedIndex = index;
