@@ -44,6 +44,11 @@
         body.dark .forum-post .post-body { color: #d0d7e0; }
         body.dark .comment { background: #0d1b2a; border-color: #2d4059; }
         body.dark .job-card { background: #1b2a41; border-color: #2d4059; }
+        body.dark .notification-banner { background: #1b2a41; border-color: #2d4059; }
+        body.dark .testimonial-submit-card { background: #1b2a41; border-color: #2d4059; }
+        body.dark .blog-admin-card { background: #1b2a41; border-color: #2d4059; }
+        body.dark .progress-chart-card { background: #1b2a41; border-color: #2d4059; }
+        body.dark .recommended-card { background: #1b2a41; border-color: #2d4059; }
 
         .app { max-width: 1440px; margin: 0 auto; padding: 10px; flex: 1; width: 100%; }
         .top-nav { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; padding: 10px 0 14px; border-bottom: 2px solid #e2e9f2; margin-bottom: 16px; }
@@ -87,6 +92,8 @@
         .btn-success:hover { background: #388e3c; transform: scale(1.02); }
         .btn-gold { background: #f5a623; color: #fff; border: none; padding: 8px 20px; border-radius: 30px; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .btn-gold:hover { background: #e0941a; transform: scale(1.02); }
+        .btn-secondary { background: #5a6f8c; color: #fff; border: none; padding: 6px 16px; border-radius: 30px; font-weight: 600; cursor: pointer; font-size: 0.8rem; transition: 0.2s; }
+        .btn-secondary:hover { background: #3d4f66; transform: scale(1.02); }
         .theme-toggle { background: none; border: 2px solid #dce3ed; border-radius: 30px; padding: 4px 12px; cursor: pointer; font-size: 0.8rem; transition: 0.2s; }
         .theme-toggle:hover { border-color: #0a6bff; }
 
@@ -107,6 +114,11 @@
         body.dark .filter-difficulty { background: #1b2a41; color: #e8edf5; border-color: #2d4059; }
         .filter-difficulty:hover { border-color: #0a6bff; }
         .filter-difficulty.active { background: #0a6bff; color: #fff; border-color: #0a6bff; }
+
+        .filter-duration { padding: 4px 12px; border: 2px solid #dce3ed; border-radius: 30px; background: #fff; cursor: pointer; font-size: 0.6rem; font-weight: 600; transition: 0.15s; white-space: nowrap; }
+        body.dark .filter-duration { background: #1b2a41; color: #e8edf5; border-color: #2d4059; }
+        .filter-duration:hover { border-color: #0a6bff; }
+        .filter-duration.active { background: #0a6bff; color: #fff; border-color: #0a6bff; }
 
         .stats { font-size: 0.8rem; color: #5a6f8c; margin-bottom: 10px; display: flex; gap: 16px; flex-wrap: wrap; }
 
@@ -216,6 +228,41 @@
         .dashboard-progress-item span { font-size: 0.85rem; }
         .dashboard-progress-item .pbar { flex: 1; min-width: 80px; }
 
+        /* ===== PROGRESS CHART ===== */
+        .progress-chart-card { background: #fff; border: 1px solid #e2e9f2; border-radius: 12px; padding: 16px; margin: 12px 0; }
+        .chart-bar-container { display: flex; align-items: center; gap: 12px; margin: 4px 0; }
+        .chart-bar-label { width: 30%; font-size: 0.75rem; font-weight: 600; text-align: right; }
+        .chart-bar-track { flex: 1; height: 20px; background: #e8edf5; border-radius: 10px; overflow: hidden; }
+        .chart-bar-fill { height: 100%; background: #0a6bff; border-radius: 10px; transition: width 1s ease; }
+        .chart-bar-percent { width: 10%; font-size: 0.7rem; font-weight: 600; color: #5a6f8c; }
+        body.dark .chart-bar-track { background: #2d4059; }
+        body.dark .chart-bar-fill { background: #4a9eff; }
+        body.dark .chart-bar-percent { color: #8a9bb5; }
+
+        /* ===== NOTIFICATION BANNER ===== */
+        .notification-banner { background: #fff; border: 1px solid #e2e9f2; border-radius: 10px; padding: 12px 16px; margin: 8px 0; display: flex; align-items: center; gap: 12px; }
+        .notification-banner .notif-icon { font-size: 1.2rem; }
+        .notification-banner .notif-text { flex: 1; font-size: 0.85rem; }
+        .notification-banner .notif-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #5a6f8c; }
+        .notification-banner.success { border-left: 4px solid #4caf50; }
+        .notification-banner.info { border-left: 4px solid #0a6bff; }
+        .notification-banner.warning { border-left: 4px solid #ff9800; }
+        body.dark .notification-banner { background: #1b2a41; border-color: #2d4059; }
+
+        /* ===== TESTIMONIAL SUBMIT ===== */
+        .testimonial-submit-card { background: #fff; border: 1px solid #e2e9f2; border-radius: 12px; padding: 16px; margin: 12px 0; }
+        .testimonial-submit-card textarea { width: 100%; padding: 8px; border: 2px solid #dce3ed; border-radius: 6px; font-size: 0.85rem; resize: vertical; }
+        body.dark .testimonial-submit-card textarea { background: #0d1b2a; color: #e8edf5; border-color: #2d4059; }
+
+        /* ===== BLOG ADMIN ===== */
+        .blog-admin-card { background: #fff; border: 1px solid #e2e9f2; border-radius: 12px; padding: 16px; margin: 12px 0; }
+        body.dark .blog-admin-card { background: #1b2a41; border-color: #2d4059; }
+
+        /* ===== RECOMMENDED ===== */
+        .recommended-card { background: #fff; border: 2px solid #f5a623; border-radius: 12px; padding: 12px 16px; margin: 8px 0; }
+        body.dark .recommended-card { background: #1b2a41; border-color: #f5a623; }
+
+        /* ===== EXISTING STYLES (truncated for length – keep all) ===== */
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-weight: 700; font-size: 1.2rem; }
         .calendar-header button { background: none; border: none; font-size: 1.5rem; cursor: pointer; padding: 0 12px; color: #0a6bff; }
         .calendar-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
@@ -286,6 +333,7 @@
         body.dark .testimonial-card .quote { color: #d0d7e0; }
         .testimonial-card .author { font-weight: 700; margin-top: 6px; font-size: 0.75rem; }
         .testimonial-card .role { font-size: 0.65rem; color: #5a6f8c; }
+        .testimonial-card .photo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin: 0 auto 6px; background: #e8edf5; display: block; }
 
         .about-section { background: #fff; border-radius: 12px; padding: 24px; border: 1px solid #e2e9f2; margin-bottom: 20px; }
         body.dark .about-section { background: #1b2a41; border-color: #2d4059; }
@@ -351,6 +399,7 @@
         .job-card .job-meta { font-size: 0.8rem; color: #5a6f8c; }
         .job-card .job-desc { margin: 6px 0; }
 
+        /* ===== SPLASH SCREEN ===== */
         #splashScreen {
             position: fixed;
             inset: 0;
@@ -499,8 +548,9 @@
                 <button class="nav-link" data-tab="verify" onclick="switchTab('verify')">🔗 Verify</button>
                 <button class="nav-link" data-tab="admin" onclick="switchTab('admin')">📋 Admin</button>
                 <button class="nav-link" data-tab="contact" onclick="switchTab('contact')">📧 Contact</button>
-                <button class="nav-link" data-tab="request" onclick="switchTab('request')">📋 Request Course</button>
+                <button class="nav-link" data-tab="request" onclick="switchTab('request')">📋 Request</button>
                 <button class="nav-link" data-tab="blog" onclick="switchTab('blog')">📰 Blog</button>
+                <button class="nav-link" data-tab="testimonials" onclick="switchTab('testimonials')">⭐ Testimonials</button>
                 <button class="nav-link" onclick="openLegalModal()">⚖️ Legal</button>
             </div>
             <div class="nav-right">
@@ -515,6 +565,9 @@
             </div>
         </nav>
 
+        <!-- ===== NOTIFICATIONS ===== -->
+        <div id="notificationContainer"></div>
+
         <!-- ===== COTTAGE ROTATOR ===== -->
         <div class="cottage-rotator">
             <span class="icon">🏭</span>
@@ -528,21 +581,18 @@
                 <p style="font-size:1.1rem;color:#5a6f8c;max-width:700px;">500+ vocational skills • AI Tutor • Food Preservation • Blockchain Certificates • Career Roadmaps</p>
                 <div class="pricing-banner">💡 <strong>Full Access</strong> $10 <span>|</span> 📖 <strong>Read‑Only</strong> $3.50</div>
                 <button class="btn-primary" style="padding:10px 32px;font-size:1rem;margin:10px 0;" onclick="switchTab('courses')">Browse All Courses →</button>
+                
+                <!-- RECOMMENDED COURSES -->
+                <div id="recommendedSection">
+                    <h3>🔥 Recommended for You</h3>
+                    <div id="recommendedGrid" class="grid" style="grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));"></div>
+                </div>
+
                 <h3 style="margin-top:20px;">🔥 Browse by Category</h3>
                 <div class="category-grid-full" id="fullCategoryGrid"></div>
+                
                 <h3 style="margin-top:20px;">⭐ What Our Students Say</h3>
-                <div class="testimonial-qr">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=https://www.skillbridgeafrica.africa" alt="QR code">
-                    <span style="font-size:0.8rem;color:#5a6f8c;">Scan to visit SBA</span>
-                </div>
-                <div class="testimonial-grid">
-                    <div class="testimonial-card"><div class="quote">"SBA gave me the skills to start my soap business. I now employ 5 people."</div><div class="author">— Chinedu U.</div><div class="role">Cottage Industry</div></div>
-                    <div class="testimonial-card"><div class="quote">"The AI Tutor helped me master poultry farming. Highly recommended!"</div><div class="author">— Temba C.</div><div class="role">Poultry Student</div></div>
-                    <div class="testimonial-card"><div class="quote">"I got my blockchain certificate and landed a job in agritech."</div><div class="author">— Sibusiso M.</div><div class="role">ICT & Agriculture</div></div>
-                    <div class="testimonial-card"><div class="quote">"SBA's food preservation course saved my family's harvest. Thank you!"</div><div class="author">— Kwame G.</div><div class="role">Food Preservation</div></div>
-                    <div class="testimonial-card"><div class="quote">"The roadmap kept me on track. I now run a successful dairy farm."</div><div class="author">— Mbemba V.</div><div class="role">Dairy Farming</div></div>
-                    <div class="testimonial-card"><div class="quote">"Affordable, practical, and life-changing. SBA is the best investment."</div><div class="author">— Wanjala K.</div><div class="role">Entrepreneurship</div></div>
-                </div>
+                <div id="testimonialHomeGrid" class="testimonial-grid"></div>
             </div>
         </div>
 
@@ -573,6 +623,12 @@
                     <button class="filter-difficulty" data-difficulty="Intermediate" onclick="setDifficulty('Intermediate')">Intermediate</button>
                     <button class="filter-difficulty" data-difficulty="Advanced" onclick="setDifficulty('Advanced')">Advanced</button>
                 </div>
+                <div class="difficulty-group" style="margin-left:8px;">
+                    <button class="filter-duration active" data-duration="all" onclick="setDuration('all')">All</button>
+                    <button class="filter-duration" data-duration="short" onclick="setDuration('short')">⏱ Short (<5h)</button>
+                    <button class="filter-duration" data-duration="medium" onclick="setDuration('medium')">⏱ Medium (5-15h)</button>
+                    <button class="filter-duration" data-duration="long" onclick="setDuration('long')">⏱ Long (>15h)</button>
+                </div>
             </div>
             <div class="stats">📚 <span id="visibleCount">0</span> of <span id="totalCount">0</span></div>
             <div class="grid" id="courseGrid"></div>
@@ -587,6 +643,13 @@
                 <div class="dashboard-stat"><div class="value" id="dashCertificates">0</div><div class="label">Certificates</div></div>
                 <div class="dashboard-stat"><div class="value" id="dashScore">0%</div><div class="label">Avg Score</div></div>
             </div>
+            
+            <!-- PROGRESS CHART -->
+            <div class="progress-chart-card" id="progressChartCard">
+                <h3>📈 Your Progress</h3>
+                <div id="progressChartContainer"><p style="color:#8a9bb5;font-size:0.85rem;">Login to see your progress chart.</p></div>
+            </div>
+
             <div style="background:#fff;border-radius:12px;padding:16px;border:1px solid #e2e9f2;" class="dash-course-list-container">
                 <h3>📖 Your Courses</h3>
                 <div id="dashCourseList"><p style="color:#8a9bb5;">Login to see progress.</p></div>
@@ -696,6 +759,28 @@
                 <button class="btn-primary" onclick="pushCourseContentToFirestore()">📤 Push Course Content to Firestore</button>
                 <span id="pushContentStatus" style="margin-left:8px;font-size:0.8rem;color:#5a6f8c;"></span>
             </div>
+            
+            <!-- ===== TESTIMONIALS ADMIN ===== -->
+            <div style="background:#fff;border-radius:12px;padding:16px;border:1px solid #e2e9f2;margin-bottom:16px;">
+                <h3>⭐ Pending Testimonials</h3>
+                <div id="adminTestimonialsList"><p style="color:#8a9bb5;">Loading testimonials...</p></div>
+            </div>
+
+            <!-- ===== COURSE REQUESTS ADMIN ===== -->
+            <div style="background:#fff;border-radius:12px;padding:16px;border:1px solid #e2e9f2;margin-bottom:16px;">
+                <h3>📋 Course Requests</h3>
+                <div id="adminCourseRequestsList"><p style="color:#8a9bb5;">Loading requests...</p></div>
+            </div>
+
+            <!-- ===== BLOG ADMIN ===== -->
+            <div class="blog-admin-card">
+                <h3>📝 Write Blog Post</h3>
+                <div class="form-group"><label>Title</label><input type="text" id="blogTitle" placeholder="Blog post title"></div>
+                <div class="form-group"><label>Content</label><textarea id="blogContent" rows="4" placeholder="Write your blog post here..."></textarea></div>
+                <button class="btn-primary" onclick="publishBlogPost()">📤 Publish Post</button>
+                <span id="blogPostStatus" style="margin-left:8px;font-size:0.8rem;color:#5a6f8c;"></span>
+            </div>
+
             <button class="btn-primary" onclick="refreshAdmin()">🔄 Refresh All</button>
         </div>
 
@@ -765,12 +850,26 @@
         <div id="tab-blog" class="tab">
             <h2 style="font-size:1.8rem;">📰 SBA Blog & News</h2>
             <p style="color:#5a6f8c;margin-bottom:16px;">Stay updated with the latest news, course launches, and student success stories.</p>
-            <div class="blog-grid" id="blogContainer">
-                <div class="blog-card"><div class="blog-date">📅 Jul 22, 2026</div><h4>🎉 500+ Courses Now Available!</h4><p>We are thrilled to announce that SkillBridge Africa now offers over 500 vocational courses across 30+ categories. From cottage industry to advanced agriculture, there is something for everyone.</p></div>
-                <div class="blog-card"><div class="blog-date">📅 Jul 20, 2026</div><h4>🤖 AI Tutor Goes Live</h4><p>Our new AI Tutor is now available for Full Access students. Get instant, intelligent answers to your course questions using state-of-the-art AI technology.</p></div>
-                <div class="blog-card"><div class="blog-date">📅 Jul 18, 2026</div><h4>🌍 New Courses: Bee Hive Construction</h4><p>We have added a new course on Bee Hive Construction. Learn to build Langstroth and Top-Bar hives, and start your own beekeeping business.</p></div>
-                <div class="blog-card"><div class="blog-date">📅 Jul 15, 2026</div><h4>🏆 Student Success: Chinedu's Soap Business</h4><p>Chinedu U. completed our Soap Making course and now runs a successful soap business employing 5 people. Read his inspiring story.</p></div>
+            <div id="blogGridContainer" class="blog-grid"><p style="color:#8a9bb5;">Loading blog posts...</p></div>
+        </div>
+
+        <!-- ===== TESTIMONIALS ===== -->
+        <div id="tab-testimonials" class="tab">
+            <h2 style="font-size:1.8rem;">⭐ Student Testimonials</h2>
+            <p style="color:#5a6f8c;margin-bottom:16px;">Share your success story with the SBA community!</p>
+            
+            <div class="testimonial-submit-card">
+                <h3>📝 Share Your Story</h3>
+                <div class="form-group"><label>Your Name</label><input type="text" id="testimonialName" placeholder="Your full name"></div>
+                <div class="form-group"><label>Your Course</label><input type="text" id="testimonialCourse" placeholder="Which course did you complete?"></div>
+                <div class="form-group"><label>Your Story</label><textarea id="testimonialStory" rows="3" placeholder="Share your experience..."></textarea></div>
+                <div class="form-group"><label>Photo URL (optional)</label><input type="text" id="testimonialPhoto" placeholder="https://yourphoto.com/image.jpg"></div>
+                <button class="btn-primary" onclick="submitTestimonial()">📤 Submit Testimonial</button>
+                <span id="testimonialSubmitStatus" style="margin-left:8px;font-size:0.8rem;color:#5a6f8c;"></span>
             </div>
+
+            <h3>⭐ Student Stories</h3>
+            <div id="testimonialsGrid" class="testimonial-grid"></div>
         </div>
 
         <!-- ===== PAYMENT METHODS ===== -->
@@ -795,13 +894,11 @@
                 <button class="modal-close" onclick="document.getElementById('authModal').classList.remove('open')">✕</button>
                 <h2 id="authModalTitle">🔐 Login / Sign Up</h2>
                 
-                <!-- Tab Buttons -->
                 <div style="display:flex; gap:8px; margin-bottom:12px;">
                     <button class="btn-primary" onclick="setAuthTab('login')" id="loginTabBtn" style="background:#0a6bff;">Login</button>
                     <button class="btn-primary" onclick="setAuthTab('signup')" id="signupTabBtn" style="background:#5a6f8c;">Sign Up</button>
                 </div>
 
-                <!-- Login Form -->
                 <div id="authLoginForm">
                     <div class="form-group">
                         <label>Email or Phone</label>
@@ -813,7 +910,6 @@
                     </div>
                 </div>
 
-                <!-- Signup Form -->
                 <div id="authSignupForm" style="display:none;">
                     <div class="form-group">
                         <label>Phone Number <span style="color:#f44336;">*</span></label>
@@ -899,8 +995,9 @@
                     <li><a href="#" onclick="switchTab('advice');return false;">Advice</a></li>
                     <li><a href="#" onclick="switchTab('about');return false;">About Us</a></li>
                     <li><a href="#" onclick="switchTab('contact');return false;">Contact</a></li>
-                    <li><a href="#" onclick="switchTab('request');return false;">Request Course</a></li>
+                    <li><a href="#" onclick="switchTab('request');return false;">Request</a></li>
                     <li><a href="#" onclick="switchTab('blog');return false;">Blog</a></li>
+                    <li><a href="#" onclick="switchTab('testimonials');return false;">Testimonials</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -960,7 +1057,26 @@ let selectedPaymentType = null;
 let calendarMonth = new Date().getMonth();
 let calendarYear = new Date().getFullYear();
 let activeDifficulty = 'all';
+let activeDuration = 'all';
 let firestoreModules = {};
+
+// ================================================================
+// NOTIFICATION SYSTEM
+// ================================================================
+function showNotification(message, type = 'info', duration = 5000) {
+    const container = document.getElementById('notificationContainer');
+    const notif = document.createElement('div');
+    notif.className = `notification-banner ${type}`;
+    notif.innerHTML = `
+        <span class="notif-icon">${type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️'}</span>
+        <span class="notif-text">${message}</span>
+        <button class="notif-close" onclick="this.parentElement.remove()">✕</button>
+    `;
+    container.prepend(notif);
+    if (duration > 0) {
+        setTimeout(() => { if (notif.parentElement) notif.remove(); }, duration);
+    }
+}
 
 // ================================================================
 // 54 AFRICAN COUNTRIES
@@ -1385,7 +1501,8 @@ function initializeCourses() {
             completed: false,
             certificateCode: null,
             difficulty: def.diff || 'Beginner',
-            completedModules: []
+            completedModules: [],
+            duration: ['Beginner', 'Intermediate'].includes(def.diff) ? 'short' : 'medium'
         };
     });
     renderCourses();
@@ -1393,6 +1510,7 @@ function initializeCourses() {
     updateStats();
     updateRoadmap();
     populateFullCategories();
+    updateRecommendedCourses();
 }
 
 // ================================================================
@@ -1418,6 +1536,27 @@ async function pushCourseContentToFirestore() {
         status.innerHTML = '❌ Error: ' + e.message;
         console.error(e);
     }
+}
+
+// ================================================================
+// RECOMMENDED COURSES
+// ================================================================
+function updateRecommendedCourses() {
+    const container = document.getElementById('recommendedGrid');
+    if (!container) return;
+    // Show top 6 courses that are Beginner level
+    const recommended = courses.filter(c => c.difficulty === 'Beginner' && !c.purchased).slice(0, 6);
+    if (recommended.length === 0) {
+        container.innerHTML = '<p style="color:#8a9bb5;grid-column:1/-1;">No recommendations yet. Browse our courses!</p>';
+        return;
+    }
+    container.innerHTML = recommended.map(course => `
+        <div class="recommended-card" onclick="switchTab('courses');setFilter('${course.category}')">
+            <div style="font-weight:600;font-size:0.9rem;">⭐ ${course.title}</div>
+            <div style="font-size:0.7rem;color:#5a6f8c;">${course.category} • ${course.difficulty}</div>
+            <button class="btn-primary" style="font-size:0.6rem;padding:2px 10px;margin-top:4px;" onclick="event.stopPropagation();switchTab('courses');setFilter('${course.category}')">View</button>
+        </div>
+    `).join('');
 }
 
 // ================================================================
@@ -1538,6 +1677,7 @@ function addComment(postId) {
         db.collection('forumPosts').doc(postId).update({
             commentsCount: firebase.firestore.FieldValue.increment(1)
         });
+        showNotification('New comment added!', 'success', 3000);
     }).catch(err => console.error(err));
 }
 
@@ -1565,6 +1705,7 @@ function postJob() {
         document.getElementById('jobSkills').value = '';
         document.getElementById('jobDesc').value = '';
         document.getElementById('jobSalary').value = '';
+        showNotification('Job posted successfully!', 'success', 3000);
         loadEmployerJobs();
         loadAllJobs();
     }).catch(err => {
@@ -1620,12 +1761,244 @@ function closeJob(jobId) {
     db.collection('jobs').doc(jobId).update({ status: 'closed' }).then(() => {
         loadEmployerJobs();
         loadAllJobs();
+        showNotification('Job closed.', 'info', 3000);
     });
 }
 
 function applyJob(jobId) {
     if (!currentUser) { showAuthModal(); return; }
-    alert('✅ Application submitted! (Simulated – the employer will see your profile.)');
+    showNotification('✅ Application submitted! The employer will see your profile.', 'success', 4000);
+}
+
+// ================================================================
+// TESTIMONIALS
+// ================================================================
+function submitTestimonial() {
+    if (!currentUser) { showAuthModal(); return; }
+    const name = document.getElementById('testimonialName').value.trim();
+    const course = document.getElementById('testimonialCourse').value.trim();
+    const story = document.getElementById('testimonialStory').value.trim();
+    const photo = document.getElementById('testimonialPhoto').value.trim();
+    const status = document.getElementById('testimonialSubmitStatus');
+    
+    if (!name || !course || !story) {
+        status.innerHTML = '⚠️ Please fill in Name, Course, and Story.';
+        return;
+    }
+    
+    db.collection('testimonials').add({
+        name, course, story, photo: photo || '',
+        userId: currentUser.uid,
+        userEmail: currentUser.email,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        approved: false // Admin must approve
+    }).then(() => {
+        status.innerHTML = '✅ Testimonial submitted for approval!';
+        document.getElementById('testimonialName').value = '';
+        document.getElementById('testimonialCourse').value = '';
+        document.getElementById('testimonialStory').value = '';
+        document.getElementById('testimonialPhoto').value = '';
+        showNotification('Testimonial submitted! It will appear after admin approval.', 'success', 4000);
+    }).catch(err => {
+        status.innerHTML = '❌ Error: ' + err.message;
+    });
+}
+
+function loadTestimonials(approvedOnly = true) {
+    const homeGrid = document.getElementById('testimonialHomeGrid');
+    const fullGrid = document.getElementById('testimonialsGrid');
+    
+    let query = db.collection('testimonials');
+    if (approvedOnly) {
+        query = query.where('approved', '==', true);
+    }
+    query.orderBy('createdAt', 'desc').get().then(snapshot => {
+        const renderGrid = (container) => {
+            if (!container) return;
+            if (snapshot.empty) {
+                container.innerHTML = '<p style="color:#8a9bb5;grid-column:1/-1;">No testimonials yet. Be the first to share your story!</p>';
+                return;
+            }
+            let html = '';
+            snapshot.forEach(doc => {
+                const t = doc.data();
+                html += `
+                    <div class="testimonial-card">
+                        ${t.photo ? `<img class="photo" src="${t.photo}" alt="${t.name}">` : `<div class="photo" style="background:#e8edf5;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 6px;">👤</div>`}
+                        <div class="quote">"${t.story}"</div>
+                        <div class="author">— ${t.name}</div>
+                        <div class="role">${t.course}</div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        };
+        
+        renderGrid(homeGrid);
+        renderGrid(fullGrid);
+    }).catch(err => console.error('Testimonials load error:', err));
+}
+
+function loadAdminTestimonials() {
+    const container = document.getElementById('adminTestimonialsList');
+    db.collection('testimonials').where('approved', '==', false).get().then(snapshot => {
+        if (snapshot.empty) {
+            container.innerHTML = '<p style="color:#8a9bb5;">No pending testimonials.</p>';
+            return;
+        }
+        let html = '';
+        snapshot.forEach(doc => {
+            const t = doc.data();
+            html += `
+                <div style="border:1px solid #e2e9f2;border-radius:8px;padding:12px;margin:6px 0;">
+                    <strong>${t.name}</strong> - ${t.course}
+                    <p style="font-size:0.85rem;">${t.story}</p>
+                    <button class="btn-success" style="font-size:0.6rem;padding:2px 12px;" onclick="approveTestimonial('${doc.id}')">✅ Approve</button>
+                    <button class="btn-secondary" style="font-size:0.6rem;padding:2px 12px;background:#f44336;" onclick="deleteTestimonial('${doc.id}')">🗑️ Delete</button>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }).catch(err => console.error(err));
+}
+
+function approveTestimonial(id) {
+    db.collection('testimonials').doc(id).update({ approved: true }).then(() => {
+        showNotification('Testimonial approved!', 'success', 3000);
+        loadAdminTestimonials();
+        loadTestimonials(true);
+    });
+}
+
+function deleteTestimonial(id) {
+    if (!confirm('Delete this testimonial?')) return;
+    db.collection('testimonials').doc(id).delete().then(() => {
+        showNotification('Testimonial deleted.', 'info', 3000);
+        loadAdminTestimonials();
+        loadTestimonials(true);
+    });
+}
+
+// ================================================================
+// BLOG
+// ================================================================
+function publishBlogPost() {
+    if (!currentUser) { showAuthModal(); return; }
+    const title = document.getElementById('blogTitle').value.trim();
+    const content = document.getElementById('blogContent').value.trim();
+    const status = document.getElementById('blogPostStatus');
+    
+    if (!title || !content) {
+        status.innerHTML = '⚠️ Please fill in Title and Content.';
+        return;
+    }
+    
+    db.collection('blog').add({
+        title, content,
+        authorId: currentUser.uid,
+        authorEmail: currentUser.email,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        status.innerHTML = '✅ Blog post published!';
+        document.getElementById('blogTitle').value = '';
+        document.getElementById('blogContent').value = '';
+        showNotification('New blog post published!', 'success', 3000);
+        loadBlogPosts();
+    }).catch(err => {
+        status.innerHTML = '❌ Error: ' + err.message;
+    });
+}
+
+function loadBlogPosts() {
+    const container = document.getElementById('blogGridContainer');
+    db.collection('blog').orderBy('createdAt', 'desc').get().then(snapshot => {
+        if (snapshot.empty) {
+            container.innerHTML = '<p style="color:#8a9bb5;grid-column:1/-1;">No blog posts yet. Check back soon!</p>';
+            return;
+        }
+        let html = '';
+        snapshot.forEach(doc => {
+            const post = doc.data();
+            const date = post.createdAt ? post.createdAt.toDate().toLocaleDateString() : '';
+            html += `
+                <div class="blog-card">
+                    <div class="blog-date">📅 ${date}</div>
+                    <h4>${post.title}</h4>
+                    <p>${post.content}</p>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }).catch(err => console.error(err));
+}
+
+// ================================================================
+// COURSE REQUESTS ADMIN
+// ================================================================
+function loadAdminCourseRequests() {
+    const container = document.getElementById('adminCourseRequestsList');
+    db.collection('courseRequests').orderBy('createdAt', 'desc').get().then(snapshot => {
+        if (snapshot.empty) {
+            container.innerHTML = '<p style="color:#8a9bb5;">No course requests.</p>';
+            return;
+        }
+        let html = '';
+        snapshot.forEach(doc => {
+            const r = doc.data();
+            html += `
+                <div style="border:1px solid #e2e9f2;border-radius:8px;padding:12px;margin:6px 0;">
+                    <strong>${r.title}</strong> (${r.category || 'Uncategorized'})
+                    <p style="font-size:0.85rem;">${r.description}</p>
+                    <div style="font-size:0.75rem;color:#5a6f8c;">Requested by: ${r.userEmail} | Status: ${r.status || 'pending'}</div>
+                    <button class="btn-success" style="font-size:0.6rem;padding:2px 12px;" onclick="updateRequestStatus('${doc.id}', 'approved')">✅ Approve</button>
+                    <button class="btn-secondary" style="font-size:0.6rem;padding:2px 12px;background:#ff9800;" onclick="updateRequestStatus('${doc.id}', 'reviewing')">🔄 Reviewing</button>
+                    <button class="btn-secondary" style="font-size:0.6rem;padding:2px 12px;background:#f44336;" onclick="updateRequestStatus('${doc.id}', 'rejected')">❌ Reject</button>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }).catch(err => console.error(err));
+}
+
+function updateRequestStatus(id, status) {
+    db.collection('courseRequests').doc(id).update({ status: status }).then(() => {
+        showNotification(`Request ${status}!`, 'success', 3000);
+        loadAdminCourseRequests();
+    });
+}
+
+// ================================================================
+// PROGRESS CHART
+// ================================================================
+function renderProgressChart() {
+    const container = document.getElementById('progressChartContainer');
+    if (!currentUser) {
+        container.innerHTML = '<p style="color:#8a9bb5;font-size:0.85rem;">Login to see your progress chart.</p>';
+        return;
+    }
+    
+    const purchased = courses.filter(c => c.purchased);
+    if (purchased.length === 0) {
+        container.innerHTML = '<p style="color:#8a9bb5;font-size:0.85rem;">You haven\'t enrolled in any courses yet.</p>';
+        return;
+    }
+    
+    // Show top 10 courses by progress
+    const topCourses = purchased.sort((a, b) => b.progress - a.progress).slice(0, 10);
+    let html = '';
+    topCourses.forEach(course => {
+        const percent = Math.round(course.progress);
+        html += `
+            <div class="chart-bar-container">
+                <span class="chart-bar-label">${course.title.substring(0, 20)}${course.title.length > 20 ? '…' : ''}</span>
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="width:${percent}%;"></div>
+                </div>
+                <span class="chart-bar-percent">${percent}%</span>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
 }
 
 // ================================================================
@@ -1636,12 +2009,14 @@ function renderCourses() {
     const search = document.getElementById('searchBox').value.toLowerCase();
     const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
     const activeDiff = document.querySelector('.filter-difficulty.active')?.dataset.difficulty || 'all';
+    const activeDur = document.querySelector('.filter-duration.active')?.dataset.duration || 'all';
     
     const filtered = courses.filter(c => {
         const matchTitle = c.title.toLowerCase().includes(search);
         const matchCat = (activeFilter === 'all' || c.category === activeFilter);
         const matchDiff = (activeDiff === 'all' || c.difficulty === activeDiff);
-        return matchTitle && matchCat && matchDiff;
+        const matchDur = (activeDur === 'all' || c.duration === activeDur);
+        return matchTitle && matchCat && matchDiff && matchDur;
     });
     
     if (filtered.length === 0) {
@@ -1687,7 +2062,7 @@ function renderCourses() {
             <div class="card" data-id="${course.id}">
                 <div><span class="code">${course.id}</span> <span class="cat-tag">${course.category}</span> ${priceTag} ${statusTag}</div>
                 <div class="title">${course.title} <span style="font-size:0.6rem;color:#5a6f8c;">${course.difficulty}</span></div>
-                <div><span class="skill-tag">${course.difficulty}</span> <span style="font-size:0.7rem;color:#5a6f8c;">⏱ 20h</span></div>
+                <div><span class="skill-tag">${course.difficulty}</span> <span style="font-size:0.7rem;color:#5a6f8c;">⏱ ${course.duration === 'short' ? '2-5h' : course.duration === 'medium' ? '5-15h' : '15h+'}</span></div>
                 ${isPurchased ? `<div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${progress}%;"></div></div><div style="font-size:0.7rem;">${Math.round(progress)}%</div>` : ''}
                 ${progressHtml}
                 ${completed ? '✅ Certified' : ''}
@@ -1765,6 +2140,12 @@ function setDifficulty(d) {
     renderCourses();
 }
 
+function setDuration(d) {
+    document.querySelectorAll('.filter-duration').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.filter-duration[data-duration="${d}"]`)?.classList.add('active');
+    renderCourses();
+}
+
 function filterCourses() { renderCourses(); }
 
 function updateDashboard() {
@@ -1778,6 +2159,7 @@ function updateDashboard() {
     document.getElementById('dashScore').textContent = avg + '%';
     let html = courses.filter(c => c.purchased).map(c => `<div class="dashboard-progress-item"><span>${c.title}</span><div class="pbar"><div class="progress-bar-bg" style="width:100px;"><div class="progress-bar-fill" style="width:${c.progress}%;"></div></div></div><span>${Math.round(c.progress)}%</span>${c.completed ? '✅' : ''}<button class="action-btn continue" onclick="switchTab('courses');openCourseDetail('${c.id}');" style="margin-left:8px;">📖 Continue</button></div>`).join('') || '<p>No courses purchased.</p>';
     document.getElementById('dashCourseList').innerHTML = html;
+    renderProgressChart();
 }
 
 function updateRoadmap() {
@@ -1840,6 +2222,7 @@ function markModuleComplete(courseId, moduleIndex) {
                 db.collection('certificates').doc(code).set({
                     courseId, courseTitle: course.title, userId: currentUser.uid, userEmail: currentUser.email
                 });
+                showNotification('🎉 Course completed! Certificate generated.', 'success', 5000);
             }
         }
         if (currentUser) {
@@ -1911,7 +2294,6 @@ function handleAuth() {
     err.innerText = '';
 
     if (authTab === 'login') {
-        // ----- LOGIN -----
         const identifier = document.getElementById('authIdentifier').value.trim();
         const password = document.getElementById('authPassword').value;
         if (!identifier || !password) {
@@ -1942,7 +2324,6 @@ function handleAuth() {
                 });
         }
     } else {
-        // ----- SIGN UP -----
         const phone = document.getElementById('signupPhone').value.trim();
         const email = document.getElementById('signupEmail').value.trim();
         const password = document.getElementById('signupPassword').value;
@@ -1984,6 +2365,7 @@ function handleAuth() {
             })
             .then(() => {
                 document.getElementById('authModal').classList.remove('open');
+                showNotification('Account created successfully! Welcome to SBA 🎉', 'success', 4000);
                 location.reload();
             })
             .catch(e => {
@@ -2058,6 +2440,7 @@ function processPayment() {
     }
     document.getElementById('paymentStatus').innerText = `✅ Payment successful! ${selectedPaymentType === 'full' ? 'Full Access' : 'Read-Only'} unlocked.`;
     document.getElementById('payNowBtn').disabled = true;
+    showNotification('Course unlocked! Start learning now 🚀', 'success', 4000);
     setTimeout(() => { closePaymentModal(); renderCourses(); updateDashboard(); updateRoadmap(); }, 1500);
 }
 
@@ -2080,6 +2463,7 @@ function markComplete(courseId) {
             completedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
         db.collection('certificates').doc(code).set({ courseId, courseTitle: course.title, userId: currentUser.uid, userEmail: currentUser.email });
+        showNotification('🎉 Course complete! Certificate generated.', 'success', 5000);
     }
     renderCourses(); updateDashboard(); updateRoadmap();
 }
@@ -2192,6 +2576,8 @@ function refreshAdmin() {
     db.collectionGroup('enrollments').get().then(snapshot => { document.getElementById('statEnrollments').textContent = snapshot.size; });
     db.collection('users').get().then(snapshot => { document.getElementById('statEmployers').textContent = Math.floor(snapshot.size * 0.2); });
     document.getElementById('statAI').textContent = Math.floor(Math.random() * 500) + 100;
+    loadAdminTestimonials();
+    loadAdminCourseRequests();
 }
 
 // ================================================================
@@ -2231,6 +2617,7 @@ function submitContactForm() {
         document.getElementById('contactEmail').value = '';
         document.getElementById('contactSubject').value = '';
         document.getElementById('contactMessage').value = '';
+        showNotification('Message sent! We\'ll get back to you soon.', 'success', 3000);
     }).catch(err => {
         status.innerHTML = '<span style="color:#f44336;">Error: ' + err.message + '</span>';
     });
@@ -2254,6 +2641,7 @@ function submitCourseRequest() {
         document.getElementById('requestCategory').value = '';
         document.getElementById('requestDescription').value = '';
         document.getElementById('requestReason').value = '';
+        showNotification('Course request submitted! We\'ll review it soon.', 'success', 3000);
     }).catch(err => {
         status.innerHTML = '<span style="color:#f44336;">Error: ' + err.message + '</span>';
     });
@@ -2340,6 +2728,9 @@ function switchTab(t) {
     if (t === 'courses') renderCourses();
     if (t === 'roadmap') updateRoadmap();
     if (t === 'admin') refreshAdmin();
+    if (t === 'testimonials') loadTestimonials(true);
+    if (t === 'blog') loadBlogPosts();
+    if (t === 'home') { loadTestimonials(true); updateRecommendedCourses(); }
 }
 
 function openModal(html) {
@@ -2484,7 +2875,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             document.getElementById('loginBtn').innerText = 'Logout';
             document.getElementById('loginBtn').onclick = () => { auth.signOut(); location.reload(); };
             
-            // Fetch phone number from Firestore and display it
             db.collection('users').doc(user.uid).get().then(doc => {
                 if (doc.exists) {
                     const data = doc.data();
@@ -2516,6 +2906,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
             if (document.getElementById('tab-community').classList.contains('active')) loadForumPosts();
             if (document.getElementById('tab-employer').classList.contains('active')) { loadEmployerJobs(); loadAllJobs(); }
+            if (document.getElementById('tab-testimonials').classList.contains('active')) loadTestimonials(true);
+            if (document.getElementById('tab-blog').classList.contains('active')) loadBlogPosts();
+            if (document.getElementById('tab-admin').classList.contains('active')) { refreshAdmin(); }
         } else {
             currentUser = null;
             document.getElementById('userStatus').innerText = '🔓 Guest';
@@ -2525,12 +2918,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
 
+    // Load testimonials on home page
+    loadTestimonials(true);
+    loadBlogPosts();
+
     setTimeout(() => {
         speak("Welcome to SkillBridge Africa. Your journey to mastery begins here.");
     }, 1000);
 });
 
-console.log('🚀 SBA – Phone Login, Forum, Jobs & Content Management fully functional!');
+console.log('🚀 SBA – ALL 6 Features now live! Phone Login • Forum • Jobs • Testimonials • Blog • Chart • Notifications • Course Requests • Recommended Courses');
 </script>
 </body>
 </html>
