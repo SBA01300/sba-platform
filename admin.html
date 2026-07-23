@@ -10,6 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
     <style>
+        /* (same as before – keep all styles) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Roboto, system-ui, sans-serif; background: #0d1117; color: #e6edf3; transition: 0.3s; padding: 20px; }
         .container { max-width: 1400px; margin: 0 auto; }
@@ -38,6 +39,8 @@
         .btn-success:hover { background: #388bfd; transform: scale(1.02); }
         .btn-warning { background: #d29922; color: #fff; }
         .btn-warning:hover { background: #e3b341; transform: scale(1.02); }
+        .btn-purple { background: #6f42c1; color: #fff; }
+        .btn-purple:hover { background: #8957e5; transform: scale(1.02); }
         .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; margin: 2px; }
         .tag-success { background: #238636; color: #fff; }
         .tag-warning { background: #d29922; color: #fff; }
@@ -75,6 +78,10 @@
         .media-preview { max-width: 200px; max-height: 120px; border-radius: 4px; border: 1px solid #21262d; }
         .file-upload-area { border: 2px dashed #21262d; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: 0.2s; }
         .file-upload-area:hover { border-color: #58a6ff; }
+        .generate-progress { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 16px; max-height: 300px; overflow-y: auto; font-size: 0.85rem; margin-top: 12px; display: none; }
+        .generate-progress .log-line { padding: 2px 0; border-bottom: 1px solid #21262d; color: #8b949e; }
+        .generate-progress .log-line.success { color: #238636; }
+        .generate-progress .log-line.error { color: #f85149; }
         @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } .container { padding: 10px; } }
     </style>
 </head>
@@ -97,6 +104,7 @@
             <button class="nav-tab" data-tab="quiz" onclick="switchTab('quiz')">🧪 Quiz Builder</button>
             <button class="nav-tab" data-tab="media" onclick="switchTab('media')">📁 Media Library</button>
             <button class="nav-tab" data-tab="analytics" onclick="switchTab('analytics')">📈 Analytics</button>
+            <button class="nav-tab" data-tab="generate" onclick="switchTab('generate')">⚡ Generate All</button>
         </div>
 
         <!-- ===== TAB: DASHBOARD ===== -->
@@ -115,6 +123,7 @@
                     <button class="btn btn-success" onclick="switchTab('content')">➕ Add Module</button>
                     <button class="btn btn-primary" onclick="switchTab('quiz')">🧪 Create Quiz</button>
                     <button class="btn btn-warning" onclick="switchTab('media')">📁 Upload Media</button>
+                    <button class="btn btn-purple" onclick="switchTab('generate')">⚡ Generate All Content</button>
                     <button class="btn btn-secondary" onclick="refreshAll()">🔄 Refresh All</button>
                 </div>
             </div>
@@ -138,7 +147,6 @@
         <!-- ===== TAB: CONTENT MANAGER ===== -->
         <div id="tab-content" class="tab-content">
             <div class="grid-2">
-                <!-- Left Panel: Select Course & Module -->
                 <div class="card">
                     <h3>📝 Select Course</h3>
                     <div class="form-group">
@@ -147,7 +155,6 @@
                     </div>
                     <div id="moduleListContent"><p style="color:#8b949e;">Select a course to view modules.</p></div>
                 </div>
-                <!-- Right Panel: Edit Module -->
                 <div class="card">
                     <h3>✏️ Edit Module</h3>
                     <div id="moduleEditor">
@@ -237,6 +244,25 @@
                 </div>
             </div>
         </div>
+
+        <!-- ===== TAB: GENERATE ALL CONTENT ===== -->
+        <div id="tab-generate" class="tab-content">
+            <div class="card">
+                <h3>⚡ Generate Default Content for ALL Courses</h3>
+                <p style="color:#8b949e;margin-bottom:12px;">
+                    This will create <strong>8 default modules</strong> for every course that doesn't already have content in Firestore.
+                    Each module will include title, description, learning objectives, video placeholder, quiz placeholder, and assignment placeholder.
+                    <br><br>
+                    <strong>⚠️ This is a one‑time operation.</strong> It will not overwrite existing content. If you want to regenerate, you'll need to delete the course's content first.
+                </p>
+                <div class="flex">
+                    <button class="btn btn-purple" onclick="generateAllContent()">🚀 Generate All Content</button>
+                    <span id="generateStatus" style="color:#8b949e;"></span>
+                </div>
+                <div id="generateProgress" class="generate-progress"></div>
+            </div>
+        </div>
+
     </div>
 
     <!-- TOAST NOTIFICATION -->
@@ -271,14 +297,66 @@
         let mediaFiles = [];
 
         // ================================================================
+        // ALL COURSE TITLES (from index.html)
+        // ================================================================
+        const baseTitles = [
+            "Soap Making (Cottage Level)", "Liquid Soap & Detergent", "Shampoo & Hair Care", "Toothpaste & Oral Hygiene", "Shoe Polish & Leather Care",
+            "Jam & Fruit Preserves Making", "Peanut Butter & Nut Spreads", "Body Lotion & Cream", "Household Cleaning Products", "Candle & Wax Melts",
+            "Yogurt & Dairy Processing", "Spice Blending & Packaging", "Herbal Pomade & Hair Gel", "Vegetable Oil Extraction", "Paper Recycling & Notebooks",
+            "Charcoal Briquettes", "Fruit Juice & Syrup Bottling", "Natural Deodorant & Perfume Making", "Dishwashing Liquid", "Shea Butter & Cocoa Butter",
+            "Paint & Pigment Making", "Bread & Cake Baking", "Biofuel & Ethanol", "Soapstone & Clay Craft Production", "Handmade Paper & Card Making",
+            "Drying Vegetables (Solar & Oven)", "Marinating Vegetables", "Bottling Vegetables (Canning)", "Fermenting Vegetables (Kraut & Kimchi)",
+            "Freezing Vegetables", "Making Vegetable Powders", "Pickling Vegetables", "Making Vegetable Chutneys & Relishes", "Vegetable Juice Concentrates",
+            "Storing Vegetables in Sand/Ash", "Tomato Paste & Puree Making", "Cabbage Kraut & Kimchi (Fermentation)", "Onion & Garlic Powder Production",
+            "Pepper & Chili Sauce Preservation", "Fruit Jam & Syrup Preservation", "Green Bean & Pea Preservation", "Sweetcorn Preservation", "Overstock Vegetable Processing",
+            "Dairy Milk Production", "Advanced Dairy Farming", "Calf Rearing", "Beef Feedlot Management", "Beef Ranch Operations", "Cattle Breeding", "Herd Health Management",
+            "Broiler Production", "Advanced Broiler Management", "Layer Management", "Breeder Flock Management", "Hatchery Operations", "Free-Range Poultry", "Duck Production", "Turkey Farming",
+            "Maize Production", "Advanced Maize Production", "Wheat Cultivation", "Professional Wheat Farming", "Sorghum Farming", "Millet Production",
+            "Barley Farming", "Oats Production", "Soybean Farming", "Advanced Soybean Cultivation", "Cowpea Farming", "Lentil Cultivation",
+            "Beekeeping Fundamentals", "Hive Management", "Honey Processing", "Bee Health Management",
+            "Bee Hive Construction",
+            "Moringa Cultivation", "Basil Farming", "Thyme Production", "Rosemary Cultivation", "Mint Farming", "Clove Production", "Cardamom Cultivation", "Cinnamon Farming", "Aloe Vera Farming",
+            "Tomato Farming", "Professional Tomato Cultivation", "Onion Cultivation", "Cabbage Production", "Carrot Cultivation", "Lettuce Farming",
+            "Cucumber Production", "Okra Cultivation", "Spinach Farming", "Broccoli Production",
+            "Cassava Production", "Yam Cultivation", "Sweet Potato Farming", "Irish Potato Production", "Taro Root Farming", "Ginger Cultivation",
+            "Beetroot Farming", "Garlic Cultivation", "Turmeric Farming", "Radish Farming", "Turnip Cultivation", "Parsnip Farming",
+            "Swede (Rutabaga) Farming", "Celeriac Cultivation", "Horseradish Farming", "Jerusalem Artichoke Farming", "Arrowroot Production", "Tiger Nut Cultivation",
+            "Citrus Orchard Management", "Advanced Citrus Production", "Banana Plantation", "Mango Farming", "Avocado Production", "Pineapple Cultivation",
+            "Papaya Farming", "Guava Production", "Passion Fruit Cultivation", "Apple Orchard", "Pear Orchard", "Plum Cultivation", "Peach Farming",
+            "Cherry Production", "Fig Farming", "Date Palm Cultivation", "Pomegranate Farming",
+            "Cashew Nut Production", "Macadamia Farming", "Sesame Seed Cultivation", "Sunflower Seed Production", "Shea Nut Processing", "Groundnut Farming",
+            "Chili Pepper Farming", "Bell Pepper Production", "Black Pepper Cultivation", "Bird's Eye Chili", "Pepper Processing", "Pepper Seed Production",
+            "Dried Pepper Processing", "Pepper Oil Extraction", "Sweet Pepper Farming", "Habanero Farming", "Crushed Chili Production", "Pepper Sauce Making", "Pepper Export & Marketing",
+            "Catfish Farming", "Advanced Catfish Production", "Tilapia Production", "Aquaponics Systems", "Fish Pond Construction", "Fish Processing",
+            "Pig Rearing", "Advanced Pig Production", "Breeding & Boar Management", "Farrowing & Weaning",
+            "Rabbit Production", "Advanced Rabbit Farming", "Rabbit Breeding", "Rabbit Health Management",
+            "Wool Sheep Production", "Meat Sheep Management", "Dairy Goat Farming", "Meat Goat Production", "Boer Goat Farming", "Kalahari Goat Production",
+            "Dorper Sheep Farming", "Merino Sheep Production", "Karakul Sheep Farming",
+            "Camel Farming", "Ostrich Farming", "Donkey Farming", "Bull Farming", "Steer Farming", "Fattening Operations", "Game Farming",
+            "Coffee Production", "Cocoa Farming", "Sugarcane Farming", "Tea Cultivation", "Cotton Production", "Tobacco Cultivation",
+            "Rubber Plantation", "Oil Palm Production", "Hemp Cultivation",
+            "Timber Production", "Agroforestry", "Tree Nursery Management", "Forest Conservation", "Bamboo Production",
+            "Mining Fundamentals", "Gold Mining Operations", "Diamond Mining", "Platinum Mining", "Coal Mining", "Mining Safety",
+            "Mine Planning & Design", "Mineral Processing", "Mining Economics", "Artisanal & Small-Scale Mining",
+            "Animal Feed Production", "Molasses Making", "Hay Making", "Haylage Production", "Silage Production", "Total Mixed Ration", "Pellet Production", "Alfalfa Cultivation",
+            "Animal House Construction", "Brick Making", "Road Construction", "Bricklaying", "Plumbing", "Electrical Installation", "Welding",
+            "Biogas Training", "Biogas Training & Construction", "Metal Fabrication",
+            "Computer Networking", "Cybersecurity", "Web Development", "Data Science",
+            "Healthcare Administration", "Nursing Fundamentals", "Pharmacy Practice", "Public Health",
+            "Motor Vehicle Mechanics", "Auto Electrical Systems", "Panel Beating", "Vehicle Diagnostics",
+            "Supply Chain Management", "Logistics Planning", "Warehouse Management", "Transport Logistics",
+            "Learn Shona Language", "Learn Chinese Language",
+            "Diesel Engines", "Petrol Engines", "Solar Water Pump", "Sodium Battery and Recycling", "Scrap Metal"
+        ];
+
+        // ================================================================
         // AUTH
         // ================================================================
         auth.onAuthStateChanged(user => {
             if (user) {
                 currentUser = user;
                 document.getElementById('adminUser').textContent = '👤 ' + user.email;
-                // Check if admin (you can add admin emails here)
-                const adminEmails = ['admin@sba.africa', 'admin@afriaquaticweedharvesters.com', 'enroll@skillbridgeafrica.africa'];
+                const adminEmails = ['admin@afriaquaticweedharvesters.com', 'enroll@skillbridgeafrica.africa'];
                 if (!adminEmails.includes(user.email)) {
                     document.getElementById('adminUser').textContent = '⚠️ Not an admin';
                     showToast('You are not authorized to access this panel.', 'error');
@@ -343,7 +421,10 @@
                 populateCourseSelects();
             } catch (e) {
                 console.error('Load courses error:', e);
-                showToast('Error loading courses: ' + e.message, 'error');
+                // If collection doesn't exist yet, it's fine
+                if (e.code !== 'permission-denied') {
+                    showToast('Error loading courses: ' + e.message, 'error');
+                }
             }
         }
 
@@ -396,14 +477,14 @@
                     totalModules += c.modules.length;
                     c.modules.forEach(m => {
                         if (m.video && m.video.url) totalVideos++;
-                        if (m.quiz && m.quiz.questions) totalQuizzes++;
+                        if (m.quiz && m.quiz.questions && m.quiz.questions.length > 0) totalQuizzes++;
                         if (m.assignment && m.assignment.instructions) totalAssignments++;
                     });
                 }
             });
 
             // Calculate content completeness (rough estimate)
-            const totalPossible = courses.length * 8; // 8 modules per course
+            const totalPossible = courses.length * 8;
             contentComplete = totalPossible > 0 ? Math.round((totalModules / totalPossible) * 100) : 0;
 
             document.getElementById('statCourses').textContent = courses.length;
@@ -437,7 +518,6 @@
                 </div>
             `;
 
-            // Show individual course status
             html += '</div><div style="margin-top:12px;">';
             courses.slice(0, 10).forEach(c => {
                 const modCount = c.modules ? c.modules.length : 0;
@@ -480,7 +560,7 @@
         }
 
         // ================================================================
-        // CONTENT MANAGER
+        // CONTENT MANAGER (same as before – kept)
         // ================================================================
         function loadModulesForContent() {
             const sel = document.getElementById('contentCourseSelect');
@@ -663,7 +743,7 @@
         }
 
         // ================================================================
-        // QUIZ BUILDER
+        // QUIZ BUILDER (same as before)
         // ================================================================
         function addQuizQuestion() {
             const container = document.getElementById('quizQuestionsContainer');
@@ -714,7 +794,6 @@
                 if (!course) throw new Error('Course not found');
                 if (!course.modules) course.modules = [];
 
-                // Find or create module
                 let moduleIdx = course.modules.findIndex(m => m.title === moduleTitle);
                 if (moduleIdx === -1) {
                     course.modules.push({
@@ -813,7 +892,6 @@
                         progressDiv.style.display = 'none';
                         showToast('✅ Upload complete!');
 
-                        // Update the module with the media URL
                         try {
                             const course = courses.find(c => c.id === courseTitle);
                             if (!course) throw new Error('Course not found');
@@ -876,7 +954,7 @@
         }
 
         // ================================================================
-        // ANALYTICS
+        // ANALYTICS (same as before)
         // ================================================================
         async function loadAnalytics() {
             const container = document.getElementById('analyticsContent');
@@ -894,7 +972,6 @@
                         if (m.video && m.video.url) totalVideos++;
                         if (m.quiz && m.quiz.questions && m.quiz.questions.length > 0) totalQuizzes++;
                         if (m.assignment && m.assignment.instructions) totalAssignments++;
-                        // Estimate completion
                         const hasAll = (m.video && m.video.url) && (m.quiz && m.quiz.questions.length > 0);
                         if (hasAll) completedModules++;
                     });
@@ -925,7 +1002,6 @@
                 </div>
             `;
 
-            // Completion rates per course
             const ratesContainer = document.getElementById('completionRates');
             let ratesHtml = '';
             for (const [title, data] of Object.entries(courseContent)) {
@@ -943,7 +1019,6 @@
             }
             ratesContainer.innerHTML = ratesHtml || '<p style="color:#8b949e;">No course data yet.</p>';
 
-            // Quality scores
             const scoresContainer = document.getElementById('qualityScores');
             let scoresHtml = '';
             for (const [title, data] of Object.entries(courseContent)) {
@@ -970,12 +1045,101 @@
         }
 
         // ================================================================
+        // GENERATE ALL CONTENT
+        // ================================================================
+        function getDefaultModules() {
+            // Generate 8 default modules
+            const moduleTitles = [
+                "Introduction to {title}",
+                "Core Principles of {title}",
+                "Key Components & Materials",
+                "Step-by-Step Process",
+                "Safety & Best Practices",
+                "Troubleshooting & Common Issues",
+                "Advanced Techniques",
+                "Business & Monetization"
+            ];
+
+            return moduleTitles.map((t, i) => ({
+                title: t.replace(/\{title\}/g, 'this course'),
+                description: `Learn the fundamentals of this module.`,
+                learningObjectives: [
+                    `Understand the key concepts of ${t.replace(/\{title\}/g, 'this module')}`,
+                    `Apply practical skills in real-world scenarios`
+                ],
+                estimatedTime: i < 4 ? '45 min' : '1 hour',
+                video: { url: '', duration: '' },
+                guide: { pdfUrl: '', summary: '' },
+                quiz: { questions: [], passMark: 70 },
+                assignment: { instructions: '', deliverable: '', rubric: '' }
+            }));
+        }
+
+        async function generateAllContent() {
+            const button = document.querySelector('#tab-generate .btn-purple');
+            const statusSpan = document.getElementById('generateStatus');
+            const progressDiv = document.getElementById('generateProgress');
+            const logContainer = progressDiv;
+
+            if (!confirm('This will generate default modules for ALL courses that don\'t have content yet. Proceed?')) return;
+
+            button.disabled = true;
+            button.textContent = '⏳ Generating...';
+            statusSpan.textContent = '';
+            progressDiv.style.display = 'block';
+            progressDiv.innerHTML = '';
+
+            // Get all course titles from the list
+            const allTitles = baseTitles.map(title => {
+                // Also create "Advanced" versions? No, we'll only create for the base titles.
+                return title;
+            });
+
+            let added = 0;
+            let skipped = 0;
+            let errors = 0;
+
+            for (const title of allTitles) {
+                // Check if this course already has content
+                const existing = courses.find(c => c.id === title);
+                if (existing && existing.modules && existing.modules.length > 0) {
+                    skipped++;
+                    logContainer.innerHTML += `<div class="log-line">⏭️ Skipped: ${title} (already has content)</div>`;
+                    continue;
+                }
+
+                try {
+                    const defaultModules = getDefaultModules();
+                    await db.collection('courseContent').doc(title).set({
+                        modules: defaultModules
+                    });
+                    added++;
+                    logContainer.innerHTML += `<div class="log-line success">✅ Added: ${title}</div>`;
+                    // Update local courses array
+                    courses.push({ id: title, modules: defaultModules });
+                } catch (e) {
+                    errors++;
+                    logContainer.innerHTML += `<div class="log-line error">❌ Error: ${title} - ${e.message}</div>`;
+                }
+
+                // Scroll to bottom
+                logContainer.scrollTop = logContainer.scrollHeight;
+            }
+
+            statusSpan.textContent = `✅ Done: ${added} added, ${skipped} skipped, ${errors} errors.`;
+            button.disabled = false;
+            button.textContent = '🚀 Generate All Content';
+
+            // Reload data
+            await loadAllData();
+            showToast(`Generated content for ${added} courses!`, 'success');
+        }
+
+        // ================================================================
         // INIT
         // ================================================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Set up file upload click
             document.getElementById('mediaFileInput').addEventListener('change', uploadMedia);
-            // Load initial data
             loadAllData();
         });
 
