@@ -1037,35 +1037,36 @@
             <div style="display:flex; gap:8px; margin-bottom:12px;">
                 <button class="btn-primary" onclick="setAuthTab('login')" id="loginTabBtn" style="background:#0a6bff;">Login</button>
                 <button class="btn-primary" onclick="setAuthTab('signup')" id="signupTabBtn" style="background:#5a6f8c;">Sign Up</button>
-            </div>
-            <div id="authLoginForm">
-                <div class="form-group"><label>Email</label><input type="email" id="authEmail" placeholder="you@example.com"></div>
-                <div class="form-group"><label>Password</label><input type="password" id="authPassword" placeholder="Password"></div>
-            </div>
-            <div id="authSignupForm" style="display:none;">
-                <div class="form-group"><label>Name</label><input type="text" id="signupName" placeholder="Your name"></div>
-                <div class="form-group"><label>Email</label><input type="email" id="signupEmail" placeholder="you@example.com"></div>
-                <div class="form-group"><label>Phone</label><input type="tel" id="signupPhone" placeholder="+263 77 123 4567"></div>
-                <div class="form-group"><label>Password</label><input type="password" id="signupPassword" placeholder="Min 6 chars"></div>
-                <div class="form-group"><label>Confirm</label><input type="password" id="signupConfirmPassword" placeholder="Confirm"></div>
-            </div>
-            <div id="authError" style="color:#f44336;display:none;"></div>
-            <button class="btn-primary" id="authSubmitBtn" onclick="handleAuth()" style="width:100%;padding:10px;">Login</button>
-            <a href="#" onclick="resetPassword()" style="color:#0a6bff;display:block;margin-top:8px;text-align:center;font-size:0.85rem;">Forgot password?</a>
-        </div>
+                </div>
+    <div id="authLoginForm">
+        <div class="form-group"><label>Email</label><input type="email" id="authEmail" placeholder="your email"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="authPassword" placeholder="your password"></div>
     </div>
+    <div id="authSignupForm" style="display:none;">
+        <div class="form-group"><label>Name</label><input type="text" id="signupName" placeholder="Your name"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="signupEmail" placeholder="your email"></div>
+        <div class="form-group"><label>Phone</label><input type="tel" id="signupPhone" placeholder="+263 77 123 4567"></div>
+        <div class="form-group"><label>Password</label><input type="password" id="signupPassword" placeholder="your password"></div>
+        <div class="form-group"><label>Confirm</label><input type="password" id="signupConfirmPassword" placeholder="your password"></div>
+    </div>
+    <div id="authError" style="color:#f44336;display:none;"></div>
+    <button class="btn-primary" id="authSubmitBtn" onclick="handleAuth()" style="width:100%;padding:10px;">Login</button>
+    <a href="#" onclick="resetPassword()" style="color:#0a6bff;display:block;margin-top:8px;text-align:center;font-size:0.85rem;">Forgot password?</a>
+</div>
+</div>
 
-    <div class="modal-overlay" id="paymentModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closePaymentModal()">✕</button>
-            <h3>💳 Unlock Course</h3>
-            <div id="paymentCourseName" style="font-weight:700;margin-bottom:12px;"></div>
-            <div class="payment-option" onclick="selectPaymentOption('full')" id="optFull"><strong>🎓 Full Access</strong> – $10.00<br><small>Full course + Certificate + AI Tutor</small></div>
-            <div class="payment-option" onclick="selectPaymentOption('readonly')" id="optRead"><strong>📖 Read-Only</strong> – $3.50</div>
-            <div class="payment-option" onclick="selectPaymentOption('bundle')" id="optBundle"><strong>📦 Bundle (5 courses)</strong> – $40.00</div>
-            <button class="btn-gold" id="payNowBtn" onclick="processPayment()" style="width:100%;padding:12px;font-size:1.1rem;margin-top:8px;">✅ Pay Now</button>
-            <p id="paymentStatus" style="margin-top:8px;font-size:0.8rem;color:#5a6f8c;"></p>
-        </div>
+<div class="modal-overlay" id="paymentModal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closePaymentModal()">✕</button>
+        <h3>💳 Unlock Course</h3>
+        <div id="paymentCourseName" style="font-weight:700;margin-bottom:12px;"></div>
+        <div class="payment-option" onclick="selectPaymentOption('full')" id="optFull"><strong>🎓 Full Access</strong> – $10.00<br><small>Full course + Certificate + AI Tutor</small></div>
+        <div class="payment-option" onclick="selectPaymentOption('readonly')" id="optRead"><strong>📖 Read-Only</strong> – $3.50<br><small>View only (No Certificate)</small></div>
+        <div class="payment-option" onclick="selectPaymentOption('bundle')" id="optBundle"><strong>📦 Bundle (5 courses)</strong> – $40.00<br><small>Save $10</small></div>
+        <button class="btn-gold" id="payNowBtn" onclick="processPayment()" style="width:100%;padding:12px;font-size:1.1rem;margin-top:8px;">✅ Pay Now</button>
+        <p id="paymentStatus" style="margin-top:8px;font-size:0.8rem;color:#5a6f8c;"></p>
+    </div>
+</div>
     </div>
 
     <div class="modal-overlay" id="reviewModal">
