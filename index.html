@@ -1365,7 +1365,73 @@
         // ================================================================
         // INIT COURSES
         // ================================================================
-        function initializeCourses() {
+        async function loadCourseContentFromFirestore() {
+    try {
+        const snapshot = await db.collection('courseContent').get();
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            // Use the originalTitle if available, otherwise use the doc id
+            const key = data.originalTitle || doc.id;
+            firestoreModules[key] = data.modules || [];
+        });
+        console.log('✅ Loaded', Object.keys(firestoreModules).length, 'course contents from Firestore.');
+    } catch (e) {
+        console.warn('⚠️ Could not load course content from Firestore, using fallback.', e);
+    }
+}
+    let courseDefs = [];
+    baseTitles.forEach(title => {
+        let cat = categoryMap[title] || defaultCategory;
+        courseDefs.push({ title: title, cat: cat, diff: 'Beginner' });
+        courseDefs.push({ title: "Advanced " + title, cat: cat, diff: 'Advanced' });
+    });
+
+    courses = courseDefs.map((def, index) => {
+        const id = 'SBA' + String(index + 1).padStart(4, '0');
+        let modules = [];
+        const baseTitle = def.title.replace(/^Advanced /, '');
+        // Try to find content by using the sanitized ID
+        const sanitizedId = baseTitle.replace(/\//g, '-').replace(/[^a-zA-Z0-9\-_]/g, '-');
+        
+        // Check if we have content for this course in firestoreModules
+        if (firestoreModules[sanitizedId]) {
+            modules = firestoreModules[sanitizedId];
+        } else if (firestoreModules[baseTitle]) {
+            // fallback to original ID if exists
+            modules = firestoreModules[baseTitle];
+        } else if (hardcodedModules[baseTitle]) {
+            modules = hardcodedModules[baseTitle];
+        } else {
+            modules = getGenericModules(def.title);
+        }
+        return {
+            id: id,
+            title: def.title,
+            category: def.cat,
+            modules: modules,
+            enrolled: false,
+            purchased: false,
+            purchaseType: null,
+            progress: 0,
+            completed: false,
+            certificateCode: null,
+            difficulty: def.diff || 'Beginner',
+            completedModules: [],
+            duration: ['Beginner'].includes(def.diff) ? 'short' : 'medium',
+            reviews: [],
+            averageRating: 0,
+            reviewCount: 0
+        };
+    });
+    renderCourses();
+    populateFilters();
+    updateStats();
+    updateRoadmap();
+    populateFullCategories();
+    updateRecommendedCourses();
+    loadAllReviews();
+    updateAdminCourseContentPercentage();
+}
             let courseDefs = [];
             baseTitles.forEach(title => {
                 let cat = categoryMap[title] || defaultCategory;
