@@ -2045,30 +2045,80 @@ function renderRecommendedCarousel() {
                 <div class="admin-chart-row"><span class="admin-chart-label">Tue</span><div class="admin-chart-track"><div class="admin-chart-fill" style="width:80%;"></div></div><span class="admin-chart-value">$80</span></div>
                 <div class="admin-chart-row"><span class="admin-chart-label">Wed</span><div class="admin-chart-track"><div class="admin-chart-fill" style="width:45%;"></div></div><span class="admin-chart-value">$45</span></div>
             `;
-        }
+       // ===== BLOG =====
+function loadBlogPosts() {
+    document.getElementById('blogGridContainer').innerHTML = `
+        <div class="blog-card">
+            <div class="blog-date">📅 July 20, 2025</div>
+            <h4>🌱 Sustainable Farming</h4>
+            <p>Learn eco-friendly techniques that boost yields while protecting the environment.</p>
+        </div>
+        <div class="blog-card">
+            <div class="blog-date">📅 July 15, 2025</div>
+            <h4>💻 AI Tutor Now Live!</h4>
+            <p>24/7 personalized help for all your vocational training questions.</p>
+        </div>
+        <div class="blog-card">
+            <div class="blog-date">📅 July 10, 2025</div>
+            <h4>🏆 Grace's Story</h4>
+            <p>How Grace turned her soap making skills into a thriving business.</p>
+        </div>
+    `;
+}
 
-        // ===== BLOG =====
-        function loadBlogPosts() {
-            document.getElementById('blogGridContainer').innerHTML = `
-                <div class="blog-card"><div class="blog-date">📅 July 20</div><h4>🌱 Sustainable Farming</h4><p>Learn eco-friendly techniques.</p></div>
-                <div class="blog-card"><div class="blog-date">📅 July 15</div><h4>💻 AI Tutor Live!</h4><p>24/7 personalized help.</p></div>
-                <div class="blog-card"><div class="blog-date">📅 July 10</div><h4>🏆 Grace's Story</h4><p>From student to business owner.</p></div>
-            `;
+// ===== TESTIMONIALS (5 DIVERSITY) =====
+function loadTestimonials() {
+    const testimonials = [
+        {
+            name: 'Grace Mwangi',
+            role: 'Soap Making',
+            quote: '"SBA changed my life! I started my own soap business and now employ 3 people."',
+            emoji: '👩🏿',
+            bg: '#8D6E63'
+        },
+        {
+            name: 'John Ochieng',
+            role: 'Electrical',
+            quote: '"The AI Tutor helped me understand electrical concepts I struggled with for years."',
+            emoji: '👨🏾',
+            bg: '#2196F3'
+        },
+        {
+            name: 'Priya Patel',
+            role: 'ICT',
+            quote: '"I got my blockchain certificate and landed a job within 2 weeks. Incredible!"',
+            emoji: '👩🏽',
+            bg: '#E91E63'
+        },
+        {
+            name: 'David Kamau',
+            role: 'Food Preservation',
+            quote: '"The food preservation course taught me how to reduce waste and increase profits."',
+            emoji: '👨🏿',
+            bg: '#FF9800'
+        },
+        {
+            name: 'Sarah Njoroge',
+            role: 'Beauty',
+            quote: '"SBA is the best investment I ever made. The skills are practical and in-demand."',
+            emoji: '👩🏾',
+            bg: '#9C27B0'
         }
+    ];
 
-        // ===== TESTIMONIALS (5 symmetric) =====
-        function loadTestimonials() {
-            const testimonials = [
-                { name: 'Grace Mwangi', role: 'Soap Making', quote: '"SBA changed my life! I started my own soap business and now employ 3 people."', emoji: '👩', bg: '#e91e63' },
-                { name: 'John Ochieng', role: 'Electrical', quote: '"The AI Tutor helped me understand electrical concepts I struggled with for years."', emoji: '👨', bg: '#2196F3' },
-                { name: 'Faith Akinyi', role: 'ICT', quote: '"I got my blockchain certificate and landed a job within 2 weeks. Incredible!"', emoji: '👩', bg: '#4caf50' },
-                { name: 'David Kamau', role: 'Food Preservation', quote: '"The food preservation course taught me how to reduce waste and increase profits."', emoji: '👨', bg: '#ff9800' },
-                { name: 'Sarah Njoroge', role: 'Beauty', quote: '"SBA is the best investment I ever made. The skills are practical and in-demand."', emoji: '👩', bg: '#9c27b0' }
-            ];
-            
-            const container = document.getElementById('testimonialsGrid');
-            container.innerHTML = testimonials.map(t => `
-                <div class="testimonial-card">
+    const container = document.getElementById('testimonialsGrid');
+    container.innerHTML = testimonials.map(t => `
+        <div class="testimonial-card">
+            <div class="photo" style="background:${t.bg};border-radius:50%;width:50px;height:50px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.8rem;">${t.emoji}</div>
+            <div class="quote">${t.quote}</div>
+            <div class="author">${t.name}</div>
+            <div class="role">${t.role}</div>
+        </div>
+    `).join('');
+
+    const homeGrid = document.getElementById('testimonialHomeGrid');
+    if (homeGrid) homeGrid.innerHTML = container.innerHTML;
+}
                     <div class="photo" style="background:${t.bg};border-radius:50%;width:50px;height:50px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.5rem;">${t.emoji}</div>
                     <div class="quote">${t.quote}</div>
                     <div class="author">${t.name}</div>
