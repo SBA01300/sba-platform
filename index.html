@@ -15,8 +15,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
-    <style>
+<style>
         /* ===== ALL STYLES – same as the working version ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Roboto, system-ui, sans-serif; background: #f4f7fc; color: #0a2540; transition: 0.3s; display: flex; flex-direction: column; min-height: 100vh; }
@@ -142,6 +141,23 @@
         .action-btn.complete { background: #9c27b0; color: #fff; }
         .action-btn.buy { background: #f5a623; color: #fff; }
         .action-btn.continue { background: #4caf50; color: #fff; }
+        .category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+.category-grid a {
+  background: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.category-grid a:hover {
+  background: #0056b3;
+}
         .action-btn.pdf { background: #dc3545; color: #fff; }
         .action-btn.review { background: #ff6f00; color: #fff; }
         .detail { margin-top: 12px; border-top: 1px solid #e2e9f2; padding-top: 12px; display: none; }
@@ -298,23 +314,6 @@
         .advice-card .advice-icon { font-size: 2rem; }
         .country-flag { font-size: 1.1rem; margin-right: 4px; }
         .category-grid-full { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin: 16px 0; }
-        .category-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 10px;
-}
-.category-grid a {
-  background: #007bff;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-}
-.category-grid a:hover {
-  background: #0056b3;
-}
         .category-card { background: #fff; border: 1px solid #e2e9f2; border-radius: 10px; padding: 12px 8px; text-align: center; cursor: pointer; transition: 0.2s; }
         .category-card:hover { transform: translateY(-3px); border-color: #0a6bff; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
         body.dark .category-card { background: #1b2a41; border-color: #2d4059; }
