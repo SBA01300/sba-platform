@@ -1127,6 +1127,14 @@
         // ENTER SITE (FIXED – added)
         // ================================================================
         function enterSite() {
+    var splash = document.getElementById('splashScreen');
+    splash.classList.add('hidden');
+    var mainApp = document.getElementById('mainApp');
+    mainApp.style.display = 'block';
+    setTimeout(function() {
+        mainApp.classList.add('visible');
+    }, 50);
+}
             var splash = document.getElementById('splashScreen');
             splash.classList.add('hidden');
             var mainApp = document.getElementById('mainApp');
