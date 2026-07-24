@@ -1097,18 +1097,17 @@
     <script>
         // ===== FIREBASE CONFIG =====
         const firebaseConfig = {
-            apiKey: "AIzaSyC5jPAcpowlM_QTU029Q5McavBkBi91xRo",
-            authDomain: "it-lives-in-us-all.firebaseapp.com",
-            projectId: "it-lives-in-us-all",
-            storAssgeBucket: "it-lives-in-us-all.firebasestorAssge.app",
-            messagingSenderId: "949966080551",
-            appId: "1:949966080551:web:4df95edfbfb4301ad3dc02"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        const storAssge = firebase.storAssge();
-
+    apiKey: "AIzaSyC5jPAcpowlM_QTU029Q5McavBkBi91xRo",
+    authDomain: "it-lives-in-us-all.firebaseapp.com",
+    projectId: "it-lives-in-us-all",
+    storageBucket: "it-lives-in-us-all.firebasestorage.app",
+    messagingSenderId: "949966080551",
+    appId: "1:949966080551:web:4df95edfbfb4301ad3dc02"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
         // ===== GLOBAL STATE =====
         let courses = [];
         let currentUser = null;
