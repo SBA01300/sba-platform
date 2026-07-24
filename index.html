@@ -771,13 +771,14 @@
 </div>
 
             <!-- ===== PRESERVATION TAB ===== -->
-            <div id="tab-preserve" class="tab">
+            <!-- ===== PRESERVATION TAB ===== -->
+<div id="tab-preserve" class="tab">
     <h2 style="font-size:1.8rem;">🧮 Food Preservation Calculator</h2>
-    <div style="background:#fff;border-rAssdius:12px;padding:24px;border:1px solid #e2e9f2;max-width:700px;margin:0 auto;">
+    <div style="background:#fff;border-radius:12px;padding:24px;border:1px solid #e2e9f2;max-width:700px;margin:0 auto;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
             <div>
                 <div class="form-group"><label>Vegetable/Fruit</label>
-                    <select id="preserveVeggie" style="width:100%;padding:8px;border-rAssdius:8px;border:2px solid #dce3ed;background:#fff;">
+                    <select id="preserveVeggie" style="width:100%;padding:8px;border-radius:8px;border:2px solid #dce3ed;background:#fff;">
                         <option value="tomato">🍅 Tomato</option>
                         <option value="cabbage">🥬 Cabbage</option>
                         <option value="onion">🧅 Onion</option>
@@ -789,10 +790,10 @@
                     </select>
                 </div>
                 <div class="form-group"><label>Weight (kg)</label>
-                    <input type="number" id="preserveWeight" value="10" style="width:100%;padding:8px;border-rAssdius:8px;border:2px solid #dce3ed;">
+                    <input type="number" id="preserveWeight" value="10" style="width:100%;padding:8px;border-radius:8px;border:2px solid #dce3ed;">
                 </div>
                 <div class="form-group"><label>Preservation Method</label>
-                    <select id="preserveMethod" style="width:100%;padding:8px;border-rAssdius:8px;border:2px solid #dce3ed;background:#fff;">
+                    <select id="preserveMethod" style="width:100%;padding:8px;border-radius:8px;border:2px solid #dce3ed;background:#fff;">
                         <option value="drying">🌞 Drying (85% yield, 12-18 months)</option>
                         <option value="pickling">🥒 Pickling (95% yield, 6-12 months)</option>
                         <option value="canning">🥫 Canning (90% yield, 12-24 months)</option>
@@ -803,18 +804,45 @@
                         <option value="salt">🧂 Salt Curing (82% yield, 6-12 months)</option>
                         <option value="sugar">🍬 Sugar Syrup (78% yield, 12-18 months)</option>
                     </select>
+                    <p style="font-size:0.7rem;color:#5a6f8c;margin-top:4px;">⏳ Shelf life = how long the preserved food stays safe to eat.</p>
                 </div>
                 <button class="btn-primary" onclick="calculatePreservation()" style="width:100%;margin-top:8px;padding:10px;">🧮 Calculate</button>
             </div>
-            <div id="calcResults" style="background:#f9fbfd;border-rAssdius:12px;padding:20px;display:flex;flex-direction:column;justify-content:center;text-align:center;">
+            <div id="calcResults" style="background:#f9fbfd;border-radius:12px;padding:20px;display:flex;flex-direction:column;justify-content:center;text-align:center;">
                 <div style="font-weight:600;color:#5a6f8c;font-size:0.9rem;">📦 Yield</div>
-                <div id="calcYield" style="font-size:1.5rem;font-weight:700;color:#0a6bff;">—</div>
+                <div id="calcYield" class="preserve-result">—</div>
                 <div style="font-weight:600;color:#5a6f8c;margin-top:12px;font-size:0.9rem;">⏳ Shelf Life</div>
-                <div id="calcShelf" style="font-size:1.2rem;font-weight:600;color:#4caf50;">—</div>
+                <div id="calcShelf" class="preserve-result shelf-life">—</div>
                 <div style="font-weight:600;color:#5a6f8c;margin-top:12px;font-size:0.9rem;">📋 Method Used</div>
                 <div id="calcMethod" style="font-size:1rem;font-weight:600;color:#0a6bff;">—</div>
             </div>
         </div>
+    </div>
+
+    <!-- REFERENCE TABLE – ALL METHODS AT A GLANCE -->
+    <div style="background:#fff;border-radius:12px;padding:24px;border:1px solid #e2e9f2;max-width:700px;margin:20px auto;">
+        <h3 style="margin-bottom:12px;">📋 All Preservation Methods – Yield & Shelf Life</h3>
+        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+            <thead>
+                <tr style="background:#0a6bff;color:#fff;">
+                    <th style="padding:8px;text-align:left;">Method</th>
+                    <th style="padding:8px;text-align:left;">Yield</th>
+                    <th style="padding:8px;text-align:left;">Shelf Life</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td style="padding:6px;border-bottom:1px solid #e2e9f2;">🌞 Drying</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">85%</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">12-18 months</td></tr>
+                <tr><td style="padding:6px;border-bottom:1px solid #e2e9f2;">🥒 Pickling</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">95%</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">6-12 months</td></tr>
+                <tr><td style="padding:6px;border-bottom:1px solid #e2e9f2;">🥫 Canning</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">90%</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">12-24 months</td></tr>
+                <tr><td style="padding:6px;border-bottom:1px solid #e2e9f2;">🧫 Fermenting</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">88%</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">6-12 months</td></tr>
+                <tr><td style="padding:6px;border-bottom:1px solid #e2e9f2;">❄️ Freezing</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">92%</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">8-12 months</td></tr>
+                <tr><td style="padding:6px;border-bottom:1px solid #e2e9f2;">🍯 Jam/Preserves</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">75%</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">12-18 months</td></tr>
+                <tr><td style="padding:6px;border-bottom:1px solid #e2e9f2;">🫒 Oil Preservation</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">80%</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">6-9 months</td></tr>
+                <tr><td style="padding:6px;border-bottom:1px solid #e2e9f2;">🧂 Salt Curing</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">82%</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">6-12 months</td></tr>
+                <tr><td style="padding:6px;border-bottom:1px solid #e2e9f2;">🍬 Sugar Syrup</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">78%</td><td style="padding:6px;border-bottom:1px solid #e2e9f2;">12-18 months</td></tr>
+            </tbody>
+        </table>
+        <p style="font-size:0.7rem;color:#5a6f8c;margin-top:8px;">💡 <strong>Shelf Life</strong> = how long the preserved food stays safe to eat when stored properly.</p>
     </div>
 </div>
 
