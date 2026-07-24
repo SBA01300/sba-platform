@@ -1997,18 +1997,23 @@ if (enrolled.length === 0) {
             if (calendarMonth < 0) { calendarMonth = 11; calendarYear--; }
             renderCalendar();
         }
+// ===== FIREBASE CONFIG =====
+const firebaseConfig = {
+    apiKey: "AIzaSyC5jPAcpowlM_QTU029Q5McavBkBi91xRo",
+    authDomain: "it-lives-in-us-all.firebaseapp.com",
+    projectId: "it-lives-in-us-all",
+    storageBucket: "it-lives-in-us-all.firebasestorage.app",
+    messagingSenderId: "949966080551",
+    appId: "1:949966080551:web:4df95edfbfb4301ad3dc02"
+};
 
-        // ===== PRESERVATION CALCULATOR =====
-        function calculatePreservation() {
-            const veggie = document.getElementById('preserveVeggie').value;
-            const weight = parseFloat(document.getElementById('preserveWeight').value) || 0;
-            const method = document.getElementById('preserveMethod').value;
-            
-            const veggieNames = {
-                tomato: 'Tomato', cabbage: 'Cabbage', onion: 'Onion', 
-                mango: 'Mango', carrot: 'Carrot', pepper: 'Pepper',
-                cucumber: 'Cucumber', papaya: 'Papaya'
-            };
+// MAKE SURE THIS EXACT LINE EXISTS:
+firebase.initializeApp(firebaseConfig);
+
+// AND THESE EXACT LINES EXIST:
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
             
             const methodNames = {
                 drying: '🌞 Drying', pickling: '🥒 Pickling', canning: '🥫 Canning',
