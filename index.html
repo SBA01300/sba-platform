@@ -2144,10 +2144,10 @@ function loadTestimonials() {
             bg: '#8D6E63'
         },
         {
-            name: 'John Ochieng',
+            name: 'Ahmed Hassan',
             role: 'Electrical',
             quote: '"The AI Tutor helped me understand electrical concepts I struggled with for years."',
-            emoji: '👨🏾',
+            emoji: '👨🏽',
             bg: '#2196F3'
         },
         {
@@ -2170,9 +2170,30 @@ function loadTestimonials() {
             quote: '"SBA is the best investment I ever made. The skills are practical and in-demand."',
             emoji: '👩🏾',
             bg: '#9C27B0'
+        },
+        {
+            name: 'Michael Chen',
+            role: 'ICT',
+            quote: '"The blockchain certificate gave me credibility with international employers."',
+            emoji: '👨🏻',
+            bg: '#4CAF50'
+        },
+        {
+            name: 'Amina Diallo',
+            role: 'Farming',
+            quote: '"I learned modern farming techniques that doubled my harvest!"',
+            emoji: '👩🏾',
+            bg: '#FF5722'
+        },
+        {
+            name: 'James Okonkwo',
+            role: 'Plumbing',
+            quote: '"The practical skills I learned helped me start my own business."',
+            emoji: '👨🏾',
+            bg: '#3F51B5'
         }
     ];
-
+    
     const container = document.getElementById('testimonialsGrid');
     container.innerHTML = testimonials.map(t => `
         <div class="testimonial-card">
@@ -2182,7 +2203,7 @@ function loadTestimonials() {
             <div class="role">${t.role}</div>
         </div>
     `).join('');
-
+    
     const homeGrid = document.getElementById('testimonialHomeGrid');
     if (homeGrid) homeGrid.innerHTML = container.innerHTML;
 }
