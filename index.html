@@ -1745,6 +1745,21 @@ function submitReview() {
         document.getElementById('reviewModal').classList.remove('open');
     }, 1500);
 }
+
+function submitReview() {
+    const rating = parseInt(document.getElementById('reviewRating').value);
+    const text = document.getElementById('reviewText').value;
+    if (!rating || !text) {
+        document.getElementById('reviewStatus').textContent = '⚠️ Provide rating and review.';
+        return;
+    }
+    document.getElementById('reviewStatus').textContent = '✅ Review submitted!';
+    document.getElementById('reviewText').value = '';
+    setRating(0);
+    setTimeout(() => {
+        document.getElementById('reviewModal').classList.remove('open');
+    }, 1500);
+}
                 updateRoadmap();
             }
         }
