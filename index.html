@@ -2030,38 +2030,47 @@ if (enrolled.length === 0) {
 
         // ===== EMPLOYER =====
         function loadEmployerJobs() {
-            document.getElementById('employerJobList').innerHTML = `
-                <div class="job-card"><div class="job-title">🧑‍🍳 Soap Maker</div><div class="job-meta">🇿🇲 Zambia • $500-$700</div><button class="btn-primary" onclick="applyJob('Soap Maker')">Apply</button></div>
-                <div class="job-card"><div class="job-title">⚡ Electrician</div><div class="job-meta">🇰🇪 Kenya • $800-$1000</div><button class="btn-primary" onclick="applyJob('Electrician')">Apply</button></div>
-            `;
-            document.getElementById('allJobsList').innerHTML = `
-                <div class="job-card"><div class="job-title">🔧 Plumber</div><div class="job-meta">🇺🇬 Uganda • $600-$900</div><button class="btn-primary" onclick="applyJob('Plumber')">Apply</button></div>
-                <div class="job-card"><div class="job-title">🌾 Farmer</div><div class="job-meta">🇹🇿 Tanzania • $400-$600</div><button class="btn-primary" onclick="applyJob('Farmer')">Apply</button></div>
-            `;
-        // ===== EMPLOYER =====
-function postJob() {
-    const title = document.getElementById('jobTitle').value;
-    const desc = document.getElementById('jobDesc').value;
-    if (!title || !desc) {
-        document.getElementById('jobPostStatus').textContent = '⚠️ Fill in title and description.';
-        return;
-    }
-    document.getElementById('jobPostStatus').textContent = '✅ Job posted!';
-    document.getElementById('jobTitle').value = '';
-    document.getElementById('jobDesc').value = '';
-    loadEmployerJobs();
+    const employerList = document.getElementById('employerJobList');
+    const allList = document.getElementById('allJobsList');
+    
+    // Your posted jobs
+    employerList.innerHTML = `
+        <div class="job-card">
+            <div class="job-title">🧑‍🍳 Soap Maker</div>
+            <div class="job-meta">🇿🇲 Zambia • $500-$700</div>
+            <div class="job-desc">Looking for a skilled soap maker to produce high-quality organic soap.</div>
+            <button class="btn-primary" onclick="applyJob('Soap Maker')">📩 Apply Now</button>
+        </div>
+        <div class="job-card">
+            <div class="job-title">⚡ Electrician</div>
+            <div class="job-meta">🇰🇪 Kenya • $800-$1000</div>
+            <div class="job-desc">Residential and commercial electrical installation work available.</div>
+            <button class="btn-primary" onclick="applyJob('Electrician')">📩 Apply Now</button>
+        </div>
+    `;
+    
+    // All jobs (matching)
+    allList.innerHTML = `
+        <div class="job-card">
+            <div class="job-title">🔧 Plumber</div>
+            <div class="job-meta">🇺🇬 Uganda • $600-$900</div>
+            <div class="job-desc">Full-time plumber needed for new construction projects.</div>
+            <button class="btn-primary" onclick="applyJob('Plumber')">📩 Apply Now</button>
+        </div>
+        <div class="job-card">
+            <div class="job-title">🌾 Farmer</div>
+            <div class="job-meta">🇹🇿 Tanzania • $400-$600</div>
+            <div class="job-desc">Organic vegetable farmer needed for 5-acre farm.</div>
+            <button class="btn-primary" onclick="applyJob('Farmer')">📩 Apply Now</button>
+        </div>
+        <div class="job-card">
+            <div class="job-title">💄 Beauty Therapist</div>
+            <div class="job-meta">🇿🇦 South Africa • $700-$900</div>
+            <div class="job-desc">Experienced beauty therapist for premium salon.</div>
+            <button class="btn-primary" onclick="applyJob('Beauty Therapist')">📩 Apply Now</button>
+        </div>
+    `;
 }
-
-function applyJob(jobTitle) {
-    alert('📩 You applied for: ' + jobTitle);
-}
-
-function applyJob(jobTitle) {
-    alert('📩 You applied for: ' + jobTitle);
-}
-            alert('📩 You applied for: ' + jobTitle);
-        }
-
         // ===== VERIFY =====
 function verifyCertificate() {
     const code = document.getElementById('verifyInput').value.trim();
