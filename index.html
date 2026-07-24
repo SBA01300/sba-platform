@@ -1637,92 +1637,119 @@ function renderRecommendedCarousel() {
 
         function closeModal() {
             document.getElementById('modalOverlay').classList.remove('open');
+        }// ===== HANDLE AUTH =====
+function handleAuth() {
+    const errorDiv = document.getElementById('authError');
+    errorDiv.style.display = 'none';
+    errorDiv.textContent = '';
+    
+    if (authTab === 'login') {
+        const email = document.getElementById('authEmail').value.trim();
+        const password = document.getElementById('authPassword').value;
+        
+        if (!email || !password) {
+            errorDiv.textContent = 'Please fill in all fields.';
+            errorDiv.style.display = 'block';
+            return;
         }
-
-        // ===== FREE COURSE =====
-        function claimFreeCourse(id) {
-            const c = courses.find(c => c.id === id);
-            if (!c) return;
-            c.purchased = true;
-            c.purchaseType = 'free';
-            renderCourses();
-            updateDashboard();
-            closeModal();
-            alert('🎉 You have claimed the free course!');
-        }
-
-        // ===== PAYMENT =====
-        function openPayment(id) {
-            selectedPaymentCourseId = id;
-            selectedPaymentType = 'full';
-            document.getElementById('paymentCourseName').textContent = courses.find(c => c.id === id).title;
-            document.getElementById('paymentModal').classList.add('open');
-        }
-        function openPaymentReadOnly(id) {
-            selectedPaymentCourseId = id;
-            selectedPaymentType = 'readonly';
-            document.getElementById('paymentCourseName').textContent = courses.find(c => c.id === id).title;
-            document.getElementById('paymentModal').classList.add('open');
-        }
-        function closePaymentModal() {
-            document.getElementById('paymentModal').classList.remove('open');
-        }
-        function selectPaymentOption(type) {
-            selectedPaymentType = type;
-            document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('selected'));
-            if (type === 'full') document.getElementById('optFull').classList.add('selected');
-            else if (type === 'readonly') document.getElementById('optRead').classList.add('selected');
-            else if (type === 'bundle') document.getElementById('optBundle').classList.add('selected');
-        }
-        function processPayment() {
-            if (!selectedPaymentCourseId || !selectedPaymentType) {
-                document.getElementById('paymentStatus').textContent = '⚠️ Select an option.';
-                return;
-            }
-            const c = courses.find(c => c.id === selectedPaymentCourseId);
-            if (!c) return;
-            c.purchased = true;
-            c.purchaseType = selectedPaymentType;
-            document.getElementById('paymentStatus').textContent = '✅ Payment successful!';
-            setTimeout(() => {
-                closePaymentModal();
-                renderCourses();
+        
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                document.getElementById('authModal').classList.remove('open');
                 updateDashboard();
-                document.getElementById('paymentStatus').textContent = '';
-            }, 1500);
+                loadProfile();
+            })
+            .catch((err) => {
+                errorDiv.textContent = err.message;
+                errorDiv.style.display = 'block';
+            });
+            
+    } else {
+        const name = document.getElementById('signupName').value.trim();
+        const email = document.getElementById('signupEmail').value.trim();
+        const phone = document.getElementById('signupPhone').value.trim();
+        const password = document.getElementById('signupPassword').value;
+        const confirm = document.getElementById('signupConfirmPassword').value;
+        
+        if (!name || !email || !phone || !password || !confirm) {
+            errorDiv.textContent = 'Please fill in all fields.';
+            errorDiv.style.display = 'block';
+            return;
         }
-
-        // ===== COURSE COMPLETION =====
-        function markComplete(id) {
-            const c = courses.find(c => c.id === id);
-            if (!c) return;
-            if (!c.modules) { alert('No modules.'); return; }
+        
+        if (password !== confirm) {
+            errorDiv.textContent = 'Passwords do not match.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+        
+        if (password.length < 6) {
+            errorDiv.textContent = 'Password must be at least 6 characters.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+        
+        auth.createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                return userCredential.user.updateProfile({ displayName: name });
+            })
+            .then(() => {
+                sendWelcomeEmail(email, name);
+                alert('📧 Welcome email sent to ' + email);
+                document.getElementById('authModal').classList.remove('open');
+                updateDashboard();
+                loadProfile();
+            })
+            .catch((err) => {
+                errorDiv.textContent = err.message;
+                errorDiv.style.display = 'block';
+            });
+    }
+}
             const allComplete = c.modules.every((_, i) => c.completedModules && c.completedModules.includes(i));
             if (!allComplete) {
                 alert('Complete all modules first or use "Finish Early".');
                 return;
             }
-            const code = 'SBA-' + id + '-' + Date.now().toString(36).toUpperCase();
-            c.certificateCode = code;
-            c.completed = true;
-            alert('🎓 Certificate generated! Code: ' + code);
-            renderCourses();
-            updateDashboard();
-            updateRoadmap();
-        }
+            // ===== RESET PASSWORD =====
+function resetPassword() {
+    const email = prompt('Enter your email:');
+    if (email) {
+        auth.sendPasswordResetEmail(email)
+            .then(() => alert('📧 Password reset email sent.'))
+            .catch(err => alert('Error: ' + err.message));
+    }
+}
         function finishEarly(id) {
             const c = courses.find(c => c.id === id);
             if (!c) return;
             if (!c.modules) { alert('No modules.'); return; }
             if (confirm('Finish "' + c.title + '" early?')) {
-                c.completedModules = c.modules.map((_, i) => i);
-                c.progress = 100;
-                const code = 'SBA-' + id + '-' + Date.now().toString(36).toUpperCase();
-                c.certificateCode = code;
-                c.completed = true;
-                alert('🎓 Completed! Code: ' + code);
-                renderCourses();
-                updateDashboard();
+                // ===== RATING =====
+function setRating(rating) {
+    selectedRating = rating;
+    document.getElementById('reviewRating').value = rating;
+    const stars = document.querySelectorAll('#starSelector span');
+    stars.forEach((s, i) => {
+        s.textContent = i < rating ? '★' : '☆';
+        s.style.color = i < rating ? '#ffb400' : '#dce3ed';
+    });
+}
+
+function submitReview() {
+    const rating = parseInt(document.getElementById('reviewRating').value);
+    const text = document.getElementById('reviewText').value;
+    if (!rating || !text) {
+        document.getElementById('reviewStatus').textContent = '⚠️ Provide rating and review.';
+        return;
+    }
+    document.getElementById('reviewStatus').textContent = '✅ Review submitted!';
+    document.getElementById('reviewText').value = '';
+    setRating(0);
+    setTimeout(() => {
+        document.getElementById('reviewModal').classList.remove('open');
+    }, 1500);
+}
                 updateRoadmap();
             }
         }
@@ -1826,33 +1853,30 @@ function renderRecommendedCarousel() {
                     totalModules += c.modules.length;
                     if (c.completedModules) completedModules += c.completedModules.length;
                 }
-            });
-            const pct = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
-            document.getElementById('overallProgress').textContent = pct + '%';
-            document.getElementById('overallProgressBar').style.width = pct + '%';
-            document.getElementById('overallProgressText').textContent = completedModules + '/' + totalModules + ' modules';
-            
-            const list = document.getElementById('dashCourseList');
-            if (enrolled.length === 0) {
-                list.innerHTML = '<p style="color:#8a9bb5;">No courses enrolled.</p>';
-            } else {
-                list.innerHTML = enrolled.map(c => `
-                    <div class="dashboard-progress-item">
-                        <span><strong>${c.title}</strong></span>
-                        <span class="pbar" style="flex:1;">
-                            <div class="progress-bar-bg">
-                                <div class="progress-bar-fill" style="width:${c.progress || 0}%;"></div>
-                            </div>
-                        </span>
-                        <span>${c.progress || 0}%</span>
-                        ${!c.completed ? `<button class="btn-finish-early finish-early-btn" onclick="finishEarly('${c.id}')">⚡ Finish Early</button>` : ''}
-                        ${c.completed ? `<span class="status-tag unlocked">✅ Certified</span>` : ''}
-                    </div>
-                `).join('');
-            }
-        }
+                const pct = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
+document.getElementById('overallProgress').textContent = pct + '%';
+document.getElementById('overallProgressBar').style.width = pct + '%';
+document.getElementById('overallProgressText').textContent = completedModules + '/' + totalModules + ' modules';
 
-        // ===== PROFILE =====
+const list = document.getElementById('dashCourseList');
+if (enrolled.length === 0) {
+    list.innerHTML = '<p style="color:#8a9bb5;">No courses enrolled.</p>';
+} else {
+    list.innerHTML = enrolled.map(c => `
+        <div class="dashboard-progress-item">
+            <span><strong>${c.title}</strong></span>
+            <span class="pbar" style="flex:1;">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" style="width:${c.progress || 0}%;"></div>
+                </div>
+            </span>
+            <span>${c.progress || 0}%</span>
+            ${!c.completed ? `<button class="btn-finish-early finish-early-btn" onclick="finishEarly('${c.id}')">⚡ Finish Early</button>` : ''}
+            ${c.completed ? `<span class="status-tag unlocked">✅ Certified</span>` : ''}
+        </div>
+    `).join('');
+}
+                // ===== PROFILE =====
         function loadProfile() {
             const container = document.getElementById('profileContainer');
             if (!currentUser) {
