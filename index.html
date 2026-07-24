@@ -1720,11 +1720,6 @@ function resetPassword() {
             .catch(err => alert('Error: ' + err.message));
     }
 }
-        function finishEarly(id) {
-            const c = courses.find(c => c.id === id);
-            if (!c) return;
-            if (!c.modules) { alert('No modules.'); return; }
-            if (confirm('Finish "' + c.title + '" early?')) {
                 // ===== RATING =====
 function setRating(rating) {
     selectedRating = rating;
