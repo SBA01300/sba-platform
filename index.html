@@ -2070,25 +2070,26 @@ function verifyCertificate() {
 }
         // ===== ADMIN REFRESH =====
         function refreshAdmin() {
-            updateAdminStats();
-            document.getElementById('statRevenue').textContent = '$1,234';
-            document.getElementById('statLearners').textContent = '124';
-            document.getElementById('statAvgRatingAdmin').textContent = '4.8';
-            document.getElementById('statEnrollments').textContent = '456';
-            
-            document.getElementById('adminUserList').innerHTML = `
-                <div class="activity-log-item"><span>👤 Grace</span><span class="log-time">2d ago</span></div>
-                <div class="activity-log-item"><span>👤 John</span><span class="log-time">5d ago</span></div>
-            `;
-            document.getElementById('activityLog').innerHTML = `
-                <div class="activity-log-item"><span>🎓 Grace completed Soap</span><span class="log-time">2h ago</span></div>
-                <div class="activity-log-item"><span>📚 John enrolled</span><span class="log-time">5h ago</span></div>
-            `;
-            document.getElementById('revenueChart').innerHTML = `
-                <div class="admin-chart-row"><span class="admin-chart-label">Mon</span><div class="admin-chart-track"><div class="admin-chart-fill" style="width:60%;"></div></div><span class="admin-chart-value">$60</span></div>
-                <div class="admin-chart-row"><span class="admin-chart-label">Tue</span><div class="admin-chart-track"><div class="admin-chart-fill" style="width:80%;"></div></div><span class="admin-chart-value">$80</span></div>
-                <div class="admin-chart-row"><span class="admin-chart-label">Wed</span><div class="admin-chart-track"><div class="admin-chart-fill" style="width:45%;"></div></div><span class="admin-chart-value">$45</span></div>
-            `;
+    updateAdminStats();
+    document.getElementById('statRevenue').textContent = '$1,234';
+    document.getElementById('statLearners').textContent = '124';
+    document.getElementById('statAvgRatingAdmin').textContent = '4.8';
+    document.getElementById('statEnrollments').textContent = '456';
+    
+    document.getElementById('adminUserList').innerHTML = `
+        <div class="activity-log-item"><span>👤 Grace</span><span class="log-time">2d ago</span></div>
+        <div class="activity-log-item"><span>👤 John</span><span class="log-time">5d ago</span></div>
+    `;
+    document.getElementById('activityLog').innerHTML = `
+        <div class="activity-log-item"><span>🎓 Grace completed Soap</span><span class="log-time">2h ago</span></div>
+        <div class="activity-log-item"><span>📚 John enrolled</span><span class="log-time">5h ago</span></div>
+    `;
+    document.getElementById('revenueChart').innerHTML = `
+        <div class="admin-chart-row"><span class="admin-chart-label">Mon</span><div class="admin-chart-track"><div class="admin-chart-fill" style="width:60%;"></div></div><span class="admin-chart-value">$60</span></div>
+        <div class="admin-chart-row"><span class="admin-chart-label">Tue</span><div class="admin-chart-track"><div class="admin-chart-fill" style="width:80%;"></div></div><span class="admin-chart-value">$80</span></div>
+        <div class="admin-chart-row"><span class="admin-chart-label">Wed</span><div class="admin-chart-track"><div class="admin-chart-fill" style="width:45%;"></div></div><span class="admin-chart-value">$45</span></div>
+    `;
+}
        // ===== BLOG =====
 function loadBlogPosts() {
     document.getElementById('blogGridContainer').innerHTML = `
