@@ -2006,11 +2006,7 @@ const firebaseConfig = {
     messagingSenderId: "949966080551",
     appId: "1:949966080551:web:4df95edfbfb4301ad3dc02"
 };
-
-// MAKE SURE THIS EXACT LINE EXISTS:
 firebase.initializeApp(firebaseConfig);
-
-// AND THESE EXACT LINES EXIST:
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
