@@ -6,7 +6,7 @@
     <title>Rise Africa – 500+ Vocational Skills</title>
     <meta name="description" content="Learn 500+ vocational skills with AI Tutor, Blockchain Certificates, and Career Roadmaps.">
     <link rel="manifest" href="/manifest.json">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='50' fill='%230a6bff'/><text x='256' y='340' font-size='280' text-anchor='middle' fill='%23fff' font-family='sans-serif'>SBA</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='50' fill='%230a6bff'/><text x='256' y='340' font-size='280' text-anchor='middle' fill='%23fff' font-family='sans-serif'>rA</text></svg>">
     <meta name="theme-color" content="#0a6bff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -687,7 +687,7 @@
                     <h3 style="color:#fff;">📊 Overall Progress</h3>
                     <div style="font-size:2rem;font-weight:700;color:#58a6ff;" id="overallProgress">0%</div>
                     <div class="progress-bar" style="height:12px;border-radius:6px;margin:8px 0;">
-                        <div class="fill" id="overallProgressBar" style="width:0%;height:12px;border-radius:6px;background:#58a6ff;"></div>
+                        <div class="fill" id="overallProgresrAr" style="width:0%;height:12px;border-radius:6px;background:#58a6ff;"></div>
                     </div>
                     <div style="font-size:0.85rem;color:#8b949e;" id="overallProgressText">0/0 modules</div>
                 </div>
@@ -828,7 +828,7 @@
                         <div class="mission-item"><div style="font-size:2rem;">🤝</div><h4>Values</h4><p>Integrity, Excellence, Inclusivity.</p></div>
                     </div>
                     <h2>Our Story</h2>
-                    <p>Rise Africa (SBA) was founded to address the skills gap in Africa. We provide practical, hands-on training for real-world employment or entrepreneurship. With 500+ courses, an AI Tutor, and blockchain certificates, we are building the future of African vocational education.</p>
+                    <p>Rise Africa (rA) was founded to address the skills gap in Africa. We provide practical, hands-on training for real-world employment or entrepreneurship. With 500+ courses, an AI Tutor, and blockchain certificates, we are building the future of African vocational education.</p>
                 </div>
                 <div style="background:#fff; border-radius:12px; padding:20px; border:1px solid #e2e9f2; margin-top:16px;">
                     <h3>📊 Our Impact</h3>
@@ -954,7 +954,7 @@
 
             <div id="tab-terms" class="tab">
                 <h2 style="font-size:1.8rem;">📜 Terms & Conditions</h2>
-                <div class="legal-section"><p><strong>Last updated:</strong> July 2025</p><h3>1. Acceptance</h3><p>By using SBA, you agree to these terms.</p><h3>2. User Accounts</h3><p>You are responsible for your account security.</p></div>
+                <div class="legal-section"><p><strong>Last updated:</strong> July 2025</p><h3>1. Acceptance</h3><p>By using rA, you agree to these terms.</p><h3>2. User Accounts</h3><p>You are responsible for your account security.</p></div>
             </div>
 
             <div id="tab-refund" class="tab">
@@ -1020,7 +1020,7 @@
                         <li><a href="#" onclick="switchTab('refund');return false;">Refund</a></li>
                         <li><a href="#" onclick="switchTab('cookie');return false;">Cookie</a></li>
                     </ul>
-                    <div style="margin-top:12px;opacity:0.5;font-size:0.7rem;">© 2025 SBA</div>
+                    <div style="margin-top:12px;opacity:0.5;font-size:0.7rem;">© 2025 rA</div>
                 </div>
                 <div class="footer-col">
                     <h4>Newsletter</h4>
@@ -1120,7 +1120,7 @@
         let activeDifficulty = 'all';
         let activeDuration = 'all';
         let selectedRating = 0;
-        let wishlist = JSON.parse(localStorage.getItem('sba_wishlist') || '[]');
+        let wishlist = JSON.parse(localStorage.getItem('rA_wishlist') || '[]');
         let recommendedIndex = 0;
         let recommendedInterval = null;
 
@@ -1231,7 +1231,7 @@
             
             let count = 0;
             courses = allTitles.map((item, index) => {
-                const id = 'SBA' + String(index + 1).padStart(4, '0');
+                const id = 'rA' + String(index + 1).padStart(4, '0');
                 const diff = difficulties[index % 3];
                 const modules = [];
                 for (let i = 1; i <= 8; i++) {
@@ -1272,7 +1272,7 @@
                     });
                 }
                 courses.push({
-                    id: 'SBA' + String(idx + 1).padStart(4, '0'),
+                    id: 'rA' + String(idx + 1).padStart(4, '0'),
                     title: title,
                     category: cat,
                     modules: modules,
@@ -1520,7 +1520,7 @@ function renderRecommendedCarousel() {
             const idx = wishlist.indexOf(id);
             if (idx > -1) wishlist.splice(idx, 1);
             else wishlist.push(id);
-            localStorage.setItem('sba_wishlist', JSON.stringify(wishlist));
+            localStorage.setItem('rA_wishlist', JSON.stringify(wishlist));
             renderCourses();
             renderRecommendedCarousel();
         }
@@ -1846,7 +1846,7 @@ function submitReview() {
                 document.getElementById('dashCertificates').textContent = '0';
                 document.getElementById('dashScore').textContent = '0%';
                 document.getElementById('overallProgress').textContent = '0%';
-                document.getElementById('overallProgressBar').style.width = '0%';
+                document.getElementById('overallProgresrAr').style.width = '0%';
                 document.getElementById('overallProgressText').textContent = '0/0 modules';
                 document.getElementById('dashCourseList').innerHTML = '<p style="color:#8a9bb5;">Login to see progress.</p>';
                 return;
@@ -1868,7 +1868,7 @@ function submitReview() {
                 }
                 const pct = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
 document.getElementById('overallProgress').textContent = pct + '%';
-document.getElementById('overallProgressBar').style.width = pct + '%';
+document.getElementById('overallProgresrAr').style.width = pct + '%';
 document.getElementById('overallProgressText').textContent = completedModules + '/' + totalModules + ' modules';
 
 const list = document.getElementById('dashCourseList');
@@ -1961,7 +1961,7 @@ if (enrolled.length === 0) {
         // ===== FORUM =====
         function loadForumPosts() {
             document.getElementById('forumPostsContainer').innerHTML = `
-                <div class="forum-post"><div class="post-header"><span>👤 Grace</span><span>📅 July 20</span></div><div class="post-title">💡 Soap business</div><div class="post-body">Started my own soap business after SBA!</div></div>
+                <div class="forum-post"><div class="post-header"><span>👤 Grace</span><span>📅 July 20</span></div><div class="post-title">💡 Soap business</div><div class="post-body">Started my own soap business after rA!</div></div>
                 <div class="forum-post"><div class="post-header"><span>👤 John</span><span>📅 July 18</span></div><div class="post-title">⚡ Electrical tips</div><div class="post-body">Always check wiring twice.</div></div>
             `;
         }
@@ -2139,7 +2139,7 @@ function loadTestimonials() {
         {
             name: 'Grace Mwangi',
             role: 'Soap Making',
-            quote: '"SBA changed my life! I started my own soap business and now employ 3 people."',
+            quote: '"rA changed my life! I started my own soap business and now employ 3 people."',
             emoji: '👩🏿',
             bg: '#8D6E63'
         },
@@ -2167,7 +2167,7 @@ function loadTestimonials() {
         {
             name: 'Sarah Njoroge',
             role: 'Beauty',
-            quote: '"SBA is the best investment I ever made. The skills are practical and in-demand."',
+            quote: '"rA is the best investment I ever made. The skills are practical and in-demand."',
             emoji: '👩🏾',
             bg: '#9C27B0'
         },
@@ -2403,7 +2403,7 @@ function loadTestimonials() {
             }
         });
 
-        console.log('✅ SBA – 500+ courses, 54 countries, rotating recommendations, 5 testimonials, preservation methods, all features working.');
+        console.log('✅ rA – 500+ courses, 54 countries, rotating recommendations, 5 testimonials, preservation methods, all features working.');
     </script>
 </body>
 </html>
