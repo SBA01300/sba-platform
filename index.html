@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SkillBridge Africa – 500+ Vocational Skills</title>
+    <title>Rise Africa – 500+ Vocational Skills</title>
     <meta name="description" content="Learn 500+ vocational skills with AI Tutor, Blockchain Certificates, and Career Roadmaps.">
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='50' fill='%230a6bff'/><text x='256' y='340' font-size='280' text-anchor='middle' fill='%23fff' font-family='sans-serif'>SBA</text></svg>">
@@ -604,7 +604,7 @@
             <div class="top-nav">
                 <div class="nav-brand">
                     <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#0a6bff"/><path d="M30 20 C45 10, 70 15, 75 30 C80 45, 70 55, 75 65 C80 75, 60 85, 45 80 C30 75, 25 65, 20 55 C15 45, 20 30, 30 20Z" fill="white" opacity="0.9"/></svg>
-                    <span>SkillBridge Africa</span>
+                    <span>Rise Africa</span>
                     <span class="country-rotator" id="countryRotator">🌍 Zambia</span>
                 </div>
                 <div class="nav-links">
@@ -630,7 +630,7 @@
             <!-- ===== HOME TAB ===== -->
             <div id="tab-home" class="tab active">
                 <div style="padding:20px 0;">
-                    <h2 style="font-size:2rem;">🌍 SkillBridge Africa</h2>
+                    <h2 style="font-size:2rem;">🌍 Rise Africa</h2>
                     <p style="font-size:1.1rem;color:#5a6f8c;max-width:700px;">500+ vocational skills • AI Tutor • Food Preservation • Blockchain Certificates • Career Roadmaps</p>
                     <div class="pricing-banner">💡 <strong>Full Access</strong> $10 <span>|</span> 📖 <strong>Read‑Only</strong> $3.50 <span>|</span> 📦 <strong>Bundle (5)</strong> $40</div>
                     <button class="btn-primary" style="padding:10px 32px;font-size:1rem;margin:10px 0;" onclick="switchTab('courses')">Browse All Courses →</button>
@@ -745,7 +745,7 @@
             <!-- ===== HOW IT WORKS TAB ===== -->
             <!-- HOW IT WORKS TAB -->
 <div id="tab-howitworks" class="tab">
-    <h2 style="font-size:1.8rem;">🚀 How SkillBridge Africa Works</h2>
+    <h2 style="font-size:1.8rem;">🚀 How Rise Africa Works</h2>
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:30px; margin:30px 0;">
         <div style="text-align:center; padding:20px; background:#fff; border-radius:12px; border:1px solid #e2e9f2;">
             <div style="font-size:3rem; background:#0a6bff; color:#fff; width:70px; height:70px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">1</div>
@@ -818,7 +818,7 @@
 
             <!-- ===== ABOUT TAB ===== -->
             <div id="tab-about" class="tab">
-                <h2 style="font-size:1.8rem;">🌍 About SkillBridge Africa</h2>
+                <h2 style="font-size:1.8rem;">🌍 About Rise Africa</h2>
                 <div class="about-section">
                     <h2>Our Mission</h2>
                     <p>Empowering African youth with practical vocational skills.</p>
@@ -828,7 +828,7 @@
                         <div class="mission-item"><div style="font-size:2rem;">🤝</div><h4>Values</h4><p>Integrity, Excellence, Inclusivity.</p></div>
                     </div>
                     <h2>Our Story</h2>
-                    <p>SkillBridge Africa (SBA) was founded to address the skills gap in Africa. We provide practical, hands-on training for real-world employment or entrepreneurship. With 500+ courses, an AI Tutor, and blockchain certificates, we are building the future of African vocational education.</p>
+                    <p>Rise Africa (SBA) was founded to address the skills gap in Africa. We provide practical, hands-on training for real-world employment or entrepreneurship. With 500+ courses, an AI Tutor, and blockchain certificates, we are building the future of African vocational education.</p>
                 </div>
                 <div style="background:#fff; border-radius:12px; padding:20px; border:1px solid #e2e9f2; margin-top:16px;">
                     <h3>📊 Our Impact</h3>
@@ -989,7 +989,7 @@
                 <div class="footer-col">
                     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
                         <svg width="32" height="32" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#0a6bff"/><path d="M30 20 C45 10, 70 15, 75 30 C80 45, 70 55, 75 65 C80 75, 60 85, 45 80 C30 75, 25 65, 20 55 C15 45, 20 30, 30 20Z" fill="white" opacity="0.9"/></svg>
-                        <strong>SkillBridge Africa</strong>
+                        <strong>Rise Africa</strong>
                     </div>
                     <p>Empowering African youth.</p>
                     <div>
@@ -1409,7 +1409,7 @@ function renderRecommendedCarousel() {
         // ===== WELCOME VOICE =====
         document.addEventListener('click', function welcome() {
             if ('speechSynthesis' in window) {
-                const msg = new SpeechSynthesisUtterance("Welcome to SkillBridge Africa. Explore over 500 vocational skills with our AI tutor.");
+                const msg = new SpeechSynthesisUtterance("Welcome to Rise Africa. Explore over 500 vocational skills with our AI tutor.");
                 msg.lang = 'en-ZM';
                 msg.rate = 0.9;
                 speechSynthesis.speak(msg);
@@ -1774,7 +1774,7 @@ function submitReview() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFontSize(22);
-            doc.text('SkillBridge Africa', 105, 40, { align: 'center' });
+            doc.text('Rise Africa', 105, 40, { align: 'center' });
             doc.setFontSize(16);
             doc.text('Certificate of Completion', 105, 60, { align: 'center' });
             doc.setFontSize(12);
