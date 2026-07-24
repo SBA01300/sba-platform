@@ -1706,11 +1706,6 @@ function handleAuth() {
             });
     }
 }
-            const allComplete = c.modules.every((_, i) => c.completedModules && c.completedModules.includes(i));
-            if (!allComplete) {
-                alert('Complete all modules first or use "Finish Early".');
-                return;
-            }
             // ===== RESET PASSWORD =====
 function resetPassword() {
     const email = prompt('Enter your email:');
