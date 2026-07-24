@@ -2289,13 +2289,13 @@ function loadTestimonials() {
 
         // ===== AUTH =====
         function setAuthTab(tab) {
-            authTab = tab;
-            document.getElementById('authLoginForm').style.display = tab === 'login' ? 'block' : 'none';
-            document.getElementById('authSignupForm').style.display = tab === 'signup' ? 'block' : 'none';
-            document.getElementById('loginTabBtn').style.background = tab === 'login' ? '#0a6bff' : '#5a6f8c';
-            document.getElementById('signupTabBtn').style.background = tab === 'signup' ? '#0a6bff' : '#5a6f8c';
-            document.getElementById('authSubmitBtn').textContent = tab === 'login' ? 'Login' : 'Sign Up';
-        }
+    authTab = tab;
+    document.getElementById('authLoginForm').style.display = tab === 'login' ? 'block' : 'none';
+    document.getElementById('authSignupForm').style.display = tab === 'signup' ? 'block' : 'none';
+    document.getElementById('loginTabBtn').style.background = tab === 'login' ? '#0a6bff' : '#5a6f8c';
+    document.getElementById('signupTabBtn').style.background = tab === 'signup' ? '#0a6bff' : '#5a6f8c';
+    document.getElementById('authSubmitBtn').textContent = tab === 'login' ? 'Login' : 'Sign Up';
+}
 
         function handleAuth() {
             const errorDiv = document.getElementById('authError');
