@@ -2005,15 +2005,23 @@ function renderRecommendedCarousel() {
                 <div class="job-card"><div class="job-title">🔧 Plumber</div><div class="job-meta">🇺🇬 Uganda • $600-$900</div><button class="btn-primary" onclick="applyJob('Plumber')">Apply</button></div>
                 <div class="job-card"><div class="job-title">🌾 Farmer</div><div class="job-meta">🇹🇿 Tanzania • $400-$600</div><button class="btn-primary" onclick="applyJob('Farmer')">Apply</button></div>
             `;
-        }
-        function postJob() {
-            const title = document.getElementById('jobTitle').value, desc = document.getElementById('jobDesc').value;
-            if (!title || !desc) { document.getElementById('jobPostStatus').textContent = '⚠️ Fill in title and description.'; return; }
-            document.getElementById('jobPostStatus').textContent = '✅ Job posted!';
-            document.getElementById('jobTitle').value = ''; document.getElementById('jobDesc').value = '';
-            loadEmployerJobs();
-        }
-        function applyJob(jobTitle) {
+        // ===== EMPLOYER =====
+function postJob() {
+    const title = document.getElementById('jobTitle').value;
+    const desc = document.getElementById('jobDesc').value;
+    if (!title || !desc) {
+        document.getElementById('jobPostStatus').textContent = '⚠️ Fill in title and description.';
+        return;
+    }
+    document.getElementById('jobPostStatus').textContent = '✅ Job posted!';
+    document.getElementById('jobTitle').value = '';
+    document.getElementById('jobDesc').value = '';
+    loadEmployerJobs();
+}
+
+function applyJob(jobTitle) {
+    alert('📩 You applied for: ' + jobTitle);
+}
             alert('📩 You applied for: ' + jobTitle);
         }
 
