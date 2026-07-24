@@ -1368,13 +1368,13 @@ function renderRecommendedCarousel() {
         }
 
         function startRecommendedCarousel() {
-            if (recommendedInterval) clearInterval(recommendedInterval);
-            recommendedInterval = setInterval(() => {
-                const totalPages = Math.ceil(courses.length / 4);
-                recommendedIndex = (recommendedIndex + 1) % Math.min(totalPages, 8);
-                renderRecommendedCarousel();
-            }, 8000);
-        }
+    if (recommendedInterval) clearInterval(recommendedInterval);
+    recommendedInterval = setInterval(() => {
+        const totalPages = Math.ceil(courses.length / 4);
+        recommendedIndex = (recommendedIndex + 1) % Math.min(totalPages, 8);
+        renderRecommendedCarousel();
+    }, 8000);
+}
 
         // ===== ENTER SITE =====
         function enterSite() {
