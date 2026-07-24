@@ -881,212 +881,208 @@
                 </div>
             </div>
 
-            <div id="tab-community" class="tab">
-                <h2 style="font-size:1.8rem;">💬 Community Forum</h2>
-                <button class="btn-primary" onclick="openNewPostModal()">➕ New Post</button>
-                <div id="forumPostsContainer"></div>
+            <!-- ===== FAQ TAB ===== -->
+<div id="tab-faq" class="tab">
+    <h2 style="font-size:1.8rem;">❓ Frequently Asked Questions</h2>
+    <div id="faqContainer">
+        <!-- QUESTION 1: IS RAS A SCHOOL? -->
+        <div class="faq-item" style="border-left: 4px solid #0a6bff;">
+            <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
+                🏫 Is Rise Africa Skills (RAS) a school?
+                <span class="arrow">▼</span>
             </div>
+            <div class="faq-answer">
+                <strong>No – RAS is NOT a school.</strong>
+                <p style="margin-top:8px;">Rise Africa Skills (RAS) is a <strong>skills development company</strong> that provides practical, hands-on vocational training. We don't issue formal academic degrees – we give you <strong>real-world skills</strong> you can use immediately to:</p>
+                <ul style="margin-top:8px;padding-left:20px;">
+                    <li>✅ Start your own business</li>
+                    <li>✅ Find a job or freelance work</li>
+                    <li>✅ Earn money and become self-sufficient</li>
+                    <li>✅ Export your products or services</li>
+                </ul>
+                <p style="margin-top:8px;"><strong>We are a business, not a school.</strong> We believe in <strong>practical skills</strong> that change lives – not just theory.</p>
+            </div>
+        </div>
 
-            <div id="tab-faq" class="tab">
-                <h2 style="font-size:1.8rem;">❓ FAQ</h2>
-                <!-- ===== NEW FAQ ITEMS ===== -->
+        <!-- QUESTION 2: WHAT DOES RAS DO? -->
+        <div class="faq-item" style="border-left: 4px solid #0a6bff;">
+            <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
+                🌍 What does Rise Africa Skills (RAS) do?
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>We empower Africans with practical vocational skills.</strong></p>
+                <p style="margin-top:8px;">Rise Africa Skills provides:</p>
+                <ul style="margin-top:8px;padding-left:20px;">
+                    <li>📚 <strong>500+ vocational courses</strong> – Soap making, electrical, plumbing, farming, ICT, beauty, food preservation, and more</li>
+                    <li>🤖 <strong>AI Tutor</strong> – 24/7 personalized help for every student</li>
+                    <li>📜 <strong>Blockchain Certificates</strong> – Verified and shareable with employers</li>
+                    <li>🗺️ <strong>Career Roadmaps</strong> – Step-by-step guidance from beginner to master</li>
+                    <li>💼 <strong>Job & Employer Matching</strong> – Connect with companies looking for skilled workers</li>
+                    <li>📊 <strong>Business Skills</strong> – Learn how to turn your skills into income</li>
+                </ul>
+                <p style="margin-top:8px;"><strong>Our mission:</strong> To create 1 million skilled African entrepreneurs and workers by 2030.</p>
+            </div>
+        </div>
 
-<!-- QUESTION 1: IS RAS A SCHOOL? -->
-<div class="faq-item" style="border-left: 4px solid #0a6bff;">
-    <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
-        🏫 Is Rise Africa Skills (RAS) a school?
-        <span class="arrow">▼</span>
-    </div>
-    <div class="faq-answer">
-        <strong>No – RAS is NOT a school.</strong>
-        <p style="margin-top:8px;">Rise Africa Skills (RAS) is a <strong>skills development company</strong> that provides practical, hands-on vocational training. We don't issue formal academic degrees – we give you <strong>real-world skills</strong> you can use immediately to:</p>
-        <ul style="margin-top:8px;padding-left:20px;">
-            <li>✅ Start your own business</li>
-            <li>✅ Find a job or freelance work</li>
-            <li>✅ Earn money and become self-sufficient</li>
-            <li>✅ Export your products or services</li>
-        </ul>
-        <p style="margin-top:8px;"><strong>We are a business, not a school.</strong> We believe in <strong>practical skills</strong> that change lives – not just theory.</p>
-    </div>
-</div>
+        <!-- QUESTION 3: WHO IS RAS FOR? -->
+        <div class="faq-item" style="border-left: 4px solid #0a6bff;">
+            <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
+                👤 Who is Rise Africa Skills for?
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p>Rise Africa Skills is for <strong>everyone</strong> – whether you're a:</p>
+                <ul style="margin-top:8px;padding-left:20px;">
+                    <li>🎓 <strong>Student</strong> – Get a skill before you leave school</li>
+                    <li>👨‍🍳 <strong>Worker</strong> – Upgrade your skills to earn more</li>
+                    <li>👩‍💼 <strong>Entrepreneur</strong> – Start your own business</li>
+                    <li>👨‍🌾 <strong>Farmer</strong> – Learn modern techniques</li>
+                    <li>👨‍🔧 <strong>Artisan</strong> – Get certified and recognized</li>
+                    <li>👩‍💻 <strong>Professional</strong> – Pivot to a new career</li>
+                    <li>🧑‍🤝‍🧑 <strong>Community Leader</strong> – Train others and create jobs</li>
+                </ul>
+                <p style="margin-top:8px;"><strong>There is no age limit, no education requirement, and no experience needed.</strong> Start from zero and build your future.</p>
+            </div>
+        </div>
 
-<!-- QUESTION 2: WHAT DOES RAS DO? -->
-<div class="faq-item" style="border-left: 4px solid #0a6bff;">
-    <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
-        🌍 What does Rise Africa Skills (RAS) do?
-        <span class="arrow">▼</span>
-    </div>
-    <div class="faq-answer">
-        <p><strong>We empower Africans with practical vocational skills.</strong></p>
-        <p style="margin-top:8px;">Rise Africa Skills provides:</p>
-        <ul style="margin-top:8px;padding-left:20px;">
-            <li>📚 <strong>500+ vocational courses</strong> – Soap making, electrical, plumbing, farming, ICT, beauty, food preservation, and more</li>
-            <li>🤖 <strong>AI Tutor</strong> – 24/7 personalized help for every student</li>
-            <li>📜 <strong>Blockchain Certificates</strong> – Verified and shareable with employers</li>
-            <li>🗺️ <strong>Career Roadmaps</strong> – Step-by-step guidance from beginner to master</li>
-            <li>💼 <strong>Job & Employer Matching</strong> – Connect with companies looking for skilled workers</li>
-            <li>📊 <strong>Business Skills</strong> – Learn how to turn your skills into income</li>
-        </ul>
-        <p style="margin-top:8px;"><strong>Our mission:</strong> To create 1 million skilled African entrepreneurs and workers by 2030.</p>
-    </div>
-</div>
+        <!-- QUESTION 4: WHY ONLY $10? -->
+        <div class="faq-item" style="border-left: 4px solid #0a6bff;">
+            <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
+                💰 Why is a full course only $10?
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Because we believe skills should be affordable.</strong></p>
+                <p style="margin-top:8px;">Here's what your <strong>$10</strong> gets you:</p>
+                <ul style="margin-top:8px;padding-left:20px;">
+                    <li>📚 <strong>8+ modules</strong> – Full course content with step-by-step lessons</li>
+                    <li>📄 <strong>Downloadable PDFs</strong> – Learn offline</li>
+                    <li>🤖 <strong>AI Tutor access</strong> – Ask questions 24/7</li>
+                    <li>📜 <strong>Blockchain Certificate</strong> – Verified and shareable</li>
+                    <li>🧑‍🏫 <strong>Practical assignments</strong> – Apply what you learn</li>
+                    <li>📊 <strong>Progress tracking</strong> – See your improvement</li>
+                    <li>💼 <strong>Business tips</strong> – Turn skills into income</li>
+                </ul>
+                <p style="margin-top:8px;"><strong>Compare that to university or traditional training – RAS is 95% cheaper.</strong></p>
+                <p style="margin-top:8px;">The $10 is a <strong>one-time payment</strong> – no subscriptions, no hidden fees.</p>
+            </div>
+        </div>
 
-<!-- QUESTION 3: WHO IS RAS FOR? -->
-<div class="faq-item" style="border-left: 4px solid #0a6bff;">
-    <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
-        👤 Who is Rise Africa Skills for?
-        <span class="arrow">▼</span>
-    </div>
-    <div class="faq-answer">
-        <p>Rise Africa Skills is for <strong>everyone</strong> – whether you're a:</p>
-        <ul style="margin-top:8px;padding-left:20px;">
-            <li>🎓 <strong>Student</strong> – Get a skill before you leave school</li>
-            <li>👨‍🍳 <strong>Worker</strong> – Upgrade your skills to earn more</li>
-            <li>👩‍💼 <strong>Entrepreneur</strong> – Start your own business</li>
-            <li>👨‍🌾 <strong>Farmer</strong> – Learn modern techniques</li>
-            <li>👨‍🔧 <strong>Artisan</strong> – Get certified and recognized</li>
-            <li>👩‍💻 <strong>Professional</strong> – Pivot to a new career</li>
-            <li>🧑‍🤝‍🧑 <strong>Community Leader</strong> – Train others and create jobs</li>
-        </ul>
-        <p style="margin-top:8px;"><strong>There is no age limit, no education requirement, and no experience needed.</strong> Start from zero and build your future.</p>
-    </div>
-</div>
+        <!-- QUESTION 5: CAN I START A BUSINESS? -->
+        <div class="faq-item" style="border-left: 4px solid #0a6bff;">
+            <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
+                🏪 Can I start a business after taking a course?
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>YES – that's exactly what RAS is designed for!</strong></p>
+                <p style="margin-top:8px;">Here's how we help you start a business:</p>
+                <ul style="margin-top:8px;padding-left:20px;">
+                    <li>✅ <strong>Practical skills</strong> – Learn by doing, not just reading</li>
+                    <li>✅ <strong>Business modules</strong> – How to price, market, and sell</li>
+                    <li>✅ <strong>Costing & pricing</strong> – Know what to charge</li>
+                    <li>✅ <strong>Product ideas</strong> – What to make and sell</li>
+                    <li>✅ <strong>Marketing tips</strong> – How to find customers</li>
+                    <li>✅ <strong>Scale-up advice</strong> – From home-based to commercial</li>
+                    <li>✅ <strong>Job matching</strong> – Even if you don't start a business, employers will find you</li>
+                </ul>
+                <p style="margin-top:8px;"><strong>Real example:</strong> Grace Mwangi took our Soap Making course, started her own business, and now employs 3 people. <strong>You can be next.</strong></p>
+                <p style="margin-top:8px;">🇿🇲 <strong>Zambian example:</strong> A woman in Lusaka can make liquid soap and sell it to shops. A man in Kitwe can start an electrical installation business. <strong>RAS gives you the skills – YOU build the future.</strong></p>
+            </div>
+        </div>
 
-<!-- QUESTION 4: WHY ONLY $10? -->
-<div class="faq-item" style="border-left: 4px solid #0a6bff;">
-    <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
-        💰 Why is a full course only $10?
-        <span class="arrow">▼</span>
-    </div>
-    <div class="faq-answer">
-        <p><strong>Because we believe skills should be affordable.</strong></p>
-        <p style="margin-top:8px;">Here's what your <strong>$10</strong> gets you:</p>
-        <ul style="margin-top:8px;padding-left:20px;">
-            <li>📚 <strong>8+ modules</strong> – Full course content with step-by-step lessons</li>
-            <li>📄 <strong>Downloadable PDFs</strong> – Learn offline</li>
-            <li>🤖 <strong>AI Tutor access</strong> – Ask questions 24/7</li>
-            <li>📜 <strong>Blockchain Certificate</strong> – Verified and shareable</li>
-            <li>🧑‍🏫 <strong>Practical assignments</strong> – Apply what you learn</li>
-            <li>📊 <strong>Progress tracking</strong> – See your improvement</li>
-            <li>💼 <strong>Business tips</strong> – Turn skills into income</li>
-        </ul>
-        <p style="margin-top:8px;"><strong>Compare that to university or traditional training – RAS is 95% cheaper.</strong></p>
-        <p style="margin-top:8px;">The $10 is a <strong>one-time payment</strong> – no subscriptions, no hidden fees.</p>
-    </div>
-</div>
+        <!-- QUESTION 6: WHAT IF I DON'T HAVE MONEY? -->
+        <div class="faq-item" style="border-left: 4px solid #0a6bff;">
+            <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
+                🤷 What if I don't have $10?
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>We've got you covered.</strong></p>
+                <ul style="margin-top:8px;padding-left:20px;">
+                    <li>🎁 <strong>Free starter course</strong> – "Dishwashing Liquid" is completely free! Learn a skill and earn money without spending a cent.</li>
+                    <li>👀 <strong>Read-Only access</strong> – For only $3.50, you can view all modules and learn. (No certificate, but the knowledge is yours.)</li>
+                    <li>📚 <strong>Bundle deals</strong> – Get 5 courses for $40 (save $10)</li>
+                    <li>🤝 <strong>Referral program</strong> – Invite friends, earn credits toward courses</li>
+                </ul>
+                <p style="margin-top:8px;"><strong>Start with the free course – it costs nothing and teaches you a real skill.</strong></p>
+            </div>
+        </div>
 
-<!-- QUESTION 5: CAN I START A BUSINESS? -->
-<div class="faq-item" style="border-left: 4px solid #0a6bff;">
-    <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
-        🏪 Can I start a business after taking a course?
-        <span class="arrow">▼</span>
-    </div>
-    <div class="faq-answer">
-        <p><strong>YES – that's exactly what RAS is designed for!</strong></p>
-        <p style="margin-top:8px;">Here's how we help you start a business:</p>
-        <ul style="margin-top:8px;padding-left:20px;">
-            <li>✅ <strong>Practical skills</strong> – Learn by doing, not just reading</li>
-            <li>✅ <strong>Business modules</strong> – How to price, market, and sell</li>
-            <li>✅ <strong>Costing & pricing</strong> – Know what to charge</li>
-            <li>✅ <strong>Product ideas</strong> – What to make and sell</li>
-            <li>✅ <strong>Marketing tips</strong> – How to find customers</li>
-            <li>✅ <strong>Scale-up advice</strong> – From home-based to commercial</li>
-            <li>✅ <strong>Job matching</strong> – Even if you don't start a business, employers will find you</li>
-        </ul>
-        <p style="margin-top:8px;"><strong>Real example:</strong> Grace Mwangi took our Soap Making course, started her own business, and now employs 3 people. <strong>You can be next.</strong></p>
-        <p style="margin-top:8px;">🇿🇲 <strong>Zambian example:</strong> A woman in Lusaka can make liquid soap and sell it to shops. A man in Kitwe can start an electrical installation business. <strong>RAS gives you the skills – YOU build the future.</strong></p>
-    </div>
-</div>
+        <!-- QUESTION 7: IS THE CERTIFICATE REAL? -->
+        <div class="faq-item" style="border-left: 4px solid #0a6bff;">
+            <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
+                🔗 Is the Blockchain Certificate real?
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>YES – it's 100% real and verifiable.</strong></p>
+                <p style="margin-top:8px;">When you complete a course, you get a <strong>unique certificate code</strong> stored on a blockchain-like ledger.</p>
+                <ul style="margin-top:8px;padding-left:20px;">
+                    <li>✅ Anyone can <strong>verify</strong> your certificate on our website</li>
+                    <li>✅ Employers can <strong>check</strong> your skills instantly</li>
+                    <li>✅ You can <strong>share</strong> your certificate on LinkedIn, CVs, and social media</li>
+                    <li>✅ The certificate is <strong>permanent</strong> – it doesn't expire</li>
+                </ul>
+                <p style="margin-top:8px;"><strong>No more fake certificates. RAS certificates are trusted and verified.</strong></p>
+                <p style="margin-top:8px;">🔗 Go to the <strong>Verify</strong> tab to test it yourself with any certificate code.</p>
+            </div>
+        </div>
 
-<!-- QUESTION 6: WHAT IF I DON'T HAVE MONEY? -->
-<div class="faq-item" style="border-left: 4px solid #0a6bff;">
-    <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
-        🤷 What if I don't have $10?
-        <span class="arrow">▼</span>
-    </div>
-    <div class="faq-answer">
-        <p><strong>We've got you covered.</strong></p>
-        <ul style="margin-top:8px;padding-left:20px;">
-            <li>🎁 <strong>Free starter course</strong> – "Dishwashing Liquid" is completely free! Learn a skill and earn money without spending a cent.</li>
-            <li>👀 <strong>Read-Only access</strong> – For only $3.50, you can view all modules and learn. (No certificate, but the knowledge is yours.)</li>
-            <li>📚 <strong>Bundle deals</strong> – Get 5 courses for $40 (save $10)</li>
-            <li>🤝 <strong>Referral program</strong> – Invite friends, earn credits toward courses</li>
-        </ul>
-        <p style="margin-top:8px;"><strong>Start with the free course – it costs nothing and teaches you a real skill.</strong></p>
-    </div>
-</div>
+        <!-- QUESTION 8: HOW LONG DOES EACH COURSE TAKE? -->
+        <div class="faq-item" style="border-left: 4px solid #0a6bff;">
+            <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
+                ⏱️ How long does it take to complete a course?
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>It's self-paced – YOU decide.</strong></p>
+                <p style="margin-top:8px;">Each course has 8 modules. You can:</p>
+                <ul style="margin-top:8px;padding-left:20px;">
+                    <li>⚡ <strong>Finish in 2 days</strong> – If you study full-time</li>
+                    <li>📅 <strong>Finish in 2 weeks</strong> – If you study 1 hour per day</li>
+                    <li>🗓️ <strong>Finish in 2 months</strong> – If you study at your own pace</li>
+                </ul>
+                <p style="margin-top:8px;"><strong>No deadlines, no pressure.</strong> Life is busy – we understand. Your progress is saved, so you can continue anytime.</p>
+                <p style="margin-top:8px;">🎯 The <strong>recommended time</strong> is 2-3 hours per module, so total course time is about <strong>16-24 hours</strong>.</p>
+            </div>
+        </div>
 
-<!-- QUESTION 7: IS THE CERTIFICATE REAL? -->
-<div class="faq-item" style="border-left: 4px solid #0a6bff;">
-    <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
-        🔗 Is the Blockchain Certificate real?
-        <span class="arrow">▼</span>
-    </div>
-    <div class="faq-answer">
-        <p><strong>YES – it's 100% real and verifiable.</strong></p>
-        <p style="margin-top:8px;">When you complete a course, you get a <strong>unique certificate code</strong> stored on a blockchain-like ledger.</p>
-        <ul style="margin-top:8px;padding-left:20px;">
-            <li>✅ Anyone can <strong>verify</strong> your certificate on our website</li>
-            <li>✅ Employers can <strong>check</strong> your skills instantly</li>
-            <li>✅ You can <strong>share</strong> your certificate on LinkedIn, CVs, and social media</li>
-            <li>✅ The certificate is <strong>permanent</strong> – it doesn't expire</li>
-        </ul>
-        <p style="margin-top:8px;"><strong>No more fake certificates. RAS certificates are trusted and verified.</strong></p>
-        <p style="margin-top:8px;">🔗 Go to the <strong>Verify</strong> tab to test it yourself with any certificate code.</p>
-    </div>
-</div>
+        <!-- QUESTION 9: HOW DO I ACCESS THE COURSE? -->
+        <div class="faq-item" style="border-left: 4px solid #0a6bff;">
+            <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
+                📱 How do I access my course after buying?
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>It's easy – you can access from anywhere.</strong></p>
+                <ul style="margin-top:8px;padding-left:20px;">
+                    <li>💻 <strong>On computer</strong> – Open the website on Chrome, Firefox, or Edge</li>
+                    <li>📱 <strong>On phone</strong> – Open the website on your browser (mobile-friendly)</li>
+                    <li>📶 <strong>Low data mode</strong> – The website is lightweight and works even on slow connections</li>
+                    <li>📥 <strong>Offline access</strong> – Download PDFs and watch videos when you have Wi-Fi, then study offline</li>
+                </ul>
+                <p style="margin-top:8px;">🌍 <strong>Internet is not always available in Africa – we know.</strong> So we've made it easy to <strong>download materials</strong> and study when you're offline.</p>
+                <p style="margin-top:8px;">📌 <strong>Just log in</strong> with your account, go to <strong>Dashboard</strong>, and click your course to start.</p>
+            </div>
+        </div>
 
-<!-- QUESTION 8: HOW LONG DOES EACH COURSE TAKE? -->
-<div class="faq-item" style="border-left: 4px solid #0a6bff;">
-    <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
-        ⏱️ How long does it take to complete a course?
-        <span class="arrow">▼</span>
+        <!-- QUESTION 10: IS THERE A MONEY-BACK GUARANTEE? -->
+        <div class="faq-item" style="border-left: 4px solid #0a6bff;">
+            <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
+                💳 Is there a money-back guarantee?
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>YES – 7-day money-back guarantee.</strong></p>
+                <p style="margin-top:8px;">If you're not satisfied, you can request a <strong>full refund</strong> within 7 days of purchase – <strong>as long as you haven't accessed the course content</strong>.</p>
+                <p style="margin-top:8px;">📧 Contact us at <a href="mailto:all@riseafricaskills.com">all@riseafricaskills.com</a> with your order details.</p>
+                <p style="margin-top:8px;">⚠️ <strong>Note:</strong> No refunds for Read-Only purchases once accessed.</p>
+            </div>
+        </div>
     </div>
-    <div class="faq-answer">
-        <p><strong>It's self-paced – YOU decide.</strong></p>
-        <p style="margin-top:8px;">Each course has 8 modules. You can:</p>
-        <ul style="margin-top:8px;padding-left:20px;">
-            <li>⚡ <strong>Finish in 2 days</strong> – If you study full-time</li>
-            <li>📅 <strong>Finish in 2 weeks</strong> – If you study 1 hour per day</li>
-            <li>🗓️ <strong>Finish in 2 months</strong> – If you study at your own pace</li>
-        </ul>
-        <p style="margin-top:8px;"><strong>No deadlines, no pressure.</strong> Life is busy – we understand. Your progress is saved, so you can continue anytime.</p>
-        <p style="margin-top:8px;">🎯 The <strong>recommended time</strong> is 2-3 hours per module, so total course time is about <strong>16-24 hours</strong>.</p>
-    </div>
-</div>
-
-<!-- QUESTION 9: HOW DO I ACCESS THE COURSE? -->
-<div class="faq-item" style="border-left: 4px solid #0a6bff;">
-    <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
-        📱 How do I access my course after buying?
-        <span class="arrow">▼</span>
-    </div>
-    <div class="faq-answer">
-        <p><strong>It's easy – you can access from anywhere.</strong></p>
-        <ul style="margin-top:8px;padding-left:20px;">
-            <li>💻 <strong>On computer</strong> – Open the website on Chrome, Firefox, or Edge</li>
-            <li>📱 <strong>On phone</strong> – Open the website on your browser (mobile-friendly)</li>
-            <li>📶 <strong>Low data mode</strong> – The website is lightweight and works even on slow connections</li>
-            <li>📥 <strong>Offline access</strong> – Download PDFs and watch videos when you have Wi-Fi, then study offline</li>
-        </ul>
-        <p style="margin-top:8px;">🌍 <strong>Internet is not always available in Africa – we know.</strong> So we've made it easy to <strong>download materials</strong> and study when you're offline.</p>
-        <p style="margin-top:8px;">📌 <strong>Just log in</strong> with your account, go to <strong>Dashboard</strong>, and click your course to start.</p>
-    </div>
-</div>
-
-<!-- QUESTION 10: IS THERE A MONEY-BACK GUARANTEE? -->
-<div class="faq-item" style="border-left: 4px solid #0a6bff;">
-    <div class="faq-question" onclick="toggleFAQ(this)" style="font-weight:700;">
-        💳 Is there a money-back guarantee?
-        <span class="arrow">▼</span>
-    </div>
-    <div class="faq-answer">
-        <p><strong>YES – 7-day money-back guarantee.</strong></p>
-        <p style="margin-top:8px;">If you're not satisfied, you can request a <strong>full refund</strong> within 7 days of purchase – <strong>as long as you haven't accessed the course content</strong>.</p>
-        <p style="margin-top:8px;">📧 Contact us at <a href="mailto:all@riseafricaskills.com">all@riseafricaskills.com</a> with your order details.</p>
-        <p style="margin-top:8px;">⚠️ <strong>Note:</strong> No refunds for Read-Only purchases once accessed.</p>
-    </div>
-</div>
+</div>>
 
 <!-- CALENDAR TAB -->
 <div id="tab-calendar" class="tab">
