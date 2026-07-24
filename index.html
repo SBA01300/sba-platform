@@ -1314,7 +1314,15 @@
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db = firebase.firestore();
+const db = firebase.firestore(); const db = firebase.firestore(); // 
+
+// ADD THESE AFTER IT:
+const usersCollection = db.collection('users');
+const jobsCollection = db.collection('jobs');
+const enrollmentsCollection = db.collection('enrollments');
+const quizResultsCollection = db.collection('quizResults');
+const receiptsCollection = db.collection('receipts');
+const applicationsCollection = db.collection('applications');
 const storage = firebase.storage();
         // ===== GLOBAL STATE =====
         let courses = [];
