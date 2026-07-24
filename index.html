@@ -1554,23 +1554,27 @@ function renderRecommendedCarousel() {
         }
 
         // ===== HOME CATEGORIES =====
-        function updateHomeCategories() {
-            const container = document.getElementById('homeCategories');
-            if (!container) return;
-            const cats = [
-                { icon: '🍳', name: 'Cooking' }, { icon: '⚡', name: 'Electrical' },
-                { icon: '🔧', name: 'Plumbing' }, { icon: '💄', name: 'Beauty' },
-                { icon: '💻', name: 'ICT' }, { icon: '🌾', name: 'Farming' },
-                { icon: '🏗️', name: 'Construction' }, { icon: '🚗', name: 'Automotive' },
-                { icon: '🌿', name: 'Herbs & Spices' }, { icon: '🐄', name: 'Cattle & Dairy' }
-            ];
-            container.innerHTML = cats.map(c => `
-                <a href="#" onclick="switchTab('courses'); setCategoryFilter('${c.name.toLowerCase()}'); return false;">
-                    ${c.icon} ${c.name}
-                </a>
-            `).join('');
-        }
-
+       function updateHomeCategories() {
+    const container = document.getElementById('homeCategories');
+    if (!container) return;
+    const cats = [
+        { icon: '🍳', name: 'Cooking' },
+        { icon: '⚡', name: 'Electrical' },
+        { icon: '🔧', name: 'Plumbing' },
+        { icon: '💄', name: 'Beauty' },
+        { icon: '💻', name: 'ICT' },
+        { icon: '🌾', name: 'Farming' },
+        { icon: '🏗️', name: 'Construction' },
+        { icon: '🚗', name: 'Automotive' },
+        { icon: '🌿', name: 'Herbs & Spices' },
+        { icon: '🐄', name: 'Cattle & Dairy' }
+    ];
+    container.innerHTML = cats.map(c => `
+        <a href="#" onclick="switchTab('courses'); setCategoryFilter('${c.name.toLowerCase()}'); return false;">
+            ${c.icon} ${c.name}
+        </a>
+    `).join('');
+}
         // ===== SWITCH TAB =====
         function switchTab(tabName) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
