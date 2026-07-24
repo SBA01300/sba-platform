@@ -2018,16 +2018,20 @@ function renderRecommendedCarousel() {
         }
 
         // ===== VERIFY =====
-        function verifyCertificate() {
-            const code = document.getElementById('verifyInput').value.trim();
-            const result = document.getElementById('verifyResult');
-            if (!code) { result.innerHTML = '<div class="verify-result invalid">❌ Enter a code.</div>'; return; }
-            const found = courses.find(c => c.certificateCode === code);
-            if (found) {
-                result.innerHTML = `<div class="verify-result valid">✅ Valid!<br>Course: ${found.title}<br>Code: ${code}</div>`;
-            } else {
-                result.innerHTML = `<div class="verify-result invalid">❌ Invalid code.</div>`;
-            }
+function verifyCertificate() {
+    const code = document.getElementById('verifyInput').value.trim();
+    const result = document.getElementById('verifyResult');
+    if (!code) {
+        result.innerHTML = '<div class="verify-result invalid">❌ Enter a code.</div>';
+        return;
+    }
+    const found = courses.find(c => c.certificateCode === code);
+    if (found) {
+        result.innerHTML = `<div class="verify-result valid">✅ Valid!<br>Course: ${found.title}<br>Code: ${code}</div>`;
+    } else {
+        result.innerHTML = '<div class="verify-result invalid">❌ Invalid certificate code.</div>';
+    }
+}
         }
 
         // ===== ADMIN REFRESH =====
