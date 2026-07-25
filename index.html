@@ -1122,17 +1122,18 @@
     const tab = document.getElementById('tab-' + tabName);
     if (tab) tab.classList.add('active');
     
-    // 3. Update the nav links active state
+    // 3. Update the nav links active state - REMOVE ALL ACTIVE FIRST
     document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    
+    // 4. Find the link that matches the tab name and add active class
     document.querySelectorAll('.nav-link').forEach(link => {
-        // Check if the onclick attribute contains the tab name
         const onclick = link.getAttribute('onclick');
         if (onclick && onclick.includes("'" + tabName + "'")) {
             link.classList.add('active');
         }
     });
     
-    // 4. Load content for the tab
+    // 5. Load content for the tab
     if (tabName === 'courses') renderCourses();
     else if (tabName === 'dashboard') updateDashboard();
     else if (tabName === 'profile') loadProfile();
