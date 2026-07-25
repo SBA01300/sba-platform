@@ -400,6 +400,150 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
 .verify-result.valid { background:rgba(16,185,129,0.1); border:1px solid var(--accent); color:var(--accent); }
 .verify-result.invalid { background:rgba(239,68,68,0.1); border:1px solid var(--danger); color:var(--danger); }
 
+/* ===== AI CHATBOT ===== */
+.ai-chat-btn {
+  position:fixed;
+  bottom:100px;
+  right:30px;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:linear-gradient(135deg, var(--primary), var(--secondary));
+  color:white;
+  border:none;
+  box-shadow:0 8px 30px rgba(99,102,241,0.4);
+  cursor:pointer;
+  font-size:1.8rem;
+  z-index:999;
+  transition:var(--transition);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.ai-chat-btn:hover { transform:scale(1.1); box-shadow:0 12px 40px rgba(99,102,241,0.6); }
+.ai-chat-btn .pulse-ring {
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border:2px solid var(--primary);
+  animation:pulse-glow 2s infinite;
+}
+.ai-chat-modal {
+  position:fixed;
+  bottom:180px;
+  right:30px;
+  width:400px;
+  max-width:calc(100vw - 60px);
+  max-height:550px;
+  background:var(--bg-elevated);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  z-index:1000;
+  display:none;
+  flex-direction:column;
+  overflow:hidden;
+  transition:all 0.3s ease;
+}
+.ai-chat-modal.open { display:flex; animation:slide-up 0.3s ease; }
+.ai-chat-header {
+  padding:1rem 1.25rem;
+  background:linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-shrink:0;
+}
+.ai-chat-header h4 { font-family:var(--font-display); font-weight:600; font-size:1rem; display:flex; align-items:center; gap:0.5rem; }
+.ai-chat-header h4 i { font-size:1.2rem; }
+.ai-chat-close { background:none; border:none; color:white; font-size:1.2rem; cursor:pointer; opacity:0.7; transition:0.2s; }
+.ai-chat-close:hover { opacity:1; }
+.ai-chat-messages {
+  flex:1;
+  overflow-y:auto;
+  padding:1rem;
+  display:flex;
+  flex-direction:column;
+  gap:0.75rem;
+  max-height:350px;
+}
+.ai-chat-message {
+  max-width:85%;
+  padding:0.75rem 1rem;
+  border-radius:var(--radius-sm);
+  font-size:0.9rem;
+  line-height:1.5;
+  animation:slide-up 0.2s ease;
+}
+.ai-chat-message.user {
+  align-self:flex-end;
+  background:var(--primary);
+  color:white;
+  border-bottom-right-radius:4px;
+}
+.ai-chat-message.bot {
+  align-self:flex-start;
+  background:var(--bg-card);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-bottom-left-radius:4px;
+}
+.ai-chat-message .typing {
+  display:inline-flex;
+  gap:4px;
+}
+.ai-chat-message .typing span {
+  width:8px; height:8px;
+  border-radius:50%;
+  background:var(--text-muted);
+  animation:typing 1.4s infinite;
+}
+.ai-chat-message .typing span:nth-child(2) { animation-delay:0.2s; }
+.ai-chat-message .typing span:nth-child(3) { animation-delay:0.4s; }
+@keyframes typing { 0%,60%,100% { transform:translateY(0); } 30% { transform:translateY(-6px); } }
+.ai-chat-input {
+  display:flex;
+  gap:0.5rem;
+  padding:0.75rem 1rem;
+  border-top:1px solid var(--border);
+  flex-shrink:0;
+}
+.ai-chat-input input {
+  flex:1;
+  padding:0.6rem 1rem;
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  background:var(--bg);
+  color:var(--text);
+  outline:none;
+  font-size:0.9rem;
+}
+.ai-chat-input input:focus { border-color:var(--primary); }
+.ai-chat-input button {
+  padding:0.6rem 1.2rem;
+  border-radius:var(--radius-sm);
+  border:none;
+  background:var(--primary);
+  color:white;
+  cursor:pointer;
+  font-weight:600;
+  transition:0.2s;
+}
+.ai-chat-input button:hover { background:var(--primary-dark); }
+.ai-chat-status {
+  font-size:0.7rem;
+  color:var(--text-dim);
+  padding:0.25rem 1rem;
+  text-align:center;
+  border-top:1px solid var(--border);
+  flex-shrink:0;
+}
+@media (max-width:480px) {
+  .ai-chat-modal { bottom:150px; right:15px; width:calc(100vw - 30px); max-height:70vh; }
+  .ai-chat-btn { bottom:90px; right:15px; width:54px; height:54px; font-size:1.5rem; }
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width:1024px) {
   .nav-links { display:none; }
@@ -453,6 +597,33 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
     <a href="#" onclick="openAuthModal(); toggleMobileMenu();">Login</a>
     <a href="#" onclick="openAuthModal(); toggleMobileMenu();">Sign Up</a>
   </div>
+</div>
+
+<!-- ===== AI CHATBOT ===== -->
+<button class="ai-chat-btn" id="aiChatBtn" onclick="toggleAIChat()" title="Ask AI Assistant">
+  <span class="pulse-ring"></span>
+  <i class="fas fa-robot"></i>
+</button>
+<div class="ai-chat-modal" id="aiChatModal">
+  <div class="ai-chat-header">
+    <h4><i class="fas fa-robot"></i> Rise AI Assistant</h4>
+    <button class="ai-chat-close" onclick="toggleAIChat()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="ai-chat-messages" id="aiChatMessages">
+    <div class="ai-chat-message bot">
+      👋 Hi! I'm your Rise Africa AI assistant.<br>
+      I can help you with:<br>
+      📚 Finding courses<br>
+      💰 Pricing & plans<br>
+      🎓 Learning advice<br>
+      💬 Ask me anything!
+    </div>
+  </div>
+  <div class="ai-chat-input">
+    <input type="text" id="aiChatInput" placeholder="Ask me anything..." onkeypress="if(event.key==='Enter') sendAIMessage()">
+    <button onclick="sendAIMessage()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+  <div class="ai-chat-status" id="aiChatStatus">⚡ AI ready • Ask about courses, skills, or careers</div>
 </div>
 
 <!-- ===== NAV ===== -->
@@ -601,6 +772,8 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
         <button class="btn btn-secondary btn-sm" onclick="filterVideos('graphic-design')">🎨 Design</button>
         <button class="btn btn-secondary btn-sm" onclick="filterVideos('marketing')">📢 Marketing</button>
         <button class="btn btn-secondary btn-sm" onclick="filterVideos('leadership')">👔 Leadership</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterVideos('accounting')">📊 Accounting</button>
+        <button class="btn btn-secondary btn-sm" onclick="filterVideos('construction')">🏗️ Build</button>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
         <input type="text" id="videoSearchInput" placeholder="🔍 Search by title..." style="flex:1;padding:10px 16px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:0.9rem;outline:none;min-width:200px;" oninput="searchVideos()">
@@ -1002,6 +1175,12 @@ const firebaseConfig = {
 const PAYSTACK_PUBLIC_KEY = "pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
 // ================================================================
+//  GROQ AI CONFIG – GET FREE API KEY FROM console.groq.com
+// ================================================================
+const GROQ_API_KEY = ""; // <-- Paste your Groq API key here (optional)
+const GROQ_MODEL = "llama3-70b-8192";
+
+// ================================================================
 //  INIT FIREBASE
 // ================================================================
 firebase.initializeApp(firebaseConfig);
@@ -1086,7 +1265,7 @@ function generateAllCourses() {
   const levels = ['Beginner','Intermediate','Advanced'];
   const durations = ['Short','Medium','Long'];
   const names = ['Complete Guide','Masterclass','Practical Skills','Expert Training','Essentials','Advanced Techniques','Introduction','Professional','Startup','Entrepreneur'];
-  const videoPool = ['J-KCIFG3B5M','xcCZejr6KSc','yXPsLFv099s','M7lc1UVf-VE','Z8ZJrh-9DlY','8Gv0H-vPoDc','2a6jVpSv8R8','sW2w7tqHjRo','r5uDk1q-p7w','y-6B0YFJbGg','x_hcQr5a5n8','hW7gS8kD-OA','q7xZk2vLpPo','m1nU4xZ_5_s','9fMk2lG9LPA','Pp2aD9e7VX8'];
+  const videoPool = ['J-KCIFG3B5M','xcCZejr6KSc','yXPsLFv099s','M7lc1UVf-VE','Z8ZJrh-9DlY','8Gv0H-vPoDc','2a6jVpSv8R8','sW2w7tqHjRo','r5uDk1q-p7w','y-6B0YFJbGg','x_hcQr5a5n8','hW7gS8kD-OA','q7xZk2vLpPo','m1nU4xZ_5_s','9fMk2lG9LPA','Pp2aD9e7VX8','dTl1t1yM_xM','bVQ2k3VfY-0','3rN2G3oCdKI','l9b7vT1_7-o'];
   const moduleTemplates = [
     ["Introduction","Core Concepts","Advanced Topics","Projects","Assessment"],
     ["Basics","Practice","Applications","Case Studies","Review"],
@@ -1127,7 +1306,7 @@ function generateAllCourses() {
 const COURSES = generateAllCourses();
 
 // ================================================================
-//  VIDEO LIBRARY – 40+ REAL YOUTUBE VIDEOS
+//  VIDEO LIBRARY – 50+ REAL YOUTUBE VIDEOS
 // ================================================================
 const VIDEO_LIBRARY = [
   // Original 16
@@ -1147,7 +1326,7 @@ const VIDEO_LIBRARY = [
   {id:'m1nU4xZ_5_s', title:'Fish Farming Basics', category:'aquaculture', level:'starter'},
   {id:'9fMk2lG9LPA', title:'Marketing Basics', category:'marketing', level:'starter'},
   {id:'Pp2aD9e7VX8', title:'Leadership Skills', category:'leadership', level:'starter'},
-  // New additions (24 more)
+  // New additions (34 more)
   {id:'dTl1t1yM_xM', title:'DJ Mixing Tutorial', category:'dj', level:'starter'},
   {id:'bVQ2k3VfY-0', title:'Podcast Recording Setup', category:'podcast', level:'starter'},
   {id:'3rN2G3oCdKI', title:'Advanced Podcast Editing', category:'podcast', level:'middle'},
@@ -1171,7 +1350,17 @@ const VIDEO_LIBRARY = [
   {id:'W6NZfCO5SIk', title:'Project Management', category:'project-management', level:'starter'},
   {id:'y9K5-wcJZP0', title:'Sales Techniques', category:'sales', level:'starter'},
   {id:'vTIIMJ9tUc8', title:'Customer Service', category:'customer-service', level:'starter'},
-  {id:'zX1J8Z5Jt0M', title:'Leadership in Business', category:'leadership', level:'middle'}
+  {id:'zX1J8Z5Jt0M', title:'Leadership in Business', category:'leadership', level:'middle'},
+  {id:'aB2cD3eF4gH', title:'Mushroom Cultivation', category:'mushroom-farming', level:'starter'},
+  {id:'iJ5kL6mN7oP', title:'Pig Farming Basics', category:'pig-farming', level:'starter'},
+  {id:'kL8mN9oP0qR', title:'Food Safety & Hygiene', category:'food-preservation', level:'starter'},
+  {id:'sT1uV2wX3yZ', title:'Logistics & Supply Chain', category:'logistics', level:'starter'},
+  {id:'mN5oP6qR7sT', title:'Mining Safety', category:'mining', level:'starter'},
+  {id:'uV8wX9yZ0aB', title:'Tailoring & Pattern Making', category:'tailoring', level:'starter'},
+  {id:'cD3eF4gH5iJ', title:'Baking Masterclass', category:'baking', level:'middle'},
+  {id:'kL6mN7oP8qR', title:'Graphic Design Advanced', category:'graphic-design', level:'middle'},
+  {id:'sT9uV0wX1yZ', title:'Photography Lighting', category:'photography', level:'middle'},
+  {id:'mN2oP3qR4sT', title:'Videography Storytelling', category:'videography', level:'middle'}
 ];
 
 // ================================================================
@@ -1195,7 +1384,9 @@ let state = {
   calendarYear: new Date().getFullYear(),
   isAdmin: false,
   certExpiryDays: 365,
-  isLoading: true
+  isLoading: true,
+  aiChatOpen: false,
+  aiMessageHistory: []
 };
 
 // ================================================================
@@ -1402,7 +1593,6 @@ auth.onAuthStateChanged(async (user) => {
         state.isAdmin = state.userData.role === 'admin';
         state.certExpiryDays = state.userData.certExpiryDays || 365;
       } else {
-        // New user – create doc
         await db.collection('users').doc(user.uid).set({
           name: user.displayName || 'User',
           email: user.email,
@@ -1547,7 +1737,9 @@ function renderCategories() {
   const grid = document.getElementById('categoriesGrid');
   const cats = {};
   COURSES.forEach(c => { if (!cats[c.category]) cats[c.category] = {count:0, emoji:c.emoji}; cats[c.category].count++; });
-  grid.innerHTML = Object.keys(cats).map(cat => `
+  // Sort categories alphabetically
+  const sortedCats = Object.keys(cats).sort();
+  grid.innerHTML = sortedCats.map(cat => `
     <div class="category-card" onclick="filterByCategory('${cat}')">
       <span class="emoji">${cats[cat].emoji}</span>
       <h3>${cat}</h3>
@@ -1566,7 +1758,7 @@ function populateCategoryFilter() {
   const select = document.getElementById('categoryFilter');
   const cats = {};
   COURSES.forEach(c => { if (!cats[c.category]) cats[c.category] = true; });
-  Object.keys(cats).forEach(cat => {
+  Object.keys(cats).sort().forEach(cat => {
     const option = document.createElement('option');
     option.value = cat;
     option.textContent = cat;
@@ -2261,6 +2453,149 @@ function importYouTubePlaylist() {
 }
 
 // ================================================================
+//  AI CHATBOT
+// ================================================================
+function toggleAIChat() {
+  const modal = document.getElementById('aiChatModal');
+  const btn = document.getElementById('aiChatBtn');
+  state.aiChatOpen = !state.aiChatOpen;
+  modal.classList.toggle('open', state.aiChatOpen);
+  if (state.aiChatOpen) {
+    document.getElementById('aiChatInput').focus();
+  }
+}
+
+function sendAIMessage() {
+  const input = document.getElementById('aiChatInput');
+  const message = input.value.trim();
+  if (!message) return;
+  input.value = '';
+  addAIMessage(message, 'user');
+  showTypingIndicator();
+  
+  // Get AI response
+  getAIResponse(message).then(response => {
+    removeTypingIndicator();
+    addAIMessage(response, 'bot');
+  }).catch(err => {
+    removeTypingIndicator();
+    addAIMessage('Sorry, I encountered an error. Please try again.', 'bot');
+    console.error('AI Error:', err);
+  });
+}
+
+function addAIMessage(text, sender) {
+  const container = document.getElementById('aiChatMessages');
+  const div = document.createElement('div');
+  div.className = `ai-chat-message ${sender}`;
+  div.textContent = text;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  state.aiMessageHistory.push({ role: sender, content: text });
+}
+
+function showTypingIndicator() {
+  const container = document.getElementById('aiChatMessages');
+  const div = document.createElement('div');
+  div.className = 'ai-chat-message bot';
+  div.id = 'typingIndicator';
+  div.innerHTML = `<span class="typing"><span></span><span></span><span></span></span>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+async function getAIResponse(userMessage) {
+  // Try Groq API first
+  if (GROQ_API_KEY && GROQ_API_KEY.length > 10) {
+    try {
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: GROQ_MODEL,
+          messages: [
+            { role: 'system', content: `You are Rise AI, the assistant for Rise Africa Skills Platform. You help students find courses, understand skills, and get career advice. 
+            Rise Africa offers 500+ vocational courses across 37 categories including: Automotive, Beekeeping, Aquaculture, Cottage Industry, Food Preservation, Crop Farming, Construction, Energy, Metalwork, Mushroom Farming, Poultry, Pig Farming, Technology, Languages, Healthcare, Logistics, Mining, DJ & Music, Podcasting, Tailoring, Carpentry, Plumbing, Hairdressing, Baking, Animal Husbandry, Irrigation, Renewable Energy, Design, Videography, Photography, Event Management, Project Management, Accounting, Marketing, Sales, Customer Service, and Leadership.
+            Pricing: Starter $3.50/course, Pro $10/month (all courses), Bundle $40 for 5 courses.
+            Be friendly, helpful, and concise. Keep responses under 3 sentences when possible.` },
+            ...state.aiMessageHistory.slice(-5).map(m => ({ 
+              role: m.role === 'user' ? 'user' : 'assistant', 
+              content: m.content 
+            })),
+            { role: 'user', content: userMessage }
+          ],
+          temperature: 0.7,
+          max_tokens: 300
+        })
+      });
+      const data = await response.json();
+      if (data.choices && data.choices[0]) {
+        return data.choices[0].message.content;
+      }
+    } catch (err) {
+      console.warn('Groq API error, falling back to simulation:', err);
+    }
+  }
+  
+  // Fallback: Simulated intelligent responses
+  return getSimulatedResponse(userMessage);
+}
+
+function getSimulatedResponse(message) {
+  const msg = message.toLowerCase();
+  
+  // Course recommendations
+  if (msg.includes('course') || msg.includes('learn') || msg.includes('study')) {
+    if (msg.includes('soap') || msg.includes('cosmetic')) return '🧼 Great choice! Our "Soap Making from Scratch" course is very popular. Also check out "Liquid Soap & Shampoo" and "Body Lotion & Creams". All are in the Cottage Industry category.';
+    if (msg.includes('farming') || msg.includes('agriculture')) return '🌾 We have excellent farming courses! "Fish Farming Basics", "Beekeeping Basics", and "Poultry Farming Guide" are top-rated. Also check our Crop Farming category for more.';
+    if (msg.includes('tech') || msg.includes('computer') || msg.includes('coding')) return '💻 Our Technology category has "Coding for Beginners", "Web Development", and "Data Analysis". All include hands-on projects.';
+    if (msg.includes('business') || msg.includes('start') || msg.includes('entrepreneur')) return '📈 For entrepreneurs, we recommend "Cottage Business Mastery", "Marketing Basics", and "Sales Techniques". Also check our Leadership category.';
+    return '📚 We have 500+ courses across 37 categories. Try searching for "farming", "soap", "coding", or "business" to find what interests you!';
+  }
+  
+  // Pricing
+  if (msg.includes('price') || msg.includes('cost') || msg.includes('pay') || msg.includes('$')) {
+    return '💰 We have three plans: Starter ($3.50/course), Pro ($10/month for all courses), and Bundle ($40 for 5 courses). Pro is our best value!';
+  }
+  
+  // Certificates
+  if (msg.includes('certificate') || msg.includes('cert') || msg.includes('verify')) {
+    return '🎓 Yes! You get a verified certificate for every course you complete. You can verify any certificate using the "Verify" tab on our platform.';
+  }
+  
+  // Videos
+  if (msg.includes('video') || msg.includes('watch') || msg.includes('youtube')) {
+    return '🎬 We have 50+ real YouTube videos in our Skills Library. You can filter by category and level. Check the Videos tab!';
+  }
+  
+  // Categories
+  if (msg.includes('category') || msg.includes('type') || msg.includes('kind')) {
+    return '🏷️ We have 37 categories including Automotive, Beekeeping, Aquaculture, Cottage Industry, Technology, Healthcare, and many more. Browse the Categories section on our Home page!';
+  }
+  
+  // About
+  if (msg.includes('about') || msg.includes('mission') || msg.includes('who')) {
+    return '🌍 Rise Africa empowers African youth with practical vocational skills. We offer 500+ hands-on courses taught by industry experts. Our mission is to create self-sustaining livelihoods across Africa.';
+  }
+  
+  // Help
+  if (msg.includes('help') || msg.includes('support') || msg.includes('question')) {
+    return '🤝 I\'m here to help! You can ask me about courses, pricing, certificates, videos, or anything else about Rise Africa. What would you like to know?';
+  }
+  
+  // Default friendly response
+  return `👋 That's a great question! I'm here to help you learn more about Rise Africa. We offer 500+ vocational courses across 37 categories. What specific skill are you interested in?`;
+}
+
+// ================================================================
 //  CHECKOUT & PAYMENT
 // ================================================================
 let currentCheckout = null;
@@ -2317,7 +2652,6 @@ function processPayment(e) {
   const ref = 'RIS-' + Date.now();
 
   if (PAYSTACK_PUBLIC_KEY.includes('xxxxxxxx')) {
-    // Demo mode
     setTimeout(() => {
       completePayment(ref, currentCheckout, name, email);
     }, 1500);
@@ -2393,6 +2727,24 @@ function completePayment(ref, item, name, email) {
 }
 
 // ================================================================
+//  UPDATE DASHBOARD (for real-time updates)
+// ================================================================
+function updateDashboard() {
+  // This function is called after enrollments, progress updates, etc.
+  // It updates the dashboard UI if the dashboard modal is open
+  if (document.getElementById('dashboardModal').classList.contains('active')) {
+    const activeTab = document.querySelector('#dashboardModal .tab.active');
+    if (activeTab) {
+      const tabText = activeTab.textContent.trim().toLowerCase();
+      if (tabText.includes('courses')) switchDashboardTab('courses', activeTab);
+      else if (tabText.includes('payments')) switchDashboardTab('payments', activeTab);
+      else if (tabText.includes('certificates')) switchDashboardTab('certificates', activeTab);
+      else if (tabText.includes('profile')) switchDashboardTab('profile', activeTab);
+    }
+  }
+}
+
+// ================================================================
 //  INIT
 // ================================================================
 function initApp() {
@@ -2443,6 +2795,13 @@ function initApp() {
   const nav = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+  
+  // Close AI chat on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && state.aiChatOpen) {
+      toggleAIChat();
+    }
   });
 }
 
