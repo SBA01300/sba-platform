@@ -12,7 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <!-- GOOGLE ANALYTICS (Replace G-XXXXXXXXXX) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -21,7 +21,7 @@
         gtag('config', 'G-XXXXXXXXXX');
     </script>
     <style>
-        /* ===== RESET & BASE ===== */
+        /* === RESET & BASE === */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Roboto, system-ui, sans-serif; background: #f4f7fc; color: #0a2540; transition: 0.3s; display: flex; flex-direction: column; min-height: 100vh; }
         body.dark { background: #0d1b2a; color: #e8edf5; }
@@ -63,6 +63,8 @@
         body.dark .roadmap-card { background: #1b2a41; border-color: #2d4059; }
         body.dark .theme-toggle { border-color: #2d4059; color: #e8edf5; }
         body.dark .theme-toggle:hover { border-color: #4a9eff; }
+        /* fix calendar month in dark mode */
+        body.dark #calendarMonthYear { color: #e8edf5; }
         /* ===== ROLE BADGES ===== */
         .role-badge { padding: 2px 10px; border-radius: 12px; font-size: 0.65rem; font-weight: 600; display: inline-block; }
         .role-badge.admin { background: #f44336; color: #fff; }
@@ -502,7 +504,7 @@
                         </button>
                         <div id="demoVideoContainer" style="display:none; margin-top:12px; background:#0a2540; border-radius:12px; overflow:hidden; position:relative;">
                             <div style="position:relative; padding-bottom:56.25%; height:0;">
-                                <iframe id="demoIframe" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&autoplay=1" title="Rise Africa Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe id="demoIframe" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" src="https://www.youtube.com/embed/J-KCIFG3B5M?rel=0&autoplay=1" title="Rise Africa Demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>
@@ -596,7 +598,7 @@
                 <div class="controls">
                     <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search 500+ courses..." onkeyup="filterCourses()">
                     <div class="filter-group" id="filterGroup">
-                        <!-- Category filters will be injected here -->
+                        <!-- category filters injected here -->
                     </div>
                     <div class="difficulty-group">
                         <button class="filter-difficulty active" data-difficulty="all" onclick="setDifficulty('all')">All</button>
@@ -707,6 +709,7 @@
                     <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
                         <input type="text" id="playlistIdInput" placeholder="Enter YouTube Playlist ID" style="flex:1;padding:10px;border-radius:8px;border:2px solid #dce3ed;background:#fff;min-width:250px;">
                         <select id="playlistCategorySelect" style="padding:8px;border-radius:8px;border:2px solid #dce3ed;background:#fff;">
+                            <!-- filled dynamically or just keep all -->
                             <option value="automotive">🚗 Automotive</option>
                             <option value="beekeeping">🐝 Beekeeping</option>
                             <option value="aquaculture">🐟 Aquaculture</option>
@@ -726,6 +729,24 @@
                             <option value="mining">⛏️ Mining</option>
                             <option value="dj">🎧 DJ</option>
                             <option value="podcast">🎙️ Podcast</option>
+                            <option value="tailoring">🧵 Tailoring</option>
+                            <option value="carpentry">🪚 Carpentry</option>
+                            <option value="plumbing">🔧 Plumbing</option>
+                            <option value="hairdressing">💇 Hairdressing</option>
+                            <option value="baking">🍞 Baking</option>
+                            <option value="animal-husbandry">🐄 Animal Husbandry</option>
+                            <option value="irrigation">💧 Irrigation</option>
+                            <option value="renewable-energy">🌬️ Renewable Energy</option>
+                            <option value="graphic-design">🎨 Graphic Design</option>
+                            <option value="videography">🎥 Videography</option>
+                            <option value="photography">📸 Photography</option>
+                            <option value="event-management">🎪 Event Management</option>
+                            <option value="project-management">📋 Project Management</option>
+                            <option value="accounting">📊 Accounting</option>
+                            <option value="marketing">📢 Marketing</option>
+                            <option value="sales">🤝 Sales</option>
+                            <option value="customer-service">💬 Customer Service</option>
+                            <option value="leadership">👔 Leadership</option>
                         </select>
                         <input type="text" id="playlistApiKey" placeholder="YouTube API Key (optional)" style="padding:10px;border-radius:8px;border:2px solid #dce3ed;background:#fff;min-width:180px;">
                         <button class="btn-gold" onclick="importYouTubePlaylist()">📥 Import Playlist</button>
@@ -805,14 +826,16 @@
                     <button class="filter-btn" onclick="filterVideos('middle')">⚡ Middle</button>
                     <button class="filter-btn" onclick="filterVideos('commercial')">🏭 Commercial</button>
                     <span style="margin:0 4px;">|</span>
-                    <button class="filter-btn" onclick="filterVideos('aquaculture')">🐟 Aquaculture</button>
-                    <button class="filter-btn" onclick="filterVideos('automotive')">🚗 Automotive</button>
-                    <button class="filter-btn" onclick="filterVideos('beekeeping')">🐝 Beekeeping</button>
+                    <button class="filter-btn" onclick="filterVideos('automotive')">🚗 Auto</button>
+                    <button class="filter-btn" onclick="filterVideos('beekeeping')">🐝 Bee</button>
+                    <button class="filter-btn" onclick="filterVideos('aquaculture')">🐟 Fish</button>
                     <button class="filter-btn" onclick="filterVideos('cottage-industry')">🧼 Cottage</button>
                     <button class="filter-btn" onclick="filterVideos('food-preservation')">🥫 Preserve</button>
-                    <button class="filter-btn" onclick="filterVideos('mushrooms')">🍄 Mushrooms</button>
+                    <button class="filter-btn" onclick="filterVideos('mushrooms')">🍄 Mush</button>
                     <button class="filter-btn" onclick="filterVideos('dj')">🎧 DJ</button>
                     <button class="filter-btn" onclick="filterVideos('podcast')">🎙️ Podcast</button>
+                    <button class="filter-btn" onclick="filterVideos('graphic-design')">🎨 Design</button>
+                    <button class="filter-btn" onclick="filterVideos('photography')">📸 Photo</button>
                 </div>
                 <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
                     <input type="text" id="videoSearch" placeholder="🔍 Search by title..." style="flex:1;padding:8px 16px;border:2px solid #dce3ed;border-radius:30px;font-size:0.9rem;" onkeyup="searchVideos()">
@@ -908,7 +931,9 @@
     <div class="modal-overlay" id="forumPostModal"><div class="modal-content"><button class="modal-close" onclick="document.getElementById('forumPostModal').classList.remove('open')">✕</button><h3>📝 New Post</h3><div class="form-group"><label>Title</label><input type="text" id="forumPostTitle"></div><div class="form-group"><label>Content</label><textarea id="forumPostContent" rows="4"></textarea></div><button class="btn-primary" onclick="submitForumPost()">Publish</button></div></div>
     <div class="video-modal-overlay" id="videoModal"><div class="video-modal-content"><button class="video-modal-close" onclick="document.getElementById('videoModal').classList.remove('open')">✕</button><iframe id="videoIframe" src="" allowfullscreen></iframe></div></div>
 
-    <!-- ===== JAVASCRIPT ===== -->
+    <!-- ================================================================ -->
+    <!-- ===== JAVASCRIPT – COMPLETE ===== -->
+    <!-- ================================================================ -->
     <script>
         // ================================================================
         // FIREBASE CONFIG
@@ -975,6 +1000,17 @@
         const countryFlags = {
             'Algeria':'🇩🇿','Angola':'🇦🇴','Benin':'🇧🇯','Botswana':'🇧🇼','Burkina Faso':'🇧🇫','Burundi':'🇧🇮','Cabo Verde':'🇨🇻','Cameroon':'🇨🇲','Central African Republic':'🇨🇫','Chad':'🇹🇩','Comoros':'🇰🇲','Congo':'🇨🇬','DRC':'🇨🇩','Djibouti':'🇩🇯','Egypt':'🇪🇬','Equatorial Guinea':'🇬🇶','Eritrea':'🇪🇷','Eswatini':'🇸🇿','Ethiopia':'🇪🇹','Gabon':'🇬🇦','Gambia':'🇬🇲','Ghana':'🇬🇭','Guinea':'🇬🇳','Guinea-Bissau':'🇬🇼','Ivory Coast':'🇨🇮','Kenya':'🇰🇪','Lesotho':'🇱🇸','Liberia':'🇱🇷','Libya':'🇱🇾','Madagascar':'🇲🇬','Malawi':'🇲🇼','Mali':'🇲🇱','Mauritania':'🇲🇷','Mauritius':'🇲🇺','Morocco':'🇲🇦','Mozambique':'🇲🇿','Namibia':'🇳🇦','Niger':'🇳🇪','Nigeria':'🇳🇬','Rwanda':'🇷🇼','Sao Tome':'🇸🇹','Senegal':'🇸🇳','Seychelles':'🇸🇨','Sierra Leone':'🇸🇱','Somalia':'🇸🇴','South Africa':'🇿🇦','South Sudan':'🇸🇸','Sudan':'🇸🇩','Tanzania':'🇹🇿','Togo':'🇹🇬','Tunisia':'🇹🇳','Uganda':'🇺🇬','Zambia':'🇿🇲','Zimbabwe':'🇿🇼'
         };
+
+        // ===== EXPANDED CATEGORIES (30+) =====
+        const ALL_CATEGORIES = [
+            'automotive','beekeeping','aquaculture','cottage-industry','food-preservation',
+            'crop-production','construction','energy','metal','mushrooms','poultry','pig',
+            'ict','languages','health','logistics','mining','dj','podcast',
+            'tailoring','carpentry','plumbing','hairdressing','baking','animal-husbandry',
+            'irrigation','renewable-energy','graphic-design','videography','photography',
+            'event-management','project-management','accounting','marketing','sales',
+            'customer-service','leadership'
+        ];
 
         // ================================================================
         // EMAIL HELPERS
@@ -1264,56 +1300,62 @@
         // ================================================================
         // COURSE & VIDEO DATA
         // ================================================================
+        // Base courses (with NO Rick Astley video)
         const defaultCourses = [
-            // ... (existing courses from previous version)
-            // Add DJ and Podcast courses
-            { id: 'dj1', code: 'DJ101', title: 'DJ Mixing & Turntablism', category: 'dj', level: 'Beginner', duration: 'medium', price: 10, rating: 4.8, enrolled: 120, modules: ['Equipment Setup', 'Beat Matching', 'Mixing Techniques', 'Scratching'], skills: ['Mixing','Performance'], videoIds: ['dQw4w9WgXcQ'] },
-            { id: 'dj2', code: 'DJ102', title: 'Digital DJing with Software', category: 'dj', level: 'Intermediate', duration: 'medium', price: 12, rating: 4.7, enrolled: 95, modules: ['Serato Basics', 'Effects', 'Cue Points', 'Live Recording'], skills: ['Software','Performance'] },
-            { id: 'pod1', code: 'POD101', title: 'Podcasting 101', category: 'podcast', level: 'Beginner', duration: 'short', price: 8, rating: 4.6, enrolled: 150, modules: ['Planning', 'Recording', 'Editing', 'Publishing'], skills: ['Audio','Storytelling'], videoIds: ['xcCZejr6KSc'] },
-            { id: 'pod2', code: 'POD102', title: 'Advanced Podcast Production', category: 'podcast', level: 'Advanced', duration: 'long', price: 14, rating: 4.9, enrolled: 80, modules: ['Sound Design', 'Interviewing', 'Marketing', 'Monetization'], skills: ['Production','Marketing'] },
+            // Automotive
+            { id: 'auto1', code: 'AUTO101', title: 'Engine Repair & Maintenance', category: 'automotive', level: 'Intermediate', duration: 'medium', price: 10, rating: 4.9, enrolled: 234, modules: ['Engine Basics', 'Oil Change', 'Cooling System', 'Fuel Injection'], skills: ['Diagnostics','Tool Use'], videoIds: ['J-KCIFG3B5M'] },
+            { id: 'auto2', code: 'AUTO102', title: 'Brake Systems & Safety', category: 'automotive', level: 'Intermediate', duration: 'medium', price: 10, rating: 4.7, enrolled: 189, modules: ['Brake Pads', 'Hydraulics', 'ABS'], skills: ['Safety','Brake Repair'], videoIds: ['xcCZejr6KSc'] },
+            // DJ
+            { id: 'dj1', code: 'DJ101', title: 'DJ Mixing & Turntablism', category: 'dj', level: 'Beginner', duration: 'medium', price: 10, rating: 4.8, enrolled: 120, modules: ['Equipment Setup', 'Beat Matching', 'Mixing Techniques', 'Scratching'], skills: ['Mixing','Performance'], videoIds: ['M7lc1UVf-VE'] },
+            { id: 'dj2', code: 'DJ102', title: 'Digital DJing with Software', category: 'dj', level: 'Intermediate', duration: 'medium', price: 10, rating: 4.7, enrolled: 95, modules: ['Serato Basics', 'Effects', 'Cue Points', 'Live Recording'], skills: ['Software','Performance'] },
+            // Podcast
+            { id: 'pod1', code: 'POD101', title: 'Podcasting 101', category: 'podcast', level: 'Beginner', duration: 'short', price: 10, rating: 4.6, enrolled: 150, modules: ['Planning', 'Recording', 'Editing', 'Publishing'], skills: ['Audio','Storytelling'], videoIds: ['yXPsLFv099s'] },
+            { id: 'pod2', code: 'POD102', title: 'Advanced Podcast Production', category: 'podcast', level: 'Advanced', duration: 'long', price: 10, rating: 4.9, enrolled: 80, modules: ['Sound Design', 'Interviewing', 'Marketing', 'Monetization'], skills: ['Production','Marketing'] },
+            // Beekeeping
+            { id: 'bee1', code: 'BEE101', title: 'Beekeeping Basics', category: 'beekeeping', level: 'Beginner', duration: 'short', price: 10, rating: 4.6, enrolled: 312, modules: ['Hive Setup', 'Bee Biology', 'Harvesting'], skills: ['Apiary','Harvest'], videoIds: ['Z8ZJrh-9DlY'] },
+            // Aquaculture
+            { id: 'aqua1', code: 'AQUA101', title: 'Fish Farming Basics', category: 'aquaculture', level: 'Beginner', duration: 'medium', price: 10, rating: 4.5, enrolled: 267, modules: ['Pond Setup', 'Feeding', 'Health'], skills: ['Aquaculture','Management'] },
+            // Cottage Industry
+            { id: 'cott1', code: 'COTT101', title: 'Soap Making from Scratch', category: 'cottage-industry', level: 'Beginner', duration: 'short', price: 10, rating: 4.9, enrolled: 456, modules: ['Ingredients', 'Saponification', 'Moulding', 'Curing'], skills: ['Soap Making','Chemistry'], videoIds: ['J-KCIFG3B5M'] },
+            // Food Preservation
+            { id: 'food1', code: 'FOOD101', title: 'Drying & Dehydration', category: 'food-preservation', level: 'Beginner', duration: 'short', price: 10, rating: 4.5, enrolled: 345, modules: ['Sun Drying', 'Solar Dryer', 'Storage'], skills: ['Drying','Storage'] },
+            // More categories will be generated
         ];
 
         function generateAllCourses() {
             const base = [...defaultCourses];
-            // ... (rest of generation as before)
-            // We'll just return the combined array with enough courses
-            // For brevity, we'll use the previous logic but ensure DJ and podcast are included
-            // Actually we'll keep the previous generation but add DJ and podcast categories
-            const categories = ['automotive','beekeeping','aquaculture','cottage-industry','food-preservation','crop-production','construction','energy','metal','mushrooms','poultry','pig','ict','languages','health','logistics','mining','dj','podcast'];
-            // ... generation loop, we'll just push a few more
-            let all = [];
-            // Add default courses
-            all = all.concat(defaultCourses);
-            // Generate more to reach 500+ (skip detailed generation for brevity, but we'll keep the function)
-            // For simplicity, we'll use the same generation as before but with updated categories
-            // We'll just ensure the total is > 500
+            let all = base.slice();
+            const products = ['Soap','Honey','Fish','Chicken','Mushroom','Maize','Vegetable','Solar','Welding','Coding','Marketing','English','French','First Aid','Mining','Logistics','DJ','Podcast','Tailoring','Carpentry','Plumbing','Hairdressing','Baking','Animal','Irrigation','Renewable','Design','Video','Photo','Event','Project','Accounting','Sales','Service','Leadership'];
+            const names = ['Complete Guide','Masterclass','Practical Skills','Expert Training','Essentials','Advanced Techniques','Introduction','Professional','Startup','Entrepreneur'];
+            let idCounter = 2000;
             while (all.length < 520) {
-                const cat = categories[Math.floor(Math.random() * categories.length)];
+                const cat = ALL_CATEGORIES[Math.floor(Math.random() * ALL_CATEGORIES.length)];
                 const level = ['Beginner','Intermediate','Advanced'][Math.floor(Math.random() * 3)];
                 const dur = ['short','medium','long'][Math.floor(Math.random() * 3)];
-                const name = ['Complete Guide','Masterclass','Practical Skills','Expert Training','Essentials','Advanced Techniques','Introduction','Professional','Startup','Entrepreneur'][Math.floor(Math.random() * 10)];
-                const product = ['Soap','Honey','Fish','Chicken','Mushroom','Maize','Vegetable','Solar','Welding','Coding','Marketing','English','French','First Aid','Mining','Logistics','DJ','Podcast'][Math.floor(Math.random() * 18)];
+                const name = names[Math.floor(Math.random() * names.length)];
+                const product = products[Math.floor(Math.random() * products.length)];
                 const title = product + ' ' + name + (Math.random() > 0.5 ? ' (Cottage)' : '');
-                const code = cat.slice(0,4).toUpperCase() + String(all.length + 1000).slice(-3);
-                const price = [6,8,10,12,14][Math.floor(Math.random() * 5)];
-                const rating = (4 + Math.random() * 0.8).toFixed(1);
+                const code = cat.slice(0,4).toUpperCase() + String(idCounter).slice(-3);
+                const rating = parseFloat((4 + Math.random() * 0.8).toFixed(1));
                 const enrolled = Math.floor(50 + Math.random() * 450);
                 const modules = ['Module 1','Module 2','Module 3','Module 4'].map((m, i) => m + ' - ' + (['Intro','Practice','Advanced','Project'][i]));
                 const skills = [['Tool Use','Safety'],['Processing','Marketing'],['Formulation','Quality'],['Harvest','Storage'],['Design','Fabrication']][Math.floor(Math.random() * 5)];
+                const vid = ['J-KCIFG3B5M','xcCZejr6KSc','yXPsLFv099s','M7lc1UVf-VE','Z8ZJrh-9DlY'][Math.floor(Math.random() * 5)];
                 all.push({
-                    id: 'gen' + all.length,
+                    id: 'gen' + idCounter,
                     code: code,
                     title: title,
                     category: cat,
                     level: level,
                     duration: dur,
-                    price: price,
-                    rating: parseFloat(rating),
+                    price: 10, // all courses $10
+                    rating: rating,
                     enrolled: enrolled,
                     modules: modules,
                     skills: skills,
-                    videoIds: ['J-KCIFG3B5M','dQw4w9WgXcQ','xcCZejr6KSc','yXPsLFv099s'].slice(0, 1 + Math.floor(Math.random() * 2))
+                    videoIds: [vid]
                 });
+                idCounter++;
             }
             return all;
         }
@@ -1327,7 +1369,7 @@
             courses.forEach(c => {
                 if (c.videoIds && c.videoIds.length) {
                     c.videoIds.forEach(vid => {
-                        if (!usedIds.has(vid) && vid && vid.length > 5) {
+                        if (!usedIds.has(vid) && vid && vid.length > 5 && vid !== 'dQw4w9WgXcQ') {
                             usedIds.add(vid);
                             videos.push({
                                 id: vid,
@@ -1340,10 +1382,9 @@
                     });
                 }
             });
-            // Add some default videos
+            // Default safe vocational videos (no Rick Astley)
             const defaults = [
                 { id: 'J-KCIFG3B5M', title: 'Soap Making Success Story', category: 'cottage-industry', level: 'starter' },
-                { id: 'dQw4w9WgXcQ', title: 'Never Gonna Give You Up (Demo)', category: 'ict', level: 'starter' },
                 { id: 'xcCZejr6KSc', title: 'Burkina Faso Industrialisation', category: 'cottage-industry', level: 'commercial' },
                 { id: 'yXPsLFv099s', title: 'China – Prescription for Poverty', category: 'crop-production', level: 'commercial' },
                 { id: 'M7lc1UVf-VE', title: 'How to Make Liquid Soap', category: 'cottage-industry', level: 'starter' },
@@ -1352,6 +1393,8 @@
                 { id: 'iJ5kL6mN7oP', title: 'Solar Panel Installation', category: 'energy', level: 'middle' },
                 { id: 'djMIX123', title: 'DJ Mixing Basics', category: 'dj', level: 'starter' },
                 { id: 'podCAST1', title: 'Podcast Recording Tips', category: 'podcast', level: 'starter' },
+                { id: 'design101', title: 'Graphic Design Principles', category: 'graphic-design', level: 'starter' },
+                { id: 'photo101', title: 'Photography Composition', category: 'photography', level: 'starter' },
             ];
             defaults.forEach(d => {
                 if (!usedIds.has(d.id)) {
@@ -1978,7 +2021,6 @@
             document.getElementById('calcShelf').textContent = shelfLife;
             document.getElementById('calcMethod').textContent = methodLabels[method] || method;
 
-            // Maturing facts for meats
             const maturingInfo = document.getElementById('maturingInfo');
             if (veggie.startsWith('beef') || veggie.startsWith('pork') || veggie.startsWith('venison') || veggie.startsWith('lamb')) {
                 const days = veggie.match(/\d+/)?.[0] || '30';
@@ -2035,29 +2077,18 @@
 
         window.renderHomeCategories = function() {
             const container = document.getElementById('homeCategories');
-            const cats = [
-                { name: '🚗 Automotive', cat: 'automotive' },
-                { name: '🐝 Beekeeping', cat: 'beekeeping' },
-                { name: '🐟 Aquaculture', cat: 'aquaculture' },
-                { name: '🧼 Cottage Industry', cat: 'cottage-industry' },
-                { name: '🥫 Food Preservation', cat: 'food-preservation' },
-                { name: '🌾 Crop Production', cat: 'crop-production' },
-                { name: '🏗️ Construction', cat: 'construction' },
-                { name: '⚡ Energy', cat: 'energy' },
-                { name: '🔩 Metal', cat: 'metal' },
-                { name: '🍄 Mushrooms', cat: 'mushrooms' },
-                { name: '🐔 Poultry', cat: 'poultry' },
-                { name: '🐷 Pig', cat: 'pig' },
-                { name: '💻 ICT', cat: 'ict' },
-                { name: '🗣️ Languages', cat: 'languages' },
-                { name: '🏥 Health', cat: 'health' },
-                { name: '📦 Logistics', cat: 'logistics' },
-                { name: '⛏️ Mining', cat: 'mining' },
-                { name: '🎧 DJ', cat: 'dj' },
-                { name: '🎙️ Podcast', cat: 'podcast' },
-            ];
-            container.innerHTML = cats.map(c => `
-                <a href="#" onclick="switchTab('courses'); setTimeout(() => { document.getElementById('searchBox').value = '${c.cat}'; filterCourses(); }, 100); return false;">${c.name}</a>
+            const displayNames = {
+                'automotive':'🚗 Auto','beekeeping':'🐝 Bee','aquaculture':'🐟 Fish','cottage-industry':'🧼 Cottage','food-preservation':'🥫 Preserve',
+                'crop-production':'🌾 Crop','construction':'🏗️ Build','energy':'⚡ Energy','metal':'🔩 Metal','mushrooms':'🍄 Mush',
+                'poultry':'🐔 Poultry','pig':'🐷 Pig','ict':'💻 ICT','languages':'🗣️ Lang','health':'🏥 Health','logistics':'📦 Logistics',
+                'mining':'⛏️ Mining','dj':'🎧 DJ','podcast':'🎙️ Podcast','tailoring':'🧵 Tailor','carpentry':'🪚 Carp','plumbing':'🔧 Plumb',
+                'hairdressing':'💇 Hair','baking':'🍞 Bake','animal-husbandry':'🐄 Animal','irrigation':'💧 Irrigate',
+                'renewable-energy':'🌬️ Renew','graphic-design':'🎨 Design','videography':'🎥 Video','photography':'📸 Photo',
+                'event-management':'🎪 Event','project-management':'📋 Project','accounting':'📊 Account','marketing':'📢 Market',
+                'sales':'🤝 Sales','customer-service':'💬 Service','leadership':'👔 Lead'
+            };
+            container.innerHTML = ALL_CATEGORIES.map(cat => `
+                <a href="#" onclick="switchTab('courses'); setTimeout(() => { document.getElementById('searchBox').value = '${cat}'; filterCourses(); }, 100); return false;">${displayNames[cat] || cat}</a>
             `).join('');
         };
 
@@ -2065,7 +2096,7 @@
             const grid = document.getElementById('videoGrid');
             const countSpan = document.getElementById('videoCount');
             if (!grid) return;
-            let filtered = videoData;
+            let filtered = videoData.filter(v => v.id !== 'dQw4w9WgXcQ');
             if (search) filtered = filtered.filter(v => v.title.toLowerCase().includes(search.toLowerCase()));
             if (level !== 'all') filtered = filtered.filter(v => v.level === level);
             if (category !== 'all') filtered = filtered.filter(v => v.category === category);
@@ -2143,9 +2174,18 @@
             // Category filters on courses page
             const filterGroup = document.getElementById('filterGroup');
             if (filterGroup) {
-                const cats = ['all','automotive','beekeeping','aquaculture','cottage-industry','food-preservation','crop-production','construction','energy','metal','mushrooms','poultry','pig','ict','languages','health','logistics','mining','dj','podcast'];
-                filterGroup.innerHTML = cats.map(cat => `
-                    <button class="filter-btn ${cat === 'all' ? 'active' : ''}" data-category="${cat}" onclick="setCategory('${cat}')">${cat === 'all' ? 'All Categories' : cat.replace('-',' ').toUpperCase()}</button>
+                const displayNames = {
+                    'all':'All Categories','automotive':'🚗 Auto','beekeeping':'🐝 Bee','aquaculture':'🐟 Fish','cottage-industry':'🧼 Cottage','food-preservation':'🥫 Preserve',
+                    'crop-production':'🌾 Crop','construction':'🏗️ Build','energy':'⚡ Energy','metal':'🔩 Metal','mushrooms':'🍄 Mush',
+                    'poultry':'🐔 Poultry','pig':'🐷 Pig','ict':'💻 ICT','languages':'🗣️ Lang','health':'🏥 Health','logistics':'📦 Logistics',
+                    'mining':'⛏️ Mining','dj':'🎧 DJ','podcast':'🎙️ Podcast','tailoring':'🧵 Tailor','carpentry':'🪚 Carp','plumbing':'🔧 Plumb',
+                    'hairdressing':'💇 Hair','baking':'🍞 Bake','animal-husbandry':'🐄 Animal','irrigation':'💧 Irrigate',
+                    'renewable-energy':'🌬️ Renew','graphic-design':'🎨 Design','videography':'🎥 Video','photography':'📸 Photo',
+                    'event-management':'🎪 Event','project-management':'📋 Project','accounting':'📊 Account','marketing':'📢 Market',
+                    'sales':'🤝 Sales','customer-service':'💬 Service','leadership':'👔 Lead'
+                };
+                filterGroup.innerHTML = ['all', ...ALL_CATEGORIES].map(cat => `
+                    <button class="filter-btn ${cat === 'all' ? 'active' : ''}" data-category="${cat}" onclick="setCategory('${cat}')">${displayNames[cat] || cat}</button>
                 `).join('');
             }
         };
@@ -2232,8 +2272,8 @@
                 showNotification('🔑 No API key provided. Using simulated preview (3 demo videos).', 'info');
                 const demoVideos = [
                     { id: 'J-KCIFG3B5M', title: 'Soap Making Demo', description: 'Step by step' },
-                    { id: 'dQw4w9WgXcQ', title: 'Coding Basics', description: 'Intro' },
                     { id: 'xcCZejr6KSc', title: 'Industrialisation', description: 'Case study' },
+                    { id: 'yXPsLFv099s', title: 'Inspirational Story', description: 'Poverty to prosperity' },
                 ];
                 pendingPlaylist = { videos: demoVideos, category: category, playlistId: playlistId };
                 showPlaylistPreview(demoVideos);
@@ -2285,11 +2325,11 @@
                 enrolled: 0,
                 modules: videos.map(v => v.title || 'Video ' + (videos.indexOf(v) + 1)),
                 skills: ['Video Learning', 'Practical'],
-                videoIds: videos.map(v => v.id).filter(id => id)
+                videoIds: videos.map(v => v.id).filter(id => id && id !== 'dQw4w9WgXcQ')
             };
             courses.push(newCourse);
             videos.forEach(v => {
-                if (v.id && !videoData.some(ex => ex.id === v.id)) {
+                if (v.id && !videoData.some(ex => ex.id === v.id) && v.id !== 'dQw4w9WgXcQ') {
                     videoData.push({
                         id: v.id,
                         title: v.title || 'Playlist Video',
@@ -2397,9 +2437,10 @@
         window.assignVideoToCourseWithLevel = function() {
             const courseId = document.getElementById('videoCourseSelect').value;
             const level = document.getElementById('videoLevelSelect').value;
-            const videoId = document.getElementById('assignVideoId').value.trim();
+            let videoId = document.getElementById('assignVideoId').value.trim();
             const title = document.getElementById('assignVideoTitle').value.trim() || 'Video';
             if (!courseId || !videoId) { showNotification('Please select a course and enter a video ID.', 'warning'); return; }
+            if (videoId === 'dQw4w9WgXcQ') { showNotification('That video is not allowed.', 'error'); return; }
             const c = courses.find(c => c.id === courseId);
             if (!c) { showNotification('Course not found.', 'error'); return; }
             if (!c.videoIds) c.videoIds = [];
@@ -2573,7 +2614,6 @@
             renderCalendar();
             populateCountryDropdown();
             document.getElementById('certExpiryPeriod').value = certExpiryDays;
-            // Populate category filters on courses page
             populateAdminDropdowns();
         };
 
