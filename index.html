@@ -2289,19 +2289,47 @@
         function startRecommendedCarousel() { /* ... existing full implementation ... */ }
         function populateFilters() { /* ... existing full implementation ... */ }
         function updateStats() { /* ... existing full implementation ... */ }
-        function updateHomeCategories() { /* ... existing full implementation ... */ }
-        function updateUserDisplay() { /* ... existing full implementation ... */ }
-        window.setRating = function(rating) { /* ... existing full implementation ... */ };
-        window.submitReview = function() { /* ... existing full implementation ... */ };
-        window.submitTestimonial = function() { /* ... existing full implementation ... */ };
-        window.emergencyLogin = function() {
-            currentUser = { displayName: 'Admin', email: 'admin@riseafricaskills.com' };
-            document.getElementById('authModal').classList.remove('open');
-            updateDashboard();
-            loadProfile();
-            updateUserDisplay();
-            alert('✅ Emergency login!');
-        };
+        function updateHomeCategories() {
+    const container = document.getElementById('homeCategories');
+    if (!container || courses.length === 0) return;
+    // Get ALL unique categories and sort them alphabetically
+    const cats = [...new Set(courses.map(c => c.category))].sort();
+    const displayNames = {
+        'aquaculture': '🐟 Aquaculture',
+        'automotive': '🚗 Automotive',
+        'beekeeping': '🐝 Beekeeping',
+        'cash-crops': '💵 Cash Crops',
+        'cattle-dairy': '🐄 Cattle & Dairy',
+        'construction': '🏗️ Construction',
+        'cottage-industry': '🧼 Cottage Industry',
+        'crop-production': '🌾 Crop Production',
+        'energy': '⚡ Energy',
+        'food-preservation': '🥫 Food Preservation',
+        'forestry': '🌳 Forestry',
+        'fruit-orchard': '🍎 Fruit Orchard',
+        'health': '🏥 Health',
+        'herbs-spices': '🌿 Herbs & Spices',
+        'ict': '💻 ICT',
+        'languages': '🗣️ Languages',
+        'livestock-feed': '🌽 Livestock Feed',
+        'logistics': '📦 Logistics',
+        'metal': '🔩 Metal',
+        'mining': '⛏️ Mining',
+        'mushrooms': '🍄 Mushrooms',
+        'nuts-seeds': '🥜 Nuts & Seeds',
+        'peppers': '🌶️ Peppers',
+        'pig': '🐷 Pig',
+        'poultry': '🐔 Poultry',
+        'rabbits-small': '🐰 Rabbits',
+        'root-crops': '🥔 Root Crops',
+        'sheep-goat': '🐑 Sheep & Goat',
+        'specialty-livestock': '🦙 Specialty Livestock',
+        'vegetable-production': '🥬 Vegetable Production'
+    };
+    container.innerHTML = cats.map(cat =>
+        `<a href="#" onclick="switchTab('courses'); setCategoryFilter('${cat}'); return false;">${displayNames[cat] || cat}</a>`
+    ).join('');
+}
 
         // ================================================================
         //  INIT ALL
