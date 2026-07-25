@@ -2566,11 +2566,13 @@
         function startRecommendedCarousel() { /* ... existing full implementation ... */ }
         function populateFilters() { /* ... existing full implementation ... */ }
         function updateStats() { /* ... existing full implementation ... */ }
-        function updateHomeCategories() {
-    const container = document.getElementById('homeCategories');
-    if (!container || courses.length === 0) return;
+        function populateFilters() {
+    const group = document.getElementById('filterGroup');
+    if (!group) return;
+    
     // Get ALL unique categories and sort them alphabetically
     const cats = [...new Set(courses.map(c => c.category))].sort();
+    
     const displayNames = {
         'aquaculture': '🐟 Aquaculture',
         'automotive': '🚗 Automotive',
@@ -2603,11 +2605,16 @@
         'specialty-livestock': '🦙 Specialty Livestock',
         'vegetable-production': '🥬 Vegetable Production'
     };
-    container.innerHTML = cats.map(cat =>
-        `<a href="#" onclick="switchTab('courses'); setCategoryFilter('${cat}'); return false;">${displayNames[cat] || cat}</a>`
-    ).join('');
+    
+    // Build the filter buttons
+    let html = `<button class="filter-btn active" onclick="setCategoryFilter('all')">📋 All</button>`;
+    cats.forEach(c => {
+        const displayName = displayNames[c] || c.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        html += `<button class="filter-btn" onclick="setCategoryFilter('${c}')">${displayName}</button>`;
+    });
+    
+    group.innerHTML = html;
 }
-
         // ================================================================
         //  INIT ALL
         // ================================================================
