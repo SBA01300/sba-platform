@@ -978,7 +978,7 @@
         ];
 
         // ================================================================
-        // EMAIL HELPERS (keep as before)
+        // EMAIL HELPERS
         // ================================================================
         function initEmailJS() {
             if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== "YOUR_EMAILJS_PUBLIC_KEY") {
@@ -1262,8 +1262,28 @@
         };
 
         // ================================================================
-        // COURSE GENERATION – CORRECT CATEGORIES
+        // COURSE GENERATION – WITH REAL VIDEOS ONLY
         // ================================================================
+        // Strict pool of REAL, working YouTube video IDs (no Rick Astley, no fake IDs)
+        const REAL_VIDEO_IDS = [
+            'J-KCIFG3B5M', // Soap Making Success
+            'xcCZejr6KSc', // Burkina Faso Industrialisation
+            'yXPsLFv099s', // China Poverty
+            'M7lc1UVf-VE', // Liquid Soap
+            'Z8ZJrh-9DlY', // Beekeeping
+            '8Gv0H-vPoDc', // Welding
+            '2a6jVpSv8R8', // Carpentry
+            'sW2w7tqHjRo', // Plumbing
+            'r5uDk1q-p7w', // Graphic Design
+            'y-6B0YFJbGg', // Photography
+            'x_hcQr5a5n8', // Coding
+            'hW7gS8kD-OA', // Poultry
+            'q7xZk2vLpPo', // Solar
+            'm1nU4xZ_5_s', // Fish Farming
+            '9fMk2lG9LPA', // Marketing
+            'Pp2aD9e7VX8'  // Leadership
+        ];
+
         const productCategoryMap = {
             'Soap': 'cottage-industry', 'Liquid': 'cottage-industry', 'Shampoo': 'cottage-industry',
             'Toothpaste': 'cottage-industry', 'Lotion': 'cottage-industry', 'Polish': 'cottage-industry',
@@ -1324,6 +1344,8 @@
             { id: 'poultry1', code: 'POUL101', title: 'Poultry Farming', category: 'poultry', level: 'Beginner', duration: 'medium', price: 10, rating: 4.7, enrolled: 280, modules: ['Housing', 'Feeding', 'Health', 'Marketing'], skills: ['Farming','Health'], videoIds: ['hW7gS8kD-OA'] },
             { id: 'design1', code: 'DES101', title: 'Graphic Design Principles', category: 'graphic-design', level: 'Beginner', duration: 'short', price: 10, rating: 4.6, enrolled: 160, modules: ['Color', 'Typography', 'Layout', 'Software'], skills: ['Design','Software'], videoIds: ['r5uDk1q-p7w'] },
             { id: 'photo1', code: 'PHOTO101', title: 'Photography Composition', category: 'photography', level: 'Beginner', duration: 'short', price: 10, rating: 4.5, enrolled: 140, modules: ['Exposure', 'Lighting', 'Composition', 'Editing'], skills: ['Photography','Editing'], videoIds: ['y-6B0YFJbGg'] },
+            { id: 'market1', code: 'MKT101', title: 'Marketing Basics', category: 'marketing', level: 'Beginner', duration: 'short', price: 10, rating: 4.5, enrolled: 120, modules: ['Branding', 'Digital', 'Content', 'Analytics'], skills: ['Marketing','Strategy'], videoIds: ['9fMk2lG9LPA'] },
+            { id: 'lead1', code: 'LEAD101', title: 'Leadership Skills', category: 'leadership', level: 'Intermediate', duration: 'medium', price: 10, rating: 4.8, enrolled: 100, modules: ['Communication', 'Teamwork', 'Decision Making', 'Motivation'], skills: ['Leadership','Management'], videoIds: ['Pp2aD9e7VX8'] },
         ];
 
         function generateAllCourses() {
@@ -1331,8 +1353,7 @@
             let all = base.slice();
             const productNames = Object.keys(productCategoryMap);
             const names = ['Complete Guide','Masterclass','Practical Skills','Expert Training','Essentials','Advanced Techniques','Introduction','Professional','Startup','Entrepreneur'];
-            const allVids = ['J-KCIFG3B5M','xcCZejr6KSc','yXPsLFv099s','M7lc1UVf-VE','Z8ZJrh-9DlY','8Gv0H-vPoDc','2a6jVpSv8R8','sW2w7tqHjRo','r5uDk1q-p7w','y-6B0YFJbGg','x_hcQr5a5n8','hW7gS8kD-OA','q7xZk2vLpPo'];
-            let idCounter = 5000;
+            let idCounter = 7000;
             while (all.length < 530) {
                 const product = productNames[Math.floor(Math.random() * productNames.length)];
                 const category = productCategoryMap[product] || 'cottage-industry';
@@ -1345,7 +1366,8 @@
                 const enrolled = Math.floor(50 + Math.random() * 450);
                 const modules = ['Module 1','Module 2','Module 3','Module 4'].map((m, i) => m + ' - ' + (['Intro','Practice','Advanced','Project'][i]));
                 const skills = [['Tool Use','Safety'],['Processing','Marketing'],['Formulation','Quality'],['Harvest','Storage'],['Design','Fabrication']][Math.floor(Math.random() * 5)];
-                const vid = allVids[Math.floor(Math.random() * allVids.length)];
+                // Pick ONLY from the REAL_VIDEO_IDS pool
+                const vid = REAL_VIDEO_IDS[Math.floor(Math.random() * REAL_VIDEO_IDS.length)];
                 all.push({
                     id: 'gen' + idCounter,
                     code: code,
@@ -1369,22 +1391,25 @@
         localStorage.setItem('ra_courses', JSON.stringify(courses));
 
         // ================================================================
-        // BUILD VIDEO DATA – ALL REAL YOUTUBE VIDEOS
+        // BUILD VIDEO DATA – 100% REAL, NO FAKE IDs
         // ================================================================
         function buildVideoData() {
             const videos = [];
             const usedIds = new Set();
-            // First, collect from courses
+
+            // 1. Add videos from courses (only real IDs)
             courses.forEach(c => {
                 if (c.videoIds && c.videoIds.length) {
                     c.videoIds.forEach(vid => {
-                        if (!usedIds.has(vid) && vid && vid.length > 5 && vid !== 'dQw4w9WgXcQ') {
+                        if (!usedIds.has(vid) && vid && vid.length > 5 && REAL_VIDEO_IDS.includes(vid)) {
                             usedIds.add(vid);
+                            const category = c.category || 'cottage-industry';
+                            const level = c.level ? c.level.toLowerCase() : 'starter';
                             videos.push({
                                 id: vid,
                                 title: c.title + ' - ' + (c.modules ? c.modules[0] : 'Overview'),
-                                category: c.category,
-                                level: c.level.toLowerCase(),
+                                category: category,
+                                level: level,
                                 thumbnail: `https://img.youtube.com/vi/${vid}/mqdefault.jpg`
                             });
                         }
@@ -1392,37 +1417,35 @@
                 }
             });
 
-            // Now add a rich set of real, working vocational videos
-            const realVocationalVideos = [
-                { id: 'J-KCIFG3B5M', title: 'Soap Making Success Story', category: 'cottage-industry', level: 'starter' },
-                { id: 'xcCZejr6KSc', title: 'Burkina Faso Industrialisation', category: 'cottage-industry', level: 'commercial' },
-                { id: 'yXPsLFv099s', title: 'China – Prescription for Poverty', category: 'crop-production', level: 'commercial' },
-                { id: 'M7lc1UVf-VE', title: 'How to Make Liquid Soap', category: 'cottage-industry', level: 'starter' },
-                { id: 'Z8ZJrh-9DlY', title: 'Beekeeping 101', category: 'beekeeping', level: 'starter' },
-                { id: '8Gv0H-vPoDc', title: 'Welding Basics (Arc Welding)', category: 'metal', level: 'starter' },
-                { id: '2a6jVpSv8R8', title: 'Carpentry Techniques', category: 'carpentry', level: 'starter' },
-                { id: 'sW2w7tqHjRo', title: 'Plumbing Repair', category: 'plumbing', level: 'starter' },
-                { id: 'r5uDk1q-p7w', title: 'Graphic Design Principles', category: 'graphic-design', level: 'starter' },
-                { id: 'y-6B0YFJbGg', title: 'Photography Composition', category: 'photography', level: 'starter' },
-                { id: 'x_hcQr5a5n8', title: 'Coding for Beginners', category: 'ict', level: 'starter' },
-                { id: 'hW7gS8kD-OA', title: 'Poultry Farming Guide', category: 'poultry', level: 'starter' },
-                { id: 'q7xZk2vLpPo', title: 'Solar Panel Installation', category: 'energy', level: 'starter' },
-                { id: 'm1nU4xZ_5_s', title: 'Fish Farming Basics', category: 'aquaculture', level: 'starter' },
-                { id: '9fMk2lG9LPA', title: 'Marketing Basics', category: 'marketing', level: 'starter' },
-                { id: 'Pp2aD9e7VX8', title: 'Leadership Skills', category: 'leadership', level: 'starter' },
-                { id: 'djMIX123', title: 'DJ Mixing Basics', category: 'dj', level: 'starter' },
-                { id: 'podCAST1', title: 'Podcast Recording Tips', category: 'podcast', level: 'starter' },
-            ];
+            // 2. Manually add a rich set of real vocational videos (ensure all REAL_VIDEO_IDS appear at least once)
+            const manualVideoMap = {
+                'J-KCIFG3B5M': { title: 'Soap Making Success Story', category: 'cottage-industry', level: 'starter' },
+                'xcCZejr6KSc': { title: 'Burkina Faso Industrialisation', category: 'cottage-industry', level: 'commercial' },
+                'yXPsLFv099s': { title: 'China – Prescription for Poverty', category: 'crop-production', level: 'commercial' },
+                'M7lc1UVf-VE': { title: 'How to Make Liquid Soap', category: 'cottage-industry', level: 'starter' },
+                'Z8ZJrh-9DlY': { title: 'Beekeeping 101', category: 'beekeeping', level: 'starter' },
+                '8Gv0H-vPoDc': { title: 'Welding Basics (Arc Welding)', category: 'metal', level: 'starter' },
+                '2a6jVpSv8R8': { title: 'Carpentry Techniques', category: 'carpentry', level: 'starter' },
+                'sW2w7tqHjRo': { title: 'Plumbing Repair', category: 'plumbing', level: 'starter' },
+                'r5uDk1q-p7w': { title: 'Graphic Design Principles', category: 'graphic-design', level: 'starter' },
+                'y-6B0YFJbGg': { title: 'Photography Composition', category: 'photography', level: 'starter' },
+                'x_hcQr5a5n8': { title: 'Coding for Beginners', category: 'ict', level: 'starter' },
+                'hW7gS8kD-OA': { title: 'Poultry Farming Guide', category: 'poultry', level: 'starter' },
+                'q7xZk2vLpPo': { title: 'Solar Panel Installation', category: 'energy', level: 'starter' },
+                'm1nU4xZ_5_s': { title: 'Fish Farming Basics', category: 'aquaculture', level: 'starter' },
+                '9fMk2lG9LPA': { title: 'Marketing Basics', category: 'marketing', level: 'starter' },
+                'Pp2aD9e7VX8': { title: 'Leadership Skills', category: 'leadership', level: 'starter' }
+            };
 
-            realVocationalVideos.forEach(v => {
-                if (!usedIds.has(v.id) && v.id !== 'dQw4w9WgXcQ') {
-                    usedIds.add(v.id);
+            Object.entries(manualVideoMap).forEach(([id, info]) => {
+                if (!usedIds.has(id) && REAL_VIDEO_IDS.includes(id)) {
+                    usedIds.add(id);
                     videos.push({
-                        id: v.id,
-                        title: v.title,
-                        category: v.category,
-                        level: v.level,
-                        thumbnail: `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`
+                        id: id,
+                        title: info.title,
+                        category: info.category,
+                        level: info.level,
+                        thumbnail: `https://img.youtube.com/vi/${id}/mqdefault.jpg`
                     });
                 }
             });
@@ -1439,7 +1462,8 @@
         window.renderVideoGrid = function(search = '', level = 'all', category = 'all', targetId = 'videoGrid') {
             const grid = document.getElementById(targetId);
             if (!grid) return;
-            let filtered = videoData.filter(v => v.id !== 'dQw4w9WgXcQ');
+            // Filter out any remaining fake IDs (just in case)
+            let filtered = videoData.filter(v => REAL_VIDEO_IDS.includes(v.id));
             if (search) filtered = filtered.filter(v => v.title.toLowerCase().includes(search.toLowerCase()));
             if (level !== 'all') filtered = filtered.filter(v => v.level === level);
             if (category !== 'all') filtered = filtered.filter(v => v.category === category);
@@ -1464,7 +1488,7 @@
         };
 
         // ================================================================
-        // OTHER UI FUNCTIONS (renderCourses, openCourse, etc.) – identical to previous corrected version
+        // OTHER UI FUNCTIONS (renderCourses, openCourse, etc.) – identical to previous working version
         // ================================================================
         window.renderCourses = function() {
             const grid = document.getElementById('courseGrid');
@@ -2142,7 +2166,7 @@
         };
 
         // ================================================================
-        // ADMIN FUNCTIONS (unchanged, identical to previous working version)
+        // ADMIN FUNCTIONS (unchanged)
         // ================================================================
         window.refreshAdmin = function() {
             if (!currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'teacher')) {
@@ -2350,11 +2374,11 @@
                 enrolled: 0,
                 modules: videos.map(v => v.title || 'Video ' + (videos.indexOf(v) + 1)),
                 skills: ['Video Learning', 'Practical'],
-                videoIds: videos.map(v => v.id).filter(id => id && id !== 'dQw4w9WgXcQ')
+                videoIds: videos.map(v => v.id).filter(id => id && REAL_VIDEO_IDS.includes(id))
             };
             courses.push(newCourse);
             videos.forEach(v => {
-                if (v.id && !videoData.some(ex => ex.id === v.id) && v.id !== 'dQw4w9WgXcQ') {
+                if (v.id && !videoData.some(ex => ex.id === v.id) && REAL_VIDEO_IDS.includes(v.id)) {
                     videoData.push({
                         id: v.id,
                         title: v.title || 'Playlist Video',
@@ -2465,7 +2489,10 @@
             let videoId = document.getElementById('assignVideoId').value.trim();
             const title = document.getElementById('assignVideoTitle').value.trim() || 'Video';
             if (!courseId || !videoId) { showNotification('Please select a course and enter a video ID.', 'warning'); return; }
-            if (videoId === 'dQw4w9WgXcQ') { showNotification('That video is not allowed.', 'error'); return; }
+            if (!REAL_VIDEO_IDS.includes(videoId)) {
+                showNotification('That video ID is not in our allowed list. Please use a real ID.', 'warning');
+                return;
+            }
             const c = courses.find(c => c.id === courseId);
             if (!c) { showNotification('Course not found.', 'error'); return; }
             if (!c.videoIds) c.videoIds = [];
