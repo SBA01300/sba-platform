@@ -1663,42 +1663,121 @@
         //  COURSE GENERATION
         // ================================================================
         function generateCourses() {
-            const categories = ['cottage-industry','food-preservation','cattle-dairy','poultry','crop-production','beekeeping','mushrooms'];
-            const titles = {
-                'cottage-industry': ['Soap Making','Liquid Soap','Shampoo','Toothpaste','Shoe Polish','Peanut Butter','Body Lotion','Cleaning Products','Candle Making','Herbal Pomade','Paper Recycling','Charcoal Briquettes','Natural Perfume','Dishwashing Liquid','Shea Butter'],
-                'food-preservation': ['Drying Vegetables','Pickling Vegetables','Tomato Paste','Fruit Jam','Marinating','Bottling','Fermenting','Freezing','Powders','Chutneys','Relishes','Juice Concentrates'],
-                'cattle-dairy': ['Dairy Milk','Advanced Dairy','Calf Rearing','Beef Feedlot','Cattle Breeding','Herd Health'],
-                'poultry': ['Broiler Production','Layer Management','Breeder Flock','Hatchery','Free-Range Poultry','Duck Production'],
-                'crop-production': ['Maize Production','Advanced Maize','Wheat Cultivation','Sorghum Farming','Millet','Barley','Oats','Tree Grafting & Propagation','Pest Management','Soil Fertility','Irrigation Systems'],
-                'beekeeping': ['Beekeeping Fundamentals','Hive Management','Honey Processing','Bee Health','Hive Construction'],
-                'mushrooms': ['Mushroom Cultivation','Oyster Mushroom','Button Mushroom','Shiitake Mushroom','Spawn Production','Harvesting & Marketing']
-            };
-            const difficulties = ['Beginner','Intermediate','Advanced'];
-            courses = [];
-            Object.keys(titles).forEach(cat => {
-                titles[cat].forEach((title, idx) => {
-                    const id = 'RA' + String(courses.length + 1).padStart(4, '0');
-                    const diff = difficulties[idx % 3];
-                    const modules = [];
-                    for (let i = 1; i <= 8; i++) modules.push({ title: `Module ${i}: ${title} - Part ${i}`, desc: `Learn ${title} step by step. Module ${i} covers key concepts.` });
-                    courses.push({ id, title, category: cat, modules, purchased: false, purchaseType: null, progress: 0, completed: false, certificateCode: null, difficulty: diff, completedModules: [], duration: diff === 'Beginner' ? 'short' : diff === 'Intermediate' ? 'medium' : 'long', averageRating: 0, reviewCount: 0, videoUrl: null, pdfUrls: [], assignmentUrls: [], quizzes: [], media: [] });
+    const categories = [
+        'aquaculture', 'automotive', 'beekeeping', 'cash-crops', 'cattle-dairy',
+        'construction', 'cottage-industry', 'crop-production', 'energy',
+        'food-preservation', 'forestry', 'fruit-orchard', 'health', 'herbs-spices',
+        'ict', 'languages', 'livestock-feed', 'logistics', 'metal', 'mining',
+        'mushrooms', 'nuts-seeds', 'peppers', 'pig', 'poultry', 'rabbits-small',
+        'root-crops', 'sheep-goat', 'specialty-livestock', 'vegetable-production'
+    ];
+    
+    const titles = {
+        'aquaculture': ['Catfish Farming','Tilapia Production','Aquaponics Systems','Fish Pond Construction','Fish Processing','Fish Nutrition','Fish Health Management','Breeding and Hatchery'],
+        'automotive': ['Motor Mechanics','Auto Electrical Systems','Panel Beating','Vehicle Diagnostics','Diesel Engines','Motorcycle Repair','Auto Body Repair','Engine Rebuilding'],
+        'beekeeping': ['Beekeeping Fundamentals','Hive Management','Honey Processing','Bee Health','Hive Construction','Queen Rearing','Bee Products','Pollination Services'],
+        'cash-crops': ['Coffee Production','Cocoa Farming','Sugarcane Farming','Tea Cultivation','Cotton Production','Tobacco Farming','Organic Certification','Fair Trade Practices'],
+        'cattle-dairy': ['Dairy Milk','Advanced Dairy','Calf Rearing','Beef Feedlot','Cattle Breeding','Herd Health'],
+        'construction': ['Brick Making','Road Construction','Bricklaying','Plumbing','Electrical Installation','Welding','Roofing','Concrete Work'],
+        'cottage-industry': ['Soap Making','Liquid Soap','Shampoo','Toothpaste','Shoe Polish','Peanut Butter','Body Lotion','Cleaning Products','Candle Making','Herbal Pomade','Paper Recycling','Charcoal Briquettes','Natural Perfume','Dishwashing Liquid','Shea Butter'],
+        'crop-production': ['Maize Production','Advanced Maize','Wheat Cultivation','Sorghum Farming','Millet','Barley','Oats','Tree Grafting','Pest Management','Soil Fertility','Irrigation Systems'],
+        'energy': ['Biogas','Solar Water Pump','Solar Installation','Wind Turbines','Hydro Power','Energy Efficiency','Biomass Energy'],
+        'food-preservation': ['Drying Vegetables','Pickling Vegetables','Tomato Paste','Fruit Jam','Marinating','Bottling','Fermenting','Freezing','Powders','Chutneys','Relishes','Juice Concentrates'],
+        'forestry': ['Timber Production','Agroforestry','Tree Nursery','Bamboo','Forest Conservation','Tree Planting','Forest Fire Management'],
+        'fruit-orchard': ['Citrus Orchard','Banana Plantation','Mango Farming','Avocado','Pineapple','Papaya','Guava','Passion Fruit','Grafting Techniques'],
+        'health': ['Healthcare Admin','Nursing Fundamentals','Pharmacy Practice','Public Health','First Aid','Medical Records','Health Safety'],
+        'herbs-spices': ['Moringa','Basil','Thyme','Rosemary','Mint','Clove','Cardamom','Cinnamon','Aloe Vera','Spice Blending'],
+        'ict': ['Computer Networking','Cybersecurity','Web Development','Data Science','AI Fundamentals','Cloud Computing','Database Management','Digital Marketing'],
+        'languages': ['Shona','Chinese','French','Portuguese','Swahili','Arabic','German','Spanish'],
+        'livestock-feed': ['Animal Feed','Hay Making','Silage','Molasses','Pellet Production','Alfalfa','Feed Quality Testing'],
+        'logistics': ['Supply Chain','Warehouse Management','Transport Logistics','Inventory Management','Export Logistics','Fleet Management','Customs Clearance'],
+        'metal': ['Metal Fabrication','Welding Techniques','Scrap Metal Recycling','Steel Work','Welding Safety','Metal Casting','Aluminum Fabrication'],
+        'mining': ['Mining Fundamentals','Gold Mining','Diamond','Platinum','Coal','Mining Safety','Mineral Processing'],
+        'mushrooms': ['Mushroom Cultivation','Oyster Mushroom','Button Mushroom','Shiitake Mushroom','Spawn Production','Harvesting & Marketing','Diseases and Control','Substrate Preparation'],
+        'nuts-seeds': ['Cashew Nuts','Macadamia','Sesame Seeds','Sunflower Seeds','Shea Nut','Groundnut','Almond Cultivation','Walnut Farming'],
+        'peppers': ['Chili Farming','Bell Pepper','Black Pepper','Bird Eye Chili','Habanero','Sweet Pepper','Pepper Drying','Pepper Sauce'],
+        'pig': ['Pig Rearing','Advanced Pig','Breeding','Farrowing','Pig Health','Feed Formulation','Pig Housing','Pig Marketing'],
+        'poultry': ['Broiler Production','Layer Management','Breeder Flock','Hatchery','Free-Range Poultry','Duck Production','Poultry Health','Feed Formulation'],
+        'rabbits-small': ['Rabbit Production','Advanced Rabbit','Rabbit Breeding','Rabbit Health','Rabbit Housing','Rabbit Feed','Rabbit Meat'],
+        'root-crops': ['Cassava','Yam','Sweet Potato','Irish Potato','Taro','Ginger','Beetroot','Garlic','Turmeric'],
+        'sheep-goat': ['Wool Sheep','Meat Sheep','Dairy Goat','Meat Goat','Boer Goat','Shearing','Goat Milk','Goat Meat'],
+        'specialty-livestock': ['Camel Farming','Ostrich','Donkey','Bull Farming','Game Farming','Buffalo','Yak'],
+        'vegetable-production': ['Tomato Farming','Onion Cultivation','Cabbage Production','Carrot','Lettuce','Cucumber','Okra','Spinach','Greenhouse Production']
+    };
+    
+    const difficulties = ['Beginner','Intermediate','Advanced'];
+    courses = [];
+    
+    // Generate courses for each category
+    Object.keys(titles).forEach(cat => {
+        titles[cat].forEach((title, idx) => {
+            const id = 'RA' + String(courses.length + 1).padStart(4, '0');
+            const diff = difficulties[idx % 3];
+            const modules = [];
+            for (let i = 1; i <= 8; i++) {
+                modules.push({
+                    title: `Module ${i}: ${title} - Part ${i}`,
+                    desc: `Learn ${title} step by step. Module ${i} covers key concepts and practical skills.`
                 });
-            });
-            const extras = ['Introduction to Agriculture','Modern Farming','Agribusiness','Value Addition','Export Logistics','Quality Control','Business Planning','Marketing','Digital Skills','Entrepreneurship','Financial Literacy','Leadership','Team Management','Project Management','Communication Skills','Customer Service','Sales Techniques','Inventory Management','Record Keeping','Basic Accounting','Human Resources','Farm Safety','Organic Farming','Permaculture','Agroecology','Climate Smart Agriculture','Sustainable Agriculture','Regenerative Farming','Hydroponics','Vertical Farming','Greenhouse Management','Plant Propagation','Seed Production','Crop Rotation','Cover Cropping','Composting','Mulching','Water Conservation','Rainwater Harvesting','Drip Irrigation','Sprinkler Systems','Post Harvest Management','Cold Chain Logistics','Food Safety','Traceability Systems','Agricultural Policy','Farm Economics'];
-            while (courses.length < 500) {
-                const idx = courses.length;
-                const title = extras[idx % extras.length] + ' ' + (Math.floor(idx / extras.length) + 1);
-                const cat = ['cottage-industry','ict','crop-production','livestock-feed'][idx % 4];
-                const diff = difficulties[idx % 3];
-                const modules = [];
-                for (let i = 1; i <= 8; i++) modules.push({ title: `Module ${i}: ${title} - Part ${i}`, desc: `Learn ${title} step by step.` });
-                courses.push({ id: 'RA' + String(idx + 1).padStart(4, '0'), title, category: cat, modules, purchased: false, purchaseType: null, progress: 0, completed: false, certificateCode: null, difficulty: diff, completedModules: [], duration: diff === 'Beginner' ? 'short' : diff === 'Intermediate' ? 'medium' : 'long', averageRating: 0, reviewCount: 0, videoUrl: null, pdfUrls: [], assignmentUrls: [], quizzes: [], media: [] });
             }
-            const freeCourse = courses.find(c => c.title === 'Dishwashing Liquid');
-            if (freeCourse) { freeCourse.purchased = true; freeCourse.purchaseType = 'free'; }
-            updateAdminStats();
-            populateAdminDropdowns();
+            courses.push({
+                id, title, category: cat, modules,
+                purchased: false, purchaseType: null, progress: 0, completed: false,
+                certificateCode: null, difficulty: diff, completedModules: [],
+                duration: diff === 'Beginner' ? 'short' : diff === 'Intermediate' ? 'medium' : 'long',
+                averageRating: 0, reviewCount: 0, videoUrl: null, pdfUrls: [], assignmentUrls: [],
+                quizzes: [], media: []
+            });
+        });
+    });
+    
+    // Add extra courses to reach 500+
+    const extras = [
+        'Introduction to Agriculture','Modern Farming','Agribusiness Management','Value Addition',
+        'Export Logistics','Quality Control','Business Planning','Marketing','Digital Skills',
+        'Entrepreneurship','Financial Literacy','Leadership','Team Management','Project Management',
+        'Communication Skills','Customer Service','Sales Techniques','Inventory Management',
+        'Record Keeping','Basic Accounting','Human Resources','Farm Safety','Organic Farming',
+        'Permaculture','Agroecology','Climate Smart Agriculture','Sustainable Agriculture',
+        'Regenerative Farming','Hydroponics','Vertical Farming','Greenhouse Management',
+        'Plant Propagation','Seed Production','Crop Rotation','Cover Cropping','Composting',
+        'Mulching','Water Conservation','Rainwater Harvesting','Drip Irrigation','Sprinkler Systems',
+        'Post Harvest Management','Cold Chain Logistics','Food Safety','Traceability Systems',
+        'Agricultural Policy','Farm Economics'
+    ];
+    
+    while (courses.length < 500) {
+        const idx = courses.length;
+        const title = extras[idx % extras.length] + ' ' + (Math.floor(idx / extras.length) + 1);
+        const cat = categories[idx % categories.length];
+        const diff = difficulties[idx % 3];
+        const modules = [];
+        for (let i = 1; i <= 8; i++) {
+            modules.push({
+                title: `Module ${i}: ${title} - Part ${i}`,
+                desc: `Learn ${title} step by step. Module ${i} covers key concepts.`
+            });
         }
+        courses.push({
+            id: 'RA' + String(idx + 1).padStart(4, '0'),
+            title, category: cat, modules,
+            purchased: false, purchaseType: null, progress: 0, completed: false,
+            certificateCode: null, difficulty: diff, completedModules: [],
+            duration: diff === 'Beginner' ? 'short' : diff === 'Intermediate' ? 'medium' : 'long',
+            averageRating: 0, reviewCount: 0, videoUrl: null, pdfUrls: [], assignmentUrls: [],
+            quizzes: [], media: []
+        });
+    }
+    
+    const freeCourse = courses.find(c => c.title === 'Dishwashing Liquid');
+    if (freeCourse) { freeCourse.purchased = true; freeCourse.purchaseType = 'free'; }
+    
+    updateAdminStats();
+    populateAdminDropdowns();
+    populateFilters();
+    updateHomeCategories();
+    renderCourses();
+}
 
         // ---- ADMIN STATS ----
         function updateAdminStats() {
