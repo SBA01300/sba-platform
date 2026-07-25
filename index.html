@@ -1671,44 +1671,244 @@
         'mushrooms', 'nuts-seeds', 'peppers', 'pig', 'poultry', 'rabbits-small',
         'root-crops', 'sheep-goat', 'specialty-livestock', 'vegetable-production'
     ];
-    
+
+    // Each category has at least 15 titles to reach 500 total
     const titles = {
-        'aquaculture': ['Catfish Farming','Tilapia Production','Aquaponics Systems','Fish Pond Construction','Fish Processing','Fish Nutrition','Fish Health Management','Breeding and Hatchery'],
-        'automotive': ['Motor Mechanics','Auto Electrical Systems','Panel Beating','Vehicle Diagnostics','Diesel Engines','Motorcycle Repair','Auto Body Repair','Engine Rebuilding'],
-        'beekeeping': ['Beekeeping Fundamentals','Hive Management','Honey Processing','Bee Health','Hive Construction','Queen Rearing','Bee Products','Pollination Services'],
-        'cash-crops': ['Coffee Production','Cocoa Farming','Sugarcane Farming','Tea Cultivation','Cotton Production','Tobacco Farming','Organic Certification','Fair Trade Practices'],
-        'cattle-dairy': ['Dairy Milk','Advanced Dairy','Calf Rearing','Beef Feedlot','Cattle Breeding','Herd Health'],
-        'construction': ['Brick Making','Road Construction','Bricklaying','Plumbing','Electrical Installation','Welding','Roofing','Concrete Work'],
-        'cottage-industry': ['Soap Making','Liquid Soap','Shampoo','Toothpaste','Shoe Polish','Peanut Butter','Body Lotion','Cleaning Products','Candle Making','Herbal Pomade','Paper Recycling','Charcoal Briquettes','Natural Perfume','Dishwashing Liquid','Shea Butter'],
-        'crop-production': ['Maize Production','Advanced Maize','Wheat Cultivation','Sorghum Farming','Millet','Barley','Oats','Tree Grafting','Pest Management','Soil Fertility','Irrigation Systems'],
-        'energy': ['Biogas','Solar Water Pump','Solar Installation','Wind Turbines','Hydro Power','Energy Efficiency','Biomass Energy'],
-        'food-preservation': ['Drying Vegetables','Pickling Vegetables','Tomato Paste','Fruit Jam','Marinating','Bottling','Fermenting','Freezing','Powders','Chutneys','Relishes','Juice Concentrates'],
-        'forestry': ['Timber Production','Agroforestry','Tree Nursery','Bamboo','Forest Conservation','Tree Planting','Forest Fire Management'],
-        'fruit-orchard': ['Citrus Orchard','Banana Plantation','Mango Farming','Avocado','Pineapple','Papaya','Guava','Passion Fruit','Grafting Techniques'],
-        'health': ['Healthcare Admin','Nursing Fundamentals','Pharmacy Practice','Public Health','First Aid','Medical Records','Health Safety'],
-        'herbs-spices': ['Moringa','Basil','Thyme','Rosemary','Mint','Clove','Cardamom','Cinnamon','Aloe Vera','Spice Blending'],
-        'ict': ['Computer Networking','Cybersecurity','Web Development','Data Science','AI Fundamentals','Cloud Computing','Database Management','Digital Marketing'],
-        'languages': ['Shona','Chinese','French','Portuguese','Swahili','Arabic','German','Spanish'],
-        'livestock-feed': ['Animal Feed','Hay Making','Silage','Molasses','Pellet Production','Alfalfa','Feed Quality Testing'],
-        'logistics': ['Supply Chain','Warehouse Management','Transport Logistics','Inventory Management','Export Logistics','Fleet Management','Customs Clearance'],
-        'metal': ['Metal Fabrication','Welding Techniques','Scrap Metal Recycling','Steel Work','Welding Safety','Metal Casting','Aluminum Fabrication'],
-        'mining': ['Mining Fundamentals','Gold Mining','Diamond','Platinum','Coal','Mining Safety','Mineral Processing'],
-        'mushrooms': ['Mushroom Cultivation','Oyster Mushroom','Button Mushroom','Shiitake Mushroom','Spawn Production','Harvesting & Marketing','Diseases and Control','Substrate Preparation'],
-        'nuts-seeds': ['Cashew Nuts','Macadamia','Sesame Seeds','Sunflower Seeds','Shea Nut','Groundnut','Almond Cultivation','Walnut Farming'],
-        'peppers': ['Chili Farming','Bell Pepper','Black Pepper','Bird Eye Chili','Habanero','Sweet Pepper','Pepper Drying','Pepper Sauce'],
-        'pig': ['Pig Rearing','Advanced Pig','Breeding','Farrowing','Pig Health','Feed Formulation','Pig Housing','Pig Marketing'],
-        'poultry': ['Broiler Production','Layer Management','Breeder Flock','Hatchery','Free-Range Poultry','Duck Production','Poultry Health','Feed Formulation'],
-        'rabbits-small': ['Rabbit Production','Advanced Rabbit','Rabbit Breeding','Rabbit Health','Rabbit Housing','Rabbit Feed','Rabbit Meat'],
-        'root-crops': ['Cassava','Yam','Sweet Potato','Irish Potato','Taro','Ginger','Beetroot','Garlic','Turmeric'],
-        'sheep-goat': ['Wool Sheep','Meat Sheep','Dairy Goat','Meat Goat','Boer Goat','Shearing','Goat Milk','Goat Meat'],
-        'specialty-livestock': ['Camel Farming','Ostrich','Donkey','Bull Farming','Game Farming','Buffalo','Yak'],
-        'vegetable-production': ['Tomato Farming','Onion Cultivation','Cabbage Production','Carrot','Lettuce','Cucumber','Okra','Spinach','Greenhouse Production']
+        'aquaculture': [
+            'Catfish Farming', 'Tilapia Production', 'Aquaponics Systems',
+            'Fish Pond Construction', 'Fish Processing', 'Fish Nutrition',
+            'Fish Health Management', 'Breeding and Hatchery', 'Fish Feed Production',
+            'Water Quality Management', 'Fish Harvesting Techniques', 'Fish Marketing',
+            'Integrated Fish Farming', 'Cage Culture', 'Recirculating Aquaculture Systems'
+        ],
+        'automotive': [
+            'Motor Mechanics', 'Auto Electrical Systems', 'Panel Beating',
+            'Vehicle Diagnostics', 'Diesel Engines', 'Motorcycle Repair',
+            'Auto Body Repair', 'Engine Rebuilding', 'Transmission Repair',
+            'Brake Systems', 'Suspension and Steering', 'Car Painting',
+            'Vehicle Maintenance', 'Auto Air Conditioning', 'Hybrid Vehicle Technology'
+        ],
+        'beekeeping': [
+            'Beekeeping Fundamentals', 'Hive Management', 'Honey Processing',
+            'Bee Health and Disease', 'Hive Construction', 'Queen Rearing',
+            'Bee Products: Propolis & Royal Jelly', 'Pollination Services',
+            'Commercial Beekeeping', 'Honey Export Business', 'Beeswax Processing',
+            'Value-Added Bee Products', 'Apitherapy', 'Beekeeping Equipment',
+            'Seasonal Management'
+        ],
+        'cash-crops': [
+            'Coffee Production', 'Cocoa Farming', 'Sugarcane Farming',
+            'Tea Cultivation', 'Cotton Production', 'Tobacco Farming',
+            'Organic Certification', 'Fair Trade Practices', 'Premium Fruit Export',
+            'Cash Crop Marketing', 'Value Addition for Cash Crops',
+            'Cash Crop Market Analysis', 'Agroforestry for Cash Crops',
+            'Irrigation for Cash Crops', 'Post-Harvest Handling'
+        ],
+        'cattle-dairy': [
+            'Dairy Milk', 'Advanced Dairy', 'Calf Rearing',
+            'Beef Feedlot', 'Cattle Breeding', 'Herd Health',
+            'Dairy Nutrition', 'Milk Processing', 'Dairy Farm Management',
+            'Cattle Housing', 'Pasture Management', 'Artificial Insemination',
+            'Dairy Product Marketing', 'Cattle Record Keeping', 'Dairy Export Logistics'
+        ],
+        'construction': [
+            'Brick Making', 'Road Construction', 'Bricklaying',
+            'Plumbing 101', 'Electrical Installation', 'Welding',
+            'Roofing Techniques', 'Concrete Work', 'Painting and Decorating',
+            'Carpentry Basics', 'Construction Safety', 'Project Management',
+            'Building Contracts', 'Tendering', 'Construction Materials'
+        ],
+        'cottage-industry': [
+            'Soap Making', 'Liquid Soap', 'Shampoo', 'Toothpaste',
+            'Shoe Polish', 'Peanut Butter', 'Body Lotion', 'Cleaning Products',
+            'Candle Making', 'Herbal Pomade', 'Paper Recycling',
+            'Charcoal Briquettes', 'Natural Perfume', 'Dishwashing Liquid',
+            'Shea Butter', 'Paint Making', 'Biofuel', 'Yogurt',
+            'Spice Blending', 'Bread Baking'
+        ],
+        'crop-production': [
+            'Maize Production', 'Advanced Maize', 'Wheat Cultivation',
+            'Sorghum Farming', 'Millet', 'Barley', 'Oats',
+            'Tree Grafting & Propagation', 'Pest Management',
+            'Soil Fertility Management', 'Irrigation Systems',
+            'Cover Cropping', 'Composting', 'Mulching',
+            'Crop Rotation', 'Seed Production', 'Organic Farming',
+            'Agroecology', 'Climate Smart Agriculture'
+        ],
+        'energy': [
+            'Biogas Training', 'Solar Water Pump', 'Solar Installation',
+            'Wind Turbines', 'Hydro Power Basics', 'Energy Efficiency',
+            'Biomass Energy', 'Solar System Design', 'Commercial Solar Projects',
+            'Wind Farm Development', 'Energy Business Management',
+            'Renewable Energy Policy', 'Energy Storage', 'Grid Integration',
+            'Micro-hydro Systems'
+        ],
+        'food-preservation': [
+            'Drying Vegetables', 'Pickling Vegetables', 'Tomato Paste',
+            'Fruit Jam', 'Marinating', 'Bottling', 'Fermenting',
+            'Freezing Food', 'Powders', 'Chutneys', 'Relishes',
+            'Juice Concentrates', 'Canning and Preserving',
+            'Drying Fruits and Herbs', 'Vacuum Packing', 'Food Safety',
+            'Shelf Life Testing'
+        ],
+        'forestry': [
+            'Timber Production', 'Agroforestry', 'Tree Nursery',
+            'Bamboo Production', 'Forest Conservation', 'Tree Planting',
+            'Forest Fire Management', 'Timber Processing',
+            'Commercial Timber Farming', 'Bamboo Processing and Products',
+            'Forestry Business Management', 'Carbon Credits and Forestry',
+            'Sustainable Forestry', 'Forest Inventory', 'Woodlot Management'
+        ],
+        'fruit-orchard': [
+            'Citrus Orchard', 'Banana Plantation', 'Mango Farming',
+            'Avocado Production', 'Pineapple Cultivation', 'Papaya Farming',
+            'Guava', 'Passion Fruit', 'Grafting Techniques',
+            'Fruit Tree Pruning', 'Orchard Pest Management', 'Fruit Harvesting',
+            'Post-Harvest Handling', 'Fruit Processing', 'Organic Fruit Farming'
+        ],
+        'health': [
+            'Healthcare Admin', 'Nursing Fundamentals', 'Pharmacy Practice',
+            'Public Health', 'First Aid Basics', 'Medical Records',
+            'Health Safety', 'Patient Care', 'Healthcare Business',
+            'Health Facility Management', 'Medical Practice Start-Up',
+            'Healthcare Policy', 'Community Health', 'Health Education',
+            'Disease Prevention'
+        ],
+        'herbs-spices': [
+            'Moringa Cultivation', 'Basil Farming', 'Thyme Production',
+            'Rosemary Cultivation', 'Mint Cultivation', 'Garlic Production',
+            'Turmeric Farming', 'Spice Blending Techniques', 'Clove Production',
+            'Cardamom Farming', 'Cinnamon Cultivation', 'Aloe Vera Farming',
+            'Herbal Medicine Production', 'Organic Herb Export',
+            'Spice Processing and Packaging'
+        ],
+        'ict': [
+            'Computer Networking', 'Cybersecurity Fundamentals', 'Web Development',
+            'Data Science Basics', 'AI Fundamentals', 'Cloud Computing',
+            'Database Management', 'Digital Marketing', 'IT Business Management',
+            'Software Development', 'IT Consulting', 'Tech Startup Guide',
+            'UI/UX Design', 'Mobile App Development', 'Blockchain Technology'
+        ],
+        'languages': [
+            'Shona', 'Chinese', 'French', 'Portuguese', 'Swahili',
+            'Arabic', 'German', 'Spanish', 'Business Language Skills',
+            'Translation and Interpretation', 'Language for Export',
+            'Language Teaching Business', 'English for Business',
+            'Basic Literacy', 'Advanced Communication'
+        ],
+        'livestock-feed': [
+            'Animal Feed Production', 'Hay Making', 'Silage Production',
+            'Molasses Making', 'Pellet Production', 'Alfalfa',
+            'Feed Quality Testing', 'Feed Formulation', 'Nutrient Management',
+            'Commercial Feed Manufacturing', 'Feed Business Management',
+            'Feed Export', 'Feed Mill Operations', 'Alternative Feed Sources',
+            'Feed Safety'
+        ],
+        'logistics': [
+            'Supply Chain Management', 'Warehouse Management', 'Transport Logistics',
+            'Inventory Management', 'Export Logistics', 'Fleet Management',
+            'Customs Clearance', 'Freight Forwarding', 'Commercial Logistics Business',
+            'Warehouse Automation', 'Supply Chain Optimization', 'Logistics Tech',
+            'Cold Chain Logistics', 'Last Mile Delivery', 'Logistics Risk Management'
+        ],
+        'metal': [
+            'Metal Fabrication', 'Welding Techniques', 'Scrap Metal Recycling',
+            'Steel Work', 'Welding Safety', 'Metal Casting',
+            'Aluminum Fabrication', 'Sheet Metal Work', 'Commercial Metal Fabrication',
+            'Metal Business Management', 'Metal Export', 'Heavy Metal Fabrication',
+            'Jewelry Making', 'Blacksmithing', 'Metal Finishing'
+        ],
+        'mining': [
+            'Mining Fundamentals', 'Gold Mining Operations', 'Diamond Mining',
+            'Platinum Mining', 'Mining Safety', 'Mineral Processing',
+            'Mining Equipment', 'Environmental Management in Mining',
+            'Commercial Mining Operations', 'Mining Business Management',
+            'Mineral Export', 'Artisanal Mining to Commercial',
+            'Mining Geology', 'Blasting Techniques', 'Mining Law'
+        ],
+        'mushrooms': [
+            'Mushroom Cultivation Basics', 'Oyster Mushroom Farming',
+            'Button Mushroom Production', 'Shiitake Mushroom Growing',
+            'Mushroom Spawn Production', 'Mushroom Harvesting & Marketing',
+            'Mushroom Diseases and Control', 'Mushroom Substrate Preparation',
+            'Mushroom Post-Harvest Handling', 'Mushroom Value Addition',
+            'Commercial Mushroom Farm Setup', 'Mushroom Export Business',
+            'Medicinal Mushrooms', 'Mushroom Processing', 'Mushroom Nutrition'
+        ],
+        'nuts-seeds': [
+            'Cashew Nut Production', 'Macadamia Farming', 'Sesame Seed Cultivation',
+            'Sunflower Seed Farming', 'Shea Nut Processing', 'Groundnut Production',
+            'Almond Cultivation', 'Walnut Farming', 'Commercial Nut Processing',
+            'Nut Oil Extraction', 'Nut Export Business', 'Value-Added Nut Products',
+            'Nut Tree Grafting', 'Nut Storage', 'Nut Marketing'
+        ],
+        'peppers': [
+            'Chili Farming', 'Bell Pepper Production', 'Black Pepper Cultivation',
+            'Bird Eye Chili', 'Habanero Farming', 'Sweet Pepper Farming',
+            'Pepper Drying and Processing', 'Pepper Sauce Production',
+            'Commercial Pepper Farming', 'Pepper Export Business',
+            'Spice Blending for Market', 'Pepper Value Addition',
+            'Organic Pepper Farming', 'Pepper Pest Control', 'Pepper Harvesting'
+        ],
+        'pig': [
+            'Pig Rearing Basics', 'Advanced Pig Production', 'Breeding and Farrowing',
+            'Pig Health Management', 'Feed Formulation for Pigs', 'Pig Housing',
+            'Pig Marketing', 'Pig Breeding Management', 'Commercial Pig Farming',
+            'Pork Processing', 'Pig Farm Business Plan', 'Pig Export Opportunities',
+            'Biosecurity for Pigs', 'Pig Nutrition', 'Pig Record Keeping'
+        ],
+        'poultry': [
+            'Broiler Production', 'Layer Management', 'Breeder Flock',
+            'Hatchery Operations', 'Free‑Range Poultry', 'Duck Production',
+            'Poultry Health', 'Feed Formulation', 'Commercial Poultry Farm Setup',
+            'Egg Processing and Marketing', 'Poultry Meat Processing',
+            'Poultry Export Business', 'Biosecurity', 'Poultry Equipment',
+            'Poultry Record Keeping'
+        ],
+        'rabbits-small': [
+            'Rabbit Production', 'Advanced Rabbit Farming', 'Rabbit Breeding',
+            'Rabbit Health', 'Rabbit Housing', 'Rabbit Feed and Nutrition',
+            'Rabbit Meat Production', 'Rabbit Marketing', 'Commercial Rabbit Farming',
+            'Rabbit Meat Processing', 'Rabbit Farm Business', 'Rabbit Export',
+            'Rabbit Wool Production', 'Rabbit Manure Management', 'Rabbit Record Keeping'
+        ],
+        'root-crops': [
+            'Cassava Production', 'Yam Cultivation', 'Sweet Potato Farming',
+            'Irish Potato Production', 'Ginger Cultivation', 'Taro Production',
+            'Beetroot Farming', 'Garlic Cultivation', 'Turmeric Production',
+            'Commercial Cassava Processing', 'Root Crop Export Market',
+            'Starch Production', 'Root Crop Value Addition', 'Root Crop Storage',
+            'Root Crop Pest Management'
+        ],
+        'sheep-goat': [
+            'Wool Sheep Production', 'Meat Sheep Management', 'Dairy Goat Farming',
+            'Meat Goat Production', 'Boer Goat Farming', 'Shearing and Wool Processing',
+            'Goat Milk Processing', 'Goat Meat Marketing', 'Commercial Sheep Farming',
+            'Wool Export Business', 'Goat Cheese Production', 'Sheep and Goat Export',
+            'Sheep and Goat Health', 'Pasture Management', 'Breeding Programs'
+        ],
+        'specialty-livestock': [
+            'Camel Farming', 'Ostrich Farming', 'Donkey Farming',
+            'Bull Farming', 'Game Farming', 'Buffalo Farming',
+            'Yak Production', 'Specialty Meat Marketing', 'Commercial Camel Dairy',
+            'Ostrich Leather Production', 'Donkey Milk Products',
+            'Specialty Livestock Export', 'Breeding Techniques',
+            'Animal Welfare', 'Conservation Farming'
+        ],
+        'vegetable-production': [
+            'Tomato Farming', 'Onion Cultivation', 'Cabbage Production',
+            'Carrot Cultivation', 'Lettuce Farming', 'Cucumber Production',
+            'Okra Farming', 'Spinach Cultivation', 'Greenhouse Vegetable Production',
+            'Vegetable Export Business', 'Commercial Hydroponics',
+            'Vegetable Value Addition', 'Vegetable Pest Control',
+            'Vegetable Irrigation', 'Vegetable Harvesting and Storage'
+        ]
     };
-    
-    const difficulties = ['Beginner','Intermediate','Advanced'];
+
+    const difficulties = ['Beginner', 'Intermediate', 'Advanced'];
     courses = [];
-    
-    // Generate courses for each category
+
+    // Loop over each category and its titles
     Object.keys(titles).forEach(cat => {
         titles[cat].forEach((title, idx) => {
             const id = 'RA' + String(courses.length + 1).padStart(4, '0');
@@ -1726,36 +1926,23 @@
                 certificateCode: null, difficulty: diff, completedModules: [],
                 duration: diff === 'Beginner' ? 'short' : diff === 'Intermediate' ? 'medium' : 'long',
                 averageRating: 0, reviewCount: 0, videoUrl: null, pdfUrls: [], assignmentUrls: [],
-                quizzes: [], media: []
+                quizzes: [], media: [], status: 'approved'
             });
         });
     });
-    
-    // Add extra courses to reach 500+
-    const extras = [
-        'Introduction to Agriculture','Modern Farming','Agribusiness Management','Value Addition',
-        'Export Logistics','Quality Control','Business Planning','Marketing','Digital Skills',
-        'Entrepreneurship','Financial Literacy','Leadership','Team Management','Project Management',
-        'Communication Skills','Customer Service','Sales Techniques','Inventory Management',
-        'Record Keeping','Basic Accounting','Human Resources','Farm Safety','Organic Farming',
-        'Permaculture','Agroecology','Climate Smart Agriculture','Sustainable Agriculture',
-        'Regenerative Farming','Hydroponics','Vertical Farming','Greenhouse Management',
-        'Plant Propagation','Seed Production','Crop Rotation','Cover Cropping','Composting',
-        'Mulching','Water Conservation','Rainwater Harvesting','Drip Irrigation','Sprinkler Systems',
-        'Post Harvest Management','Cold Chain Logistics','Food Safety','Traceability Systems',
-        'Agricultural Policy','Farm Economics'
-    ];
-    
+
+    // Ensure we have at least 500 courses
     while (courses.length < 500) {
+        // Add a generic course from the cottage-industry category to fill
         const idx = courses.length;
-        const title = extras[idx % extras.length] + ' ' + (Math.floor(idx / extras.length) + 1);
-        const cat = categories[idx % categories.length];
+        const title = `Cottage Skill ${idx}`;
+        const cat = 'cottage-industry';
         const diff = difficulties[idx % 3];
         const modules = [];
         for (let i = 1; i <= 8; i++) {
             modules.push({
                 title: `Module ${i}: ${title} - Part ${i}`,
-                desc: `Learn ${title} step by step. Module ${i} covers key concepts.`
+                desc: `Learn ${title} step by step.`
             });
         }
         courses.push({
@@ -1765,13 +1952,14 @@
             certificateCode: null, difficulty: diff, completedModules: [],
             duration: diff === 'Beginner' ? 'short' : diff === 'Intermediate' ? 'medium' : 'long',
             averageRating: 0, reviewCount: 0, videoUrl: null, pdfUrls: [], assignmentUrls: [],
-            quizzes: [], media: []
+            quizzes: [], media: [], status: 'approved'
         });
     }
-    
+
+    // Free starter course
     const freeCourse = courses.find(c => c.title === 'Dishwashing Liquid');
     if (freeCourse) { freeCourse.purchased = true; freeCourse.purchaseType = 'free'; }
-    
+
     updateAdminStats();
     populateAdminDropdowns();
     populateFilters();
