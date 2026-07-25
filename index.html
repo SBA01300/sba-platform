@@ -1839,31 +1839,41 @@
         // ================================================================
 
         function renderCourses() {
-            const grid = document.getElementById('courseGrid');
-            if (!grid) return;
-            const search = document.getElementById('searchBox')?.value.toLowerCase() || '';
-            const filtered = courses.filter(c => {
-                const matchTitle = c.title.toLowerCase().includes(search);
-                const matchDiff = activeDifficulty === 'all' || c.difficulty === activeDifficulty;
-                const matchDuration = activeDuration === 'all' || c.duration === activeDuration;
-                const matchCategory = activeCategory === 'all' || c.category === activeCategory;
-                return matchTitle && matchDiff && matchDuration && matchCategory;
-            });
-            document.getElementById('visibleCount').textContent = filtered.length;
-            document.getElementById('totalCount').textContent = courses.length;
-            const avgRating = courses.reduce((s, c) => s + c.averageRating, 0) / (courses.length || 1);
-            document.getElementById('avgRatingDisplay').textContent = avgRating.toFixed(1);
-            grid.innerHTML = filtered.map(c => `
-                <div class="card" onclick="openCourseModal('${c.id}')">
-                    <div class="code">${c.id}</div>
-                    <div class="title">${c.title} ${wishlist.includes(c.id) ? '❤️' : ''}</div>
-                    <div class="cat-tag">${c.category}</div>
-                    <div class="skill-tag">${c.difficulty}</div>
-                    <div style="margin-top:6px;font-size:0.75rem;color:#5a6f8c;">📚 ${c.modules ? c.modules.length : 0} modules ${c.averageRating > 0 ? '⭐ '+c.averageRating.toFixed(1) : ''}</div>
-                    <div style="margin-top:4px;"><span class="price-tag">${c.purchased ? '✅ Enrolled' : '🔒 Locked'}</span>${!c.purchased ? ' <span class="status-tag locked">$10 Full</span>' : ''}${c.title === 'Dishwashing Liquid' ? ' <span class="status-tag unlocked">🎁 Free</span>' : ''}<button onclick="event.stopPropagation();toggleWishlist('${c.id}')" style="background:none;border:none;cursor:pointer;font-size:1rem;">${wishlist.includes(c.id) ? '❤️' : '🤍'}</button></div>
-                </div>
-            `).join('');
-        }
+    const grid = document.getElementById('courseGrid');
+    if (!grid) return;
+    const search = document.getElementById('searchBox')?.value.toLowerCase() || '';
+    const filtered = courses.filter(c => {
+        const matchTitle = c.title.toLowerCase().includes(search);
+        const matchDiff = activeDifficulty === 'all' || c.difficulty === activeDifficulty;
+        const matchDuration = activeDuration === 'all' || c.duration === activeDuration;
+        const matchCategory = activeCategory === 'all' || c.category === activeCategory;
+        return matchTitle && matchDiff && matchDuration && matchCategory;
+    });
+    document.getElementById('visibleCount').textContent = filtered.length;
+    document.getElementById('totalCount').textContent = courses.length;
+    const avgRating = courses.reduce((s, c) => s + c.averageRating, 0) / (courses.length || 1);
+    document.getElementById('avgRatingDisplay').textContent = avgRating.toFixed(1);
+    grid.innerHTML = filtered.map(c => `
+        <div class="card" onclick="openCourseModal('${c.id}')">
+            <div class="code">${c.id}</div>
+            <div class="title">${c.title} ${wishlist.includes(c.id) ? '❤️' : ''}</div>
+            <div class="cat-tag">${c.category}</div>
+            <div class="skill-tag">${c.difficulty}</div>
+            <div style="margin-top:6px;font-size:0.75rem;color:#5a6f8c;">
+                📚 ${c.modules ? c.modules.length : 0} modules
+                ${c.averageRating > 0 ? '⭐ '+c.averageRating.toFixed(1) : ''}
+            </div>
+            <div style="margin-top:4px;">
+                <span class="price-tag">${c.purchased ? '✅ Enrolled' : '🔒 Locked'}</span>
+                ${!c.purchased ? ' <span class="status-tag locked">$10 Full</span>' : ''}
+                ${c.title === 'Dishwashing Liquid' ? ' <span class="status-tag unlocked">🎁 Free</span>' : ''}
+                <button onclick="event.stopPropagation();toggleWishlist('${c.id}')" style="background:none;border:none;cursor:pointer;font-size:1rem;">
+                    ${wishlist.includes(c.id) ? '❤️' : '🤍'}
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
 
         window.setCategoryFilter = function(cat) {
             activeCategory = cat;
