@@ -2825,10 +2825,6 @@
                     <strong>Loyalty Discount:</strong> Enroll in 5 courses and get your next courses for only <strong>$8</strong> each!
                     <span class="loyalty-badge" style="margin-left:0.5rem;">🎯 SAVE 20%</span>
                 </div>
-                <div class="costing-disclaimer" style="margin-top:1rem;justify-content:center;">
-                    <i class="fas fa-info-circle"></i>
-                    <span><strong>Costing Disclaimer:</strong> All costing sheets are estimates. Prices for ingredients, packaging, and labor vary significantly by country and region. Please adjust calculations based on your local market rates.</span>
-                </div>
             </section>
         </div>
     </div>
@@ -2956,12 +2952,185 @@
         const db = firebase.firestore();
 
         // ================================================================
-        //  LANGUAGE & UNIT STATE
+        //  9 LANGUAGES: Shona, Swahili, Yoruba, Arabic, Chinese, Russian, English, French, Portuguese
         // ================================================================
-        let currentLanguage = 'en';
-        let currentUnit = 'metric';
+        const LANGUAGE_ORDER = ['sn', 'sw', 'yo', 'ar', 'zh', 'ru', 'en', 'fr', 'pt'];
+        const LANGUAGE_NAMES = {
+            'sn': 'Shona',
+            'sw': 'Swahili',
+            'yo': 'Yoruba',
+            'ar': 'العربية',
+            'zh': '中文',
+            'ru': 'Русский',
+            'en': 'English',
+            'fr': 'Français',
+            'pt': 'Português'
+        };
+        let currentLanguageIndex = 6; // Start at English (index 6)
 
         const translations = {
+            sn: {
+                'langLabel': 'SN',
+                'searchPlaceholder': 'Tsvaga makosi 600+...',
+                'videoSearchPlaceholder': 'Tsvaga nezita...',
+                'all': 'Zvose',
+                'starter': '🌱 Kutanga',
+                'middle': '⚡ Pakati',
+                'commercial': '🏭 Zvekutengesa',
+                'cottage': '🧼 Zvemumba',
+                'bee': '🐝 Nyuchi',
+                'fish': '🐟 Hove',
+                'metal': '🔩 Simbi',
+                'carp': '🪚 Matanda',
+                'plumb': '🔧 Pombi',
+                'coding': '💻 Coding',
+                'solar': '⚡ Zuva',
+                'dj': '🎧 DJ',
+                'podcast': '🎙️ Podcast',
+                'photo': '📸 Mufananidzo',
+                'design': '🎨 Dhizaini',
+                'marketing': '📢 Kushambadza',
+                'leadership': '👔 Hutungamiri',
+                'accounting': '📊 Accounting',
+                'build': '🏗️ Kuvaka',
+                'weightUnit': 'kg',
+                'weightUnitImperial': 'lbs'
+            },
+            sw: {
+                'langLabel': 'SW',
+                'searchPlaceholder': 'Tafuta kozi 600+...',
+                'videoSearchPlaceholder': 'Tafuta kwa jina...',
+                'all': 'Zote',
+                'starter': '🌱 Mwanzo',
+                'middle': '⚡ Kati',
+                'commercial': '🏭 Biashara',
+                'cottage': '🧼 Nyumbani',
+                'bee': '🐝 Nyuki',
+                'fish': '🐟 Samaki',
+                'metal': '🔩 Chuma',
+                'carp': '🪚 Useremala',
+                'plumb': '🔧 Mabomba',
+                'coding': '💻 Programu',
+                'solar': '⚡ Jua',
+                'dj': '🎧 DJ',
+                'podcast': '🎙️ Podikasti',
+                'photo': '📸 Picha',
+                'design': '🎨 Ubunifu',
+                'marketing': '📢 Uuzaji',
+                'leadership': '👔 Uongozi',
+                'accounting': '📊 Uhasibu',
+                'build': '🏗️ Ujenzi',
+                'weightUnit': 'kg',
+                'weightUnitImperial': 'lbs'
+            },
+            yo: {
+                'langLabel': 'YO',
+                'searchPlaceholder': 'Wa awọn iṣẹ 600+...',
+                'videoSearchPlaceholder': 'Wa pẹlu orukọ...',
+                'all': 'Gbogbo',
+                'starter': '🌱 Ibẹrẹ',
+                'middle': '⚡ Aarin',
+                'commercial': '🏭 Iṣowo',
+                'cottage': '🧼 Ile',
+                'bee': '🐝 Oyin',
+                'fish': '🐟 Eja',
+                'metal': '🔩 Irin',
+                'carp': '🪚 Igi',
+                'plumb': '🔧 Paipu',
+                'coding': '💻 Koodu',
+                'solar': '⚡ Oorun',
+                'dj': '🎧 DJ',
+                'podcast': '🎙️ Adarọ-ẹsẹ',
+                'photo': '📸 Fọto',
+                'design': '🎨 Apẹrẹ',
+                'marketing': '📢 Titaja',
+                'leadership': '👔 Olori',
+                'accounting': '📊 Iṣiro',
+                'build': '🏗️ Ikole',
+                'weightUnit': 'kg',
+                'weightUnitImperial': 'lbs'
+            },
+            ar: {
+                'langLabel': 'AR',
+                'searchPlaceholder': 'ابحث عن 600+ دورة...',
+                'videoSearchPlaceholder': 'ابحث بالعنوان...',
+                'all': 'الكل',
+                'starter': '🌱 مبتدئ',
+                'middle': '⚡ متوسط',
+                'commercial': '🏭 تجاري',
+                'cottage': '🧼 منزلي',
+                'bee': '🐝 نحل',
+                'fish': '🐟 سمك',
+                'metal': '🔩 معدن',
+                'carp': '🪚 نجارة',
+                'plumb': '🔧 سباكة',
+                'coding': '💻 برمجة',
+                'solar': '⚡ شمسي',
+                'dj': '🎧 دي جي',
+                'podcast': '🎙️ بودكاست',
+                'photo': '📸 تصوير',
+                'design': '🎨 تصميم',
+                'marketing': '📢 تسويق',
+                'leadership': '👔 قيادة',
+                'accounting': '📊 محاسبة',
+                'build': '🏗️ بناء',
+                'weightUnit': 'كجم',
+                'weightUnitImperial': 'رطل'
+            },
+            zh: {
+                'langLabel': '中文',
+                'searchPlaceholder': '搜索600+课程...',
+                'videoSearchPlaceholder': '按标题搜索...',
+                'all': '全部',
+                'starter': '🌱 初级',
+                'middle': '⚡ 中级',
+                'commercial': '🏭 商业',
+                'cottage': '🧼 家庭',
+                'bee': '🐝 蜜蜂',
+                'fish': '🐟 鱼',
+                'metal': '🔩 金属',
+                'carp': '🪚 木工',
+                'plumb': '🔧 管道',
+                'coding': '💻 编程',
+                'solar': '⚡ 太阳能',
+                'dj': '🎧 DJ',
+                'podcast': '🎙️ 播客',
+                'photo': '📸 摄影',
+                'design': '🎨 设计',
+                'marketing': '📢 营销',
+                'leadership': '👔 领导力',
+                'accounting': '📊 会计',
+                'build': '🏗️ 建筑',
+                'weightUnit': '公斤',
+                'weightUnitImperial': '磅'
+            },
+            ru: {
+                'langLabel': 'RU',
+                'searchPlaceholder': 'Поиск 600+ курсов...',
+                'videoSearchPlaceholder': 'Поиск по названию...',
+                'all': 'Все',
+                'starter': '🌱 Начальный',
+                'middle': '⚡ Средний',
+                'commercial': '🏭 Коммерческий',
+                'cottage': '🧼 Домашний',
+                'bee': '🐝 Пчелы',
+                'fish': '🐟 Рыба',
+                'metal': '🔩 Металл',
+                'carp': '🪚 Столярка',
+                'plumb': '🔧 Сантехника',
+                'coding': '💻 Программирование',
+                'solar': '⚡ Солнечный',
+                'dj': '🎧 DJ',
+                'podcast': '🎙️ Подкаст',
+                'photo': '📸 Фото',
+                'design': '🎨 Дизайн',
+                'marketing': '📢 Маркетинг',
+                'leadership': '👔 Лидерство',
+                'accounting': '📊 Бухгалтерия',
+                'build': '🏗️ Строительство',
+                'weightUnit': 'кг',
+                'weightUnitImperial': 'фунтов'
+            },
             en: {
                 'langLabel': 'EN',
                 'searchPlaceholder': 'Search 600+ courses...',
@@ -2987,8 +3156,7 @@
                 'accounting': '📊 Accounting',
                 'build': '🏗️ Build',
                 'weightUnit': 'kg',
-                'weightUnitImperial': 'lbs',
-                'costingDisclaimer': 'Costing Disclaimer: All costing sheets are estimates. Prices vary by country and region.'
+                'weightUnitImperial': 'lbs'
             },
             fr: {
                 'langLabel': 'FR',
@@ -3015,24 +3183,54 @@
                 'accounting': '📊 Comptabilité',
                 'build': '🏗️ Construction',
                 'weightUnit': 'kg',
-                'weightUnitImperial': 'lbs',
-                'costingDisclaimer': 'Avertissement: Tous les chiffres sont des estimations. Les prix varient selon le pays et la région.'
+                'weightUnitImperial': 'lbs'
+            },
+            pt: {
+                'langLabel': 'PT',
+                'searchPlaceholder': 'Pesquisar 600+ cursos...',
+                'videoSearchPlaceholder': 'Pesquisar por título...',
+                'all': 'Todos',
+                'starter': '🌱 Iniciante',
+                'middle': '⚡ Intermediário',
+                'commercial': '🏭 Comercial',
+                'cottage': '🧼 Artesanal',
+                'bee': '🐝 Abelha',
+                'fish': '🐟 Peixe',
+                'metal': '🔩 Metal',
+                'carp': '🪚 Carpintaria',
+                'plumb': '🔧 Encanamento',
+                'coding': '💻 Programação',
+                'solar': '⚡ Solar',
+                'dj': '🎧 DJ',
+                'podcast': '🎙️ Podcast',
+                'photo': '📸 Foto',
+                'design': '🎨 Design',
+                'marketing': '📢 Marketing',
+                'leadership': '👔 Liderança',
+                'accounting': '📊 Contabilidade',
+                'build': '🏗️ Construção',
+                'weightUnit': 'kg',
+                'weightUnitImperial': 'lbs'
             }
         };
 
         function toggleLanguage() {
-            currentLanguage = currentLanguage === 'en' ? 'fr' : 'en';
-            document.getElementById('currentLangLabel').textContent = currentLanguage.toUpperCase();
-            applyLanguage(currentLanguage);
-            showToast('Language switched to ' + currentLanguage.toUpperCase(), 'info');
+            currentLanguageIndex = (currentLanguageIndex + 1) % LANGUAGE_ORDER.length;
+            const langCode = LANGUAGE_ORDER[currentLanguageIndex];
+            document.getElementById('currentLangLabel').textContent = translations[langCode]['langLabel'];
+            applyLanguage(langCode);
+            showToast('Language: ' + LANGUAGE_NAMES[langCode], 'info');
         }
 
         function applyLanguage(lang) {
             const t = translations[lang] || translations.en;
+            // Search placeholders
             const searchInput = document.getElementById('searchInput');
             if (searchInput) searchInput.placeholder = t.searchPlaceholder;
             const videoSearch = document.getElementById('videoSearchInput');
             if (videoSearch) videoSearch.placeholder = t.videoSearchPlaceholder;
+
+            // Video filter buttons
             const filterBtns = document.querySelectorAll('#videoFilterContainer .btn');
             const labelKeys = ['all', 'starter', 'middle', 'commercial', 'cottage', 'bee', 'fish', 'metal', 'carp',
                 'plumb', 'coding', 'solar', 'dj', 'podcast', 'photo', 'design', 'marketing', 'leadership',
@@ -3044,22 +3242,27 @@
                     btn.textContent = t[key];
                 }
             });
+
+            // Weight unit label
             const weightLabel = document.getElementById('weightUnitLabel');
-            if (weightLabel) weightLabel.textContent = currentUnit === 'metric' ? '(kg)' : '(lbs)';
-            const disclaimers = document.querySelectorAll('.costing-disclaimer span');
-            disclaimers.forEach(el => {
-                if (el.textContent.includes('Costing Disclaimer') || el.textContent.includes('Avertissement')) {
-                    el.textContent = t.costingDisclaimer;
-                }
-            });
+            if (weightLabel) weightLabel.textContent = currentUnit === 'metric' ? t.weightUnit : t.weightUnitImperial;
         }
+
+        // ================================================================
+        //  UNIT TOGGLE
+        // ================================================================
+        let currentUnit = 'metric';
 
         function toggleUnits() {
             currentUnit = currentUnit === 'metric' ? 'imperial' : 'metric';
             document.getElementById('currentUnitLabel').textContent = currentUnit === 'metric' ? 'Metric' : 'Imperial';
             const weightLabel = document.getElementById('weightUnitLabel');
-            if (weightLabel) weightLabel.textContent = currentUnit === 'metric' ? '(kg)' : '(lbs)';
-            showToast('Units switched to ' + (currentUnit === 'metric' ? 'Metric' : 'Imperial'), 'info');
+            if (weightLabel) {
+                const langCode = LANGUAGE_ORDER[currentLanguageIndex];
+                const t = translations[langCode] || translations.en;
+                weightLabel.textContent = currentUnit === 'metric' ? t.weightUnit : t.weightUnitImperial;
+            }
+            showToast('Units: ' + (currentUnit === 'metric' ? 'Metric' : 'Imperial'), 'info');
             const calcYield = document.getElementById('calcYield');
             if (calcYield && calcYield.textContent !== '—') {
                 calculatePreservation();
@@ -4889,10 +5092,6 @@
                   <span>⏱️ Labor: $${course.costing.laborCost}</span>
                   <span style="font-weight:700;color:var(--accent);">💰 Profit: $${course.costing.profit} (${course.costing.profitPercent})</span>
                 </div>
-                <div class="costing-disclaimer" style="margin-top:0.5rem;font-size:0.75rem;">
-                  <i class="fas fa-info-circle"></i>
-                  <span><strong>Costing Disclaimer:</strong> All costing sheets are estimates. Prices for ingredients, packaging, and labor vary significantly by country and region. Please adjust calculations based on your local market rates.</span>
-                </div>
               </div>
             `;
             }
@@ -5868,7 +6067,10 @@
             renderCalendar();
             switchTab('home');
 
-            applyLanguage(currentLanguage);
+            // Apply initial language (English)
+            const langCode = LANGUAGE_ORDER[currentLanguageIndex];
+            document.getElementById('currentLangLabel').textContent = translations[langCode]['langLabel'];
+            applyLanguage(langCode);
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
