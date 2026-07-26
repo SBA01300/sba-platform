@@ -319,7 +319,80 @@
             font-size: 1.5rem;
             cursor: pointer;
         }
-
+        /* ===== LANGUAGE TOGGLE ===== */
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 0.2rem 0.5rem;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+        .lang-toggle:hover {
+            border-color: var(--primary);
+            color: var(--text);
+        }
+        .lang-toggle .active-lang {
+            color: var(--primary-light);
+        }
+        .lang-toggle i {
+            font-size: 0.65rem;
+        }
+        /* ===== UNIT TOGGLE ===== */
+        .unit-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 0.2rem 0.6rem;
+            cursor: pointer;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+        .unit-toggle:hover {
+            border-color: var(--primary);
+            color: var(--text);
+        }
+        .unit-toggle .active-unit {
+            color: var(--primary-light);
+        }
+        /* ===== COSTING DISCLAIMER ===== */
+        .costing-disclaimer {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius-sm);
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            font-size: 0.8rem;
+            color: #f87171;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .costing-disclaimer i {
+            font-size: 1rem;
+            color: #ef4444;
+        }
+        /* ===== LOYALTY DISCOUNT ===== */
+        .loyalty-badge {
+            background: linear-gradient(135deg, var(--warning), #f59e0b);
+            color: #0f172a;
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            display: inline-block;
+        }
         /* ===== HERO ===== */
         .hero {
             min-height: 100vh;
@@ -756,7 +829,6 @@
             background: rgba(239, 68, 68, 0.2);
             color: var(--danger);
         }
-
         .pagination {
             display: flex;
             justify-content: center;
@@ -977,6 +1049,19 @@
         }
         .pricing-features li:last-child {
             border-bottom: none;
+        }
+        .loyalty-note {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(245, 158, 11, 0.08);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .loyalty-note strong {
+            color: var(--warning);
         }
 
         /* ===== CTA ===== */
@@ -1789,6 +1874,12 @@
             font-size: 0.85rem;
             border: 1px solid var(--border);
             background: var(--bg-elevated);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+        .calendar-day:hover {
+            border-color: var(--primary);
         }
         .calendar-day.today {
             background: var(--primary);
@@ -1798,6 +1889,18 @@
         .calendar-day.empty {
             border: none;
             background: transparent;
+            cursor: default;
+        }
+        .calendar-day .reminder-dot {
+            position: absolute;
+            bottom: 4px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--warning);
+        }
+        .calendar-day.today .reminder-dot {
+            background: #fff;
         }
         .calendar-weekdays {
             display: grid;
@@ -1807,6 +1910,75 @@
             font-size: 0.8rem;
             margin-bottom: 8px;
             color: var(--text-muted);
+        }
+        .reminder-list {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+        .reminder-list h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .reminder-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+        .reminder-item:last-child {
+            border-bottom: none;
+        }
+        .reminder-item .rem-time {
+            color: var(--text-dim);
+            font-size: 0.75rem;
+        }
+        .reminder-item .rem-del {
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .reminder-item .rem-del:hover {
+            opacity: 0.7;
+        }
+        .reminder-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .reminder-form input {
+            flex: 1;
+            padding: 0.4rem 0.6rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-size: 0.8rem;
+            outline: none;
+            min-width: 120px;
+        }
+        .reminder-form input:focus {
+            border-color: var(--primary);
+        }
+        .reminder-form button {
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .reminder-form button:hover {
+            background: var(--primary-dark);
         }
 
         /* ===== PRESERVATION ===== */
@@ -2161,6 +2333,10 @@
             .video-grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .nav-actions .lang-toggle span,
+            .nav-actions .unit-toggle span {
+                display: none;
+            }
         }
         /* ===== MODULE CONTENT STYLES ===== */
         .module-content-section {
@@ -2311,6 +2487,17 @@
                 <a href="#" class="nav-link" id="adminNavLink" onclick="switchTab('admin')" style="display:none;">Admin</a>
             </div>
             <div class="nav-actions">
+                <!-- Language Toggle -->
+                <div class="lang-toggle" onclick="toggleLanguage()" title="Toggle Language">
+                    <i class="fas fa-globe"></i>
+                    <span class="active-lang" id="currentLangLabel">EN</span>
+                    <i class="fas fa-chevron-down" style="font-size:0.5rem;"></i>
+                </div>
+                <!-- Unit Toggle -->
+                <div class="unit-toggle" onclick="toggleUnits()" title="Toggle Metric/Imperial">
+                    <i class="fas fa-ruler"></i>
+                    <span class="active-unit" id="currentUnitLabel">Metric</span>
+                </div>
                 <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme"><i class="fas fa-moon" id="themeIcon"></i></button>
                 <button class="btn btn-secondary btn-sm" id="loginBtn" onclick="openAuthModal()">Log In</button>
                 <button class="btn btn-primary btn-sm" id="signupBtn" onclick="openAuthModal()">Get Started</button>
@@ -2391,32 +2578,38 @@
         <div id="tab-videos" class="tab-content" style="display:none;">
             <section class="section">
                 <div class="section-header animate-on-scroll"><div class="section-tag">Video Library</div><h2>RAS Skills Library</h2><p>Everything you need – from soap making to coding, farming to welding.</p></div>
-                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
-                    <button class="btn btn-secondary btn-sm active" onclick="filterVideos('all')">All</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('starter')">🌱 Starter</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('middle')">⚡ Middle</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('commercial')">🏭 Commercial</button>
+                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;" id="videoFilterContainer">
+                    <button class="btn btn-secondary btn-sm active" data-filter="all" onclick="filterVideos('all')">All</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="starter" onclick="filterVideos('starter')">🌱 Starter</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="middle" onclick="filterVideos('middle')">⚡ Middle</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="commercial" onclick="filterVideos('commercial')">🏭 Commercial</button>
                     <span style="margin:0 4px;color:var(--text-dim);">|</span>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('cottage-industry')">🧼 Cottage</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('beekeeping')">🐝 Bee</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('aquaculture')">🐟 Fish</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('metal')">🔩 Metal</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('carpentry')">🪚 Carp</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('plumbing')">🔧 Plumb</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('ict')">💻 Coding</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('energy')">⚡ Solar</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('dj')">🎧 DJ</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('podcast')">🎙️ Podcast</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('photography')">📸 Photo</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('graphic-design')">🎨 Design</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('marketing')">📢 Marketing</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('leadership')">👔 Leadership</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('accounting')">📊 Accounting</button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterVideos('construction')">🏗️ Build</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="cottage-industry" onclick="filterVideos('cottage-industry')">🧼 Cottage</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="beekeeping" onclick="filterVideos('beekeeping')">🐝 Bee</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="aquaculture" onclick="filterVideos('aquaculture')">🐟 Fish</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="metal" onclick="filterVideos('metal')">🔩 Metal</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="carpentry" onclick="filterVideos('carpentry')">🪚 Carp</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="plumbing" onclick="filterVideos('plumbing')">🔧 Plumb</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="ict" onclick="filterVideos('ict')">💻 Coding</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="energy" onclick="filterVideos('energy')">⚡ Solar</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="dj" onclick="filterVideos('dj')">🎧 DJ</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="podcast" onclick="filterVideos('podcast')">🎙️ Podcast</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="photography" onclick="filterVideos('photography')">📸 Photo</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="graphic-design" onclick="filterVideos('graphic-design')">🎨 Design</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="marketing" onclick="filterVideos('marketing')">📢 Marketing</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="leadership" onclick="filterVideos('leadership')">👔 Leadership</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="accounting" onclick="filterVideos('accounting')">📊 Accounting</button>
+                    <button class="btn btn-secondary btn-sm" data-filter="construction" onclick="filterVideos('construction')">🏗️ Build</button>
                 </div>
                 <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
                     <input type="text" id="videoSearchInput" placeholder="🔍 Search by title..." style="flex:1;padding:10px 16px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:0.9rem;outline:none;min-width:200px;" oninput="searchVideos()">
                     <span id="videoCount" style="align-self:center;font-size:0.85rem;color:var(--text-dim);"></span>
+                    <select id="videoSortSelect" style="padding:8px 12px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:0.85rem;outline:none;" onchange="sortVideos()">
+                        <option value="default">Sort by</option>
+                        <option value="title">Title A-Z</option>
+                        <option value="title-desc">Title Z-A</option>
+                        <option value="category">Category</option>
+                    </select>
                 </div>
                 <div class="video-grid" id="videoGrid"></div>
             </section>
@@ -2460,6 +2653,7 @@
                     <div class="faq-item"><div class="faq-question" onclick="toggleFAQ(this)">⏱️ How long does it take?<span class="arrow">▼</span></div><div class="faq-answer"><p><strong>Self-paced – you decide.</strong></p></div></div>
                     <div class="faq-item"><div class="faq-question" onclick="toggleFAQ(this)">📱 How do I access my course?<span class="arrow">▼</span></div><div class="faq-answer"><p><strong>Anywhere – computer, phone, offline.</strong></p></div></div>
                     <div class="faq-item"><div class="faq-question" onclick="toggleFAQ(this)">💳 Money-back guarantee?<span class="arrow">▼</span></div><div class="faq-answer"><p><strong>YES – 7-day guarantee.</strong></p></div></div>
+                    <div class="faq-item"><div class="faq-question" onclick="toggleFAQ(this)">💰 Loyalty discount?<span class="arrow">▼</span></div><div class="faq-answer"><p><strong>YES – after 5 courses, your next courses are only $8 each!</strong></p></div></div>
                 </div>
             </section>
         </div>
@@ -2480,11 +2674,20 @@
         <!-- CALENDAR -->
         <div id="tab-calendar" class="tab-content" style="display:none;">
             <section class="section">
-                <div class="section-header animate-on-scroll"><div class="section-tag">Calendar</div><h2>📅 Learning Calendar</h2><p>Track your learning milestones and stay consistent.</p></div>
-                <div id="calendarWidget" style="max-width:500px;margin:0 auto;background:var(--bg-card);border-radius:var(--radius);padding:20px;border:1px solid var(--border);">
+                <div class="section-header animate-on-scroll"><div class="section-tag">Calendar</div><h2>📅 Learning Calendar & Diary</h2><p>Track your learning milestones, set reminders, and stay consistent.</p></div>
+                <div id="calendarWidget" style="max-width:600px;margin:0 auto;background:var(--bg-card);border-radius:var(--radius);padding:20px;border:1px solid var(--border);">
                     <div class="calendar-header"><button onclick="changeMonth(-1)">◀</button><span id="calendarMonthYear"></span><button onclick="changeMonth(1)">▶</button></div>
                     <div class="calendar-weekdays"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>
                     <div id="calendarDays" class="calendar-days"></div>
+                    <div class="reminder-list" id="reminderList">
+                        <h4>📝 Reminders for <span id="reminderDateLabel">Today</span></h4>
+                        <div id="reminderItems"></div>
+                        <div class="reminder-form">
+                            <input type="text" id="reminderInput" placeholder="Add a reminder..." maxlength="60">
+                            <input type="time" id="reminderTime" value="09:00">
+                            <button onclick="addReminder()">+ Add</button>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -2507,7 +2710,7 @@
                                     <option value="pork30">🥩 Pork Maturing (30 Day)</option><option value="pork60">🥩 Pork Maturing (60 Day)</option><option value="pork90">🥩 Pork Maturing (90 Day)</option>
                                     <option value="lamb30">🥩 Lamb Maturing (30 Day)</option><option value="lamb60">🥩 Lamb Maturing (60 Day)</option><option value="lamb90">🥩 Lamb Maturing (90 Day)</option>
                                 </select></div>
-                            <div class="form-group"><label>Weight (kg)</label><input type="number" id="preserveWeight" value="10"></div>
+                            <div class="form-group"><label>Weight <span id="weightUnitLabel">(kg)</span></label><input type="number" id="preserveWeight" value="10" step="0.1"></div>
                             <div class="form-group"><label>Preservation Method</label><select id="preserveMethod">
                                     <option value="drying">🌞 Drying (85% yield, 12-18 months)</option>
                                     <option value="pickling">🥒 Pickling (95% yield, 6-12 months)</option>
@@ -2607,15 +2810,24 @@
                         <button class="btn btn-primary btn-block" onclick="selectPlan('pro')">Get Pro Access</button>
                     </div>
                     <div class="pricing-card animate-on-scroll">
-                        <div class="pricing-name">Bundle</div><div class="pricing-desc">For teams and organizations</div>
-                        <div class="pricing-price">$40<span>/bundle</span></div><div class="pricing-period">5 courses of your choice</div>
+                        <div class="pricing-name">Bundle</div><div class="pricing-desc">10 courses for the price of 4</div>
+                        <div class="pricing-price">$40<span>/bundle</span></div><div class="pricing-period">10 courses of your choice</div>
                         <ul class="pricing-features">
-                            <li><i class="fas fa-check"></i> 5 courses</li><li><i class="fas fa-check"></i> Video lessons</li>
+                            <li><i class="fas fa-check"></i> 10 courses</li><li><i class="fas fa-check"></i> Video lessons</li>
                             <li><i class="fas fa-check"></i> Downloadable resources</li><li><i class="fas fa-check"></i> Community access</li>
                             <li><i class="fas fa-check"></i> Certificates</li><li><i class="fas fa-check"></i> Team analytics</li>
                         </ul>
                         <button class="btn btn-secondary btn-block" onclick="selectPlan('bundle')">Choose Bundle</button>
                     </div>
+                </div>
+                <div class="loyalty-note">
+                    <i class="fas fa-gem" style="color:var(--warning);"></i>
+                    <strong>Loyalty Discount:</strong> Enroll in 5 courses and get your next courses for only <strong>$8</strong> each!
+                    <span class="loyalty-badge" style="margin-left:0.5rem;">🎯 SAVE 20%</span>
+                </div>
+                <div class="costing-disclaimer" style="margin-top:1rem;justify-content:center;">
+                    <i class="fas fa-info-circle"></i>
+                    <span><strong>Costing Disclaimer:</strong> All costing sheets are estimates. Prices for ingredients, packaging, and labor vary significantly by country and region. Please adjust calculations based on your local market rates.</span>
                 </div>
             </section>
         </div>
@@ -2744,10 +2956,120 @@
         const db = firebase.firestore();
 
         // ================================================================
+        //  LANGUAGE & UNIT STATE
+        // ================================================================
+        let currentLanguage = 'en';
+        let currentUnit = 'metric';
+
+        const translations = {
+            en: {
+                'langLabel': 'EN',
+                'searchPlaceholder': 'Search 600+ courses...',
+                'videoSearchPlaceholder': 'Search by title...',
+                'all': 'All',
+                'starter': '🌱 Starter',
+                'middle': '⚡ Middle',
+                'commercial': '🏭 Commercial',
+                'cottage': '🧼 Cottage',
+                'bee': '🐝 Bee',
+                'fish': '🐟 Fish',
+                'metal': '🔩 Metal',
+                'carp': '🪚 Carp',
+                'plumb': '🔧 Plumb',
+                'coding': '💻 Coding',
+                'solar': '⚡ Solar',
+                'dj': '🎧 DJ',
+                'podcast': '🎙️ Podcast',
+                'photo': '📸 Photo',
+                'design': '🎨 Design',
+                'marketing': '📢 Marketing',
+                'leadership': '👔 Leadership',
+                'accounting': '📊 Accounting',
+                'build': '🏗️ Build',
+                'weightUnit': 'kg',
+                'weightUnitImperial': 'lbs',
+                'costingDisclaimer': 'Costing Disclaimer: All costing sheets are estimates. Prices vary by country and region.'
+            },
+            fr: {
+                'langLabel': 'FR',
+                'searchPlaceholder': 'Rechercher 600+ cours...',
+                'videoSearchPlaceholder': 'Rechercher par titre...',
+                'all': 'Tous',
+                'starter': '🌱 Débutant',
+                'middle': '⚡ Intermédiaire',
+                'commercial': '🏭 Commercial',
+                'cottage': '🧼 Artisanat',
+                'bee': '🐝 Abeille',
+                'fish': '🐟 Poisson',
+                'metal': '🔩 Métal',
+                'carp': '🪚 Menuiserie',
+                'plumb': '🔧 Plomberie',
+                'coding': '💻 Programmation',
+                'solar': '⚡ Solaire',
+                'dj': '🎧 DJ',
+                'podcast': '🎙️ Podcast',
+                'photo': '📸 Photo',
+                'design': '🎨 Design',
+                'marketing': '📢 Marketing',
+                'leadership': '👔 Leadership',
+                'accounting': '📊 Comptabilité',
+                'build': '🏗️ Construction',
+                'weightUnit': 'kg',
+                'weightUnitImperial': 'lbs',
+                'costingDisclaimer': 'Avertissement: Tous les chiffres sont des estimations. Les prix varient selon le pays et la région.'
+            }
+        };
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'fr' : 'en';
+            document.getElementById('currentLangLabel').textContent = currentLanguage.toUpperCase();
+            applyLanguage(currentLanguage);
+            showToast('Language switched to ' + currentLanguage.toUpperCase(), 'info');
+        }
+
+        function applyLanguage(lang) {
+            const t = translations[lang] || translations.en;
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.placeholder = t.searchPlaceholder;
+            const videoSearch = document.getElementById('videoSearchInput');
+            if (videoSearch) videoSearch.placeholder = t.videoSearchPlaceholder;
+            const filterBtns = document.querySelectorAll('#videoFilterContainer .btn');
+            const labelKeys = ['all', 'starter', 'middle', 'commercial', 'cottage', 'bee', 'fish', 'metal', 'carp',
+                'plumb', 'coding', 'solar', 'dj', 'podcast', 'photo', 'design', 'marketing', 'leadership',
+                'accounting', 'build'
+            ];
+            filterBtns.forEach((btn, idx) => {
+                const key = labelKeys[idx];
+                if (key && t[key]) {
+                    btn.textContent = t[key];
+                }
+            });
+            const weightLabel = document.getElementById('weightUnitLabel');
+            if (weightLabel) weightLabel.textContent = currentUnit === 'metric' ? '(kg)' : '(lbs)';
+            const disclaimers = document.querySelectorAll('.costing-disclaimer span');
+            disclaimers.forEach(el => {
+                if (el.textContent.includes('Costing Disclaimer') || el.textContent.includes('Avertissement')) {
+                    el.textContent = t.costingDisclaimer;
+                }
+            });
+        }
+
+        function toggleUnits() {
+            currentUnit = currentUnit === 'metric' ? 'imperial' : 'metric';
+            document.getElementById('currentUnitLabel').textContent = currentUnit === 'metric' ? 'Metric' : 'Imperial';
+            const weightLabel = document.getElementById('weightUnitLabel');
+            if (weightLabel) weightLabel.textContent = currentUnit === 'metric' ? '(kg)' : '(lbs)';
+            showToast('Units switched to ' + (currentUnit === 'metric' ? 'Metric' : 'Imperial'), 'info');
+            const calcYield = document.getElementById('calcYield');
+            if (calcYield && calcYield.textContent !== '—') {
+                calculatePreservation();
+            }
+        }
+
+        // ================================================================
         //  100+ COTTAGE INDUSTRY PRODUCTS – COMPLETE DATA
         // ================================================================
         const COTTAGE_PRODUCTS = [
-            // === PERSONAL CARE & COSMETICS (1–20) ===
             { id: 1001, name: "Black Soap (Dudu-Osun)", emoji: "🧼", desc: "Traditional African black soap made from shea butter, cocoa pod ash, and palm oil.",
                 ingredients: "Shea butter, cocoa pod ash, palm oil, water, essential oils",
                 safety: "Wear gloves when handling lye. Work in ventilated area. Test pH before use." },
@@ -2808,7 +3130,6 @@
             { id: 1020, name: "Nail Polish (Natural)", emoji: "💅", desc: "Natural nail polish with beetroot juice, gum arabic, and oils.",
                 ingredients: "Beetroot juice, gum arabic, carrier oils, natural pigments",
                 safety: "Use food-grade ingredients. Test color." },
-            // === CLEANING & HOUSEHOLD PRODUCTS (21–40) ===
             { id: 1021, name: "Bar Laundry Soap", emoji: "🧼", desc: "Traditional bar soap for laundry with palm oil, caustic soda, and water.",
                 ingredients: "Palm oil, caustic soda (lye), water, fragrance",
                 safety: "⚠️ Handle lye with extreme care. Wear goggles and gloves. Mix in well-ventilated area." },
@@ -2869,7 +3190,6 @@
             { id: 1040, name: "Scented Candle", emoji: "🕯️", desc: "Scented candle with paraffin or beeswax, wick, fragrance, and dye.",
                 ingredients: "Paraffin/beeswax, wick, fragrance oil, dye",
                 safety: "Never leave burning unattended. Place on heat-safe surface." },
-            // === FOOD & BEVERAGES (41–60) ===
             { id: 1041, name: "Groundnut Oil (Peanut Oil)", emoji: "🥜", desc: "Cold-pressed or roasted extraction of groundnut oil.",
                 ingredients: "Groundnuts (peanuts)",
                 safety: "Use fresh nuts. Store in cool dark place." },
@@ -2930,7 +3250,6 @@
             { id: 1060, name: "Spice Blends (Mixed)", emoji: "🌿", desc: "Mixed spice blends with dried and ground pepper, curry, thyme, and packaged.",
                 ingredients: "Pepper, curry powder, thyme, other spices",
                 safety: "Use clean equipment. Package in airtight containers." },
-            // === TEXTILES, CRAFTS & FASHION (61–75) ===
             { id: 1061, name: "Tie-Dye Fabric (Adire / Kampala)", emoji: "👕", desc: "Tie-dye fabric with cotton fabric, dye, rubber bands, and wax.",
                 ingredients: "Cotton fabric, fabric dye, rubber bands, wax",
                 safety: "Wear gloves. Use in ventilated area." },
@@ -2976,7 +3295,6 @@
             { id: 1075, name: "Woven Rugs / Mats", emoji: "🟫", desc: "Woven rugs with recycled fabric strips, loom or hand-woven.",
                 ingredients: "Recycled fabric strips",
                 safety: "Cut strips evenly. Use proper loom." },
-            // === HOME GOODS & DECOR (76–90) ===
             { id: 1076, name: "Pottery / Clay Pots", emoji: "🏺", desc: "Clay pots with local clay, hand-molded or wheel, kiln or sun-dried.",
                 ingredients: "Clay, water",
                 safety: "Work on clean surface. Fire properly." },
@@ -3022,7 +3340,6 @@
             { id: 1090, name: "Handmade Paper (Recycled)", emoji: "📄", desc: "Recycled paper with waste paper, blender, water, and screen-dried.",
                 ingredients: "Waste paper, water",
                 safety: "Use clean water. Work on flat surface." },
-            // === NATURAL & WELLNESS PRODUCTS (91–100) ===
             { id: 1091, name: "Herbal Tea Blends", emoji: "🍵", desc: "Herbal tea with dried moringa, lemongrass, ginger, hibiscus, and packaged.",
                 ingredients: "Moringa, lemongrass, ginger, hibiscus",
                 safety: "Dry ingredients properly. Package in airtight containers." },
@@ -3203,7 +3520,7 @@
         }
 
         // ================================================================
-        //  YOUTUBE VIDEOS – Curated for Cottage Industry
+        //  YOUTUBE VIDEOS – Curated for Cottage Industry + All Categories
         // ================================================================
         const COTTAGE_VIDEOS = [
             { id: 'J-KCIFG3B5M', title: 'Soap Making Success Story', category: 'cottage-industry', level: 'starter' },
@@ -3233,7 +3550,11 @@
             { id: 'm1nU4xZ_5_s', title: 'Fish Farming Basics', category: 'aquaculture', level: 'starter' },
             { id: 'hW7gS8kD-OA', title: 'Poultry Farming Guide', category: 'poultry', level: 'starter' },
             { id: 'q7xZk2vLpPo', title: 'Solar Panel Installation', category: 'energy', level: 'starter' },
-            { id: 'x_hcQr5a5n8', title: 'Coding for Beginners', category: 'ict', level: 'starter' }
+            { id: 'x_hcQr5a5n8', title: 'Coding for Beginners', category: 'ict', level: 'starter' },
+            { id: 'dQw4w9WgXcQ', title: 'DJ Mixing Basics', category: 'dj', level: 'starter' },
+            { id: 'p8npDG2ulKQ', title: 'Podcast Recording Setup', category: 'podcast', level: 'starter' },
+            { id: 'qN4ooNx77ug', title: 'Accounting for Small Business', category: 'accounting', level: 'starter' },
+            { id: 'W7Bk8sF2Y7o', title: 'Building Construction Guide', category: 'construction', level: 'starter' }
         ];
 
         // ================================================================
@@ -3801,7 +4122,6 @@
                         "💰 Costing Sheet & Profit Margin – Calculate your profit"
                     ];
 
-                    // Build full module content from the provided data
                     const moduleContent = c.moduleContent || {
                         intro: `This course covers everything you need to know about ${c.title} in ${cat}. You'll learn practical skills, safety protocols, and business management.`,
                         ingredients: `<strong>Materials & Tools:</strong><ul><li>${c.ingredients || 'See course modules for full materials list.'}</li></ul>`,
@@ -3948,6 +4268,7 @@
             jobs: [],
             videoFilter: 'all',
             videoSearch: '',
+            videoSort: 'default',
             calendarMonth: new Date().getMonth(),
             calendarYear: new Date().getFullYear(),
             isAdmin: false,
@@ -3955,7 +4276,9 @@
             isLoading: true,
             aiChatOpen: false,
             aiMessageHistory: [],
-            currentModuleTab: 0
+            currentModuleTab: 0,
+            reminders: {},
+            selectedDate: new Date().toISOString().split('T')[0]
         };
 
         // ================================================================
@@ -4412,6 +4735,8 @@
                 const statusClass = isCompleted ? 'completed' : isEnrolled ? 'enrolled' : 'locked';
                 const statusText = isCompleted ? '✅ Completed' : isEnrolled ? '📖 In Progress' : '🔒 Locked';
                 const img = c.image || getImageForCategory(c.category, c.id % 3);
+                // Apply loyalty discount: after 5 courses, price is $8
+                const displayPrice = state.enrolledCourses.length >= 5 && !isEnrolled ? 8 : c.price;
                 return `
               <div class="course-card" onclick="openCourse(${c.id})">
                 <div class="course-image">
@@ -4425,7 +4750,7 @@
                   <p class="course-desc">${c.description || c.modules.slice(0,3).join(' • ')}${c.modules.length > 3 ? '...' : ''}</p>
                   ${isEnrolled ? `<div class="course-progress"><div class="fill" style="width:${progress}%;"></div></div>` : ''}
                   <div class="course-footer">
-                    <span class="course-price">$${c.price}</span>
+                    <span class="course-price">$${displayPrice}${displayPrice !== c.price ? ' <span style="font-size:0.6rem;color:var(--warning);">(loyalty)</span>' : ''}</span>
                     <span class="course-status ${statusClass}">${statusText}</span>
                   </div>
                 </div>
@@ -4465,13 +4790,14 @@
             const featured = COURSES.sort((a, b) => b.students - a.students).slice(0, 6);
             grid.innerHTML = featured.map(c => {
                 const img = c.image || getImageForCategory(c.category, c.id % 3);
+                const displayPrice = state.enrolledCourses.length >= 5 ? 8 : c.price;
                 return `
               <div class="course-card" onclick="openCourse(${c.id})">
                 <div class="course-image"><img src="${img}" alt="${c.title}" loading="lazy" onerror="this.src='${FALLBACK_IMAGE}'"><span class="category-overlay">${c.emoji} ${c.category}</span><span class="course-badge ${c.level.toLowerCase()}">${c.level}</span></div>
                 <div class="course-content">
                   <div class="course-meta"><span><i class="fas fa-folder"></i> ${c.category}</span><span><i class="fas fa-clock"></i> ${c.duration}</span></div>
                   <h3 class="course-title">${c.emoji} ${c.title}</h3>
-                  <div class="course-footer"><span class="course-price">$${c.price}</span><div class="course-rating"><i class="fas fa-star"></i><span>${c.rating}</span><span>(${c.students.toLocaleString()})</span></div></div>
+                  <div class="course-footer"><span class="course-price">$${displayPrice}</span><div class="course-rating"><i class="fas fa-star"></i><span>${c.rating}</span><span>(${c.students.toLocaleString()})</span></div></div>
                 </div>
               </div>`;
             }).join('');
@@ -4516,6 +4842,7 @@
             const isCompleted = progress >= 100;
             const body = document.getElementById('courseModalBody');
             const img = course.image || getImageForCategory(course.category, course.id % 3);
+            const displayPrice = state.enrolledCourses.length >= 5 && !isEnrolled ? 8 : course.price;
 
             // Build module tabs and content panels
             let moduleTabsHtml = '';
@@ -4550,7 +4877,7 @@
             });
             modulePanelsHtml += `</div>`;
 
-            // Costing display for cottage industry courses
+            // Costing display with disclaimer
             let costingHtml = '';
             if (course.costing) {
                 costingHtml = `
@@ -4562,9 +4889,17 @@
                   <span>⏱️ Labor: $${course.costing.laborCost}</span>
                   <span style="font-weight:700;color:var(--accent);">💰 Profit: $${course.costing.profit} (${course.costing.profitPercent})</span>
                 </div>
+                <div class="costing-disclaimer" style="margin-top:0.5rem;font-size:0.75rem;">
+                  <i class="fas fa-info-circle"></i>
+                  <span><strong>Costing Disclaimer:</strong> All costing sheets are estimates. Prices for ingredients, packaging, and labor vary significantly by country and region. Please adjust calculations based on your local market rates.</span>
+                </div>
               </div>
             `;
             }
+
+            const loyaltyNote = state.enrolledCourses.length >= 5 && !isEnrolled ?
+                `<div style="margin-top:0.5rem;font-size:0.8rem;color:var(--warning);"><i class="fas fa-gem"></i> Loyalty discount applied: $${displayPrice} instead of $${course.price}</div>` :
+                '';
 
             body.innerHTML = `
             <div class="course-detail-grid">
@@ -4585,14 +4920,15 @@
                   <div style="background:var(--bg);padding:0.75rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;">${course.modules.length}</div><div style="font-size:0.7rem;color:var(--text-dim);">Lessons</div></div>
                   <div style="background:var(--bg);padding:0.75rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;">${course.rating}</div><div style="font-size:0.7rem;color:var(--text-dim);">Rating</div></div>
                   <div style="background:var(--bg);padding:0.75rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;">${course.students.toLocaleString()}</div><div style="font-size:0.7rem;color:var(--text-dim);">Students</div></div>
-                  <div style="background:var(--bg);padding:0.75rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--primary-light);">$${course.price}</div><div style="font-size:0.7rem;color:var(--text-dim);">Price</div></div>
+                  <div style="background:var(--bg);padding:0.75rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--primary-light);">$${displayPrice}</div><div style="font-size:0.7rem;color:var(--text-dim);">Price</div></div>
                 </div>
+                ${loyaltyNote}
                 ${isEnrolled ? 
                   (isCompleted ? 
                     `<button class="btn btn-accent btn-block" onclick="generateCertificate(${course.id}); closeModal('courseModal');"><i class="fas fa-certificate"></i> Get Certificate</button>` :
                     `<button class="btn btn-primary btn-block" onclick="markModuleComplete(${course.id});"><i class="fas fa-check"></i> Mark Module Complete</button>`
                   ) :
-                  `<button class="btn btn-primary btn-block" onclick="closeModal('courseModal'); initiateCheckout(${course.id});"><i class="fas fa-lock"></i> Enroll Now — $${course.price}</button>`
+                  `<button class="btn btn-primary btn-block" onclick="closeModal('courseModal'); initiateCheckout(${course.id});"><i class="fas fa-lock"></i> Enroll Now — $${displayPrice}</button>`
                 }
                 ${isEnrolled ? `<button class="btn btn-secondary btn-block" style="margin-top:8px;" onclick="closeModal('courseModal');">Close</button>` : ''}
               </div>
@@ -4608,11 +4944,9 @@
         }
 
         function switchModuleTab(idx, courseId) {
-            // Update active tab
             document.querySelectorAll(`#courseModal .module-tab-btn`).forEach((btn, i) => {
                 btn.classList.toggle('active', i === idx);
             });
-            // Update active panel
             document.querySelectorAll(`#courseModal .module-content-panel`).forEach((panel, i) => {
                 panel.classList.toggle('active', i === idx);
             });
@@ -4653,7 +4987,6 @@
                     showToast('🎉 Course completed! Get your certificate.', 'success');
                     generateCertificate(id);
                 }
-                // Refresh the course modal to show updated progress
                 openCourse(id);
             }).catch(err => showToast('Error: ' + err.message, 'error'));
         }
@@ -4713,22 +5046,47 @@
         }
 
         // ================================================================
-        //  VIDEOS
+        //  VIDEOS – SORTED & FUNCTIONAL
         // ================================================================
         function renderVideoGrid() {
             const grid = document.getElementById('videoGrid');
             const countSpan = document.getElementById('videoCount');
             const search = document.getElementById('videoSearchInput')?.value.toLowerCase() || '';
-            let filtered = VIDEO_LIBRARY;
-            if (search) filtered = filtered.filter(v => v.title.toLowerCase().includes(search));
-            if (state.videoFilter !== 'all') filtered = filtered.filter(v => v.level === state.videoFilter || v
-                .category === state.videoFilter);
+
+            let filtered = [...VIDEO_LIBRARY];
+
+            // Apply search
+            if (search) {
+                filtered = filtered.filter(v => v.title.toLowerCase().includes(search));
+            }
+
+            // Apply category/level filter
+            if (state.videoFilter !== 'all') {
+                filtered = filtered.filter(v => v.level === state.videoFilter || v.category === state.videoFilter);
+            }
+
+            // Apply sorting
+            switch (state.videoSort) {
+                case 'title':
+                    filtered.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case 'title-desc':
+                    filtered.sort((a, b) => b.title.localeCompare(a.title));
+                    break;
+                case 'category':
+                    filtered.sort((a, b) => a.category.localeCompare(b.category));
+                    break;
+                default:
+                    break;
+            }
+
             if (filtered.length === 0) {
                 grid.innerHTML =
                     '<p style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-dim);">No videos found.</p>';
                 if (countSpan) countSpan.textContent = '0 videos';
                 return;
             }
+
             grid.innerHTML = filtered.map(v => `
             <div class="video-thumb" onclick="openVideoModal('${v.id}')">
               <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%230a2540%22 width=%22100%22 height=%22100%22/%3E%3Ctext x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22%234a9eff%22 font-size=%2230%22 font-weight=%22bold%22%3E🎬%3C/text%3E%3C/svg%3E'">
@@ -4736,13 +5094,29 @@
               <div class="video-title">${v.title}</div>
             </div>
           `).join('');
+
             if (countSpan) countSpan.textContent = filtered.length + ' videos';
+
+            // Update active filter button
+            document.querySelectorAll('#videoFilterContainer .btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === state.videoFilter);
+            });
         }
 
-        function filterVideos(filter) { state.videoFilter = filter;
-            renderVideoGrid(); }
+        function filterVideos(filter) {
+            state.videoFilter = filter;
+            renderVideoGrid();
+        }
 
-        function searchVideos() { renderVideoGrid(); }
+        function searchVideos() {
+            renderVideoGrid();
+        }
+
+        function sortVideos() {
+            const select = document.getElementById('videoSortSelect');
+            state.videoSort = select.value;
+            renderVideoGrid();
+        }
 
         function openVideoModal(videoId) {
             const modal = document.getElementById('videoModal');
@@ -4759,7 +5133,7 @@
         }
 
         // ================================================================
-        //  CALENDAR
+        //  CALENDAR WITH DIARY/REMINDERS
         // ================================================================
         function renderCalendar() {
             const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
@@ -4772,12 +5146,98 @@
             let html = '';
             for (let i = 0; i < firstDay; i++) html += '<div class="calendar-day empty"></div>';
             const today = new Date();
+            const selectedDate = state.selectedDate || today.toISOString().split('T')[0];
+
             for (let d = 1; d <= daysInMonth; d++) {
+                const dateObj = new Date(state.calendarYear, state.calendarMonth, d);
+                const dateStr = dateObj.toISOString().split('T')[0];
                 const isToday = (d === today.getDate() && state.calendarMonth === today.getMonth() && state
                     .calendarYear === today.getFullYear());
-                html += `<div class="calendar-day ${isToday ? 'today' : ''}">${d}</div>`;
+                const isSelected = dateStr === selectedDate;
+                const hasReminder = state.reminders && state.reminders[dateStr] && state.reminders[dateStr].length > 0;
+
+                let classes = 'calendar-day';
+                if (isToday) classes += ' today';
+                if (isSelected) classes += ' selected';
+
+                html += `<div class="${classes}" onclick="selectDate('${dateStr}')" data-date="${dateStr}">
+                  ${d}
+                  ${hasReminder ? '<span class="reminder-dot"></span>' : ''}
+                </div>`;
             }
             document.getElementById('calendarDays').innerHTML = html;
+
+            // Load reminders for selected date
+            loadReminders(selectedDate);
+        }
+
+        function selectDate(dateStr) {
+            state.selectedDate = dateStr;
+            renderCalendar();
+        }
+
+        function loadReminders(dateStr) {
+            const container = document.getElementById('reminderItems');
+            const label = document.getElementById('reminderDateLabel');
+            const dateObj = new Date(dateStr);
+            label.textContent = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric',
+                year: 'numeric' });
+
+            if (!state.reminders[dateStr] || state.reminders[dateStr].length === 0) {
+                container.innerHTML = '<p style="color:var(--text-dim);font-size:0.85rem;padding:0.5rem 0;">No reminders for this day.</p>';
+                return;
+            }
+
+            container.innerHTML = state.reminders[dateStr].map((r, idx) => `
+            <div class="reminder-item">
+              <span>${r.text} <span class="rem-time">${r.time || ''}</span></span>
+              <span class="rem-del" onclick="deleteReminder('${dateStr}', ${idx})">✕</span>
+            </div>
+          `).join('');
+        }
+
+        function addReminder() {
+            const input = document.getElementById('reminderInput');
+            const timeInput = document.getElementById('reminderTime');
+            const text = input.value.trim();
+            if (!text) { showToast('Please enter a reminder.', 'warning'); return; }
+
+            const dateStr = state.selectedDate || new Date().toISOString().split('T')[0];
+            if (!state.reminders[dateStr]) state.reminders[dateStr] = [];
+
+            state.reminders[dateStr].push({
+                text: text,
+                time: timeInput.value || '09:00'
+            });
+
+            input.value = '';
+            loadReminders(dateStr);
+            renderCalendar();
+            showToast('✅ Reminder added!', 'success');
+
+            try {
+                localStorage.setItem('riseReminders', JSON.stringify(state.reminders));
+            } catch (e) {}
+        }
+
+        function deleteReminder(dateStr, idx) {
+            if (!state.reminders[dateStr]) return;
+            state.reminders[dateStr].splice(idx, 1);
+            if (state.reminders[dateStr].length === 0) delete state.reminders[dateStr];
+            loadReminders(dateStr);
+            renderCalendar();
+            try {
+                localStorage.setItem('riseReminders', JSON.stringify(state.reminders));
+            } catch (e) {}
+        }
+
+        function loadSavedReminders() {
+            try {
+                const saved = localStorage.getItem('riseReminders');
+                if (saved) {
+                    state.reminders = JSON.parse(saved);
+                }
+            } catch (e) {}
         }
 
         function changeMonth(delta) {
@@ -4790,7 +5250,7 @@
         }
 
         // ================================================================
-        //  PRESERVATION
+        //  PRESERVATION WITH METRIC/IMPERIAL
         // ================================================================
         function calculatePreservation() {
             const veggie = document.getElementById('preserveVeggie').value;
@@ -4806,8 +5266,15 @@
                 oil: '🫒 Oil Preservation', salt: '🧂 Salt Curing', sugar: '🍬 Sugar Syrup' };
             const yieldFactor = yields[method] || 0.9;
             const shelfLife = shelf[method] || '6-12 months';
-            const yieldKg = weight * yieldFactor;
-            document.getElementById('calcYield').textContent = yieldKg.toFixed(2) + ' kg';
+            let yieldKg = weight * yieldFactor;
+
+            let yieldDisplay = yieldKg.toFixed(2) + ' kg';
+            if (currentUnit === 'imperial') {
+                const yieldLbs = yieldKg * 2.20462;
+                yieldDisplay = yieldLbs.toFixed(2) + ' lbs';
+            }
+
+            document.getElementById('calcYield').textContent = yieldDisplay;
             document.getElementById('calcShelf').textContent = shelfLife;
             document.getElementById('calcMethod').textContent = methodLabels[method] || method;
 
@@ -5233,7 +5700,7 @@
                 return '📚 We have 600+ courses with 100+ in Cottage Industry. Try searching for "soap", "honey", "jam", or "candle"!';
             }
             if (msg.includes('price') || msg.includes('cost') || msg.includes('$'))
-                return '💰 Starter: $3.50/course, Pro: $10/month (all 600+ courses), Bundle: $40 for 5 courses. Pro is best value!';
+                return '💰 Starter: $3.50/course, Pro: $10/month (all 600+ courses), Bundle: $40 for 10 courses. Pro is best value! After 5 courses, your next courses are only $8 each!';
             if (msg.includes('certificate') || msg.includes('cert'))
                 return '🎓 Yes! Complete any cottage industry course and get a verified certificate. Show employers your skills!';
             if (msg.includes('video') || msg.includes('watch'))
@@ -5244,6 +5711,8 @@
                 return '🌍 Rise Africa empowers African youth with 600+ practical vocational skills courses. Our mission: create self-sustaining livelihoods.';
             if (msg.includes('help') || msg.includes('support'))
                 return '🤝 I\'m here to help! Ask me about courses, pricing, certificates, videos, or anything else about Rise Africa.';
+            if (msg.includes('loyalty') || msg.includes('discount'))
+                return '🎯 Yes! After you enroll in 5 courses, every additional course is only $8 (normally $10). That\'s a 20% loyalty discount!';
             return `👋 Great question! I'm here to help you learn about Rise Africa. We offer 600+ vocational courses including 100+ in Cottage Industry. What skill are you interested in?`;
         }
 
@@ -5255,8 +5724,8 @@
         function selectPlan(plan) {
             if (!state.user) { openAuthModal(); return; }
             const plans = { starter: { name: 'Starter', price: 3.50, desc: '1 course access' }, pro: { name: 'Pro',
-                    price: 10.00, desc: 'All courses monthly' }, bundle: { name: 'Bundle', price: 40.00,
-                    desc: '5 courses' } };
+                    price: 10.00, desc: 'All courses monthly' }, bundle: { name: 'Bundle (10 Courses)',
+                    price: 40.00, desc: '10 courses for $40' } };
             currentCheckout = { type: 'plan', ...plans[plan] };
             showCheckout();
         }
@@ -5265,18 +5734,23 @@
             if (!state.user) { openAuthModal(); return; }
             const course = COURSES.find(c => c.id === courseId);
             if (!course) return;
-            currentCheckout = { type: 'course', ...course };
+            const price = state.enrolledCourses.length >= 5 ? 8 : course.price;
+            currentCheckout = { type: 'course', ...course, price: price };
             showCheckout();
         }
 
         function showCheckout() {
             const body = document.getElementById('checkoutBody');
             const isCourse = currentCheckout.type === 'course';
+            const loyaltyNote = isCourse && state.enrolledCourses.length >= 5 ?
+                '<div style="margin-top:0.5rem;font-size:0.8rem;color:var(--warning);"><i class="fas fa-gem"></i> Loyalty discount applied! You\'ve earned the $8 rate.</div>' :
+                '';
             body.innerHTML = `
             <div style="margin-bottom:1.5rem;">
               <div style="background:var(--bg);padding:1rem;border-radius:var(--radius-sm);margin-bottom:1rem;">
                 <div style="font-size:0.85rem;color:var(--text-dim);margin-bottom:0.25rem;">Item</div>
-                <div style="font-weight:600;">${isCourse ? currentCheckout.emoji + ' ' + currentCheckout.title : currentCheckout.name + ' Plan'}</div>
+                <div style="font-weight:600;">${isCourse ? currentCheckout.emoji + ' ' + currentCheckout.title : currentCheckout.name}</div>
+                ${loyaltyNote}
               </div>
               <div style="display:flex;justify-content:space-between;align-items:center;padding:1rem;background:var(--bg);border-radius:var(--radius-sm);">
                 <span style="color:var(--text-muted);">Total</span>
@@ -5328,7 +5802,7 @@
 
         function completePayment(ref, item, name, email) {
             if (!state.user) return;
-            const payment = { ref, item: item.type === 'course' ? item.title : item.name + ' Plan', amount: item.price,
+            const payment = { ref, item: item.type === 'course' ? item.title : item.name, amount: item.price,
                 date: new Date().toISOString().split('T')[0], status: 'success' };
             state.payments.push(payment);
             db.collection('users').doc(state.user.uid).update({
@@ -5338,9 +5812,9 @@
                 else if (item.type === 'plan') {
                     if (item.name === 'Pro') { COURSES.forEach(c => enrollCourse(c.id));
                         showToast('🎉 All 600+ courses unlocked!', 'success'); } else if (item.name ===
-                        'Bundle') { const shuffled = [...COURSES].sort(() => 0.5 - Math.random());
-                        shuffled.slice(0, 5).forEach(c => enrollCourse(c.id));
-                        showToast('🎉 5 courses unlocked!', 'success'); } else enrollCourse(COURSES[0].id);
+                        'Bundle (10 Courses)') { const shuffled = [...COURSES].sort(() => 0.5 - Math.random());
+                        shuffled.slice(0, 10).forEach(c => enrollCourse(c.id));
+                        showToast('🎉 10 courses unlocked!', 'success'); } else enrollCourse(COURSES[0].id);
                 }
             }).catch(err => showToast('Error: ' + err.message, 'error'));
 
@@ -5380,6 +5854,11 @@
             initTheme();
             populateCategoryFilter();
             populateCountryDropdown();
+            loadSavedReminders();
+
+            const today = new Date();
+            state.selectedDate = today.toISOString().split('T')[0];
+
             renderCategories();
             renderFeaturedCourses();
             renderTestimonials();
@@ -5388,6 +5867,8 @@
             renderVideoGrid();
             renderCalendar();
             switchTab('home');
+
+            applyLanguage(currentLanguage);
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
