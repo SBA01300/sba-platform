@@ -333,19 +333,14 @@
         .hero-bg {
             position: absolute;
             inset: 0;
-            background:
-                radial-gradient(ellipse at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+            background: radial-gradient(ellipse at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
             animation: gradient-shift 15s ease infinite;
             background-size: 200% 200%;
         }
         .hero-grid {
             position: absolute;
             inset: 0;
-            background-image:
-                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
             background-size: 60px 60px;
             mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
             -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
@@ -1125,10 +1120,10 @@
             transform: scale(1);
         }
         .modal-lg {
-            max-width: 900px;
+            max-width: 1100px;
         }
         .modal-xl {
-            max-width: 1100px;
+            max-width: 1300px;
         }
         .modal-header {
             padding: 1.5rem;
@@ -2167,6 +2162,102 @@
                 grid-template-columns: 1fr 1fr;
             }
         }
+        /* ===== MODULE CONTENT STYLES ===== */
+        .module-content-section {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            border-left: 3px solid var(--primary);
+        }
+        .module-content-section h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .module-content-section p {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+        .module-content-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+        .module-content-section ul li {
+            padding: 0.3rem 0 0.3rem 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            position: relative;
+        }
+        .module-content-section ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+        .module-content-section .highlight-box {
+            background: rgba(99, 102, 241, 0.08);
+            border-radius: var(--radius-sm);
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid rgba(99, 102, 241, 0.15);
+        }
+        .module-content-section .highlight-box strong {
+            color: var(--text);
+        }
+        .module-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+        .module-tab-btn {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+        .module-tab-btn:hover {
+            color: var(--text);
+            background: var(--bg-card);
+        }
+        .module-tab-btn.active {
+            color: var(--primary-light);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        .module-content-panel {
+            display: none;
+        }
+        .module-content-panel.active {
+            display: block;
+            animation: slide-up 0.3s ease;
+        }
+        .course-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        @media (max-width:768px) {
+            .course-detail-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2587,7 +2678,7 @@
 
     <div class="modal-overlay" id="courseModal">
         <div class="modal modal-lg">
-            <div class="modal-header"><h3>Course Details</h3><button class="modal-close" onclick="closeModal('courseModal')"><i class="fas fa-times"></i></button></div>
+            <div class="modal-header"><h3>📚 Course Details</h3><button class="modal-close" onclick="closeModal('courseModal')"><i class="fas fa-times"></i></button></div>
             <div class="modal-body" id="courseModalBody"></div>
         </div>
     </div>
@@ -3146,910 +3237,265 @@
         ];
 
         // ================================================================
-        //  RICH COURSE DATA FOR ALL 37 CATEGORIES – 100% COMPLETE
-        //  Each course has: 5-module structure, ingredients/materials, safety, costing
+        //  RICH COURSE DATA WITH FULL MODULE CONTENT
         // ================================================================
         const RICH_CATEGORY_COURSES = {
-            // === AUTOMOTIVE (15 rich courses) ===
-            "Automotive": [
-                { title: "Engine Repair & Maintenance", desc: "Master engine diagnostics, repair, and maintenance for modern vehicles.",
-                    ingredients: "Engine oil, filters, spark plugs, gaskets, sealants, diagnostic tools",
-                    safety: "⚠️ Use jack stands. Disconnect battery before electrical work. Wear safety glasses.",
-                    modules: ["🔧 Engine Fundamentals – Understand 4-stroke & 2-stroke engines",
-                        "🔩 Diagnostics & Tools – Use OBD-II scanners and multimeters",
-                        "⚙️ Step-by-Step Repair – Timing belts, piston rings, cylinder heads",
-                        "🛡️ Safety & Precautions – Lift safety, fire prevention, chemical handling",
-                        "💰 Costing & Profit – Parts markup, labor rates, profit margins"
-                    ] },
-                { title: "Brake Systems & Safety", desc: "Complete brake system repair from pads to ABS modules.",
-                    ingredients: "Brake pads, rotors, calipers, brake fluid, ABS sensors, tools",
-                    safety: "⚠️ Brake fluid is corrosive. Use jack stands. Bleed brakes properly.",
-                    modules: ["🚗 Brake Types – Disc, drum, and ABS systems",
-                        "🔧 Inspection & Diagnosis – Wear patterns, fluid leaks, ABS codes",
-                        "🔩 Replacement Procedure – Pads, rotors, calipers, master cylinder",
-                        "🛡️ Safety Protocols – Bleeding brakes, testing, road safety",
-                        "💰 Costing – Parts pricing, labor estimation, profit analysis"
-                    ] },
-                { title: "Electrical Systems in Vehicles", desc: "Diagnose and repair vehicle electrical systems and wiring.",
-                    ingredients: "Wire, fuses, relays, connectors, multimeter, circuit tester",
-                    safety: "⚠️ Disconnect battery. Avoid short circuits. Use insulated tools.",
-                    modules: ["🔋 Electrical Fundamentals – Voltage, current, resistance, circuits",
-                        "🔌 Wiring Diagrams – Reading and tracing circuits",
-                        "⚡ Step-by-Step Repair – Starter, alternator, lighting, sensors",
-                        "🛡️ Safety – Battery handling, fuse protection, insulation",
-                        "💰 Costing – Parts, tools, labor, profit calculation"
-                    ] },
-                { title: "Auto-Electric Mastery", desc: "Advanced automotive electrical systems including ECUs and CAN bus.",
-                    ingredients: "ECU, sensors, wiring harness, diagnostic scanner, soldering tools",
-                    safety: "⚠️ Static-sensitive components. Use ESD protection. Disconnect battery.",
-                    modules: ["📡 CAN Bus & Networks – Understanding vehicle communication",
-                        "🔧 ECU Diagnostics – Reading codes, reprogramming, sensor testing",
-                        "⚡ Advanced Repairs – Starter motors, charging systems, lighting",
-                        "🛡️ Safety – High-voltage systems, ESD protection, insulation",
-                        "💰 Costing – Diagnostic fees, parts markup, labor rates"
-                    ] },
-                { title: "Panel Beating Mastery", desc: "Restore vehicle body panels to factory condition after damage.",
-                    ingredients: "Body filler, sandpaper, primer, paint, panel beating tools",
-                    safety: "⚠️ Use respirator for paint and filler dust. Wear safety glasses.",
-                    modules: ["🔧 Panel Assessment – Damage evaluation and repair planning",
-                        "🔩 Dent Removal – Hammer and dolly techniques, stud welding",
-                        "🎨 Filling & Sanding – Body filler, shaping, priming",
-                        "🛡️ Safety – Dust protection, chemical handling, ventilation",
-                        "💰 Costing – Materials, paint, labor, profit margins"
-                    ] },
-                { title: "Spray Painting Mastery", desc: "Professional automotive spray painting techniques and color matching.",
-                    ingredients: "Paint, primer, clear coat, thinner, hardener, spray gun, compressor",
-                    safety: "⚠️ Use respirator with organic vapor cartridges. Work in ventilated booth.",
-                    modules: ["🎨 Paint Types – Basecoat, clear coat, metallic, solid colors",
-                        "🔧 Preparation – Sanding, masking, priming, sealing",
-                        "🖌️ Spraying Technique – Gun setup, pressure, overlap, flash times",
-                        "🛡️ Safety – Respiratory protection, ventilation, fire safety",
-                        "💰 Costing – Paint costs, booth time, labor, profit"
-                    ] },
-                { title: "Auto AC Repair Mastery", desc: "Diagnose and repair automotive air conditioning systems.",
-                    ingredients: "Refrigerant, compressor, condenser, evaporator, AC tools, vacuum pump",
-                    safety: "⚠️ Refrigerant is dangerous. Use recovery equipment. Wear safety glasses.",
-                    modules: ["❄️ AC Fundamentals – Refrigeration cycle, components, refrigerants",
-                        "🔧 Diagnostics – Pressure testing, leak detection, temperature measurement",
-                        "🔩 Repair Procedures – Compressor replacement, condenser, evaporator",
-                        "🛡️ Safety – Refrigerant handling, recovery equipment, PPE",
-                        "💰 Costing – Parts, refrigerant, labor, profit analysis"
-                    ] },
-                { title: "Diesel Mechanics Mastery", desc: "Complete diesel engine repair and maintenance for trucks and equipment.",
-                    ingredients: "Diesel fuel, oil, filters, injectors, turbocharger, diagnostic tools",
-                    safety: "⚠️ Diesel is flammable. High-pressure injection is dangerous. Wear PPE.",
-                    modules: ["🔧 Diesel Engine Basics – Compression ignition, fuel systems",
-                        "⚙️ Fuel Injection – Injectors, pumps, common rail, timing",
-                        "🔩 Turbochargers & Aftertreatment – Boost, EGR, DPF, SCR",
-                        "🛡️ Safety – Fuel handling, high pressure, hot surfaces",
-                        "💰 Costing – Parts, labor, diagnostic fees, profit"
-                    ] },
-                { title: "Hybrid Vehicles Mastery", desc: "Service and repair hybrid vehicle systems safely.",
-                    ingredients: "Hybrid battery, electric motor, inverter, special tools, insulation",
-                    safety: "⚠️ High-voltage systems (up to 650V). Use insulated tools. Disable system.",
-                    modules: ["🔋 Hybrid Systems – Battery, motor, inverter, regenerative braking",
-                        "⚡ Diagnostics – HV testing, battery health, motor control",
-                        "🔧 Repair Procedures – Battery replacement, motor service, inverter repair",
-                        "🛡️ Safety – HV disconnect, insulated tools, emergency procedures",
-                        "💰 Costing – HV parts, specialized labor, profit margins"
-                    ] },
-                { title: "Auto Diagnostics Mastery", desc: "Advanced diagnostic techniques using scan tools and oscilloscopes.",
-                    ingredients: "Scan tool, oscilloscope, multimeter, wiring diagrams, diagnostic software",
-                    safety: "⚠️ Avoid short circuits. Use proper test equipment. Follow safety protocols.",
-                    modules: ["📡 OBD-II & CAN – Communication protocols, data reading",
-                        "🔧 Sensor Testing – MAF, O2, MAP, TPS, temperature sensors",
-                        "⚡ Waveform Analysis – Oscilloscope patterns, ignition, injectors",
-                        "🛡️ Safety – Electrical safety, component handling, data security",
-                        "💰 Costing – Diagnostic fees, equipment costs, profit"
-                    ] },
-                { title: "Auto Upholstery Mastery", desc: "Professional vehicle interior restoration and custom upholstery.",
-                    ingredients: "Fabric, leather, foam, adhesive, thread, sewing machine, tools",
-                    safety: "⚠️ Use respirator for adhesives. Work in ventilated area.",
-                    modules: ["🧵 Materials – Fabric types, leather, vinyl, foam, adhesives",
-                        "📐 Pattern Making – Measuring, cutting, fitting templates",
-                        "🪡 Sewing & Installation – Stitching, fitting, trimming, finishing",
-                        "🛡️ Safety – Chemical safety, dust protection, tool safety",
-                        "💰 Costing – Materials, labor, custom work, profit"
-                    ] },
-                { title: "Auto Glass Mastery", desc: "Professional windshield and auto glass repair and replacement.",
-                    ingredients: "Windshield, urethane adhesive, primer, tools, suction cups",
-                    safety: "⚠️ Glass is heavy. Use suction cups. Wear gloves and safety glasses.",
-                    modules: ["🪟 Glass Types – Windshield, side glass, rear glass, sunroof",
-                        "🔧 Removal & Preparation – Cutting adhesive, surface prep, priming",
-                        "🔩 Installation – Urethane application, glass placement, curing",
-                        "🛡️ Safety – Glass handling, chemical safety, vehicle safety",
-                        "💰 Costing – Glass pricing, adhesive, labor, profit"
-                    ] },
-                { title: "Motorcycle Repair Mastery", desc: "Complete motorcycle maintenance and repair from engine to brakes.",
-                    ingredients: "Engine parts, brake pads, cables, chain, oil, diagnostic tools",
-                    safety: "⚠️ Use stands. Disconnect battery. Wear safety gear.",
-                    modules: ["🏍️ Motorcycle Systems – Engine, transmission, brakes, suspension",
-                        "🔧 Diagnostics – Electrical, fuel, compression, brake testing",
-                        "🔩 Repair Procedures – Engine rebuild, brake service, chain adjustment",
-                        "🛡️ Safety – Lift safety, chemical handling, road testing",
-                        "💰 Costing – Parts, labor, specialized tools, profit"
-                    ] },
-                { title: "Forklift Operation Mastery", desc: "Safe and efficient forklift operation with maintenance skills.",
-                    ingredients: "Forklift, propane/diesel, batteries, maintenance tools",
-                    safety: "⚠️ Forklifts are heavy. Follow OSHA standards. Wear seatbelt.",
-                    modules: ["🏗️ Forklift Types – Counterbalance, reach, pallet jack, telehandler",
-                        "🎮 Operation – Controls, steering, lifting, load handling",
-                        "🔧 Maintenance – Daily checks, battery care, hydraulic systems",
-                        "🛡️ Safety – Load limits, stability, pedestrian safety, inspections",
-                        "💰 Costing – Rental rates, maintenance costs, operator pay"
-                    ] },
-                { title: "Auto Sales Mastery", desc: "Professional automotive sales techniques and customer relationship management.",
-                    ingredients: "Sales software, CRM, vehicle information, financing tools",
-                    safety: "⚠️ Follow ethical sales practices. Know product details thoroughly.",
-                    modules: ["📊 Sales Process – Prospecting, presentation, closing, follow-up",
-                        "🤝 Customer Service – Needs analysis, objection handling, relationship building",
-                        "📈 Product Knowledge – Vehicle specs, features, comparisons, financing",
-                        "🛡️ Ethics – Transparency, trust, compliance, legal requirements",
-                        "💰 Costing – Pricing strategies, commission structures, profit goals"
-                    ] }
-            ],
-            // === BEEKEEPING (15 rich courses) ===
-            "Beekeeping": [
-                { title: "Beekeeping Basics", desc: "Start your beekeeping journey with hive setup and bee biology.",
-                    ingredients: "Hive boxes, frames, bees, feeder, smoker, protective suit",
-                    safety: "⚠️ Bee stings can cause allergic reactions. Wear protective gear.",
-                    modules: ["🐝 Bee Biology – Castes, life cycle, behavior, communication",
-                        "🏠 Hive Setup – Equipment, location, assembly, feeding",
-                        "🔧 Seasonal Management – Inspections, swarm control, winter preparation",
-                        "🛡️ Safety – Protective gear, allergy awareness, calm handling",
-                        "💰 Costing – Startup costs, equipment, bees, maintenance"
-                    ] },
-                { title: "Honey Processing & Marketing", desc: "Extract, bottle, and market honey for maximum profit.",
-                    ingredients: "Honey, bottles, labels, extractor, filters, wax melting equipment",
-                    safety: "⚠️ Keep processing area clean. Use food-grade equipment.",
-                    modules: ["🍯 Extraction – Uncapping, spinning, filtering, settling",
-                        "🏷️ Bottling & Labeling – Sterilization, packaging, branding, labeling",
-                        "📊 Quality Control – Moisture testing, purity, grading, storage",
-                        "🛡️ Safety – Food safety standards, contamination prevention",
-                        "💰 Costing – Honey value, packaging, labor, profit margins"
-                    ] },
-                { title: "Beehive Construction", desc: "Build durable, high-quality beehives for maximum honey production.",
-                    ingredients: "Wood, nails, glue, paint, hive plans, tools",
-                    safety: "⚠️ Use sharp tools carefully. Wear eye and ear protection.",
-                    modules: ["🔨 Design & Planning – Hive types, dimensions, material selection",
-                        "🪚 Construction – Cutting, assembly, painting, weatherproofing",
-                        "🔧 Frames & Foundation – Assembly, wiring, foundation installation",
-                        "🛡️ Safety – Tool safety, woodworking safety, finish handling",
-                        "💰 Costing – Materials, tools, labor, profit per hive"
-                    ] },
-                { title: "Queen Rearing Mastery", desc: "Breed and raise quality queen bees for colony expansion and sales.",
-                    ingredients: "Queen cups, grafting tools, mating nucs, royal jelly, bees",
-                    safety: "⚠️ Handle queens gently. Maintain clean grafting environment.",
-                    modules: ["👑 Queen Biology – Development, mating, pheromones, genetics",
-                        "🔬 Grafting Techniques – Larva selection, grafting, cell building",
-                        "🏡 Mating & Introduction – Mating nucs, queen introduction, acceptance",
-                        "🛡️ Safety – Gentle handling, biosecurity, disease prevention",
-                        "💰 Costing – Queen value, grafting supplies, breeding stock, profit"
-                    ] },
-                { title: "Bee Health Mastery", desc: "Maintain healthy bee colonies and manage pests and diseases.",
-                    ingredients: "Medications, treatments, diagnostic tools, protective gear",
-                    safety: "⚠️ Use medications as labeled. Protect honey from contamination.",
-                    modules: ["🦠 Diseases – American foulbrood, European foulbrood, chalkbrood",
-                        "🐛 Pests – Varroa mites, small hive beetle, wax moths, ants",
-                        "🧪 Treatment – Medication application, mechanical control, IPM",
-                        "🛡️ Safety – Medicinal safety, honey contamination prevention, biosecurity",
-                        "💰 Costing – Treatment costs, monitoring equipment, disease prevention"
-                    ] },
-                { title: "Wax Products Mastery", desc: "Create and market beeswax candles, soaps, and cosmetics.",
-                    ingredients: "Beeswax, molds, wicks, essential oils, dyes, equipment",
-                    safety: "⚠️ Hot wax causes burns. Work in ventilated area.",
-                    modules: ["🕯️ Candles – Molded, poured, hand-dipped, rolled beeswax candles",
-                        "🧴 Cosmetics – Lip balm, lotions, soaps, skincare with beeswax",
-                        "🎨 Crafts – Wax wraps, ornaments, encaustic art, polish",
-                        "🛡️ Safety – Hot wax handling, respiratory protection, fire safety",
-                        "💰 Costing – Wax cost, value addition, retail pricing, profit"
-                    ] },
-                { title: "Pollination Services", desc: "Provide pollination services to farmers for crop production.",
-                    ingredients: "Hives, truck, frames, queens, pollination contracts",
-                    safety: "⚠️ Transport hives safely. Follow pesticide application guidelines.",
-                    modules: ["🌻 Pollination Biology – Crop requirements, bee behavior, foraging",
-                        "📋 Contracts – Pricing, hive placement, monitoring, billing",
-                        "🚚 Logistics – Hive transport, placement, rotation, recovery",
-                        "🛡️ Safety – Transport safety, pesticide avoidance, biosecurity",
-                        "💰 Costing – Hive rental rates, transport, labor, profit"
-                    ] },
-                { title: "Beekeeping Business", desc: "Build a profitable beekeeping business from scratch.",
-                    ingredients: "Business plan, financial tools, marketing materials, bees, equipment",
-                    safety: "⚠️ Follow business regulations. Maintain safety standards.",
-                    modules: ["📊 Business Planning – Goals, strategy, finance, marketing",
-                        "📈 Operations – Production, inventory, quality, logistics",
-                        "🤝 Sales & Marketing – Branding, distribution, customer relationships",
-                        "🛡️ Risk Management – Insurance, safety, contingency planning",
-                        "💰 Costing – Financial modeling, pricing, ROI, profit maximization"
-                    ] },
-                { title: "Urban Beekeeping", desc: "Keep bees successfully in urban and suburban environments.",
-                    ingredients: "Hives, bees, urban-friendly equipment, neighbor relations",
-                    safety: "⚠️ Manage swarms safely. Communicate with neighbors effectively.",
-                    modules: ["🏙️ Urban Setup – Rooftop, balcony, garden, community spaces",
-                        "👥 Neighbor Relations – Communication, education, swarm management",
-                        "🌺 Forage Management – Urban flowers, trees, agricultural practices",
-                        "🛡️ Safety – Flight paths, shade, water, emergency planning",
-                        "💰 Costing – Urban overhead, value of honey, profit potential"
-                    ] },
-                { title: "African Bee Management", desc: "Specialized management for African honey bee subspecies.",
-                    ingredients: "Hives, bees, local equipment, protective gear, experience",
-                    safety: "⚠️ African bees are defensive. Use extra caution and protective gear.",
-                    modules: ["🐝 African Subspecies – A. m. scutellata, A. m. adansonii, behavior",
-                        "🏠 Hive Management – Swarming, absconding, defensiveness, temperament",
-                        "🌿 Seasonal Cycles – Dry season, rainy season, honey flows, migration",
-                        "🛡️ Safety – Defensive bee handling, protective gear, emergency protocols",
-                        "💰 Costing – Local equipment, bee prices, African market opportunities"
-                    ] },
-                { title: "Honey Packaging", desc: "Professional honey packaging for retail and wholesale markets.",
-                    ingredients: "Honey, glass jars, labels, seals, packaging materials, equipment",
-                    safety: "⚠️ Food safety standards apply. Use food-grade materials.",
-                    modules: ["🏷️ Packaging Design – Labels, branding, information requirements",
-                        "🔧 Bottling Process – Filling, capping, labeling, sealing",
-                        "📊 Quality Control – Consistency, clarity, moisture content, microbial",
-                        "🛡️ Safety – Food safety standards, HACCP, contamination prevention",
-                        "💰 Costing – Materials, labor, packaging design, profit per unit"
-                    ] },
-                { title: "Propolis Production", desc: "Harvest and process propolis for use in health and beauty products.",
-                    ingredients: "Propolis traps, ethanol, equipment, storage containers",
-                    safety: "⚠️ Propolis can cause allergies. Use protective equipment.",
-                    modules: ["🌿 Harvesting – Propolis collection methods, traps, timing",
-                        "🔬 Processing – Cleaning, extraction, tincture preparation",
-                        "🧴 Applications – Health products, cosmetics, oral care, skin care",
-                        "🛡️ Safety – Allergen management, purity standards, contamination",
-                        "💰 Costing – Propolis value, processing costs, product pricing, profit"
-                    ] },
-                { title: "Bee Suit Making", desc: "Design and make professional beekeeping protective suits and gear.",
-                    ingredients: "Fabric (cotton, polycotton), zippers, elastic, veils, thread, sewing machines",
-                    safety: "⚠️ Use proper sewing equipment. Test materials for durability.",
-                    modules: ["🧵 Materials – Suit fabric, veil materials, zippers, elastic, thread",
-                        "📐 Pattern Design – Suit, veil, gloves, gaiters patterns and sizing",
-                        "🪡 Construction – Cutting, sewing, assembly, quality control",
-                        "🛡️ Safety – Test for tear resistance, sting protection, ventilation",
-                        "💰 Costing – Materials, labor, pattern costs, profit margins"
-                    ] },
-                { title: "Hive Migration", desc: "Transport hives between apiaries for pollination or seasonal management.",
-                    ingredients: "Hives, migration equipment, straps, netting, truck, safety gear",
-                    safety: "⚠️ Secure hives properly. Follow road transport regulations.",
-                    modules: ["🚛 Migration Planning – Site selection, timing, logistics, routes",
-                        "🔧 Preparation – Secure hives, screening, strapping, load plan",
-                        "🚚 Transport – Loading, driving, unloading, placement, recovery",
-                        "🛡️ Safety – Load securement, road safety, bee safety, emergency protocols",
-                        "💰 Costing – Transport costs, hive management, labor, profit"
-                    ] },
-                { title: "Beekeeping Equipment", desc: "Maintain and repair beekeeping tools and equipment for longevity.",
-                    ingredients: "Tools, spare parts, lubricants, cleaning supplies, storage solutions",
-                    safety: "⚠️ Use tools safely. Maintain equipment in clean condition.",
-                    modules: ["🔧 Equipment Types – Smokers, hive tools, extractors, protective gear",
-                        "🛠️ Maintenance – Cleaning, repairing, replacing, storage",
-                        "⚙️ Repair Techniques – Welding, woodworking, tool sharpening",
-                        "🛡️ Safety – Tool safety, chemical safety, maintenance best practices",
-                        "💰 Costing – Equipment valuation, maintenance costs, replacement planning"
-                    ] }
-            ],
-            // === AQUACULTURE (15 rich courses) ===
-            "Aquaculture": [
-                { title: "Fish Farming Basics", desc: "Start your own fish farm with pond setup and fish health management.",
-                    ingredients: "Fish fingerlings, feed, pond liner, aeration equipment, water testing kit",
-                    safety: "⚠️ Water safety and biosecurity are essential. Keep nets and tools clean.",
-                    modules: ["🐟 Fish Species – Tilapia, catfish, carp, trout selection",
-                        "🏊 Pond Setup – Site selection, lining, filling, stocking",
-                        "🍽️ Feeding & Growth – Nutrition, feeding schedules, growth monitoring",
-                        "🛡️ Safety – Biosecurity, water quality, disease prevention",
-                        "💰 Costing – Fingerling cost, feed, equipment, labor, profit"
-                    ] },
-                { title: "Catfish & Tilapia Production", desc: "Commercial-scale catfish and tilapia farming for maximum production.",
-                    ingredients: "Fingerlings, commercial feed, aeration, water treatment, harvesting tools",
-                    safety: "⚠️ Maintain water quality. Prevent escapes and disease.",
-                    modules: ["🐟 Breeding – Hatchery, spawning, fry rearing, fingerling production",
-                        "🌊 Grow-Out – Pond preparation, stocking, feeding, water management",
-                        "🎣 Harvesting – Methods, processing, marketing, distribution",
-                        "🛡️ Safety – Biosecurity, disease management, water quality, safety",
-                        "💰 Costing – Production costs, market value, profit analysis"
-                    ] },
-                { title: "Aquaponics Mastery", desc: "Integrate fish farming with hydroponics for sustainable food production.",
-                    ingredients: "Fish, plants, grow beds, pumps, filters, water testing kit",
-                    safety: "⚠️ Water recirculation systems require careful monitoring. Balance nutrients.",
-                    modules: ["🌱 System Design – Recirculating systems, grow beds, plumbing",
-                        "🐟 Fish Selection – Tilapia, carp, catfish for aquaponics",
-                        "🌿 Plant Production – Lettuce, herbs, tomatoes, water quality",
-                        "🛡️ Safety – Water quality, disease management, food safety",
-                        "💰 Costing – Build costs, fish feed, plant inputs, profit"
-                    ] },
-                { title: "Fish Processing Mastery", desc: "Process fish for market with smoking, drying, and packaging.",
-                    ingredients: "Fresh fish, salt, smoking equipment, drying racks, packaging materials",
-                    safety: "⚠️ Maintain hygiene. Follow food safety standards.",
-                    modules: ["🐟 Processing Types – Smoking, drying, salting, pickling, freezing",
-                        "🔧 Equipment – Smokers, dehydrators, freezing equipment, packaging",
-                        "📊 Quality Control – Hygiene, safety, shelf life, packaging standards",
-                        "🛡️ Safety – Food safety HACCP, contamination prevention, storage",
-                        "💰 Costing – Processing costs, value addition, profit margins"
-                    ] },
-                { title: "Pond Construction", desc: "Build durable, productive fish ponds from excavation to water management.",
-                    ingredients: "Earthmoving equipment, pond liner, pipe fittings, water source",
-                    safety: "⚠️ Excavation safety. Proper compaction. Worker protection.",
-                    modules: ["🏗️ Site Selection – Topography, water source, soil type, drainage",
-                        "🚜 Excavation – Earthmoving, shaping, compaction, lining",
-                        "💧 Water Management – Inlet/outlet, pumps, aeration, drainage",
-                        "🛡️ Safety – Equipment safety, excavation safety, water safety",
-                        "💰 Costing – Excavation costs, materials, labor, profit"
-                    ] },
-                { title: "Fish Health Mastery", desc: "Diagnose and treat fish diseases in aquaculture systems.",
-                    ingredients: "Diagnostic tools, medications, vaccines, water testing kit",
-                    safety: "⚠️ Handle medications safely. Follow withdrawal periods.",
-                    modules: ["🦠 Disease Identification – Viral, bacterial, parasitic, fungal",
-                        "🔬 Diagnosis – Histology, microbiology, water quality analysis",
-                        "💊 Treatment – Medications, vaccines, probiotics, management",
-                        "🛡️ Safety – Medication safety, withdrawal periods, biosecurity",
-                        "💰 Costing – Disease costs, treatment costs, prevention savings"
-                    ] },
-                { title: "Ornamental Fish Mastery", desc: "Breed and sell ornamental fish for the aquarium trade.",
-                    ingredients: "Breeding tanks, filters, heaters, fish, aquarium plants, food",
-                    safety: "⚠️ Handle fish gently. Maintain tank hygiene. Prevent escapes.",
-                    modules: ["🐠 Species Selection – Guppies, tetras, goldfish, cichlids, bettas",
-                        "🏺 Breeding – Water chemistry, spawning, fry rearing, selection",
-                        "🌿 Aquascaping – Plants, decorations, lighting, water quality",
-                        "🛡️ Safety – Disease prevention, water quality, biosecurity",
-                        "💰 Costing – Setup costs, fish value, aquarium plant value, profit"
-                    ] },
-                { title: "Fish Feed Production", desc: "Produce high-quality fish feed at lower cost using local ingredients.",
-                    ingredients: "Fish meal, soybean meal, wheat flour, vitamin premix, oil, binder",
-                    safety: "⚠️ Feed hygiene is critical. Store properly to prevent spoilage.",
-                    modules: ["📊 Nutrition – Protein, fat, carbohydrates, vitamins, minerals",
-                        "🔧 Production – Ingredient selection, milling, pelletizing, drying",
-                        "📈 Quality Control – Protein content, pellet stability, digestibility",
-                        "🛡️ Safety – Feed safety, mycotoxin prevention, storage",
-                        "💰 Costing – Ingredient costs, production, savings, profit"
-                    ] },
-                { title: "Cold Chain Logistics", desc: "Manage cold chain for fish preservation and distribution.",
-                    ingredients: "Refrigeration, insulation, temperature monitoring, packaging",
-                    safety: "⚠️ Maintain temperature integrity. Prevent contamination and spoilage.",
-                    modules: ["❄️ Cold Chain Design – Refrigeration, insulation, monitoring",
-                        "🚛 Transport – Vehicles, loading, routing, temperature control",
-                        "📦 Packaging – Materials, labeling, handling, storage",
-                        "🛡️ Safety – Food safety, temperature abuse, contamination prevention",
-                        "💰 Costing – Refrigeration costs, logistics, savings, profit"
-                    ] },
-                { title: "Smoked Fish Mastery", desc: "Master the art of hot and cold smoking fish for premium products.",
-                    ingredients: "Fresh fish, brine, smoking wood, smoker, storage materials",
-                    safety: "⚠️ Maintain hygiene. Control temperature during smoking.",
-                    modules: ["🔥 Smoking Types – Hot smoking, cold smoking, techniques",
-                        "🧂 Brining – Salt concentration, time, flavoring, drying",
-                        "🔧 Smoking Process – Wood selection, temperature control, timing",
-                        "🛡️ Safety – Food safety, temperature control, contamination prevention",
-                        "💰 Costing – Fish cost, smoking materials, value addition, profit"
-                    ] },
-                { title: "Fish Packaging Mastery", desc: "Package fish for retail and wholesale with appealing presentation.",
-                    ingredients: "Packaging materials (film, bags, trays), labels, sealing equipment",
-                    safety: "⚠️ Maintain hygiene. Follow food packaging standards.",
-                    modules: ["📦 Packaging Types – Vacuum packing, MAP, overwrap, trays",
-                        "🏷️ Labeling – Information requirements, branding, barcodes",
-                        "🔧 Equipment – Sealing machines, vacuum machines, labeling systems",
-                        "🛡️ Safety – Food safety, packaging integrity, hygiene, traceability",
-                        "💰 Costing – Materials, equipment, labor, profit per unit"
-                    ] },
-                { title: "Tilapia Farming Mastery", desc: "Commercial tilapia farming from fingerling to market.",
-                    ingredients: "Tilapia fingerlings, feed, aeration, water treatment, harvesting tools",
-                    safety: "⚠️ Maintain water quality. Prevent escapes and disease.",
-                    modules: ["🐟 Genetics – Breeding selection, sex reversal, fingerling production",
-                        "🌊 Grow-Out – Pond management, feeding, water quality, growth",
-                        "🎣 Harvesting – Techniques, processing, marketing, sales",
-                        "🛡️ Safety – Biosecurity, disease, water quality, safety protocols",
-                        "💰 Costing – Production costs, market prices, profit margins"
-                    ] },
-                { title: "Catfish Farming Mastery", desc: "Specialized catfish farming for commercial production.",
-                    ingredients: "Catfish fingerlings, feed, aeration, water treatment, harvesting equipment",
-                    safety: "⚠️ Catfish are resilient but require careful water management.",
-                    modules: ["🐟 Breeding – Hatchery, spawning, fingerling production, selection",
-                        "🌊 Grow-Out – Pond setup, stocking, feeding, water quality",
-                        "🎣 Harvesting – Methods, processing, marketing, distribution",
-                        "🛡️ Safety – Biosecurity, disease, water quality, handling safety",
-                        "💰 Costing – Production costs, market value, profit analysis"
-                    ] },
-                { title: "Water Quality Mastery", desc: "Maintain optimal water quality for fish health and production.",
-                    ingredients: "Water testing kit, chemicals, aeration equipment, filters",
-                    safety: "⚠️ Handle chemicals safely. Monitor water parameters consistently.",
-                    modules: ["📊 Parameters – pH, DO, ammonia, nitrite, nitrate, temperature",
-                        "🔬 Testing – Sampling, test kits, meters, laboratory analysis",
-                        "💧 Management – Aeration, water exchange, filtration, chemical adjustment",
-                        "🛡️ Safety – Chemical safety, worker safety, environmental protection",
-                        "💰 Costing – Testing equipment, chemicals, labor, maintenance"
-                    ] },
-                { title: "Fish Breeding Mastery", desc: "Breed fish for seed production and commercial production.",
-                    ingredients: "Breeding tanks, hormones, water treatment, feeding systems",
-                    safety: "⚠️ Handle hormones safely. Follow protocols for spawning.",
-                    modules: ["🧬 Genetics – Selection, breeding programs, hybridization",
-                        "🧪 Hormone Induction – Techniques, dosages, timing, spawning",
-                        "🥚 Incubation – Fertilization, incubation, hatching, larval rearing",
-                        "🛡️ Safety – Hormone safety, biosecurity, disease prevention",
-                        "💰 Costing – Breeding costs, seed sales, profit from seed"
-                    ] }
-            ],
-            // === CROP FARMING (10 rich courses) ===
-            "Crop Farming": [
-                { title: "Maize Production", desc: "Commercial maize farming from land prep to harvest and marketing.",
-                    ingredients: "Maize seed, fertilizer, pesticide, irrigation equipment, harvesting tools",
-                    safety: "⚠️ Use pesticides safely. Follow application guidelines and PPE.",
-                    modules: ["🌽 Land Preparation – Plowing, harrowing, ridging, seedbed preparation",
-                        "🌱 Planting – Seed selection, planting methods, spacing, population",
-                        "💧 Crop Management – Fertilizer, weed control, irrigation, pest management",
-                        "🛡️ Safety – Pesticide safety, machinery safety, food safety",
-                        "💰 Costing – Production costs, yield value, profit analysis"
-                    ] },
-                { title: "Vegetable Production", desc: "Grow high-value vegetables for local and export markets.",
-                    ingredients: "Vegetable seed, compost, fertilizer, irrigation, pest control",
-                    safety: "⚠️ Use pesticides safely. Follow food safety standards.",
-                    modules: ["🌿 Crop Selection – Tomatoes, peppers, onions, leafy greens, cabbages",
-                        "🌱 Nursery Management – Seed starting, transplanting, hardening",
-                        "💧 Field Management – Irrigation, fertilization, pest management, harvesting",
-                        "🛡️ Safety – Food safety, pesticide safety, worker safety",
-                        "💰 Costing – Input costs, market prices, profit margins"
-                    ] },
-                { title: "Rice Production", desc: "Lowland and upland rice farming for food security and income.",
-                    ingredients: "Rice seed, fertilizer, pesticide, water management equipment",
-                    safety: "⚠️ Maintain water balance. Follow pesticide safety. Use machinery safely.",
-                    modules: ["🌾 Land Preparation – Puddling, leveling, bund construction",
-                        "🌱 Planting – Seedbed, transplanting, direct seeding, water management",
-                        "💧 Crop Management – Water, fertilizer, pest management, harvesting",
-                        "🛡️ Safety – Water safety, pesticide safety, machinery safety",
-                        "💰 Costing – Production costs, milling, marketing, profit"
-                    ] },
-                { title: "Cassava Production", desc: "Commercial cassava farming for food and industrial uses.",
-                    ingredients: "Cassava cuttings, fertilizer, pesticide, harvesting tools",
-                    safety: "⚠️ Cassava contains cyanide. Process properly. Use pesticides safely.",
-                    modules: ["🌱 Land Preparation – Clearing, plowing, ridging, planting",
-                        "🌿 Crop Management – Weeding, fertilization, pest management",
-                        "🔪 Harvesting – Timing, methods, storage, processing",
-                        "🛡️ Safety – Cyanide safety, pesticide safety, worker safety",
-                        "💰 Costing – Production costs, processing, markets, profit"
-                    ] },
-                { title: "Tomato Production", desc: "High-yield tomato farming for fresh market and processing.",
-                    ingredients: "Tomato seed, fertilizer, pesticide, irrigation, stakes, twine",
-                    safety: "⚠️ Use pesticides safely. Follow pre-harvest intervals.",
-                    modules: ["🍅 Crop Selection – Varieties, disease resistance, market preferences",
-                        "🌱 Nursery – Seed starting, transplanting, hardening",
-                        "💧 Field Management – Staking, pruning, irrigation, fertilization, pest control",
-                        "🛡️ Safety – Pesticide safety, food safety, worker safety",
-                        "💰 Costing – Input costs, yield value, post-harvest handling, profit"
-                    ] },
-                { title: "Onion Production", desc: "Commercial onion production for local and export markets.",
-                    ingredients: "Onion seed, fertilizer, pesticide, irrigation equipment",
-                    safety: "⚠️ Onions have specific pest and disease pressures. Use IPM.",
-                    modules: ["🧅 Crop Selection – Bulb type, storage type, market preferences",
-                        "🌱 Nursery – Seed starting, transplanting, hardening",
-                        "💧 Crop Management – Irrigation, fertilization, weed control, pest management",
-                        "🛡️ Safety – Pesticide safety, harvest handling, storage safety",
-                        "💰 Costing – Production costs, storage costs, market prices, profit"
-                    ] },
-                { title: "Pepper Production", desc: "Chili and sweet pepper production for fresh and processed markets.",
-                    ingredients: "Pepper seed, fertilizer, pesticide, irrigation, stakes",
-                    safety: "⚠️ Chili peppers require careful handling. Use PPE when harvesting.",
-                    modules: ["🌶️ Crop Selection – Sweet peppers, chili peppers, specialty peppers",
-                        "🌱 Nursery – Seed starting, transplanting, hardening",
-                        "💧 Field Management – Staking, irrigation, fertilization, pest management",
-                        "🛡️ Safety – Harvest safety, pesticide safety, food safety",
-                        "💰 Costing – Input costs, market prices, processing value, profit"
-                    ] },
-                { title: "Soybean Production", desc: "Commercial soybean farming for oil and protein markets.",
-                    ingredients: "Soybean seed, fertilizer, pesticide, inoculation, harvesting equipment",
-                    safety: "⚠️ Follow pesticide safety. Use mechanical harvesting carefully.",
-                    modules: ["🌱 Land Preparation – Plowing, harrowing, seedbed preparation",
-                        "🌿 Planting – Seed selection, inoculation, planting methods, population",
-                        "💧 Crop Management – Fertilization, weed control, pest management",
-                        "🛡️ Safety – Pesticide safety, machinery safety, grain handling",
-                        "💰 Costing – Production costs, grain value, processing, profit"
-                    ] },
-                { title: "Groundnut Production", desc: "Commercial groundnut farming for oil and snack markets.",
-                    ingredients: "Groundnut seed, fertilizer, pesticide, irrigation, harvesting equipment",
-                    safety: "⚠️ Groundnuts can be contaminated with aflatoxin. Follow quality standards.",
-                    modules: ["🥜 Land Preparation – Plowing, harrowing, ridging, seedbed",
-                        "🌱 Planting – Seed selection, planting methods, spacing, inoculation",
-                        "💧 Crop Management – Fertilization, weed control, pest management, irrigation",
-                        "🛡️ Safety – Aflatoxin prevention, pesticide safety, harvest safety",
-                        "💰 Costing – Production costs, processing costs, market prices, profit"
-                    ] },
-                { title: "Pumpkin Production", desc: "Commercial pumpkin farming for fresh market and processing.",
-                    ingredients: "Pumpkin seed, fertilizer, pesticide, irrigation equipment",
-                    safety: "⚠️ Pumpkins have disease pressures. Follow IPM practices.",
-                    modules: ["🎃 Crop Selection – Varieties, market preferences, storage type",
-                        "🌱 Planting – Seed preparation, planting methods, spacing",
-                        "💧 Crop Management – Irrigation, fertilization, weed control, pest management",
-                        "🛡️ Safety – Pesticide safety, harvest safety, storage safety",
-                        "💰 Costing – Input costs, yield value, post-harvest handling, profit"
-                    ] }
-            ],
-            // === TECHNOLOGY (10 rich courses) ===
-            "Technology": [
-                { title: "Coding for Beginners", desc: "Start programming with HTML, CSS, and JavaScript from scratch.",
-                    ingredients: "Computer, text editor (VS Code), browser, learning resources",
-                    safety: "⚠️ Take breaks from screen time. Practice ergonomic typing.",
-                    modules: ["💻 Setup – Install VS Code, browser, developer tools",
-                        "📝 HTML – Structure, tags, semantic elements, forms, accessibility",
-                        "🎨 CSS – Styling, layout, flexbox, grid, responsive design",
-                        "⚡ JavaScript – Variables, functions, DOM manipulation, events",
-                        "💰 Costing – Freelance rates, project pricing, profit from skills"
-                    ] },
-                { title: "Web Development", desc: "Build full-stack web applications with modern technologies.",
-                    ingredients: "Computer, internet, development tools, hosting account",
-                    safety: "⚠️ Secure your code. Follow security best practices.",
-                    modules: ["🖥️ Frontend – HTML, CSS, JavaScript, React/Vue, responsive design",
-                        "🗄️ Backend – Node.js, Express, databases (MongoDB/SQL)",
-                        "🔐 Security – HTTPS, authentication, authorization, data protection",
-                        "📦 Deployment – Hosting, CI/CD, domain management, monitoring",
-                        "💰 Costing – Development costs, hosting, maintenance, profit"
-                    ] },
-                { title: "Data Analysis", desc: "Analyze data using Excel, Python, and data visualization tools.",
-                    ingredients: "Computer, Excel, Python, data sets, visualization tools",
-                    safety: "⚠️ Protect sensitive data. Follow data privacy guidelines.",
-                    modules: ["📊 Excel – Data entry, formulas, pivot tables, charts, macros",
-                        "🐍 Python – Pandas, NumPy, data cleaning, analysis, visualization",
-                        "📈 Visualization – Matplotlib, Tableau, PowerBI, storytelling",
-                        "📋 Business Insights – Dashboards, reporting, decision support",
-                        "💰 Costing – Data sources, tools, consulting rates, profit"
-                    ] },
-                { title: "Cybersecurity", desc: "Protect systems and networks from security threats.",
-                    ingredients: "Computer, networking tools, security software, practice labs",
-                    safety: "⚠️ Follow ethical hacking guidelines. Don't attack systems without permission.",
-                    modules: ["🔒 Security Basics – CIA triad, threat modeling, risk assessment",
-                        "🛡️ Network Security – Firewalls, VPN, IDS, monitoring, defense",
-                        "🐞 Vulnerability Assessment – Scanning, penetration testing, reporting",
-                        "📋 Incident Response – Detection, containment, recovery, forensics",
-                        "💰 Costing – Security tools, services, consulting, profit"
-                    ] },
-                { title: "Cloud Computing", desc: "Deploy and manage applications in the cloud with AWS/Azure/GCP.",
-                    ingredients: "Computer, internet, cloud provider account, CLI tools",
-                    safety: "⚠️ Follow cloud security best practices. Manage costs.",
-                    modules: ["☁️ Cloud Fundamentals – IaaS, PaaS, SaaS, deployment models",
-                        "📦 AWS/Azure/GCP – Compute, storage, networking, databases",
-                        "🔐 Security – IAM, compliance, encryption, monitoring",
-                        "🚀 Deployment – CI/CD, containers, serverless, infrastructure as code",
-                        "💰 Costing – Cloud pricing models, optimization, profit"
-                    ] },
-                { title: "Mobile App Development", desc: "Build cross-platform mobile apps with React Native or Flutter.",
-                    ingredients: "Computer, development tools, mobile devices, emulators",
-                    safety: "⚠️ Test on real devices. Follow app store guidelines.",
-                    modules: ["📱 Setup – Install React Native/Flutter, emulators, testing tools",
-                        "🎨 UI/UX – Design patterns, responsive layouts, animations",
-                        "⚡ Functionality – Navigation, state management, API integration",
-                        "📦 Deployment – App store submission, testing, updates",
-                        "💰 Costing – Development costs, app store fees, revenue models"
-                    ] },
-                { title: "Database Management", desc: "Design and manage databases for business applications.",
-                    ingredients: "Computer, database software (SQL/NoSQL), data modeling tools",
-                    safety: "⚠️ Secure data. Follow backup procedures. Manage permissions.",
-                    modules: ["🗃️ SQL – Design, queries, joins, indexing, transactions, optimization",
-                        "📊 NoSQL – Document, key-value, graph databases",
-                        "🔐 Security – Authentication, authorization, encryption, backup",
-                        "📈 Performance – Monitoring, tuning, scaling, high availability",
-                        "💰 Costing – Database tools, hosting, DBA rates, profit"
-                    ] },
-                { title: "DevOps Mastery", desc: "Automate software delivery with CI/CD pipelines and infrastructure as code.",
-                    ingredients: "Computer, Git, CI/CD tools, cloud accounts, infrastructure code",
-                    safety: "⚠️ Follow security best practices. Test infrastructure changes.",
-                    modules: ["🔄 Version Control – Git, GitHub/GitLab, branching strategies",
-                        "📦 CI/CD – Jenkins, GitHub Actions, build pipelines, deployment",
-                        "🧩 Infrastructure as Code – Terraform, Ansible, CloudFormation",
-                        "📊 Monitoring – Prometheus, Grafana, logs, alerting",
-                        "💰 Costing – Infrastructure costs, automation savings, profit"
-                    ] },
-                { title: "AI & Machine Learning", desc: "Build and deploy machine learning models for real-world applications.",
-                    ingredients: "Computer, Python, ML libraries (TensorFlow/PyTorch), data sets",
-                    safety: "⚠️ Follow AI ethics. Avoid bias in models. Protect data privacy.",
-                    modules: ["🧠 ML Fundamentals – Supervised, unsupervised, deep learning",
-                        "📊 Data Preparation – Collection, cleaning, feature engineering",
-                        "🤖 Model Building – Training, validation, tuning, evaluation",
-                        "🚀 Deployment – API, cloud deployment, monitoring, scaling",
-                        "💰 Costing – Data costs, compute, consulting, profit"
-                    ] },
-                { title: "Digital Marketing Mastery", desc: "Market products and services online with SEO, SEM, and social media.",
-                    ingredients: "Computer, internet, marketing tools (Google Ads, social media)",
-                    safety: "⚠️ Follow advertising guidelines. Respect user privacy.",
-                    modules: ["📢 SEO – Keyword research, on-page, off-page, technical SEO",
-                        "💰 SEM – Google Ads, bidding, ad copy, landing pages, analytics",
-                        "📱 Social Media – Content strategy, engagement, advertising, analytics",
-                        "📊 Analytics – Google Analytics, conversion tracking, reporting",
-                        "💰 Costing – Advertising budgets, tool costs, ROI calculation, profit"
-                    ] }
-            ],
-            // === HAIRDRESSING (5 rich courses) ===
-            "Hairdressing": [
-                { title: "Hairdressing Basics", desc: "Learn foundational hairdressing skills from cuts to styling.",
-                    ingredients: "Hair cutting tools, styling products, mannequins, chairs, towels",
-                    safety: "⚠️ Use sterile tools. Follow hygiene protocols.",
-                    modules: ["✂️ Tools – Shears, clippers, razors, combs, brushes",
-                        "💇 Haircuts – Techniques, layering, texturizing, fading",
-                        "🎨 Styling – Blow drying, curling, straightening, updos",
-                        "🛡️ Safety – Hygiene, sterilization, product safety, allergy awareness",
-                        "💰 Costing – Equipment, products, chair rental, profit"
-                    ] },
-                { title: "African Hair Braiding", desc: "Master traditional and modern African hair braiding techniques.",
-                    ingredients: "Hair extensions, braiding tools, styling products, mannequins",
-                    safety: "⚠️ Avoid pulling too tight. Use quality extensions.",
-                    modules: ["🧵 Tools – Braiding hair, combs, clips, needles",
-                        "🎨 Techniques – Cornrows, box braids, twists, crochet, knotless",
-                        "💇 Styling – Updos, styles, accessories, finishing",
-                        "🛡️ Safety – Scalp health, tension control, product safety",
-                        "💰 Costing – Extensions, time, salon overhead, profit"
-                    ] },
-                { title: "Hair Coloring", desc: "Professional hair coloring techniques from highlights to full color.",
-                    ingredients: "Hair color, developer, applicator, foil, cap, color chart",
-                    safety: "⚠️ Do patch tests. Follow manufacturer guidelines.",
-                    modules: ["🎨 Color Theory – Shade selection, mixing, placement",
-                        "🖌️ Application – Foiling, balayage, ombre, all-over color",
-                        "💇 Aftercare – Shampoo, conditioning, color maintenance",
-                        "🛡️ Safety – Patch tests, ventilation, chemical safety",
-                        "💰 Costing – Color supplies, labor, salon pricing, profit"
-                    ] },
-                { title: "Hair Extensions", desc: "Apply and style hair extensions for volume and length.",
-                    ingredients: "Hair extensions, tape, glue, tools, brushes, styling products",
-                    safety: "⚠️ Use quality extensions. Avoid damage to natural hair.",
-                    modules: ["🧵 Extension Types – Tape-in, sew-in, glue-in, micro-link, clip-ins",
-                        "🎨 Application – Placement, blending, cutting, styling",
-                        "💇 Maintenance – Washing, conditioning, reapplication, removal",
-                        "🛡️ Safety – Scalp health, glue safety, extension quality",
-                        "💰 Costing – Extensions cost, time, styling, profit"
-                    ] },
-                { title: "Salon Management", desc: "Run a successful hair salon from marketing to financial management.",
-                    ingredients: "Business plan, salon equipment, POS system, marketing materials",
-                    safety: "⚠️ Follow salon regulations. Maintain safety standards.",
-                    modules: ["📊 Business Planning – Mission, services, pricing, target market",
-                        "📈 Operations – Scheduling, inventory, customer service, team management",
-                        "🤝 Marketing – Social media, promotions, loyalty programs, SEO",
-                        "🛡️ Safety – Health compliance, product safety, emergency protocols",
-                        "💰 Costing – Overhead, labor, product costs, profit maximization"
-                    ] }
-            ],
-            // === TAILORING (5 rich courses) ===
-            "Tailoring": [
-                { title: "Sewing Basics", desc: "Learn fundamental sewing skills from threading to completing garments.",
-                    ingredients: "Sewing machine, threads, fabric, scissors, measuring tape, pins",
-                    safety: "⚠️ Use sewing machine safely. Keep fingers clear of needle.",
-                    modules: ["🧵 Machine Basics – Threading, tension, stitches, maintenance",
-                        "📐 Patterns – Reading, adjusting, cutting, marking",
-                        "🪡 Construction – Seams, hems, zippers, buttonholes, finishing",
-                        "🛡️ Safety – Machine safety, tool safety, electrical safety",
-                        "💰 Costing – Materials, time, garment pricing, profit"
-                    ] },
-                { title: "Garment Construction", desc: "Build garments from pattern to finished product.",
-                    ingredients: "Fabric, thread, zippers, buttons, interfacing, sewing supplies",
-                    safety: "⚠️ Use sharp tools carefully. Follow pattern instructions.",
-                    modules: ["📐 Pattern Making – Drafting, fitting, adjustments, grading",
-                        "🪡 Sewing – Sequence, assembly, fitting, finishing",
-                        "🧵 Details – Collars, cuffs, pockets, waistbands, linings",
-                        "🛡️ Safety – Tool safety, electrical safety, workspace safety",
-                        "💰 Costing – Materials, labor, garment value, profit"
-                    ] },
-                { title: "Tailoring & Alterations", desc: "Master the art of fitting and altering ready-made garments.",
-                    ingredients: "Sewing machine, threads, fabric, pins, measuring tape, chalk",
-                    safety: "⚠️ Use sharp tools carefully. Work in well-lit area.",
-                    modules: ["📐 Fitting – Taking measurements, fitting techniques, adjustments",
-                        "🔧 Alterations – Hemming, taking in, letting out, sleeve adjustments",
-                        "🧵 Advanced – Suit tailoring, jackets, formal wear",
-                        "🛡️ Safety – Tool safety, client handling, measurement accuracy",
-                        "💰 Costing – Alteration pricing, time, material costs, profit"
-                    ] },
-                { title: "African Fashion", desc: "Design and sew African-inspired garments using traditional fabrics.",
-                    ingredients: "Ankara, kente, lace, thread, patterns, sewing supplies",
-                    safety: "⚠️ Use fabric shears carefully. Follow cultural design elements.",
-                    modules: ["🧵 Fabric Knowledge – Ankara, kente, lace, printed textiles",
-                        "📐 Designs – Traditional, modern, fusion, cultural elements",
-                        "🪡 Construction – Assembling, details, finishing, quality control",
-                        "🛡️ Safety – Tool safety, fabric handling, workspace safety",
-                        "💰 Costing – Fabric costs, design value, market pricing, profit"
-                    ] },
-                { title: "Fashion Business", desc: "Launch and grow a profitable fashion brand from concept to market.",
-                    ingredients: "Business plan, samples, materials, marketing, sales channels",
-                    safety: "⚠️ Follow fashion industry regulations. Maintain quality standards.",
-                    modules: ["📊 Business Planning – Brand identity, target market, pricing",
-                        "📈 Production – Sourcing, manufacturing, quality control, inventory",
-                        "🤝 Marketing – Social media, fashion shows, pop-up shops, e-commerce",
-                        "🛡️ Safety – Quality standards, compliance, sustainability",
-                        "💰 Costing – Production costs, wholesale pricing, retail profit"
-                    ] }
-            ],
-            // === CARPENTRY (5 rich courses) ===
-            "Carpentry": [
-                { title: "Carpentry Basics", desc: "Start woodworking with fundamental tools and techniques.",
-                    ingredients: "Wood, saw, hammer, tape measure, square, chisels, sandpaper",
-                    safety: "⚠️ Wear safety glasses. Use sharp tools carefully.",
-                    modules: ["🔨 Tools – Measuring, cutting, joining, finishing tools",
-                        "🪚 Techniques – Cutting, jointing, fastening, sanding",
-                        "📐 Projects – Shelves, boxes, furniture, construction",
-                        "🛡️ Safety – Tool safety, dust protection, electrical safety",
-                        "💰 Costing – Wood, tools, project value, profit"
-                    ] },
-                { title: "Furniture Making", desc: "Build beautiful and functional furniture for home and business.",
-                    ingredients: "Hardwood, softwood, joinery, glue, finish, hardware",
-                    safety: "⚠️ Use power tools safely. Wear hearing protection.",
-                    modules: ["🪵 Design – Furniture design, scale drawings, material selection",
-                        "🔨 Joinery – Dovetails, mortise and tenon, biscuits, dowels",
-                        "🎨 Finishing – Sanding, staining, varnishing, painting",
-                        "🛡️ Safety – Power tool safety, dust control, chemical safety",
-                        "💰 Costing – Materials, labor, furniture value, profit"
-                    ] },
-                { title: "Roofing & Construction", desc: "Build roofs and structural elements for buildings.",
-                    ingredients: "Timber, nails, roof tiles, insulation, safety equipment",
-                    safety: "⚠️ Work at height requires PPE. Follow structural guidelines.",
-                    modules: ["🏗️ Design – Load calculations, trusses, rafters, purlins",
-                        "🔨 Construction – Assembly, installation, bracing, finishing",
-                        "🏠 Roofing – Tiling, shingling, flashing, waterproofing",
-                        "🛡️ Safety – Height safety, PPE, load safety, electrical",
-                        "💰 Costing – Materials, labor, project estimation, profit"
-                    ] },
-                { title: "Cabinet Making", desc: "Design and build custom cabinets for kitchens and living spaces.",
-                    ingredients: "Wood, plywood, veneers, joinery, hardware, finish",
-                    safety: "⚠️ Use woodworking tools safely. Follow precision standards.",
-                    modules: ["📐 Design – Cabinet design, dimensions, material selection",
-                        "🔨 Construction – Joinery, assembly, installation, hardware",
-                        "🎨 Finishing – Sanding, painting, staining, lacquering",
-                        "🛡️ Safety – Tool safety, dust control, chemical safety",
-                        "💰 Costing – Materials, labor, cabinet value, profit"
-                    ] },
-                { title: "Woodturning", desc: "Create turned wood products with lathes and turning tools.",
-                    ingredients: "Wood blanks, lathe, turning tools, face shield, dust mask",
-                    safety: "⚠️ Use face shield. Avoid loose clothing. Secure work.",
-                    modules: ["🔧 Setup – Lathe assembly, tool preparation, safety checks",
-                        "🪚 Techniques – Roughing, shaping, scraping, finishing",
-                        "📐 Projects – Bowls, pens, spindles, table legs, candlesticks",
-                        "🛡️ Safety – Lathe safety, dust protection, eye protection",
-                        "💰 Costing – Wood blanks, tooling, finished product value, profit"
-                    ] }
-            ],
-            // === BAKING (5 rich courses) ===
-            "Baking": [
-                { title: "Baking Basics", desc: "Start baking with fundamental techniques from breads to cakes.",
-                    ingredients: "Flour, sugar, yeast, eggs, butter, milk, baking tools",
-                    safety: "⚠️ Follow food safety. Use oven mitts. Handle hot items.",
-                    modules: ["🍞 Breads – Yeast, kneading, rising, baking, types of bread",
-                        "🎂 Cakes – Batter, creaming, mixing, baking, frosting",
-                        "🍪 Pastries – Puff, choux, shortcrust, fillings, baking",
-                        "🛡️ Safety – Food safety, oven safety, allergen management",
-                        "💰 Costing – Ingredients, baking costs, product value, profit"
-                    ] },
-                { title: "Bread Making", desc: "Master artisan bread baking from sourdough to baguettes.",
-                    ingredients: "Flour, water, salt, yeast (or starter), baking tools",
-                    safety: "⚠️ Handle hot items with care. Follow food safety guidelines.",
-                    modules: ["🌾 Ingredients – Flour types, hydration, yeast, salt, additives",
-                        "🔧 Techniques – Kneading, folding, shaping, scoring",
-                        "🔥 Baking – Oven types, steaming, timing, crust development",
-                        "🛡️ Safety – Food safety, oven safety, hot handling",
-                        "💰 Costing – Ingredient costs, bakery pricing, profit margins"
-                    ] },
-                { title: "Cake Decoration", desc: "Decorate cakes professionally with fondant, buttercream, and techniques.",
-                    ingredients: "Cake, fondant, buttercream, colors, tools, piping bags",
-                    safety: "⚠️ Use food-safe colors. Follow food safety guidelines.",
-                    modules: ["🎨 Fondant – Rolling, covering, modeling, tooling, painting",
-                        "🍰 Buttercream – Buttercream, piping, borders, rosettes, flowers",
-                        "🛠️ Tools – Airbrushing, stencils, molds, sculpting",
-                        "🛡️ Safety – Food safety, allergen awareness, tool safety",
-                        "💰 Costing – Materials, time, decoration value, profit"
-                    ] },
-                { title: "Pastry & Pie Making", desc: "Make delicious pastries and pies for restaurants and bakeries.",
-                    ingredients: "Flour, butter, sugar, fruit, custard, baking tools",
-                    safety: "⚠️ Handle hot sugar carefully. Follow food safety.",
-                    modules: ["🧈 Pastry – Shortcrust, puff, choux, hot water crust",
-                        "🍒 Fillings – Fruit, custard, cream, savory, sweet",
-                        "🔥 Baking – Blind baking, baking times, finishing, glazing",
-                        "🛡️ Safety – Food safety, hot handling, allergen management",
-                        "💰 Costing – Ingredients, baking costs, pastry value, profit"
-                    ] },
-                { title: "Bakery Business", desc: "Start and grow a profitable bakery from home or commercial.",
-                    ingredients: "Business plan, equipment, ingredients, marketing materials",
-                    safety: "⚠️ Follow food safety regulations. Maintain hygiene standards.",
-                    modules: ["📊 Business Planning – Products, pricing, target market, operations",
-                        "📈 Production – Scaling, inventory, quality control, waste management",
-                        "🤝 Marketing – Branding, social media, local marketing, delivery",
-                        "🛡️ Safety – Food safety, licensing, health inspection, staff safety",
-                        "💰 Costing – Production costs, overhead, pricing, profit"
-                    ] }
-            ],
-            // === CONSTRUCTION (5 rich courses) ===
-            "Construction": [
-                { title: "Construction Basics", desc: "Start in construction with fundamental skills and safety.",
-                    ingredients: "Blueprints, tools, materials (concrete, wood, steel), safety gear",
-                    safety: "⚠️ Use PPE: hard hat, safety boots, gloves, eye protection.",
-                    modules: ["📐 Blueprint Reading – Plans, elevations, sections, details",
-                        "🔧 Tools – Hand tools, power tools, equipment, maintenance",
-                        "🏗️ Materials – Concrete, wood, steel, masonry, finishing",
-                        "🛡️ Safety – PPE, site safety, equipment safety, emergency protocols",
-                        "💰 Costing – Materials, labor, equipment, profit margins"
-                    ] },
-                { title: "Masonry & Bricklaying", desc: "Master the art of laying bricks, blocks, and stonework.",
-                    ingredients: "Bricks, mortar, trowel, level, mason line, mixing equipment",
-                    safety: "⚠️ Lift safely. Protect eyes from splashes. Use scaffolding.",
-                    modules: ["🧱 Materials – Bricks, blocks, mortar types, stone, admixtures",
-                        "🔧 Tools – Trowels, levels, floats, jointers, mixers",
-                        "🏗️ Techniques – Laying, pointing, corners, arches, walls",
-                        "🛡️ Safety – Lifting safety, PPE, scaffolding, dust control",
-                        "💰 Costing – Materials, labor, project pricing, profit"
-                    ] },
-                { title: "Concrete Works", desc: "Mix, place, and finish concrete for foundations and structures.",
-                    ingredients: "Cement, aggregate, water, admixtures, finishing tools",
-                    safety: "⚠️ Concrete burns. Wear gloves. Use proper PPE.",
-                    modules: ["🧪 Mix Design – Ratios, admixtures, workability, curing",
-                        "🔧 Placing – Formwork, reinforcement, placement, compaction",
-                        "🎨 Finishing – Floating, troweling, broom, stamping, sealing",
-                        "🛡️ Safety – PPE, handling safety, curing safety, heat protection",
-                        "💰 Costing – Materials, equipment, labor, profit"
-                    ] },
-                { title: "Electrical Installation", desc: "Install electrical systems for buildings and homes.",
-                    ingredients: "Cable, conduit, switches, sockets, distribution board, tools",
-                    safety: "⚠️ Work de-energized. Use testers. Follow electrical codes.",
-                    modules: ["🔌 Wiring – Cable types, sizing, routing, termination",
-                        "📊 Distribution – Boards, MCBs, RCDs, earthing, bonding",
-                        "💡 Lighting – Design, circuits, switching, emergency lighting",
-                        "🛡️ Safety – Isolation, testing, PPE, regulatory compliance",
-                        "💰 Costing – Materials, labor, project pricing, profit"
-                    ] },
-                { title: "Plumbing Basics", desc: "Install and maintain plumbing systems for homes and buildings.",
-                    ingredients: "Pipes, fittings, valves, solder, tools, thread sealant",
-                    safety: "⚠️ Use correct PPE. Follow plumbing codes. Check for leaks.",
-                    modules: ["🔧 Pipe Types – PVC, copper, PEX, galvanized, fittings",
-                        "📐 Layout – Design, routing, venting, drainage, water supply",
-                        "🔩 Installation – Cutting, joining, soldering, threading",
-                        "🛡️ Safety – PPE, soldering safety, chemical safety, leak testing",
-                        "💰 Costing – Materials, labor, project pricing, profit"
-                    ] }
-            ],
-            // === LEADERSHIP (5 rich courses) ===
-            "Leadership": [
-                { title: "Leadership Fundamentals", desc: "Develop essential leadership skills for any organization.",
-                    ingredients: "Books, case studies, leadership models, coaching materials",
-                    safety: "⚠️ Lead with integrity. Follow ethical leadership principles.",
-                    modules: ["🧠 Leadership Models – Theories, styles, situational leadership",
-                        "🗣️ Communication – Active listening, feedback, delegation, conflict",
-                        "🤝 Team Building – Motivation, team dynamics, collaboration, trust",
-                        "🛡️ Ethics – Integrity, transparency, accountability, ethical decisions",
-                        "💰 Costing – Leadership ROI, development costs, organizational value"
-                    ] },
-                { title: "Team Management", desc: "Build and manage high-performing teams in any workplace.",
-                    ingredients: "Team assessment tools, performance metrics, coaching framework",
-                    safety: "⚠️ Respect diversity. Manage conflict constructively.",
-                    modules: ["📊 Assessment – Skills, personalities, strengths, gaps",
-                        "📈 Performance – Goal setting, KPIs, feedback, appraisals",
-                        "🤝 Collaboration – Communication, meetings, decision-making, trust",
-                        "🛡️ Safety – Psychological safety, diversity, conflict resolution",
-                        "💰 Costing – Team productivity, retention, development costs"
-                    ] },
-                { title: "Strategic Leadership", desc: "Set vision and strategy for organizational success.",
-                    ingredients: "Strategy frameworks, market analysis, financial modeling",
-                    safety: "⚠️ Follow governance. Mitigate strategic risks.",
-                    modules: ["🔭 Vision – Strategy formulation, mission, vision, values",
-                        "📊 Analysis – Market, competition, SWOT, PESTEL, trends",
-                        "📈 Execution – Roadmap, resource allocation, monitoring, adaptation",
-                        "🛡️ Safety – Risk management, governance, compliance, ethics",
-                        "💰 Costing – Strategy development, execution costs, ROI"
-                    ] },
-                { title: "Change Management", desc: "Lead organizational change effectively with minimal disruption.",
-                    ingredients: "Change framework, communication plan, training materials",
-                    safety: "⚠️ Support employees through change. Mitigate resistance.",
-                    modules: ["📊 Diagnosis – Change readiness, impact assessment, stakeholder analysis",
-                        "📈 Planning – Change strategy, communication, training, timeline",
-                        "🚀 Execution – Implementation, support, feedback, reinforcement",
-                        "🛡️ Safety – Employee support, resistance management, risk mitigation",
-                        "💰 Costing – Change costs, efficiency gains, ROI"
-                    ] },
-                { title: "Leadership for Africa", desc: "Develop leadership skills tailored to the African context.",
-                    ingredients: "Case studies, African leadership models, coaching materials",
-                    safety: "⚠️ Respect cultural diversity. Lead with context awareness.",
-                    modules: ["🌍 Context – African history, culture, economic, political",
-                        "🧠 Leadership – African models, indigenous leadership, Ubuntu",
-                        "🤝 Community – Engagement, partnerships, social impact, sustainability",
-                        "🛡️ Ethics – Cultural sensitivity, integrity, governance, accountability",
-                        "💰 Costing – Leadership value, community ROI, sustainable profit"
-                    ] }
-            ]
+            "Automotive": [{
+                title: "Engine Repair & Maintenance",
+                desc: "Master engine diagnostics, repair, and maintenance for modern vehicles.",
+                ingredients: "Engine oil, filters, spark plugs, gaskets, sealants, diagnostic tools",
+                safety: "⚠️ Use jack stands. Disconnect battery before electrical work. Wear safety glasses.",
+                modules: ["🔧 Engine Fundamentals – Understand 4-stroke & 2-stroke engines",
+                    "🔩 Diagnostics & Tools – Use OBD-II scanners and multimeters",
+                    "⚙️ Step-by-Step Repair – Timing belts, piston rings, cylinder heads",
+                    "🛡️ Safety & Precautions – Lift safety, fire prevention, chemical handling",
+                    "💰 Costing & Profit – Parts markup, labor rates, profit margins"
+                ],
+                moduleContent: {
+                    intro: "This comprehensive engine repair course covers everything from basic engine operation to advanced diagnostics. You'll learn to identify common engine problems, use diagnostic tools effectively, and perform major repairs with confidence. The course emphasizes practical, hands-on skills that you can immediately apply in a workshop environment.",
+                    ingredients: "<strong>Essential Tools & Materials:</strong><ul><li>Engine oil (5W-30 or manufacturer specified)</li><li>Oil filters, air filters, fuel filters</li><li>Spark plugs with correct gap setting</li><li>Gasket sets and sealants</li><li>Diagnostic tools: OBD-II scanner, multimeter, compression tester</li><li>Safety equipment: Gloves, safety glasses, jack stands</li></ul>",
+                    process: "<strong>Step-by-Step Repair Process:</strong><ul><li>Step 1: Safety first – Park on level ground, engage parking brake, disconnect battery</li><li>Step 2: Diagnostic scan – Connect OBD-II scanner, read error codes, analyze data</li><li>Step 3: Visual inspection – Check for leaks, worn belts, damaged hoses, fluid levels</li><li>Step 4: Component testing – Test compression, fuel pressure, ignition system</li><li>Step 5: Repair execution – Replace worn parts, adjust timing, rebuild components</li><li>Step 6: Final testing – Reconnect battery, test drive, verify repair success</li></ul>",
+                    safety: "<strong>Critical Safety Guidelines:</strong><ul><li>⚠️ Always use jack stands – never rely on a jack alone</li><li>⚠️ Disconnect battery before any electrical work</li><li>⚠️ Wear safety glasses and gloves when handling fluids</li><li>⚠️ Use proper ventilation when working with chemicals</li><li>⚠️ Keep fire extinguisher within reach at all times</li><li>⚠️ Follow torque specifications for all fasteners</li></ul>",
+                    costing: "<strong>Costing & Profit Analysis:</strong><ul><li>Parts cost: $150–$600 depending on repair type</li><li>Labor time: 2–8 hours depending on complexity</li><li>Shop labor rate: $80–$150/hour</li><li>Total shop cost: Parts + Labor</li><li>Customer price: Total cost × 1.4–1.6 (40–60% markup)</li><li>Profit margin: 25–35% on parts, 60–70% on labor</li></ul>"
+                }
+            }, {
+                title: "Brake Systems & Safety",
+                desc: "Complete brake system repair from pads to ABS modules.",
+                ingredients: "Brake pads, rotors, calipers, brake fluid, ABS sensors, tools",
+                safety: "⚠️ Brake fluid is corrosive. Use jack stands. Bleed brakes properly.",
+                modules: ["🚗 Brake Types – Disc, drum, and ABS systems",
+                    "🔧 Inspection & Diagnosis – Wear patterns, fluid leaks, ABS codes",
+                    "🔩 Replacement Procedure – Pads, rotors, calipers, master cylinder",
+                    "🛡️ Safety Protocols – Bleeding brakes, testing, road safety",
+                    "💰 Costing – Parts pricing, labor estimation, profit analysis"
+                ],
+                moduleContent: {
+                    intro: "Brake systems are the most critical safety component of any vehicle. This course teaches you to diagnose, repair, and maintain all types of brake systems including disc, drum, and ABS. You'll learn proper bleeding techniques, pad replacement procedures, and how to test brake performance for maximum safety.",
+                    ingredients: "<strong>Materials & Tools:</strong><ul><li>Brake pads and shoes (ceramic or semi-metallic)</li><li>Brake rotors or drums</li><li>Brake calipers and hardware kits</li><li>Brake fluid (DOT 3, 4, or 5)</li><li>ABS sensors and wheel speed sensors</li><li>Brake bleeding tool, torque wrench, jack stands</li></ul>",
+                    process: "<strong>Step-by-Step Process:</strong><ul><li>Step 1: Safety – Chock wheels, use jack stands, remove wheels</li><li>Step 2: Inspection – Check pads, rotors, calipers, brake lines, fluid level</li><li>Step 3: Removal – Remove caliper, pads, rotors, inspect hardware</li><li>Step 4: Installation – Install new rotors, pads, calipers with proper torque</li><li>Step 5: Bleeding – Bleed brakes in proper sequence (RR, LR, RF, LF)</li><li>Step 6: Testing – Test brake pedal feel, road test for performance</li></ul>",
+                    safety: "<strong>Safety Protocols:</strong><ul><li>⚠️ Brake fluid is corrosive – wear gloves and eye protection</li><li>⚠️ Never use compressed air to clean brake components – asbestos dust hazard</li><li>⚠️ Always bleed brakes in the correct sequence</li><li>⚠️ Test brakes in a safe area before regular driving</li><li>⚠️ Replace brake fluid every 2 years to prevent moisture contamination</li></ul>",
+                    costing: "<strong>Costing Sheet:</strong><ul><li>Brake pads: $40–$120 per axle</li><li>Rotors: $60–$200 each</li><li>Calipers: $80–$200 each</li><li>Brake fluid: $10–$20 per liter</li><li>Labor time: 1.5–3 hours per axle</li><li>Labor rate: $80–$150/hour</li><li>Total job cost: $250–$800</li><li>Recommended markup: 40–60%</li></ul>"
+                }
+            }, {
+                title: "Electrical Systems in Vehicles",
+                desc: "Diagnose and repair vehicle electrical systems and wiring.",
+                ingredients: "Wire, fuses, relays, connectors, multimeter, circuit tester",
+                safety: "⚠️ Disconnect battery. Avoid short circuits. Use insulated tools.",
+                modules: ["🔋 Electrical Fundamentals – Voltage, current, resistance, circuits",
+                    "🔌 Wiring Diagrams – Reading and tracing circuits",
+                    "⚡ Step-by-Step Repair – Starter, alternator, lighting, sensors",
+                    "🛡️ Safety – Battery handling, fuse protection, insulation",
+                    "💰 Costing – Parts, tools, labor, profit calculation"
+                ],
+                moduleContent: {
+                    intro: "Modern vehicles are complex electrical systems. This course covers fundamental electrical principles, reading wiring diagrams, and diagnosing common electrical problems. You'll learn to repair charging systems, lighting, sensors, and more using professional diagnostic techniques.",
+                    ingredients: "<strong>Essential Materials:</strong><ul><li>Assorted wire gauges (16–10 AWG)</li><li>Fuses and fuse holders</li><li>Relays and relay sockets</li><li>Connectors and terminals</li><li>Multimeter and circuit tester</li><li>Heat shrink tubing and electrical tape</li><li>Insulated tools and safety equipment</li></ul>",
+                    process: "<strong>Diagnostic & Repair Process:</strong><ul><li>Step 1: Safety – Disconnect battery, identify system to diagnose</li><li>Step 2: Visual inspection – Check for damaged wires, corrosion, loose connections</li><li>Step 3: Testing – Use multimeter to test voltage, continuity, resistance</li><li>Step 4: Diagnostics – Trace circuits, identify faults using wiring diagrams</li><li>Step 5: Repair – Replace damaged wires, connectors, fuses, relays</li><li>Step 6: Verification – Reconnect battery, test system operation</li></ul>",
+                    safety: "<strong>Electrical Safety:</strong><ul><li>⚠️ Always disconnect battery before working on electrical systems</li><li>⚠️ Use insulated tools for all electrical work</li><li>⚠️ Never short-circuit battery terminals</li><li>⚠️ Check for high-voltage components in hybrid/electric vehicles</li><li>⚠️ Follow proper wiring color codes and diagrams</li></ul>",
+                    costing: "<strong>Costing & Profit:</strong><ul><li>Diagnostic fee: $50–$150</li><li>Parts cost: $20–$500 depending on component</li><li>Labor time: 1–4 hours</li><li>Labor rate: $80–$150/hour</li><li>Total repair cost: $100–$800</li><li>Profit margin: 30–50% on parts, 60–70% on labor</li></ul>"
+                }
+            }],
+            "Beekeeping": [{
+                title: "Beekeeping Basics",
+                desc: "Start your beekeeping journey with hive setup and bee biology.",
+                ingredients: "Hive boxes, frames, bees, feeder, smoker, protective suit",
+                safety: "⚠️ Bee stings can cause allergic reactions. Wear protective gear.",
+                modules: ["🐝 Bee Biology – Castes, life cycle, behavior, communication",
+                    "🏠 Hive Setup – Equipment, location, assembly, feeding",
+                    "🔧 Seasonal Management – Inspections, swarm control, winter preparation",
+                    "🛡️ Safety – Protective gear, allergy awareness, calm handling",
+                    "💰 Costing – Startup costs, equipment, bees, maintenance"
+                ],
+                moduleContent: {
+                    intro: "Beekeeping is a rewarding and profitable agricultural enterprise. This course introduces you to the fascinating world of honey bees, their biology, and the practical skills needed to manage healthy hives. You'll learn to set up your first hive, care for your bees, and harvest honey sustainably.",
+                    ingredients: "<strong>Equipment & Supplies:</strong><ul><li>Hive boxes (brood box + supers) – 2–3 boxes per hive</li><li>Frames with foundation – 10 frames per box</li><li>Bee suit, veil, gloves, boots – full protective gear</li><li>Smoker with fuel (wood chips, pine needles)</li><li>Hive tool and frame lifter</li><li>Feeder and sugar syrup</li><li>Package bees or nuc (nucleus) – 10,000–20,000 bees</li></ul>",
+                    process: "<strong>Step-by-Step Beekeeping:</strong><ul><li>Step 1: Choose your location – sunny, sheltered, near water and forage</li><li>Step 2: Assemble your hive – set up boxes, frames, foundation</li><li>Step 3: Install your bees – shake package into hive, feed immediately</li><li>Step 4: Weekly inspections – check brood, eggs, food stores, queen presence</li><li>Step 5: Swarm management – watch for swarm cells, split if needed</li><li>Step 6: Harvesting – remove supers, extract honey in spring/fall</li></ul>",
+                    safety: "<strong>Bee Safety Guidelines:</strong><ul><li>⚠️ Wear full protective gear – suit, veil, gloves, boots</li><li>⚠️ Know if you're allergic to bee stings – carry epinephrine</li><li>⚠️ Work calmly and slowly – avoid sudden movements</li><li>⚠️ Use smoke to calm bees before inspections</li><li>⚠️ Never work bees on cold or windy days</li><li>⚠️ Keep a first aid kit with antihistamines nearby</li></ul>",
+                    costing: "<strong>Startup & Operating Costs:</strong><ul><li>Hive equipment: $200–$400 per hive</li><li>Package bees: $100–$200 per package</li><li>Protective gear: $100–$200</li><li>Extractor and processing equipment: $300–$800</li><li>First year total: $800–$1,500 for 2 hives</li><li>Ongoing costs: $100–$200 per year</li><li>Honey yield: 20–50 kg per hive per year</li><li>Revenue: $200–$500 per hive per year</li></ul>"
+                }
+            }],
+            "Aquaculture": [{
+                title: "Fish Farming Basics",
+                desc: "Start your own fish farm with pond setup and fish health management.",
+                ingredients: "Fish fingerlings, feed, pond liner, aeration equipment, water testing kit",
+                safety: "⚠️ Water safety and biosecurity are essential. Keep nets and tools clean.",
+                modules: ["🐟 Fish Species – Tilapia, catfish, carp, trout selection",
+                    "🏊 Pond Setup – Site selection, lining, filling, stocking",
+                    "🍽️ Feeding & Growth – Nutrition, feeding schedules, growth monitoring",
+                    "🛡️ Safety – Biosecurity, water quality, disease prevention",
+                    "💰 Costing – Fingerling cost, feed, equipment, labor, profit"
+                ],
+                moduleContent: {
+                    intro: "Fish farming (aquaculture) is one of the fastest-growing food production sectors. This course covers the fundamentals of raising fish in ponds, tanks, or cages. You'll learn about species selection, pond construction, feeding management, disease prevention, and marketing your fish.",
+                    ingredients: "<strong>Essential Materials:</strong><ul><li>Fish fingerlings (tilapia, catfish, or carp) – 2–4 inches</li><li>Commercial fish feed (starter and grower pellets)</li><li>Pond liner (HDPE or EPDM) for excavated ponds</li><li>Aeration equipment (paddlewheel or diffusers)</li><li>Water testing kit (pH, DO, ammonia, nitrite)</li><li>Nets, buckets, and handling equipment</li><li>Water source with reliable supply</li></ul>",
+                    process: "<strong>Farm Setup & Operations:</strong><ul><li>Step 1: Site selection – level ground, good water source, drainage</li><li>Step 2: Pond construction – dig to 1.5–2m depth, install liner if needed</li><li>Step 3: Water management – fill pond, treat water, establish natural food</li><li>Step 4: Stocking – introduce fingerlings (2–3 per square meter)</li><li>Step 5: Feeding – feed 2–3 times daily at 3–5% body weight</li><li>Step 6: Monitoring – check water quality daily, observe fish behavior</li><li>Step 7: Harvest – harvest when fish reach 0.5–1kg (6–8 months)</li></ul>",
+                    safety: "<strong>Biosecurity & Safety:</strong><ul><li>⚠️ Keep nets and tools clean between ponds</li><li>⚠️ Quarantine new fish before adding to main pond</li><li>⚠️ Monitor water quality daily – test pH, DO, ammonia</li><li>⚠️ Watch for disease signs: lethargy, loss of appetite, lesions</li><li>⚠️ Prevent escapes – screen inlets and outlets</li></ul>",
+                    costing: "<strong>Financial Projection:</strong><ul><li>Pond construction: $500–$2,000 per pond</li><li>Fingerlings: $0.10–$0.30 each</li><li>Feed: $300–$500 per ton</li><li>Feed conversion ratio: 1.5–2.0 kg feed per kg fish</li><li>Labor: 1–2 hours daily</li><li>Harvest yield: 2–3 kg per square meter per year</li><li>Market price: $2–$4 per kg</li><li>Annual profit: $500–$2,000 per pond</li></ul>"
+                }
+            }],
+            "Crop Farming": [{
+                title: "Maize Production",
+                desc: "Commercial maize farming from land prep to harvest and marketing.",
+                ingredients: "Maize seed, fertilizer, pesticide, irrigation equipment, harvesting tools",
+                safety: "⚠️ Use pesticides safely. Follow application guidelines and PPE.",
+                modules: ["🌽 Land Preparation – Plowing, harrowing, ridging, seedbed preparation",
+                    "🌱 Planting – Seed selection, planting methods, spacing, population",
+                    "💧 Crop Management – Fertilizer, weed control, irrigation, pest management",
+                    "🛡️ Safety – Pesticide safety, machinery safety, food safety",
+                    "💰 Costing – Production costs, yield value, profit analysis"
+                ],
+                moduleContent: {
+                    intro: "Maize (corn) is a staple crop across Africa. This course covers commercial maize production from land preparation through harvest and marketing. You'll learn about hybrid seed selection, proper planting techniques, integrated pest management, and post-harvest handling.",
+                    ingredients: "<strong>Inputs & Equipment:</strong><ul><li>Hybrid maize seed (drought-tolerant varieties recommended)</li><li>Fertilizer: NPK (nitrogen, phosphorus, potassium) and urea</li><li>Herbicides and pesticides (selective and broad-spectrum)</li><li>Irrigation equipment (drip or sprinkler)</li><li>Planting equipment (planter or manual dibbler)</li><li>Harvesting tools (hand or mechanical)</li><li>Storage facilities (silos, bags, or cribs)</li></ul>",
+                    process: "<strong>Production Cycle:</strong><ul><li>Step 1: Land prep – plow, harrow, remove weeds, test soil pH (6.0–7.5)</li><li>Step 2: Planting – plant 2–3 seeds per hole, 75cm × 30cm spacing</li><li>Step 3: Fertilization – apply NPK at planting, topdress with urea at 4–6 weeks</li><li>Step 4: Weed control – apply pre-emergence herbicide, hand-weed as needed</li><li>Step 5: Pest management – monitor for fall armyworm, stalk borer</li><li>Step 6: Irrigation – water during dry spells (critical at tasseling)</li><li>Step 7: Harvest – harvest when grain moisture is 20–25%, dry to 13%</li></ul>",
+                    safety: "<strong>Farm Safety:</strong><ul><li>⚠️ Use PPE when applying pesticides – gloves, mask, goggles</li><li>⚠️ Follow pre-harvest intervals for pesticide application</li><li>⚠️ Maintain machinery – guards, shields, safety devices</li><li>⚠️ Store agrochemicals safely away from children and food</li><li>⚠️ Use proper grain handling to prevent aflatoxin</li></ul>",
+                    costing: "<strong>Financial Analysis:</strong><ul><li>Seed cost: $50–$100 per hectare</li><li>Fertilizer: $150–$300 per hectare</li><li>Pesticides: $50–$100 per hectare</li><li>Irrigation: $100–$200 per hectare</li><li>Labor: $100–$300 per hectare</li><li>Total production cost: $500–$1,000 per hectare</li><li>Expected yield: 4–8 tons per hectare</li><li>Market price: $150–$250 per ton</li><li>Gross revenue: $600–$2,000 per hectare</li><li>Profit margin: 20–50%</li></ul>"
+                }
+            }],
+            "Technology": [{
+                title: "Coding for Beginners",
+                desc: "Start programming with HTML, CSS, and JavaScript from scratch.",
+                ingredients: "Computer, text editor (VS Code), browser, learning resources",
+                safety: "⚠️ Take breaks from screen time. Practice ergonomic typing.",
+                modules: ["💻 Setup – Install VS Code, browser, developer tools",
+                    "📝 HTML – Structure, tags, semantic elements, forms, accessibility",
+                    "🎨 CSS – Styling, layout, flexbox, grid, responsive design",
+                    "⚡ JavaScript – Variables, functions, DOM manipulation, events",
+                    "💰 Costing – Freelance rates, project pricing, profit from skills"
+                ],
+                moduleContent: {
+                    intro: "This beginner-friendly coding course teaches you to build websites and web applications from scratch. You'll learn HTML for structure, CSS for styling, and JavaScript for interactivity. No prior coding experience is required – just a willingness to learn.",
+                    ingredients: "<strong>Tools & Resources:</strong><ul><li>Computer (Windows, Mac, or Linux)</li><li>Text editor – VS Code (free) with live server extension</li><li>Web browser – Chrome or Firefox with DevTools</li><li>Online learning resources – MDN, W3Schools, freeCodeCamp</li><li>Git and GitHub for version control</li><li>Project ideas and practice exercises</li></ul>",
+                    process: "<strong>Learning Path:</strong><ul><li>Step 1: Setup – Install VS Code, browser, and developer tools</li><li>Step 2: HTML – Learn tags, semantic structure, forms, and accessibility</li><li>Step 3: CSS – Master styling, layout with flexbox, grid, responsive design</li><li>Step 4: JavaScript – Variables, data types, functions, DOM manipulation</li><li>Step 5: Events – Handling user interactions, forms, and dynamic content</li><li>Step 6: Project – Build a complete project (portfolio, landing page, app)</li><li>Step 7: Deployment – Host your project on GitHub Pages or Netlify</li></ul>",
+                    safety: "<strong>Health & Productivity Tips:</strong><ul><li>⚠️ Follow the 20-20-20 rule – every 20 minutes, look at something 20 feet away for 20 seconds</li><li>⚠️ Maintain good posture – sit upright, elbows at 90°, screen at eye level</li><li>⚠️ Take regular breaks – stand, stretch, walk around</li><li>⚠️ Use blue light filters in the evening</li><li>⚠️ Practice typing speed and accuracy for efficiency</li></ul>",
+                    costing: "<strong>Freelance & Pricing:</strong><ul><li>Junior developer rate: $15–$30 per hour</li><li>Mid-level developer: $30–$60 per hour</li><li>Senior developer: $60–$100+ per hour</li><li>Static website: $300–$1,500</li><li>Dynamic web app: $1,500–$10,000+</li><li>Monthly maintenance: $50–$200 per month</li><li>Profit margin on projects: 50–70% (mostly labor)</li></ul>"
+                }
+            }],
+            "Hairdressing": [{
+                title: "Hairdressing Basics",
+                desc: "Learn foundational hairdressing skills from cuts to styling.",
+                ingredients: "Hair cutting tools, styling products, mannequins, chairs, towels",
+                safety: "⚠️ Use sterile tools. Follow hygiene protocols.",
+                modules: ["✂️ Tools – Shears, clippers, razors, combs, brushes",
+                    "💇 Haircuts – Techniques, layering, texturizing, fading",
+                    "🎨 Styling – Blow drying, curling, straightening, updos",
+                    "🛡️ Safety – Hygiene, sterilization, product safety, allergy awareness",
+                    "💰 Costing – Equipment, products, chair rental, profit"
+                ],
+                moduleContent: {
+                    intro: "Hairdressing is both an art and a profession. This course teaches you the fundamental skills needed to start a career as a professional hairdresser. You'll learn essential haircutting techniques, styling methods, and salon management principles.",
+                    ingredients: "<strong>Essential Salon Tools:</strong><ul><li>Hair shears (cutting scissors) – 5–7 inches</li><li>Clippers with guard sizes (0–8)</li><li>Razor tools and texturizing shears</li><li>Combs (fine, wide, rat-tail), brushes (paddle, round)</li><li>Blow dryer, curling iron, flat iron</li><li>Mannequin heads for practice</li><li>Styling products: mousse, gel, hairspray, serum</li></ul>",
+                    process: "<strong>Basic Haircutting Steps:</strong><ul><li>Step 1: Consultation – Discuss desired style, face shape, hair type</li><li>Step 2: Preparation – Wash and detangle hair, section</li><li>Step 3: Cutting – Use proper shears, cutting angles, techniques</li><li>Step 4: Layering – Add layers for volume and movement</li><li>Step 5: Texturizing – Remove bulk, create texture</li><li>Step 6: Styling – Blow dry, curl, or straighten</li><li>Step 7: Finish – Apply products, check and polish</li></ul>",
+                    safety: "<strong>Hygiene & Safety:</strong><ul><li>⚠️ Sterilize all tools between clients (barbicide or autoclave)</li><li>⚠️ Perform a patch test for chemical services</li><li>⚠️ Keep work area clean and free of hair clippings</li><li>⚠️ Wear gloves when applying chemicals</li><li>⚠️ Maintain good posture to prevent back pain</li></ul>",
+                    costing: "<strong>Financial Planning:</strong><ul><li>Initial tool investment: $300–$800</li><li>Chair rental or booth rent: $100–$300 per week</li><li>Product inventory: $200–$500</li><li>Service pricing: $20–$50 for haircut, $50–$150 for color</li><li>Daily capacity: 6–12 clients per day</li><li>Monthly revenue potential: $2,000–$8,000</li><li>Profit margin: 60–80% (mostly labor)</li></ul>"
+                }
+            }],
+            "Tailoring": [{
+                title: "Sewing Basics",
+                desc: "Learn fundamental sewing skills from threading to completing garments.",
+                ingredients: "Sewing machine, threads, fabric, scissors, measuring tape, pins",
+                safety: "⚠️ Use sewing machine safely. Keep fingers clear of needle.",
+                modules: ["🧵 Machine Basics – Threading, tension, stitches, maintenance",
+                    "📐 Patterns – Reading, adjusting, cutting, marking",
+                    "🪡 Construction – Seams, hems, zippers, buttonholes, finishing",
+                    "🛡️ Safety – Machine safety, tool safety, electrical safety",
+                    "💰 Costing – Materials, time, garment pricing, profit"
+                ],
+                moduleContent: {
+                    intro: "Sewing is a valuable skill that opens up opportunities in fashion design, tailoring, and home decor. This course starts from the very basics: understanding your sewing machine, reading patterns, and constructing simple garments. You'll build a solid foundation for more advanced sewing projects.",
+                    ingredients: "<strong>Sewing Kit Essentials:</strong><ul><li>Sewing machine (mechanical or computerized)</li><li>Thread (polyester or cotton, various colors)</li><li>Fabric shears, paper scissors, thread snips</li><li>Measuring tape, seam gauge, ruler</li><li>Pins, needles, and pincushion</li><li>Iron and ironing board</li><li>Patterns (commercial or digital)</li></ul>",
+                    process: "<strong>Garment Construction Process:</strong><ul><li>Step 1: Pattern selection and reading – choose pattern, understand symbols</li><li>Step 2: Cutting – lay out fabric, pin pattern, cut accurately</li><li>Step 3: Marking – transfer pattern marks to fabric</li><li>Step 4: Sewing – stitch seams, press, finish edges</li><li>Step 5: Details – add zippers, buttons, hems, linings</li><li>Step 6: Fitting – try on, make adjustments, finalize</li><li>Step 7: Finishing – press, trim threads, quality check</li></ul>",
+                    safety: "<strong>Workshop Safety:</strong><ul><li>⚠️ Keep fingers clear of the needle and moving parts</li><li>⚠️ Unplug machine when changing needles or cleaning</li><li>⚠️ Use proper posture to avoid back and neck strain</li><li>⚠️ Keep work area well-lit and organized</li><li>⚠️ Use sharp tools carefully – cut away from your body</li></ul>",
+                    costing: "<strong>Pricing & Profit:</strong><ul><li>Fabric cost: $5–$20 per meter</li><li>Thread and notions: $2–$10 per garment</li><li>Labor time: 2–8 hours per garment</li><li>Labor rate: $15–$40 per hour</li><li>Simple garment price: $50–$150</li><li>Complex garment: $200–$600+</li><li>Profit margin: 40–60%</li></ul>"
+                }
+            }],
+            "Carpentry": [{
+                title: "Carpentry Basics",
+                desc: "Start woodworking with fundamental tools and techniques.",
+                ingredients: "Wood, saw, hammer, tape measure, square, chisels, sandpaper",
+                safety: "⚠️ Wear safety glasses. Use sharp tools carefully.",
+                modules: ["🔨 Tools – Measuring, cutting, joining, finishing tools",
+                    "🪚 Techniques – Cutting, jointing, fastening, sanding",
+                    "📐 Projects – Shelves, boxes, furniture, construction",
+                    "🛡️ Safety – Tool safety, dust protection, electrical safety",
+                    "💰 Costing – Wood, tools, project value, profit"
+                ],
+                moduleContent: {
+                    intro: "Carpentry is a timeless trade that combines skill, creativity, and precision. This course introduces you to the essential tools and techniques of woodworking. You'll learn to measure, cut, join, and finish wood to create functional and beautiful items.",
+                    ingredients: "<strong>Tool & Material List:</strong><ul><li>Hand tools: saw, hammer, chisels, planes, tape measure, square</li><li>Power tools: circular saw, jigsaw, drill, sander</li><li>Wood: softwood (pine) and hardwood (oak, maple, walnut)</li><li>Adhesives: wood glue, epoxy</li><li>Fasteners: nails, screws, dowels, biscuits</li><li>Finishes: stain, varnish, paint, oil</li></ul>",
+                    process: "<strong>Project Workflow:</strong><ul><li>Step 1: Design and plan – create working drawings, material list</li><li>Step 2: Material selection – choose appropriate wood species</li><li>Step 3: Cutting – crosscut, rip, miter, cut to size</li><li>Step 4: Joinery – cut joints (butt, dado, mortise-and-tenon)</li><li>Step 5: Assembly – glue, clamp, fasten, square</li><li>Step 6: Sanding – progressive grits (80, 120, 220)</li><li>Step 7: Finishing – apply stain, varnish, or paint</li></ul>",
+                    safety: "<strong>Workshop Safety Rules:</strong><ul><li>⚠️ Wear safety glasses, hearing protection, dust mask</li><li>⚠️ Use push sticks with table saws</li><li>⚠️ Keep tools sharp – dull tools cause accidents</li><li>⚠️ Disconnect power before changing blades or bits</li><li>⚠️ Maintain a clean, organized workspace</li></ul>",
+                    costing: "<strong>Pricing Structures:</strong><ul><li>Material cost: $50–$500 per project</li><li>Labor time: 5–40 hours per project</li><li>Shop labor rate: $40–$80 per hour</li><li>Project price: $200–$2,000+</li><li>Profit margin: 30–50%</li><li>Specialized pieces (custom furniture): 50–100% markup</li></ul>"
+                }
+            }],
+            "Baking": [{
+                title: "Baking Basics",
+                desc: "Start baking with fundamental techniques from breads to cakes.",
+                ingredients: "Flour, sugar, yeast, eggs, butter, milk, baking tools",
+                safety: "⚠️ Follow food safety. Use oven mitts. Handle hot items.",
+                modules: ["🍞 Breads – Yeast, kneading, rising, baking, types of bread",
+                    "🎂 Cakes – Batter, creaming, mixing, baking, frosting",
+                    "🍪 Pastries – Puff, choux, shortcrust, fillings, baking",
+                    "🛡️ Safety – Food safety, oven safety, allergen management",
+                    "💰 Costing – Ingredients, baking costs, product value, profit"
+                ],
+                moduleContent: {
+                    intro: "Baking is both a science and an art. This course teaches you the fundamental techniques of baking: breads, cakes, pastries, and more. You'll learn the importance of ingredients, proper mixing methods, and how to create delicious baked goods with consistent results.",
+                    ingredients: "<strong>Essential Baking Ingredients:</strong><ul><li>Flour (all-purpose, bread, cake, whole wheat)</li><li>Sugar (white, brown, powdered)</li><li>Yeast (active dry, instant)</li><li>Eggs, butter, milk, cream</li><li>Baking powder, baking soda, salt</li><li>Flavorings: vanilla, extracts, spices</li></ul>",
+                    process: "<strong>Baking Process:</strong><ul><li>Step 1: Mise en place – weigh all ingredients accurately</li><li>Step 2: Mixing – appropriate method: creaming, foaming, etc.</li><li>Step 3: Fermentation (bread) – bulk ferment, shape, proof</li><li>Step 4: Baking – preheat oven, correct temperature, timing</li><li>Step 5: Cooling – cool completely before decoration</li><li>Step 6: Decoration – frosting, glazing, or dusting</li><li>Step 7: Storage – proper packaging for freshness</li></ul>",
+                    safety: "<strong>Food Safety:</strong><ul><li>⚠️ Wash hands thoroughly before handling food</li><li>⚠️ Use oven mitts for hot pans and trays</li><li>⚠️ Check expiration dates on ingredients</li><li>⚠️ Avoid cross-contamination (separate raw and cooked items)</li><li>⚠️ Store baked goods properly to prevent spoilage</li></ul>",
+                    costing: "<strong>Bakery Economics:</strong><ul><li>Ingredient cost per loaf: $0.80–$1.50</li><li>Labor per loaf: $0.50–$1.00</li><li>Overhead: $0.50–$1.00 per unit</li><li>Total cost: $1.80–$3.50 per loaf</li><li>Retail price: $4.00–$8.00 per loaf</li><li>Profit margin per loaf: 40–60%</li><li>Daily potential: 50–200 loaves</li><li>Monthly profit potential: $1,500–$8,000</li></ul>"
+                }
+            }],
+            "Construction": [{
+                title: "Construction Basics",
+                desc: "Start in construction with fundamental skills and safety.",
+                ingredients: "Blueprints, tools, materials (concrete, wood, steel), safety gear",
+                safety: "⚠️ Use PPE: hard hat, safety boots, gloves, eye protection.",
+                modules: ["📐 Blueprint Reading – Plans, elevations, sections, details",
+                    "🔧 Tools – Hand tools, power tools, equipment, maintenance",
+                    "🏗️ Materials – Concrete, wood, steel, masonry, finishing",
+                    "🛡️ Safety – PPE, site safety, equipment safety, emergency protocols",
+                    "💰 Costing – Materials, labor, equipment, profit margins"
+                ],
+                moduleContent: {
+                    intro: "Construction is the backbone of infrastructure development. This course provides a solid foundation in construction skills: reading blueprints, using tools, understanding materials, and following safety protocols. You'll gain the knowledge needed to start a career in the construction industry.",
+                    ingredients: "<strong>Essential Materials:</strong><ul><li>Concrete (cement, sand, aggregate, water)</li><li>Structural steel (beams, columns, rebars)</li><li>Wood (lumber, plywood, formwork)</li><li>Masonry (bricks, blocks, mortar)</li><li>Finishing materials (paint, tiles, roofing)</li><li>Fasteners (nails, bolts, screws, adhesives)</li></ul>",
+                    process: "<strong>Construction Workflow:</strong><ul><li>Step 1: Site preparation – clearing, leveling, foundation</li><li>Step 2: Foundation – footings, slabs, piers, basement walls</li><li>Step 3: Framing – structural skeleton (wood or steel)</li><li>Step 4: Enclosure – roof, walls, windows, doors</li><li>Step 5: Mechanicals – plumbing, electrical, HVAC rough-in</li><li>Step 6: Interior finish – drywall, flooring, painting, cabinets</li><li>Step 7: Final – trim, fixtures, landscaping, handover</li></ul>",
+                    safety: "<strong>Site Safety Protocol:</strong><ul><li>⚠️ Always wear PPE: hard hat, safety boots, gloves, eye protection</li><li>⚠️ Use fall protection at heights above 2 meters</li><li>⚠️ Follow electrical safety – use GFCI, avoid live wires</li><li>⚠️ Proper lifting techniques to prevent back injury</li><li>⚠️ Keep site clean and organized to prevent trips and falls</li></ul>",
+                    costing: "<strong>Project Costing:</strong><ul><li>Material costs: 40–50% of total project cost</li><li>Labor costs: 30–40% of total project cost</li><li>Equipment and tools: 5–10% of total</li><li>Overhead and profit: 15–25%</li><li>Residential project: $100–$300 per square foot</li><li>Commercial project: $150–$500 per square foot</li><li>Contractor profit margin: 10–20%</li></ul>"
+                }
+            }],
+            "Leadership": [{
+                title: "Leadership Fundamentals",
+                desc: "Develop essential leadership skills for any organization.",
+                ingredients: "Books, case studies, leadership models, coaching materials",
+                safety: "⚠️ Lead with integrity. Follow ethical leadership principles.",
+                modules: ["🧠 Leadership Models – Theories, styles, situational leadership",
+                    "🗣️ Communication – Active listening, feedback, delegation, conflict",
+                    "🤝 Team Building – Motivation, team dynamics, collaboration, trust",
+                    "🛡️ Ethics – Integrity, transparency, accountability, ethical decisions",
+                    "💰 Costing – Leadership ROI, development costs, organizational value"
+                ],
+                moduleContent: {
+                    intro: "Leadership is the ability to inspire and guide others toward a common goal. This course explores different leadership models, communication strategies, and team-building techniques. You'll learn to develop your authentic leadership style and create high-performing teams.",
+                    ingredients: "<strong>Leadership Resources:</strong><ul><li>Leadership books (The 7 Habits, Good to Great, Start with Why)</li><li>Case studies of successful leaders</li><li>Coaching and mentoring frameworks</li><li>Assessment tools (DISC, Myers-Briggs, 360-degree)</li><li>Communication templates and frameworks</li><li>Team building exercises and workshops</li></ul>",
+                    process: "<strong>Leadership Development Path:</strong><ul><li>Step 1: Self-assessment – identify strengths, weaknesses, values</li><li>Step 2: Learn leadership models – situational, transformational, servant</li><li>Step 3: Communication – practice active listening, feedback, delegation</li><li>Step 4: Team building – create trust, manage conflict, motivate</li><li>Step 5: Strategic thinking – set vision, make decisions, execute</li><li>Step 6: Ethical leadership – integrity, transparency, accountability</li><li>Step 7: Continuous improvement – seek feedback, adapt, grow</li></ul>",
+                    safety: "<strong>Ethical Leadership:</strong><ul><li>⚠️ Lead with integrity – do what you say you'll do</li><li>⚠️ Transparency – share information openly and honestly</li><li>⚠️ Accountability – take responsibility for outcomes</li><li>⚠️ Respect – treat everyone with dignity and fairness</li><li>⚠️ Courage – make difficult decisions when necessary</li></ul>",
+                    costing: "<strong>Leadership Value:</strong><ul><li>Leadership development programs: $1,000–$10,000 per participant</li><li>Executive coaching: $200–$500 per hour</li><li>ROI of leadership: 10–20% increase in team productivity</li><li>Leadership impact on retention: 25–40% reduction in turnover</li><li>Effective leadership contributes to 30% higher organizational performance</li></ul>"
+                }
+            }]
         };
 
         // ================================================================
-        //  BUILD COURSE DATA – 600+ COURSES
+        //  BUILD COURSE DATA – 600+ COURSES WITH FULL CONTENT
         // ================================================================
         function buildCourses() {
             const all = [];
             let id = 1;
 
-            // 1. Add existing courses from other categories (preserve original)
+            // 1. Add existing courses from other categories
             const existingData = [
-                // Automotive (15)
                 { id: 1, title: "Engine Repair & Maintenance", category: "Automotive", emoji: "🚗", level: "Intermediate",
                     duration: "Medium", price: 10, rating: 4.9, students: 234, modules: ["Engine Basics", "Oil Change",
                         "Cooling System", "Fuel Injection", "Timing Belts"
@@ -4110,7 +3556,6 @@
                     duration: "Long", price: 18, rating: 5.0, students: 1757, modules: ["Sales Techniques",
                         "Customer Service", "Negotiation", "Financing", "Closing"
                     ], videoIds: ["Pp2aD9e7VX8"] },
-                // Beekeeping (15)
                 { id: 16, title: "Beekeeping Basics", category: "Beekeeping", emoji: "🐝", level: "Beginner",
                     duration: "Short", price: 8, rating: 4.6, students: 312, modules: ["Hive Setup", "Bee Biology",
                         "Harvesting", "Equipment", "Safety"
@@ -4171,7 +3616,6 @@
                     duration: "Long", price: 18, rating: 5.0, students: 2207, modules: ["Smokers", "Tools",
                         "Protective Gear", "Extractors", "Maintenance"
                     ], videoIds: ["Pp2aD9e7VX8"] },
-                // Aquaculture (15)
                 { id: 31, title: "Fish Farming Basics", category: "Aquaculture", emoji: "🐟", level: "Beginner",
                     duration: "Medium", price: 8, rating: 4.5, students: 267, modules: ["Pond Setup", "Feeding",
                         "Health", "Harvesting", "Marketing"
@@ -4236,7 +3680,7 @@
 
             all.push(...existingData);
 
-            // 2. Add 100+ Cottage Industry courses from COTTAGE_PRODUCTS (preserve original)
+            // 2. Add 100+ Cottage Industry courses from COTTAGE_PRODUCTS with full content
             COTTAGE_PRODUCTS.forEach((p, idx) => {
                 const level = idx % 3 === 0 ? 'Beginner' : idx % 3 === 1 ? 'Intermediate' : 'Advanced';
                 const duration = idx % 3 === 0 ? 'Short' : idx % 3 === 1 ? 'Medium' : 'Long';
@@ -4255,6 +3699,14 @@
                     "⚠️ Safety Instructions & Quality Control – Essential precautions and testing",
                     "💰 Costing Sheet & Profit Margin – Calculate your profit"
                 ];
+
+                const content = {
+                    intro: `${p.name} is a valuable cottage industry product with significant market demand. This course teaches you the complete production process from sourcing raw materials to packaging and marketing your finished product. You'll learn both traditional and modern techniques to achieve consistent quality.`,
+                    ingredients: `<strong>Complete Ingredient List:</strong><ul><li>${p.ingredients}</li><li>Equipment: Mixing bowls, measuring tools, containers, packaging materials</li><li>Quality control tools: Thermometer, pH strips, moisture meter</li><li>Safety equipment: Gloves, goggles, apron, ventilation</li></ul>`,
+                    process: `<strong>Step-by-Step Production:</strong><ul><li>Step 1: Prepare your workspace – clean, organized, well-ventilated</li><li>Step 2: Gather and measure all ingredients accurately</li><li>Step 3: Mix ingredients in the correct order and temperature</li><li>Step 4: Process according to recipe (cooking, cooling, blending)</li><li>Step 5: Quality testing – check consistency, color, pH, texture</li><li>Step 6: Packaging – sterilize containers, label with ingredients and date</li><li>Step 7: Storage – store in appropriate conditions for maximum shelf life</li></ul>`,
+                    safety: `<strong>Safety Guidelines:</strong><ul><li>${p.safety}</li><li>Keep a fire extinguisher nearby when working with heat</li><li>Use food-grade equipment and containers</li><li>Document all batches for quality tracking</li><li>Test final product for pH and consistency</li><li>Clean all equipment thoroughly after each batch</li></ul>`,
+                    costing: `<strong>Costing Sheet:</strong><ul><li>Ingredients: $${(price * 0.3).toFixed(2)} per unit</li><li>Packaging: $${(price * 0.15).toFixed(2)} per unit</li><li>Labor: $${(price * 0.2).toFixed(2)} per unit</li><li>Total cost: $${(price * 0.65).toFixed(2)} per unit</li><li>Sale price: $${price.toFixed(2)} per unit</li><li>Profit per unit: $${(price * 0.35).toFixed(2)} (${(price * 0.35 / price * 100).toFixed(0)}% profit margin)</li><li>Break-even: ${Math.ceil((price * 0.65) / (price * 0.35))} units</li><li>Monthly revenue potential (100 units): $${(price * 100).toFixed(2)}</li></ul>`
+                };
 
                 all.push({
                     id: p.id || 1000 + idx,
@@ -4278,11 +3730,12 @@
                         laborCost: (price * 0.2).toFixed(2),
                         profit: (price * 0.35).toFixed(2),
                         profitPercent: "35%"
-                    }
+                    },
+                    moduleContent: content
                 });
             });
 
-            // 3. Add RICH courses for all categories from RICH_CATEGORY_COURSES
+            // 3. Add RICH courses for all categories from RICH_CATEGORY_COURSES with full module content
             const categories = Object.keys(RICH_CATEGORY_COURSES);
             const emojis = {
                 "Automotive": "🚗",
@@ -4340,7 +3793,6 @@
                     const vid = videoPool[idx % videoPool.length];
                     const image = getImageForCategory(cat, idx % 3);
 
-                    // Build the 5-module structure from the provided modules
                     const mods = c.modules || [
                         `📖 Introduction – ${c.title}`,
                         "📋 Materials & Equipment – Full list with quantities and tools",
@@ -4348,6 +3800,15 @@
                         "⚠️ Safety Instructions & Quality Control – Essential precautions",
                         "💰 Costing Sheet & Profit Margin – Calculate your profit"
                     ];
+
+                    // Build full module content from the provided data
+                    const moduleContent = c.moduleContent || {
+                        intro: `This course covers everything you need to know about ${c.title} in ${cat}. You'll learn practical skills, safety protocols, and business management.`,
+                        ingredients: `<strong>Materials & Tools:</strong><ul><li>${c.ingredients || 'See course modules for full materials list.'}</li></ul>`,
+                        process: `<strong>Step-by-Step Process:</strong><ul><li>Follow the course modules for detailed step-by-step instructions.</li><li>Each module builds on the previous one.</li><li>Practice each step before moving to the next.</li></ul>`,
+                        safety: `<strong>Safety Guidelines:</strong><ul><li>${c.safety || 'Follow all safety instructions provided in the course.'}</li><li>Wear appropriate PPE at all times.</li></ul>`,
+                        costing: `<strong>Costing Analysis:</strong><ul><li>Materials: $${(price * 0.25).toFixed(2)} per unit</li><li>Packaging: $${(price * 0.15).toFixed(2)} per unit</li><li>Labor: $${(price * 0.2).toFixed(2)} per unit</li><li>Profit: $${(price * 0.4).toFixed(2)} (40% profit margin)</li></ul>`
+                    };
 
                     all.push({
                         id: 2000 + all.length + idx,
@@ -4371,12 +3832,13 @@
                             laborCost: (price * 0.2).toFixed(2),
                             profit: (price * 0.4).toFixed(2),
                             profitPercent: "40%"
-                        }
+                        },
+                        moduleContent: moduleContent
                     });
                 });
             });
 
-            // 4. Generate additional random courses to reach 600+
+            // 4. Generate additional random courses with generic content to reach 600+
             const extraCategories = ['Food Preservation', 'Energy', 'Metalwork', 'Mushroom Farming', 'Poultry', 'Pig Farming',
                 'Languages', 'Healthcare', 'Logistics', 'Mining', 'DJ & Music', 'Podcasting', 'Plumbing',
                 'Renewable Energy', 'Design', 'Videography', 'Photography', 'Event Management', 'Project Management',
@@ -4429,6 +3891,14 @@
                 const imageIndex = all.length % 3;
                 const imageUrl = getImageForCategory(category, imageIndex);
 
+                const genericContent = {
+                    intro: `This course covers ${title} in depth. You'll learn practical skills, safety protocols, and how to turn this knowledge into a profitable venture.`,
+                    ingredients: `<strong>Materials & Equipment:</strong><ul><li>Refer to the course modules for complete materials list</li><li>All tools and materials are listed in Module 2</li><li>Safety equipment is detailed in Module 4</li></ul>`,
+                    process: `<strong>Step-by-Step Learning Path:</strong><ul><li>Follow the 5-module structure</li><li>Complete each module before moving to the next</li><li>Practice hands-on skills as you learn</li><li>Review safety guidelines before starting any practical work</li></ul>`,
+                    safety: `<strong>Safety is our top priority:</strong><ul><li>Always wear appropriate PPE</li><li>Follow all safety guidelines in Module 4</li><li>Keep work area clean and organized</li><li>Never compromise on safety</li></ul>`,
+                    costing: `<strong>Costing & Profit:</strong><ul><li>Materials: $${(price * 0.3).toFixed(2)} per unit</li><li>Packaging: $${(price * 0.15).toFixed(2)} per unit</li><li>Labor: $${(price * 0.2).toFixed(2)} per unit</li><li>Profit: $${(price * 0.35).toFixed(2)} per unit</li><li>Profit margin: ${(price * 0.35 / price * 100).toFixed(0)}%</li></ul>`
+                };
+
                 all.push({
                     id: idCounter++,
                     title: title,
@@ -4451,7 +3921,8 @@
                         laborCost: (price * 0.2).toFixed(2),
                         profit: (price * 0.35).toFixed(2),
                         profitPercent: "35%"
-                    }
+                    },
+                    moduleContent: genericContent
                 });
             }
 
@@ -4483,7 +3954,8 @@
             certExpiryDays: 365,
             isLoading: true,
             aiChatOpen: false,
-            aiMessageHistory: []
+            aiMessageHistory: [],
+            currentModuleTab: 0
         };
 
         // ================================================================
@@ -5034,7 +4506,7 @@
         }
 
         // ================================================================
-        //  COURSE DETAIL – WITH FULL COSTING SHEET
+        //  COURSE DETAIL – WITH FULL MODULE CONTENT
         // ================================================================
         function openCourse(id) {
             const course = COURSES.find(c => c.id === id);
@@ -5045,13 +4517,47 @@
             const body = document.getElementById('courseModalBody');
             const img = course.image || getImageForCategory(course.category, course.id % 3);
 
+            // Build module tabs and content panels
+            let moduleTabsHtml = '';
+            let modulePanelsHtml = '';
+            const moduleNames = ['Introduction', 'Ingredients & Materials', 'Step-by-Step Process', 'Safety & Quality',
+                'Costing & Profit'
+            ];
+            const contentKeys = ['intro', 'ingredients', 'process', 'safety', 'costing'];
+            const content = course.moduleContent || {};
+
+            moduleTabsHtml = `<div class="module-tabs">`;
+            moduleNames.forEach((name, idx) => {
+                const active = idx === 0 ? 'active' : '';
+                moduleTabsHtml +=
+                    `<button class="module-tab-btn ${active}" onclick="switchModuleTab(${idx}, ${id})">${name}</button>`;
+            });
+            moduleTabsHtml += `</div>`;
+
+            modulePanelsHtml = `<div class="module-content-panels">`;
+            moduleNames.forEach((name, idx) => {
+                const active = idx === 0 ? 'active' : '';
+                const key = contentKeys[idx];
+                const htmlContent = content[key] || `<p>Detailed content for this module is being prepared. Check back soon!</p>`;
+                modulePanelsHtml += `
+              <div class="module-content-panel ${active}" id="modulePanel_${id}_${idx}">
+                <div class="module-content-section">
+                  <h4>${name}</h4>
+                  ${htmlContent}
+                </div>
+              </div>
+            `;
+            });
+            modulePanelsHtml += `</div>`;
+
+            // Costing display for cottage industry courses
             let costingHtml = '';
             if (course.costing) {
                 costingHtml = `
               <div style="margin-top:1rem;background:var(--bg);border-radius:var(--radius-sm);padding:1rem;">
-                <h4>💰 Costing Sheet & Profit Margin</h4>
+                <h4>💰 Quick Costing Summary</h4>
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85rem;">
-                  <span>🧪 Materials/Ingredients: $${course.costing.ingredientsCost}</span>
+                  <span>🧪 Materials: $${course.costing.ingredientsCost}</span>
                   <span>📦 Packaging: $${course.costing.packagingCost}</span>
                   <span>⏱️ Labor: $${course.costing.laborCost}</span>
                   <span style="font-weight:700;color:var(--accent);">💰 Profit: $${course.costing.profit} (${course.costing.profitPercent})</span>
@@ -5060,63 +4566,57 @@
             `;
             }
 
-            let ingredientHtml = '';
-            if (course.ingredients && course.ingredients !== "See course modules for details." &&
-                course.ingredients !== "See course modules for full materials list.") {
-                ingredientHtml = `
-              <div style="margin-top:0.5rem;font-size:0.85rem;">
-                <strong>🧪 Materials/Ingredients:</strong> ${course.ingredients}
-              </div>
-            `;
-            }
-
-            let safetyHtml = '';
-            if (course.safety && course.safety !== "See course modules for safety instructions." &&
-                course.safety !== "See course modules for full safety instructions.") {
-                const safetyIcon = course.safety.includes("⚠️") ? "⚠️" : "🛡️";
-                safetyHtml = `
-              <div style="margin-top:0.5rem;font-size:0.85rem;color:var(--warning);">
-                <strong>${safetyIcon} Safety:</strong> ${course.safety}
-              </div>
-            `;
-            }
-
             body.innerHTML = `
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+            <div class="course-detail-grid">
               <div>
                 <img src="${img}" style="width:100%;border-radius:var(--radius);margin-bottom:1rem;aspect-ratio:16/9;object-fit:cover;" alt="${course.title}" onerror="this.src='${FALLBACK_IMAGE}'">
-                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;">
                   <span class="badge badge-primary">${course.emoji} ${course.category}</span>
                   <span class="badge badge-secondary">${course.level}</span>
                   <span class="badge badge-accent">${course.duration}</span>
                 </div>
                 ${isEnrolled ? `<div style="margin-top:1rem;"><div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:4px;">Progress: ${Math.round(progress)}%</div><div class="course-progress"><div class="fill" style="width:${progress}%;"></div></div></div>` : ''}
-                <div style="margin-top:1rem;"><h4>📚 Modules</h4><ul style="list-style:none;padding:0;">${course.modules.map((m,i) => `<li style="padding:4px 0;border-bottom:1px solid var(--border);font-size:0.85rem;">${i+1}. ${m}</li>`).join('')}</ul></div>
-                ${ingredientHtml}
-                ${safetyHtml}
                 ${costingHtml}
               </div>
               <div>
-                <h2 style="font-family:var(--font-display);font-size:1.75rem;margin-bottom:1rem;">${course.emoji} ${course.title}</h2>
-                <p style="color:var(--text-muted);margin-bottom:1.5rem;line-height:1.7;">${course.description || course.modules.slice(0,3).join(' • ')}... This course covers everything you need to master ${course.category.toLowerCase()}.</p>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
-                  <div style="background:var(--bg);padding:1rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;">${course.modules.length}</div><div style="font-size:0.8rem;color:var(--text-dim);">Lessons</div></div>
-                  <div style="background:var(--bg);padding:1rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;">${course.rating}</div><div style="font-size:0.8rem;color:var(--text-dim);">Rating</div></div>
-                  <div style="background:var(--bg);padding:1rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;">${course.students.toLocaleString()}</div><div style="font-size:0.8rem;color:var(--text-dim);">Students</div></div>
-                  <div style="background:var(--bg);padding:1rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.5rem;font-weight:700;color:var(--primary-light);">$${course.price}</div><div style="font-size:0.8rem;color:var(--text-dim);">Price</div></div>
+                <h2 style="font-family:var(--font-display);font-size:1.75rem;margin-bottom:0.5rem;">${course.emoji} ${course.title}</h2>
+                <p style="color:var(--text-muted);margin-bottom:1.5rem;line-height:1.7;">${course.description || course.modules.slice(0,3).join(' • ')}</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1.5rem;">
+                  <div style="background:var(--bg);padding:0.75rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;">${course.modules.length}</div><div style="font-size:0.7rem;color:var(--text-dim);">Lessons</div></div>
+                  <div style="background:var(--bg);padding:0.75rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;">${course.rating}</div><div style="font-size:0.7rem;color:var(--text-dim);">Rating</div></div>
+                  <div style="background:var(--bg);padding:0.75rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;">${course.students.toLocaleString()}</div><div style="font-size:0.7rem;color:var(--text-dim);">Students</div></div>
+                  <div style="background:var(--bg);padding:0.75rem;border-radius:var(--radius-sm);text-align:center;"><div style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--primary-light);">$${course.price}</div><div style="font-size:0.7rem;color:var(--text-dim);">Price</div></div>
                 </div>
                 ${isEnrolled ? 
                   (isCompleted ? 
                     `<button class="btn btn-accent btn-block" onclick="generateCertificate(${course.id}); closeModal('courseModal');"><i class="fas fa-certificate"></i> Get Certificate</button>` :
-                    `<button class="btn btn-primary btn-block" onclick="markModuleComplete(${course.id}); closeModal('courseModal');"><i class="fas fa-check"></i> Mark Module Complete</button>`
+                    `<button class="btn btn-primary btn-block" onclick="markModuleComplete(${course.id});"><i class="fas fa-check"></i> Mark Module Complete</button>`
                   ) :
                   `<button class="btn btn-primary btn-block" onclick="closeModal('courseModal'); initiateCheckout(${course.id});"><i class="fas fa-lock"></i> Enroll Now — $${course.price}</button>`
                 }
                 ${isEnrolled ? `<button class="btn btn-secondary btn-block" style="margin-top:8px;" onclick="closeModal('courseModal');">Close</button>` : ''}
               </div>
             </div>
+            <div style="margin-top:2rem;border-top:1px solid var(--border);padding-top:1.5rem;">
+              <h3 style="font-family:var(--font-display);font-size:1.25rem;margin-bottom:1rem;">📖 Course Modules</h3>
+              ${moduleTabsHtml}
+              ${modulePanelsHtml}
+            </div>
           `;
             openModal('courseModal');
+            state.currentModuleTab = 0;
+        }
+
+        function switchModuleTab(idx, courseId) {
+            // Update active tab
+            document.querySelectorAll(`#courseModal .module-tab-btn`).forEach((btn, i) => {
+                btn.classList.toggle('active', i === idx);
+            });
+            // Update active panel
+            document.querySelectorAll(`#courseModal .module-content-panel`).forEach((panel, i) => {
+                panel.classList.toggle('active', i === idx);
+            });
+            state.currentModuleTab = idx;
         }
 
         function enrollCourse(id) {
@@ -5153,6 +4653,8 @@
                     showToast('🎉 Course completed! Get your certificate.', 'success');
                     generateCertificate(id);
                 }
+                // Refresh the course modal to show updated progress
+                openCourse(id);
             }).catch(err => showToast('Error: ' + err.message, 'error'));
         }
 
