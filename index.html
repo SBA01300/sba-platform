@@ -144,10 +144,11 @@ body {
 .courses-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:1.5rem; }
 .course-card { background:var(--bg-card); backdrop-filter:blur(16px); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:var(--transition); cursor:pointer; position:relative; }
 .course-card:hover { transform:translateY(-8px); box-shadow:var(--shadow); border-color:rgba(99,102,241,0.3); }
-.course-image { width:100%; height:180px; position:relative; overflow:hidden; }
+.course-image { width:100%; height:200px; position:relative; overflow:hidden; background:var(--bg-elevated); }
 .course-image img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
 .course-card:hover .course-image img { transform:scale(1.05); }
-.course-badge { position:absolute; top:1rem; left:1rem; padding:0.25rem 0.75rem; background:rgba(0,0,0,0.6); backdrop-filter:blur(8px); border-radius:100px; font-size:0.75rem; font-weight:600; color:white; }
+.course-image .category-overlay { position:absolute; top:0.75rem; left:0.75rem; padding:0.2rem 0.75rem; background:rgba(0,0,0,0.6); backdrop-filter:blur(8px); border-radius:100px; font-size:0.65rem; font-weight:600; color:white; display:flex; align-items:center; gap:0.3rem; z-index:2; }
+.course-badge { position:absolute; top:0.75rem; right:0.75rem; padding:0.25rem 0.75rem; background:rgba(0,0,0,0.6); backdrop-filter:blur(8px); border-radius:100px; font-size:0.75rem; font-weight:600; color:white; z-index:2; }
 .course-badge.beginner { background:rgba(16,185,129,0.8); }
 .course-badge.intermediate { background:rgba(245,158,11,0.8); }
 .course-badge.advanced { background:rgba(239,68,68,0.8); }
@@ -421,13 +422,7 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
   justify-content:center;
 }
 .ai-chat-btn:hover { transform:scale(1.1); box-shadow:0 12px 40px rgba(99,102,241,0.6); }
-.ai-chat-btn .pulse-ring {
-  position:absolute;
-  inset:-6px;
-  border-radius:50%;
-  border:2px solid var(--primary);
-  animation:pulse-glow 2s infinite;
-}
+.ai-chat-btn .pulse-ring { position:absolute; inset:-6px; border-radius:50%; border:2px solid var(--primary); animation:pulse-glow 2s infinite; }
 .ai-chat-modal {
   position:fixed;
   bottom:180px;
@@ -446,129 +441,32 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
   transition:all 0.3s ease;
 }
 .ai-chat-modal.open { display:flex; animation:slide-up 0.3s ease; }
-.ai-chat-header {
-  padding:1rem 1.25rem;
-  background:linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color:white;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-shrink:0;
-}
+.ai-chat-header { padding:1rem 1.25rem; background:linear-gradient(135deg, var(--primary), var(--primary-dark)); color:white; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; }
 .ai-chat-header h4 { font-family:var(--font-display); font-weight:600; font-size:1rem; display:flex; align-items:center; gap:0.5rem; }
 .ai-chat-header h4 i { font-size:1.2rem; }
 .ai-chat-close { background:none; border:none; color:white; font-size:1.2rem; cursor:pointer; opacity:0.7; transition:0.2s; }
 .ai-chat-close:hover { opacity:1; }
-.ai-chat-messages {
-  flex:1;
-  overflow-y:auto;
-  padding:1rem;
-  display:flex;
-  flex-direction:column;
-  gap:0.75rem;
-  max-height:350px;
-}
-.ai-chat-message {
-  max-width:85%;
-  padding:0.75rem 1rem;
-  border-radius:var(--radius-sm);
-  font-size:0.9rem;
-  line-height:1.5;
-  animation:slide-up 0.2s ease;
-}
-.ai-chat-message.user {
-  align-self:flex-end;
-  background:var(--primary);
-  color:white;
-  border-bottom-right-radius:4px;
-}
-.ai-chat-message.bot {
-  align-self:flex-start;
-  background:var(--bg-card);
-  color:var(--text);
-  border:1px solid var(--border);
-  border-bottom-left-radius:4px;
-}
-.ai-chat-message .typing {
-  display:inline-flex;
-  gap:4px;
-}
-.ai-chat-message .typing span {
-  width:8px; height:8px;
-  border-radius:50%;
-  background:var(--text-muted);
-  animation:typing 1.4s infinite;
-}
+.ai-chat-messages { flex:1; overflow-y:auto; padding:1rem; display:flex; flex-direction:column; gap:0.75rem; max-height:350px; }
+.ai-chat-message { max-width:85%; padding:0.75rem 1rem; border-radius:var(--radius-sm); font-size:0.9rem; line-height:1.5; animation:slide-up 0.2s ease; }
+.ai-chat-message.user { align-self:flex-end; background:var(--primary); color:white; border-bottom-right-radius:4px; }
+.ai-chat-message.bot { align-self:flex-start; background:var(--bg-card); color:var(--text); border:1px solid var(--border); border-bottom-left-radius:4px; }
+.ai-chat-message .typing { display:inline-flex; gap:4px; }
+.ai-chat-message .typing span { width:8px; height:8px; border-radius:50%; background:var(--text-muted); animation:typing 1.4s infinite; }
 .ai-chat-message .typing span:nth-child(2) { animation-delay:0.2s; }
 .ai-chat-message .typing span:nth-child(3) { animation-delay:0.4s; }
 @keyframes typing { 0%,60%,100% { transform:translateY(0); } 30% { transform:translateY(-6px); } }
-.ai-chat-input {
-  display:flex;
-  gap:0.5rem;
-  padding:0.75rem 1rem;
-  border-top:1px solid var(--border);
-  flex-shrink:0;
-}
-.ai-chat-input input {
-  flex:1;
-  padding:0.6rem 1rem;
-  border:1px solid var(--border);
-  border-radius:var(--radius-sm);
-  background:var(--bg);
-  color:var(--text);
-  outline:none;
-  font-size:0.9rem;
-}
+.ai-chat-input { display:flex; gap:0.5rem; padding:0.75rem 1rem; border-top:1px solid var(--border); flex-shrink:0; }
+.ai-chat-input input { flex:1; padding:0.6rem 1rem; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg); color:var(--text); outline:none; font-size:0.9rem; }
 .ai-chat-input input:focus { border-color:var(--primary); }
-.ai-chat-input button {
-  padding:0.6rem 1.2rem;
-  border-radius:var(--radius-sm);
-  border:none;
-  background:var(--primary);
-  color:white;
-  cursor:pointer;
-  font-weight:600;
-  transition:0.2s;
-}
+.ai-chat-input button { padding:0.6rem 1.2rem; border-radius:var(--radius-sm); border:none; background:var(--primary); color:white; cursor:pointer; font-weight:600; transition:0.2s; }
 .ai-chat-input button:hover { background:var(--primary-dark); }
-.ai-chat-status {
-  font-size:0.7rem;
-  color:var(--text-dim);
-  padding:0.25rem 1rem;
-  text-align:center;
-  border-top:1px solid var(--border);
-  flex-shrink:0;
-}
-@media (max-width:480px) {
-  .ai-chat-modal { bottom:150px; right:15px; width:calc(100vw - 30px); max-height:70vh; }
-  .ai-chat-btn { bottom:90px; right:15px; width:54px; height:54px; font-size:1.5rem; }
-}
+.ai-chat-status { font-size:0.7rem; color:var(--text-dim); padding:0.25rem 1rem; text-align:center; border-top:1px solid var(--border); flex-shrink:0; }
+@media (max-width:480px) { .ai-chat-modal { bottom:150px; right:15px; width:calc(100vw - 30px); max-height:70vh; } .ai-chat-btn { bottom:90px; right:15px; width:54px; height:54px; font-size:1.5rem; } }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width:1024px) {
-  .nav-links { display:none; }
-  .mobile-menu-btn { display:block; }
-  .footer-grid { grid-template-columns:1fr 1fr; }
-  .pricing-card.featured { transform:scale(1); }
-  .pricing-card.featured:hover { transform:translateY(-8px); }
-}
-@media (max-width:768px) {
-  .hero-stats { gap:1.5rem; flex-wrap:wrap; }
-  .hero-stat .number { font-size:1.75rem; }
-  .courses-grid { grid-template-columns:1fr; }
-  .categories-grid { grid-template-columns:repeat(2,1fr); }
-  .footer-grid { grid-template-columns:1fr; }
-  .dashboard-grid { grid-template-columns:1fr 1fr; }
-  .section { padding:4rem 1rem; }
-  .cta-section { margin:0 1rem; }
-  .testimonials-grid { grid-template-columns:1fr; }
-}
-@media (max-width:480px) {
-  .nav { padding:0.75rem 1rem; }
-  .hero { padding:7rem 1rem 3rem; }
-  .dashboard-grid { grid-template-columns:1fr; }
-  .video-grid { grid-template-columns:1fr 1fr; }
-}
+@media (max-width:1024px) { .nav-links { display:none; } .mobile-menu-btn { display:block; } .footer-grid { grid-template-columns:1fr 1fr; } .pricing-card.featured { transform:scale(1); } .pricing-card.featured:hover { transform:translateY(-8px); } }
+@media (max-width:768px) { .hero-stats { gap:1.5rem; flex-wrap:wrap; } .hero-stat .number { font-size:1.75rem; } .courses-grid { grid-template-columns:1fr; } .categories-grid { grid-template-columns:repeat(2,1fr); } .footer-grid { grid-template-columns:1fr; } .dashboard-grid { grid-template-columns:1fr 1fr; } .section { padding:4rem 1rem; } .cta-section { margin:0 1rem; } .testimonials-grid { grid-template-columns:1fr; } }
+@media (max-width:480px) { .nav { padding:0.75rem 1rem; } .hero { padding:7rem 1rem 3rem; } .dashboard-grid { grid-template-columns:1fr; } .video-grid { grid-template-columns:1fr 1fr; } }
 </style>
 </head>
 <body>
@@ -600,39 +498,20 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
 </div>
 
 <!-- ===== AI CHATBOT ===== -->
-<button class="ai-chat-btn" id="aiChatBtn" onclick="toggleAIChat()" title="Ask AI Assistant">
-  <span class="pulse-ring"></span>
-  <i class="fas fa-robot"></i>
-</button>
+<button class="ai-chat-btn" id="aiChatBtn" onclick="toggleAIChat()" title="Ask AI Assistant"><span class="pulse-ring"></span><i class="fas fa-robot"></i></button>
 <div class="ai-chat-modal" id="aiChatModal">
-  <div class="ai-chat-header">
-    <h4><i class="fas fa-robot"></i> Rise AI Assistant</h4>
-    <button class="ai-chat-close" onclick="toggleAIChat()"><i class="fas fa-times"></i></button>
-  </div>
+  <div class="ai-chat-header"><h4><i class="fas fa-robot"></i> Rise AI Assistant</h4><button class="ai-chat-close" onclick="toggleAIChat()"><i class="fas fa-times"></i></button></div>
   <div class="ai-chat-messages" id="aiChatMessages">
-    <div class="ai-chat-message bot">
-      👋 Hi! I'm your Rise Africa AI assistant.<br>
-      I can help you with:<br>
-      📚 Finding courses<br>
-      💰 Pricing & plans<br>
-      🎓 Learning advice<br>
-      💬 Ask me anything!
-    </div>
+    <div class="ai-chat-message bot">👋 Hi! I'm your Rise Africa AI assistant.<br>I can help you with:<br>📚 Finding courses<br>💰 Pricing & plans<br>🎓 Learning advice<br>💬 Ask me anything!</div>
   </div>
-  <div class="ai-chat-input">
-    <input type="text" id="aiChatInput" placeholder="Ask me anything..." onkeypress="if(event.key==='Enter') sendAIMessage()">
-    <button onclick="sendAIMessage()"><i class="fas fa-paper-plane"></i></button>
-  </div>
+  <div class="ai-chat-input"><input type="text" id="aiChatInput" placeholder="Ask me anything..." onkeypress="if(event.key==='Enter') sendAIMessage()"><button onclick="sendAIMessage()"><i class="fas fa-paper-plane"></i></button></div>
   <div class="ai-chat-status" id="aiChatStatus">⚡ AI ready • Ask about courses, skills, or careers</div>
 </div>
 
 <!-- ===== NAV ===== -->
 <nav class="nav" id="navbar">
   <div class="nav-inner">
-    <div class="logo" onclick="switchTab('home')">
-      <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
-      Rise Africa
-    </div>
+    <div class="logo" onclick="switchTab('home')"><div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>Rise Africa</div>
     <div class="nav-links">
       <a href="#" class="nav-link" onclick="switchTab('home')">Home</a>
       <a href="#" class="nav-link" onclick="switchTab('courses')">Courses</a>
@@ -641,15 +520,11 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
       <a href="#" class="nav-link" id="adminNavLink" onclick="switchTab('admin')" style="display:none;">Admin</a>
     </div>
     <div class="nav-actions">
-      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
-        <i class="fas fa-moon" id="themeIcon"></i>
-      </button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme"><i class="fas fa-moon" id="themeIcon"></i></button>
       <button class="btn btn-secondary btn-sm" id="loginBtn" onclick="openAuthModal()">Log In</button>
       <button class="btn btn-primary btn-sm" id="signupBtn" onclick="openAuthModal()">Get Started</button>
       <div id="userMenu" style="display:none; position:relative;">
-        <button class="btn btn-secondary btn-sm" onclick="toggleUserDropdown()">
-          <i class="fas fa-user"></i> <span id="userName">User</span> <i class="fas fa-chevron-down"></i>
-        </button>
+        <button class="btn btn-secondary btn-sm" onclick="toggleUserDropdown()"><i class="fas fa-user"></i> <span id="userName">User</span> <i class="fas fa-chevron-down"></i></button>
         <div id="userDropdown" style="display:none; position:absolute; top:100%; right:0; margin-top:0.5rem; background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius-sm); padding:0.5rem 0; min-width:200px; box-shadow:var(--shadow); z-index:100;">
           <a href="#" onclick="openDashboard(); toggleUserDropdown();" style="display:block; padding:0.6rem 1rem; color:var(--text); text-decoration:none; font-size:0.85rem;"><i class="fas fa-th-large" style="width:20px;"></i> Dashboard</a>
           <a href="#" onclick="switchTab('admin'); toggleUserDropdown();" id="adminDropdownLink" style="display:none; padding:0.6rem 1rem; color:var(--text); text-decoration:none; font-size:0.85rem;"><i class="fas fa-cog" style="width:20px;"></i> Admin Panel</a>
@@ -664,11 +539,8 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
 
 <!-- ===== HERO ===== -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
-  <div class="float-element float-1"></div>
-  <div class="float-element float-2"></div>
-  <div class="float-element float-3"></div>
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="float-element float-1"></div><div class="float-element float-2"></div><div class="float-element float-3"></div>
   <div class="hero-content">
     <div class="hero-badge"><span class="pulse"></span> Now serving 10,000+ learners across Africa</div>
     <h1>Master Real Skills.<br><span class="gradient-text">Build Your Future.</span></h1>
@@ -691,46 +563,26 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
   <!-- HOME -->
   <div id="tab-home" class="tab-content" style="display:block;">
     <section class="section" id="categories">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Browse by Category</div>
-        <h2>37 Skill Categories</h2>
-        <p>From traditional crafts to cutting-edge technology — find your path.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Browse by Category</div><h2>37 Skill Categories</h2><p>From traditional crafts to cutting-edge technology — find your path.</p></div>
       <div class="categories-grid" id="categoriesGrid"></div>
     </section>
     <section class="section" style="padding-top:0;">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Featured Courses</div>
-        <h2>Popular Courses</h2>
-        <p>Start with the most enrolled courses on Rise Africa.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Featured Courses</div><h2>Popular Courses</h2><p>Start with the most enrolled courses on Rise Africa.</p></div>
       <div class="courses-grid" id="featuredCoursesGrid"></div>
     </section>
     <section class="section" style="padding-top:0;">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Success Stories</div>
-        <h2>What Our Learners Say</h2>
-        <p>Join thousands of Africans who have transformed their careers.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Success Stories</div><h2>What Our Learners Say</h2><p>Join thousands of Africans who have transformed their careers.</p></div>
       <div class="testimonials-grid" id="homeTestimonials"></div>
     </section>
     <section class="section" style="padding-top:0;">
-      <div class="cta-section animate-on-scroll">
-        <h2>Ready to Transform Your Career?</h2>
-        <p>Join 10,000+ Africans already learning on Rise Africa.</p>
-        <button class="btn" onclick="switchTab('courses')"><i class="fas fa-rocket"></i> Start Learning Today</button>
-      </div>
+      <div class="cta-section animate-on-scroll"><h2>Ready to Transform Your Career?</h2><p>Join 10,000+ Africans already learning on Rise Africa.</p><button class="btn" onclick="switchTab('courses')"><i class="fas fa-rocket"></i> Start Learning Today</button></div>
     </section>
   </div>
 
   <!-- COURSES -->
   <div id="tab-courses" class="tab-content" style="display:none;">
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Course Catalog</div>
-        <h2>500+ Practical Courses</h2>
-        <p>Learn by doing. Every course includes hands-on projects and real-world applications.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Course Catalog</div><h2>500+ Practical Courses</h2><p>Learn by doing. Every course includes hands-on projects and real-world applications.</p></div>
       <div class="courses-toolbar">
         <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search 500+ courses..." oninput="handleSearch()"></div>
         <select class="filter-select" id="categoryFilter" onchange="handleFilter()"><option value="">All Categories</option></select>
@@ -747,11 +599,7 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
   <!-- VIDEOS -->
   <div id="tab-videos" class="tab-content" style="display:none;">
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Video Library</div>
-        <h2>RAS Skills Library</h2>
-        <p>Everything you need – from soap making to coding, farming to welding.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Video Library</div><h2>RAS Skills Library</h2><p>Everything you need – from soap making to coding, farming to welding.</p></div>
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
         <button class="btn btn-secondary btn-sm active" onclick="filterVideos('all')">All</button>
         <button class="btn btn-secondary btn-sm" onclick="filterVideos('starter')">🌱 Starter</button>
@@ -786,21 +634,15 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
   <!-- ABOUT -->
   <div id="tab-about" class="tab-content" style="display:none;">
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">About Us</div>
-        <h2>🌍 About Rise Africa</h2>
-        <p>Empowering African youth with practical vocational skills.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">About Us</div><h2>🌍 About Rise Africa</h2><p>Empowering African youth with practical vocational skills.</p></div>
       <div style="background:var(--bg-card);border-radius:var(--radius);padding:2rem;border:1px solid var(--border);margin-bottom:1.5rem;">
-        <h2>Our Mission</h2>
-        <p style="color:var(--text-muted);">Empowering African youth with practical vocational skills for self-sustaining livelihoods.</p>
+        <h2>Our Mission</h2><p style="color:var(--text-muted);">Empowering African youth with practical vocational skills for self-sustaining livelihoods.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:16px 0;">
           <div style="text-align:center;padding:16px;background:var(--bg);border-radius:10px;"><div style="font-size:2rem;">🎯</div><h4>Purpose</h4><p style="color:var(--text-muted);font-size:0.9rem;">Create self-sustaining livelihoods.</p></div>
           <div style="text-align:center;padding:16px;background:var(--bg);border-radius:10px;"><div style="font-size:2rem;">🌍</div><h4>Vision</h4><p style="color:var(--text-muted);font-size:0.9rem;">A prosperous Africa with skilled youth.</p></div>
           <div style="text-align:center;padding:16px;background:var(--bg);border-radius:10px;"><div style="font-size:2rem;">🤝</div><h4>Values</h4><p style="color:var(--text-muted);font-size:0.9rem;">Integrity, Excellence, Inclusivity.</p></div>
         </div>
-        <h2>Our Story</h2>
-        <p style="color:var(--text-muted);">Rise Africa was founded to address the skills gap in Africa. We provide practical, hands-on training for real-world employment or entrepreneurship.</p>
+        <h2>Our Story</h2><p style="color:var(--text-muted);">Rise Africa was founded to address the skills gap in Africa. We provide practical, hands-on training for real-world employment or entrepreneurship.</p>
       </div>
       <div style="background:var(--bg-card);border-radius:var(--radius);padding:2rem;border:1px solid var(--border);">
         <h3>📊 Our Impact</h3>
@@ -817,11 +659,7 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
   <!-- FAQ -->
   <div id="tab-faq" class="tab-content" style="display:none;">
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">FAQ</div>
-        <h2>❓ Frequently Asked Questions</h2>
-        <p>Quick answers to the most common questions about Rise Africa.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">FAQ</div><h2>❓ Frequently Asked Questions</h2><p>Quick answers to the most common questions about Rise Africa.</p></div>
       <div id="faqContainer">
         <div class="faq-item"><div class="faq-question" onclick="toggleFAQ(this)">🏫 Is RAS a school?<span class="arrow">▼</span></div><div class="faq-answer"><strong>No – RAS is NOT a school.</strong><p style="margin-top:8px;">Rise Africa Skills is a skills development company.</p></div></div>
         <div class="faq-item"><div class="faq-question" onclick="toggleFAQ(this)">💰 Why only $10?<span class="arrow">▼</span></div><div class="faq-answer"><p><strong>Because we believe skills should be affordable.</strong></p></div></div>
@@ -838,11 +676,7 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
   <!-- ADVICE -->
   <div id="tab-advice" class="tab-content" style="display:none;">
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Student Advice</div>
-        <h2>💡 Advice for Students</h2>
-        <p>Practical tips to help you succeed in your learning journey.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Student Advice</div><h2>💡 Advice for Students</h2><p>Practical tips to help you succeed in your learning journey.</p></div>
       <div class="advice-grid">
         <div class="advice-card"><div class="advice-icon">🎯</div><h4>Set Clear Goals</h4><p>Identify what you want to achieve and break it down into manageable steps.</p></div>
         <div class="advice-card"><div class="advice-icon">📅</div><h4>Consistency is Key</h4><p>Study at least 30 minutes daily – small consistent efforts lead to big results.</p></div>
@@ -855,11 +689,7 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
   <!-- CALENDAR -->
   <div id="tab-calendar" class="tab-content" style="display:none;">
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Calendar</div>
-        <h2>📅 Learning Calendar</h2>
-        <p>Track your learning milestones and stay consistent.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Calendar</div><h2>📅 Learning Calendar</h2><p>Track your learning milestones and stay consistent.</p></div>
       <div id="calendarWidget" style="max-width:500px;margin:0 auto;background:var(--bg-card);border-radius:var(--radius);padding:20px;border:1px solid var(--border);">
         <div class="calendar-header"><button onclick="changeMonth(-1)">◀</button><span id="calendarMonthYear"></span><button onclick="changeMonth(1)">▶</button></div>
         <div class="calendar-weekdays"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>
@@ -871,41 +701,33 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
   <!-- PRESERVE -->
   <div id="tab-preserve" class="tab-content" style="display:none;">
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Calculator</div>
-        <h2>🧮 Food Preservation Calculator</h2>
-        <p>Calculate yields and shelf life for your preservation methods.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Calculator</div><h2>🧮 Food Preservation Calculator</h2><p>Calculate yields and shelf life for your preservation methods.</p></div>
       <div style="background:var(--bg-card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);max-width:700px;margin:0 auto;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
           <div>
-            <div class="form-group"><label>Vegetable/Fruit/Meat</label>
-              <select id="preserveVeggie">
-                <option value="tomato">🍅 Tomato</option><option value="cabbage">🥬 Cabbage</option><option value="onion">🧅 Onion</option>
-                <option value="mango">🥭 Mango</option><option value="carrot">🥕 Carrot</option><option value="pepper">🫑 Pepper</option>
-                <option value="cucumber">🥒 Cucumber</option><option value="papaya">🌴 Papaya</option><option value="potato">🥔 Potato</option>
-                <option value="garlic">🧄 Garlic</option><option value="ginger">🫚 Ginger</option><option value="corn">🌽 Corn</option>
-                <option value="strawberry">🍓 Strawberry</option><option value="apple">🍎 Apple</option><option value="banana">🍌 Banana</option>
-                <option value="lemon">🍋 Lemon</option><option value="orange">🍊 Orange</option><option value="peach">🍑 Peach</option>
-                <option value="beef30">🥩 Beef Maturing (30 Day)</option><option value="beef60">🥩 Beef Maturing (60 Day)</option><option value="beef90">🥩 Beef Maturing (90 Day)</option>
-                <option value="pork30">🥩 Pork Maturing (30 Day)</option><option value="pork60">🥩 Pork Maturing (60 Day)</option><option value="pork90">🥩 Pork Maturing (90 Day)</option>
-                <option value="lamb30">🥩 Lamb Maturing (30 Day)</option><option value="lamb60">🥩 Lamb Maturing (60 Day)</option><option value="lamb90">🥩 Lamb Maturing (90 Day)</option>
-              </select>
-            </div>
+            <div class="form-group"><label>Vegetable/Fruit/Meat</label><select id="preserveVeggie">
+              <option value="tomato">🍅 Tomato</option><option value="cabbage">🥬 Cabbage</option><option value="onion">🧅 Onion</option>
+              <option value="mango">🥭 Mango</option><option value="carrot">🥕 Carrot</option><option value="pepper">🫑 Pepper</option>
+              <option value="cucumber">🥒 Cucumber</option><option value="papaya">🌴 Papaya</option><option value="potato">🥔 Potato</option>
+              <option value="garlic">🧄 Garlic</option><option value="ginger">🫚 Ginger</option><option value="corn">🌽 Corn</option>
+              <option value="strawberry">🍓 Strawberry</option><option value="apple">🍎 Apple</option><option value="banana">🍌 Banana</option>
+              <option value="lemon">🍋 Lemon</option><option value="orange">🍊 Orange</option><option value="peach">🍑 Peach</option>
+              <option value="beef30">🥩 Beef Maturing (30 Day)</option><option value="beef60">🥩 Beef Maturing (60 Day)</option><option value="beef90">🥩 Beef Maturing (90 Day)</option>
+              <option value="pork30">🥩 Pork Maturing (30 Day)</option><option value="pork60">🥩 Pork Maturing (60 Day)</option><option value="pork90">🥩 Pork Maturing (90 Day)</option>
+              <option value="lamb30">🥩 Lamb Maturing (30 Day)</option><option value="lamb60">🥩 Lamb Maturing (60 Day)</option><option value="lamb90">🥩 Lamb Maturing (90 Day)</option>
+            </select></div>
             <div class="form-group"><label>Weight (kg)</label><input type="number" id="preserveWeight" value="10"></div>
-            <div class="form-group"><label>Preservation Method</label>
-              <select id="preserveMethod">
-                <option value="drying">🌞 Drying (85% yield, 12-18 months)</option>
-                <option value="pickling">🥒 Pickling (95% yield, 6-12 months)</option>
-                <option value="canning">🥫 Canning (90% yield, 12-24 months)</option>
-                <option value="fermenting">🧫 Fermenting (88% yield, 6-12 months)</option>
-                <option value="freezing">❄️ Freezing (92% yield, 8-12 months)</option>
-                <option value="jam">🍯 Jam/Preserves (75% yield, 12-18 months)</option>
-                <option value="oil">🫒 Oil Preservation (80% yield, 6-9 months)</option>
-                <option value="salt">🧂 Salt Curing (82% yield, 6-12 months)</option>
-                <option value="sugar">🍬 Sugar Syrup (78% yield, 12-18 months)</option>
-              </select>
-            </div>
+            <div class="form-group"><label>Preservation Method</label><select id="preserveMethod">
+              <option value="drying">🌞 Drying (85% yield, 12-18 months)</option>
+              <option value="pickling">🥒 Pickling (95% yield, 6-12 months)</option>
+              <option value="canning">🥫 Canning (90% yield, 12-24 months)</option>
+              <option value="fermenting">🧫 Fermenting (88% yield, 6-12 months)</option>
+              <option value="freezing">❄️ Freezing (92% yield, 8-12 months)</option>
+              <option value="jam">🍯 Jam/Preserves (75% yield, 12-18 months)</option>
+              <option value="oil">🫒 Oil Preservation (80% yield, 6-9 months)</option>
+              <option value="salt">🧂 Salt Curing (82% yield, 6-12 months)</option>
+              <option value="sugar">🍬 Sugar Syrup (78% yield, 12-18 months)</option>
+            </select></div>
             <button class="btn btn-primary btn-block" onclick="calculatePreservation()">🧮 Calculate</button>
           </div>
           <div id="calcResults" style="background:var(--bg);border-radius:var(--radius-sm);padding:20px;display:flex;flex-direction:column;justify-content:center;text-align:center;">
@@ -925,11 +747,7 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
   <!-- EMPLOYER -->
   <div id="tab-employer" class="tab-content" style="display:none;">
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Employer</div>
-        <h2>🏢 Employer Portal</h2>
-        <p>Post jobs and find skilled talent from our community.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Employer</div><h2>🏢 Employer Portal</h2><p>Post jobs and find skilled talent from our community.</p></div>
       <div style="background:var(--bg-card);border-radius:var(--radius);padding:1.5rem;border:1px solid var(--border);margin-bottom:1.5rem;">
         <h4>📌 Post a Job</h4>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
@@ -939,21 +757,15 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
         </div>
         <button class="btn btn-primary" onclick="postJob()">💰 Post Job</button>
       </div>
-      <h3 style="margin-top:1.5rem;">Your Jobs</h3>
-      <div id="employerJobList"><p style="color:var(--text-dim);">Login to post and manage jobs.</p></div>
-      <h3 style="margin-top:1.5rem;">All Jobs</h3>
-      <div id="allJobsList"><p style="color:var(--text-dim);">Loading jobs...</p></div>
+      <h3 style="margin-top:1.5rem;">Your Jobs</h3><div id="employerJobList"><p style="color:var(--text-dim);">Login to post and manage jobs.</p></div>
+      <h3 style="margin-top:1.5rem;">All Jobs</h3><div id="allJobsList"><p style="color:var(--text-dim);">Loading jobs...</p></div>
     </section>
   </div>
 
   <!-- FORUM -->
   <div id="tab-forum" class="tab-content" style="display:none;">
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Community</div>
-        <h2>💬 Forum</h2>
-        <p>Connect with other learners, ask questions, and share your progress.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Community</div><h2>💬 Forum</h2><p>Connect with other learners, ask questions, and share your progress.</p></div>
       <button class="btn btn-primary" onclick="openNewPostModal()"><i class="fas fa-plus"></i> New Post</button>
       <div id="forumPostsContainer" style="margin-top:1.5rem;"><p style="color:var(--text-dim);">Loading posts...</p></div>
     </section>
@@ -962,11 +774,7 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
   <!-- VERIFY -->
   <div id="tab-verify" class="tab-content" style="display:none;">
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Verification</div>
-        <h2>🔗 Verify Certificate</h2>
-        <p>Enter your certificate code to verify its authenticity.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Verification</div><h2>🔗 Verify Certificate</h2><p>Enter your certificate code to verify its authenticity.</p></div>
       <div style="max-width:500px;margin:0 auto;background:var(--bg-card);border-radius:var(--radius);padding:2rem;border:1px solid var(--border);">
         <div class="form-group"><label>Certificate Code</label><input type="text" id="verifyInput" placeholder="e.g. RAS-ABC123-XYZ456"></div>
         <button class="btn btn-accent btn-block" onclick="verifyCertificate()">🔍 Verify</button>
@@ -977,23 +785,13 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
 
   <!-- ADMIN -->
   <div id="tab-admin" class="tab-content" style="display:none;">
-    <section class="section">
-      <div style="text-align:center;padding:60px 20px;">
-        <i class="fas fa-lock" style="font-size:4rem;color:var(--danger);"></i>
-        <h2 style="margin-top:16px;">🔒 Access Denied</h2>
-        <p style="color:var(--text-muted);">You must be an administrator to view this panel.</p>
-      </div>
-    </section>
+    <section class="section"><div style="text-align:center;padding:60px 20px;"><i class="fas fa-lock" style="font-size:4rem;color:var(--danger);"></i><h2 style="margin-top:16px;">🔒 Access Denied</h2><p style="color:var(--text-muted);">You must be an administrator to view this panel.</p></div></section>
   </div>
 
   <!-- PRICING -->
   <div id="tab-pricing" class="tab-content" style="display:none;">
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Flexible Pricing</div>
-        <h2>Choose Your Plan</h2>
-        <p>Invest in yourself. One payment, lifetime access.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Flexible Pricing</div><h2>Choose Your Plan</h2><p>Invest in yourself. One payment, lifetime access.</p></div>
       <div class="pricing-grid">
         <div class="pricing-card animate-on-scroll">
           <div class="pricing-name">Starter</div>
@@ -1001,42 +799,29 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
           <div class="pricing-price">$3.50<span>/course</span></div>
           <div class="pricing-period">One-time payment</div>
           <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> 1 course access</li>
-            <li><i class="fas fa-check"></i> Video lessons</li>
-            <li><i class="fas fa-check"></i> Downloadable resources</li>
-            <li><i class="fas fa-check"></i> Community access</li>
-            <li><i class="fas fa-check"></i> Certificate of completion</li>
-            <li><i class="fas fa-times" style="color:var(--text-dim);"></i> Priority support</li>
+            <li><i class="fas fa-check"></i> 1 course access</li><li><i class="fas fa-check"></i> Video lessons</li>
+            <li><i class="fas fa-check"></i> Downloadable resources</li><li><i class="fas fa-check"></i> Community access</li>
+            <li><i class="fas fa-check"></i> Certificate of completion</li><li><i class="fas fa-times" style="color:var(--text-dim);"></i> Priority support</li>
           </ul>
           <button class="btn btn-secondary btn-block" onclick="selectPlan('starter')">Get Started</button>
         </div>
         <div class="pricing-card featured animate-on-scroll">
-          <div class="pricing-name">Pro</div>
-          <div class="pricing-desc">Best value for serious learners</div>
-          <div class="pricing-price">$10<span>/month</span></div>
-          <div class="pricing-period">Unlimited access</div>
+          <div class="pricing-name">Pro</div><div class="pricing-desc">Best value for serious learners</div>
+          <div class="pricing-price">$10<span>/month</span></div><div class="pricing-period">Unlimited access</div>
           <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> All 500+ courses</li>
-            <li><i class="fas fa-check"></i> HD video lessons</li>
-            <li><i class="fas fa-check"></i> Downloadable resources</li>
-            <li><i class="fas fa-check"></i> Community access</li>
-            <li><i class="fas fa-check"></i> Verified certificates</li>
-            <li><i class="fas fa-check"></i> Priority support</li>
+            <li><i class="fas fa-check"></i> All 500+ courses</li><li><i class="fas fa-check"></i> HD video lessons</li>
+            <li><i class="fas fa-check"></i> Downloadable resources</li><li><i class="fas fa-check"></i> Community access</li>
+            <li><i class="fas fa-check"></i> Verified certificates</li><li><i class="fas fa-check"></i> Priority support</li>
           </ul>
           <button class="btn btn-primary btn-block" onclick="selectPlan('pro')">Get Pro Access</button>
         </div>
         <div class="pricing-card animate-on-scroll">
-          <div class="pricing-name">Bundle</div>
-          <div class="pricing-desc">For teams and organizations</div>
-          <div class="pricing-price">$40<span>/bundle</span></div>
-          <div class="pricing-period">5 courses of your choice</div>
+          <div class="pricing-name">Bundle</div><div class="pricing-desc">For teams and organizations</div>
+          <div class="pricing-price">$40<span>/bundle</span></div><div class="pricing-period">5 courses of your choice</div>
           <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> 5 courses</li>
-            <li><i class="fas fa-check"></i> Video lessons</li>
-            <li><i class="fas fa-check"></i> Downloadable resources</li>
-            <li><i class="fas fa-check"></i> Community access</li>
-            <li><i class="fas fa-check"></i> Certificates</li>
-            <li><i class="fas fa-check"></i> Team analytics</li>
+            <li><i class="fas fa-check"></i> 5 courses</li><li><i class="fas fa-check"></i> Video lessons</li>
+            <li><i class="fas fa-check"></i> Downloadable resources</li><li><i class="fas fa-check"></i> Community access</li>
+            <li><i class="fas fa-check"></i> Certificates</li><li><i class="fas fa-check"></i> Team analytics</li>
           </ul>
           <button class="btn btn-secondary btn-block" onclick="selectPlan('bundle')">Choose Bundle</button>
         </div>
@@ -1049,16 +834,11 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <div class="logo" style="font-size:1.25rem;">
-        <div class="logo-icon" style="width:36px;height:36px;font-size:1rem;"><i class="fas fa-graduation-cap"></i></div>
-        Rise Africa
-      </div>
+      <div class="logo" style="font-size:1.25rem;"><div class="logo-icon" style="width:36px;height:36px;font-size:1rem;"><i class="fas fa-graduation-cap"></i></div>Rise Africa</div>
       <p>Empowering Africans with practical vocational skills for the modern economy.</p>
       <div class="footer-social">
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin"></i></a>
         <a href="#"><i class="fab fa-youtube"></i></a>
       </div>
     </div>
@@ -1084,12 +864,8 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
         <div class="form-group" id="nameGroup" style="display:none;"><label>Full Name</label><input type="text" id="authName" placeholder="Your full name"></div>
         <button type="submit" class="btn btn-primary btn-block" id="authSubmitBtn"><i class="fas fa-sign-in-alt"></i> Log In</button>
       </form>
-      <p style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--text-muted);">
-        <a href="#" onclick="resetPassword()" style="color:var(--primary-light);">Forgot password?</a>
-      </p>
-      <p style="text-align:center;margin-top:0.5rem;font-size:0.85rem;color:var(--text-muted);">
-        By continuing, you agree to our Terms and Privacy Policy.
-      </p>
+      <p style="text-align:center;margin-top:1rem;font-size:0.85rem;color:var(--text-muted);"><a href="#" onclick="resetPassword()" style="color:var(--primary-light);">Forgot password?</a></p>
+      <p style="text-align:center;margin-top:0.5rem;font-size:0.85rem;color:var(--text-muted);">By continuing, you agree to our Terms and Privacy Policy.</p>
     </div>
   </div>
 </div>
@@ -1154,7 +930,7 @@ body.dark .cohort-bar.inactive { background:#2d4059; }
 </div>
 
 <!-- ================================================================ -->
-<!-- ===== JAVASCRIPT – 100% COMPLETE ===== -->
+<!-- ===== JAVASCRIPT – COMPLETE WITH IMAGES ===== -->
 <!-- ================================================================ -->
 <script>
 // ================================================================
@@ -1169,16 +945,8 @@ const firebaseConfig = {
   appId: "1:949966080551:web:4df95edfbfb4301ad3dc02"
 };
 
-// ================================================================
-//  PAYSTACK CONFIG – REPLACE WITH YOUR LIVE KEY
-// ================================================================
 const PAYSTACK_PUBLIC_KEY = "pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-
-// ================================================================
-//  GROQ AI CONFIG – GET FREE API KEY FROM console.groq.com
-// ================================================================
-const GROQ_API_KEY = ""; // <-- Paste your Groq API key here (optional)
-const GROQ_MODEL = "llama3-70b-8192";
+const GROQ_API_KEY = "";
 
 // ================================================================
 //  INIT FIREBASE
@@ -1188,7 +956,194 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // ================================================================
-//  COURSE DATA – 500+ REAL COURSES WITH MODULES
+//  IMAGE MAPPING – Category → Relevant Image URLs
+// ================================================================
+const CATEGORY_IMAGES = {
+  "Automotive": [
+    "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1503376780353-7e6692767b5b?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Beekeeping": [
+    "https://images.unsplash.com/photo-1585143856198-2b53fe4d9b4d?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1587049352851-8d4e8913cb56?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1507908708918-778587c9e563?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1551814579-62c6d37b26c3?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Aquaculture": [
+    "https://images.unsplash.com/photo-1557821552-17105176677c?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1559777071-0c6c74eda8a2?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Cottage Industry": [
+    "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1585336261022-680e295ce3fe?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1610833917017-082c20fb9d87?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1585514932002-4dbb794870e5?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Food Preservation": [
+    "https://images.unsplash.com/photo-1591043408761-5b3ee8339f75?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Crop Farming": [
+    "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Construction": [
+    "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1574486165602-fa6f4b9a0b97?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Energy": [
+    "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Metalwork": [
+    "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1592438555468-99c794f908a7?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Mushroom Farming": [
+    "https://images.unsplash.com/photo-1587574293340-e0011c4c2b4a?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1530276969001-2f4bb57f01ce?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1558446651-6ea1d1b147be?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Poultry": [
+    "https://images.unsplash.com/photo-1566565571610-95dbb5bdd9f7?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1584962964131-1cec2799ae63?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Pig Farming": [
+    "https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1581375074618-d1b34b5dec73?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Technology": [
+    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Languages": [
+    "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Healthcare": [
+    "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Logistics": [
+    "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Mining": [
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1598971861089-d9e0ec0ea3f9?w=400&h=200&fit=crop&auto=format"
+  ],
+  "DJ & Music": [
+    "https://images.unsplash.com/photo-1571266028243-e4733b0f0bb3?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Podcasting": [
+    "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Tailoring": [
+    "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1566041510394-cf7c8fe21800?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Carpentry": [
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1531857851172-8b4a20c5c35b?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1534093607318-025b6cdd6c68?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Plumbing": [
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Hairdressing": [
+    "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1522336572468-97b06e8ef143?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Baking": [
+    "https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1585478259715-976a7b1a2b63?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Animal Husbandry": [
+    "https://images.unsplash.com/photo-1546445310-8e1a3c8a2d3b?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Irrigation": [
+    "https://images.unsplash.com/photo-1530819279781-2ca4461433d3?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Renewable Energy": [
+    "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1497440001374-f26997328c1b?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Design": [
+    "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Videography": [
+    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1536240478700-b869070f9279?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Photography": [
+    "https://images.unsplash.com/photo-1452780212940-6f5c0d14d848?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Event Management": [
+    "https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Project Management": [
+    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Accounting": [
+    "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Marketing": [
+    "https://images.unsplash.com/photo-1432888622747-4eb9a8f2e2a5?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1432888622747-4eb9a8f2e2a5?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Sales": [
+    "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1552581234-26160f608093?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Customer Service": [
+    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=200&fit=crop&auto=format"
+  ],
+  "Leadership": [
+    "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=200&fit=crop&auto=format",
+    "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&h=200&fit=crop&auto=format"
+  ]
+};
+
+// Fallback image for any category not in the map
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop&auto=format";
+
+function getImageForCategory(category, index = 0) {
+  const images = CATEGORY_IMAGES[category] || [FALLBACK_IMAGE];
+  return images[index % images.length];
+}
+
+// ================================================================
+//  COURSE DATA – 500+ REAL COURSES WITH IMAGES
 // ================================================================
 const COURSES_DATA = [
   // === AUTOMOTIVE (15) ===
@@ -1257,7 +1212,7 @@ const COURSES_DATA = [
   {id:60, title:"Cottage Business Mastery", category:"Cottage Industry", emoji:"🧼", level:"Advanced", duration:"Long", price:18, rating:5.0, students:3166, modules:["Business Plan","Marketing","Sales","Finance","Scaling"], videoIds:["Pp2aD9e7VX8"]},
 ];
 
-// ===== GENERATE 500+ COURSES =====
+// ===== GENERATE 500+ COURSES WITH IMAGES =====
 function generateAllCourses() {
   const base = [...COURSES_DATA];
   const categories = ['Automotive','Beekeeping','Aquaculture','Cottage Industry','Food Preservation','Crop Farming','Construction','Energy','Metalwork','Mushroom Farming','Poultry','Pig Farming','Technology','Languages','Healthcare','Logistics','Mining','DJ & Music','Podcasting','Tailoring','Carpentry','Plumbing','Hairdressing','Baking','Animal Husbandry','Irrigation','Renewable Energy','Design','Videography','Photography','Event Management','Project Management','Accounting','Marketing','Sales','Customer Service','Leadership'];
@@ -1276,6 +1231,7 @@ function generateAllCourses() {
   let id = 61;
   while (base.length < 520) {
     const catIdx = Math.floor(Math.random() * categories.length);
+    const category = categories[catIdx];
     const level = levels[Math.floor(Math.random() * levels.length)];
     const dur = durations[Math.floor(Math.random() * durations.length)];
     const name = names[Math.floor(Math.random() * names.length)];
@@ -1286,10 +1242,13 @@ function generateAllCourses() {
     const price = [6,8,10,12,14,18][Math.floor(Math.random() * 6)];
     const mods = moduleTemplates[Math.floor(Math.random() * moduleTemplates.length)].map((m, i) => m + ' - ' + (['Step 1','Step 2','Step 3','Step 4','Step 5'][i] || 'Step ' + (i+1)));
     const vid = videoPool[Math.floor(Math.random() * videoPool.length)];
+    // Assign an image based on category
+    const imageIndex = base.length % 3;
+    const imageUrl = getImageForCategory(category, imageIndex);
     base.push({
       id: id++,
       title: title,
-      category: categories[catIdx],
+      category: category,
       emoji: emojis[catIdx],
       level: level,
       duration: dur,
@@ -1297,7 +1256,8 @@ function generateAllCourses() {
       rating: rating,
       students: students,
       modules: mods,
-      videoIds: [vid]
+      videoIds: [vid],
+      image: imageUrl
     });
   }
   return base;
@@ -1309,7 +1269,6 @@ const COURSES = generateAllCourses();
 //  VIDEO LIBRARY – 50+ REAL YOUTUBE VIDEOS
 // ================================================================
 const VIDEO_LIBRARY = [
-  // Original 16
   {id:'J-KCIFG3B5M', title:'Soap Making Success Story', category:'cottage-industry', level:'starter'},
   {id:'xcCZejr6KSc', title:'Burkina Faso Industrialisation', category:'cottage-industry', level:'commercial'},
   {id:'yXPsLFv099s', title:'China – Prescription for Poverty', category:'crop-production', level:'commercial'},
@@ -1326,7 +1285,6 @@ const VIDEO_LIBRARY = [
   {id:'m1nU4xZ_5_s', title:'Fish Farming Basics', category:'aquaculture', level:'starter'},
   {id:'9fMk2lG9LPA', title:'Marketing Basics', category:'marketing', level:'starter'},
   {id:'Pp2aD9e7VX8', title:'Leadership Skills', category:'leadership', level:'starter'},
-  // New additions (34 more)
   {id:'dTl1t1yM_xM', title:'DJ Mixing Tutorial', category:'dj', level:'starter'},
   {id:'bVQ2k3VfY-0', title:'Podcast Recording Setup', category:'podcast', level:'starter'},
   {id:'3rN2G3oCdKI', title:'Advanced Podcast Editing', category:'podcast', level:'middle'},
@@ -1646,9 +1604,11 @@ function switchDashboardTab(tab, el) {
       content.innerHTML = `<div class="empty-state"><i class="fas fa-book-open"></i><h3>No courses yet</h3><p>Browse our catalog and enroll in your first course.</p><button class="btn btn-primary" onclick="closeModal('dashboardModal'); switchTab('courses');" style="margin-top:1rem;">Browse Courses</button></div>`;
     } else {
       content.innerHTML = `<div class="courses-grid" style="grid-template-columns:repeat(auto-fill,minmax(250px,1fr));">
-        ${myCourses.map(c => `
+        ${myCourses.map(c => {
+          const img = c.image || getImageForCategory(c.category, c.id % 3);
+          return `
           <div class="course-card" onclick="closeModal('dashboardModal'); openCourse(${c.id});">
-            <div class="course-image"><img src="https://picsum.photos/seed/c${c.id}/400/250" alt="${c.title}" loading="lazy"><span class="course-badge ${c.level.toLowerCase()}">${c.level}</span></div>
+            <div class="course-image"><img src="${img}" alt="${c.title}" loading="lazy"><span class="course-badge ${c.level.toLowerCase()}">${c.level}</span></div>
             <div class="course-content">
               <h3 class="course-title" style="font-size:1rem;">${c.emoji} ${c.title}</h3>
               <div class="course-progress"><div class="fill" style="width:${state.progress[c.id] || 0}%;"></div></div>
@@ -1657,8 +1617,8 @@ function switchDashboardTab(tab, el) {
                 <span class="course-status ${state.progress[c.id] >= 100 ? 'completed' : 'enrolled'}">${state.progress[c.id] >= 100 ? '✅ Done' : '📖 In Progress'}</span>
               </div>
             </div>
-          </div>
-        `).join('')}</div>`;
+          </div>`;
+        }).join('')}</div>`;
     }
   } else if (tab === 'payments') {
     if (state.payments.length === 0) {
@@ -1737,7 +1697,6 @@ function renderCategories() {
   const grid = document.getElementById('categoriesGrid');
   const cats = {};
   COURSES.forEach(c => { if (!cats[c.category]) cats[c.category] = {count:0, emoji:c.emoji}; cats[c.category].count++; });
-  // Sort categories alphabetically
   const sortedCats = Object.keys(cats).sort();
   grid.innerHTML = sortedCats.map(cat => `
     <div class="category-card" onclick="filterByCategory('${cat}')">
@@ -1811,9 +1770,14 @@ function renderCourses() {
     const isCompleted = progress >= 100;
     const statusClass = isCompleted ? 'completed' : isEnrolled ? 'enrolled' : 'locked';
     const statusText = isCompleted ? '✅ Completed' : isEnrolled ? '📖 In Progress' : '🔒 Locked';
+    const img = c.image || getImageForCategory(c.category, c.id % 3);
     return `
     <div class="course-card" onclick="openCourse(${c.id})">
-      <div class="course-image"><img src="https://picsum.photos/seed/c${c.id}/400/250" alt="${c.title}" loading="lazy"><span class="course-badge ${c.level.toLowerCase()}">${c.level}</span></div>
+      <div class="course-image">
+        <img src="${img}" alt="${c.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop&auto=format'">
+        <span class="category-overlay">${c.emoji} ${c.category}</span>
+        <span class="course-badge ${c.level.toLowerCase()}">${c.level}</span>
+      </div>
       <div class="course-content">
         <div class="course-meta"><span><i class="fas fa-folder"></i> ${c.category}</span><span><i class="fas fa-clock"></i> ${c.duration}</span><span><i class="fas fa-book"></i> ${c.modules.length} lessons</span></div>
         <h3 class="course-title">${c.emoji} ${c.title}</h3>
@@ -1855,16 +1819,18 @@ function goToPage(page) {
 function renderFeaturedCourses() {
   const grid = document.getElementById('featuredCoursesGrid');
   const featured = COURSES.sort((a,b) => b.students - a.students).slice(0, 6);
-  grid.innerHTML = featured.map(c => `
+  grid.innerHTML = featured.map(c => {
+    const img = c.image || getImageForCategory(c.category, c.id % 3);
+    return `
     <div class="course-card" onclick="openCourse(${c.id})">
-      <div class="course-image"><img src="https://picsum.photos/seed/fc${c.id}/400/250" alt="${c.title}" loading="lazy"><span class="course-badge ${c.level.toLowerCase()}">${c.level}</span></div>
+      <div class="course-image"><img src="${img}" alt="${c.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop&auto=format'"><span class="category-overlay">${c.emoji} ${c.category}</span><span class="course-badge ${c.level.toLowerCase()}">${c.level}</span></div>
       <div class="course-content">
         <div class="course-meta"><span><i class="fas fa-folder"></i> ${c.category}</span><span><i class="fas fa-clock"></i> ${c.duration}</span></div>
         <h3 class="course-title">${c.emoji} ${c.title}</h3>
         <div class="course-footer"><span class="course-price">$${c.price}</span><div class="course-rating"><i class="fas fa-star"></i><span>${c.rating}</span><span>(${c.students.toLocaleString()})</span></div></div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function renderTestimonials() {
@@ -1896,13 +1862,14 @@ function openCourse(id) {
   const progress = state.progress[id] || 0;
   const isCompleted = progress >= 100;
   const body = document.getElementById('courseModalBody');
+  const img = course.image || getImageForCategory(course.category, course.id % 3);
 
   body.innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
       <div>
-        <img src="https://picsum.photos/seed/oc${id}/400/250" style="width:100%;border-radius:var(--radius);margin-bottom:1rem;" alt="${course.title}">
+        <img src="${img}" style="width:100%;border-radius:var(--radius);margin-bottom:1rem;aspect-ratio:16/9;object-fit:cover;" alt="${course.title}" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=200&fit=crop&auto=format'">
         <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-          <span class="badge badge-primary">${course.category}</span>
+          <span class="badge badge-primary">${course.emoji} ${course.category}</span>
           <span class="badge badge-secondary">${course.level}</span>
           <span class="badge badge-accent">${course.duration}</span>
         </div>
@@ -2299,68 +2266,47 @@ function populateCountryDropdown() {
 function loadAdminPanel() {
   const container = document.getElementById('tab-admin');
   if (!state.isAdmin) {
-    container.innerHTML = `
-      <section class="section"><div style="text-align:center;padding:60px 20px;">
-        <i class="fas fa-lock" style="font-size:4rem;color:var(--danger);"></i>
-        <h2 style="margin-top:16px;">🔒 Access Denied</h2>
-        <p style="color:var(--text-muted);">You must be an administrator to view this panel.</p>
-      </div></section>
-    `;
+    container.innerHTML = `<section class="section"><div style="text-align:center;padding:60px 20px;"><i class="fas fa-lock" style="font-size:4rem;color:var(--danger);"></i><h2 style="margin-top:16px;">🔒 Access Denied</h2><p style="color:var(--text-muted);">You must be an administrator to view this panel.</p></div></section>`;
     return;
   }
 
   container.innerHTML = `
     <section class="section">
-      <div class="section-header animate-on-scroll">
-        <div class="section-tag">Admin</div>
-        <h2>📋 Admin Dashboard</h2>
-        <p>Manage courses, users, certificates, and platform settings.</p>
-      </div>
+      <div class="section-header animate-on-scroll"><div class="section-tag">Admin</div><h2>📋 Admin Dashboard</h2><p>Manage courses, users, certificates, and platform settings.</p></div>
       <div class="dashboard-grid">
         <div class="stat-card"><div class="icon purple"><i class="fas fa-book"></i></div><div class="value">${COURSES.length}</div><div class="label">Total Courses</div></div>
         <div class="stat-card"><div class="icon pink"><i class="fas fa-video"></i></div><div class="value">${VIDEO_LIBRARY.length}</div><div class="label">Videos</div></div>
         <div class="stat-card"><div class="icon green"><i class="fas fa-certificate"></i></div><div class="value">${state.certificates.length}</div><div class="label">Certificates</div></div>
         <div class="stat-card"><div class="icon orange"><i class="fas fa-users"></i></div><div class="value">${state.enrolledCourses.length}</div><div class="label">Enrollments</div></div>
       </div>
-
       <div style="background:var(--bg-card);border-radius:var(--radius);padding:1.5rem;border:1px solid var(--border);margin-bottom:1.5rem;">
-        <h3>👥 User Roles</h3>
-        <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">Manage user roles: Admin, Teacher, or Student.</p>
+        <h3>👥 User Roles</h3><p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">Manage user roles: Admin, Teacher, or Student.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
           <select id="roleUserSelect" style="padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elevated);color:var(--text);flex:1;min-width:200px;"></select>
           <select id="roleSelect" style="padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elevated);color:var(--text);">
-            <option value="student">🎓 Student</option>
-            <option value="teacher">👨‍🏫 Teacher</option>
-            <option value="admin">🛡️ Admin</option>
+            <option value="student">🎓 Student</option><option value="teacher">👨‍🏫 Teacher</option><option value="admin">🛡️ Admin</option>
           </select>
           <button class="btn btn-primary" onclick="assignUserRole()">✅ Assign Role</button>
         </div>
       </div>
-
       <div style="background:var(--bg-card);border-radius:var(--radius);padding:1.5rem;border:1px solid var(--border);margin-bottom:1.5rem;">
-        <h3>⏰ Certificate Expiry</h3>
-        <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">Set certificate expiry period.</p>
+        <h3>⏰ Certificate Expiry</h3><p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">Set certificate expiry period.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
           <select id="certExpiryPeriod" style="padding:8px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elevated);color:var(--text);">
-            <option value="365">1 Year (365 days)</option>
-            <option value="180">6 Months (180 days)</option>
-            <option value="90">3 Months (90 days)</option>
-            <option value="30">1 Month (30 days)</option>
+            <option value="365">1 Year (365 days)</option><option value="180">6 Months (180 days)</option>
+            <option value="90">3 Months (90 days)</option><option value="30">1 Month (30 days)</option>
           </select>
           <button class="btn btn-primary" onclick="updateCertExpiry()">🔄 Update</button>
         </div>
       </div>
-
       <div style="background:var(--bg-card);border-radius:var(--radius);padding:1.5rem;border:1px solid var(--border);margin-bottom:1.5rem;">
-        <h3>📥 Import YouTube Playlist</h3>
-        <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">Import a YouTube playlist as a course.</p>
+        <h3>📥 Import YouTube Playlist</h3><p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">Import a YouTube playlist as a course.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
           <input type="text" id="playlistIdInput" placeholder="YouTube Playlist ID" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg-elevated);color:var(--text);min-width:250px;">
           <button class="btn btn-gold" onclick="importYouTubePlaylist()">📥 Import</button>
         </div>
         <div id="playlistImportStatus" style="margin-top:8px;font-size:0.85rem;color:var(--text-muted);"></div>
       </div>
-
       <div style="background:var(--bg-card);border-radius:var(--radius);padding:1.5rem;border:1px solid var(--border);">
         <h3>📊 Platform Analytics</h3>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px;">
@@ -2425,12 +2371,7 @@ function importYouTubePlaylist() {
         if (data.error) { showToast('API Error: ' + data.error.message, 'error'); return; }
         const items = data.items || [];
         if (items.length === 0) { showToast('No videos found in this playlist.', 'warning'); return; }
-        const videos = items.map(item => ({
-          id: item.snippet.resourceId.videoId,
-          title: item.snippet.title,
-          category: 'cottage-industry',
-          level: 'starter'
-        }));
+        const videos = items.map(item => ({ id: item.snippet.resourceId.videoId, title: item.snippet.title, category: 'cottage-industry', level: 'starter' }));
         VIDEO_LIBRARY.push(...videos);
         document.getElementById('playlistImportStatus').textContent = '✅ Imported ' + videos.length + ' videos from playlist!';
         showToast('✅ ' + videos.length + ' videos imported!', 'success');
@@ -2440,10 +2381,7 @@ function importYouTubePlaylist() {
   } else {
     showToast('🔑 No API key provided. Using simulated import.', 'info');
     setTimeout(() => {
-      const demoVideos = [
-        {id:'dQw4w9WgXcQ', title:'Demo Video 1', category:'cottage-industry', level:'starter'},
-        {id:'J-KCIFG3B5M', title:'Demo Video 2', category:'cottage-industry', level:'starter'}
-      ];
+      const demoVideos = [{id:'dQw4w9WgXcQ', title:'Demo Video 1', category:'cottage-industry', level:'starter'}, {id:'J-KCIFG3B5M', title:'Demo Video 2', category:'cottage-industry', level:'starter'}];
       VIDEO_LIBRARY.push(...demoVideos);
       document.getElementById('playlistImportStatus').textContent = '✅ Simulated import of 2 demo videos!';
       showToast('✅ Simulated import complete!', 'success');
@@ -2457,12 +2395,9 @@ function importYouTubePlaylist() {
 // ================================================================
 function toggleAIChat() {
   const modal = document.getElementById('aiChatModal');
-  const btn = document.getElementById('aiChatBtn');
   state.aiChatOpen = !state.aiChatOpen;
   modal.classList.toggle('open', state.aiChatOpen);
-  if (state.aiChatOpen) {
-    document.getElementById('aiChatInput').focus();
-  }
+  if (state.aiChatOpen) document.getElementById('aiChatInput').focus();
 }
 
 function sendAIMessage() {
@@ -2472,16 +2407,7 @@ function sendAIMessage() {
   input.value = '';
   addAIMessage(message, 'user');
   showTypingIndicator();
-  
-  // Get AI response
-  getAIResponse(message).then(response => {
-    removeTypingIndicator();
-    addAIMessage(response, 'bot');
-  }).catch(err => {
-    removeTypingIndicator();
-    addAIMessage('Sorry, I encountered an error. Please try again.', 'bot');
-    console.error('AI Error:', err);
-  });
+  getAIResponse(message).then(response => { removeTypingIndicator(); addAIMessage(response, 'bot'); }).catch(err => { removeTypingIndicator(); addAIMessage('Sorry, I encountered an error. Please try again.', 'bot'); });
 }
 
 function addAIMessage(text, sender) {
@@ -2510,89 +2436,36 @@ function removeTypingIndicator() {
 }
 
 async function getAIResponse(userMessage) {
-  // Try Groq API first
   if (GROQ_API_KEY && GROQ_API_KEY.length > 10) {
     try {
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${GROQ_API_KEY}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
         body: JSON.stringify({
-          model: GROQ_MODEL,
-          messages: [
-            { role: 'system', content: `You are Rise AI, the assistant for Rise Africa Skills Platform. You help students find courses, understand skills, and get career advice. 
-            Rise Africa offers 500+ vocational courses across 37 categories including: Automotive, Beekeeping, Aquaculture, Cottage Industry, Food Preservation, Crop Farming, Construction, Energy, Metalwork, Mushroom Farming, Poultry, Pig Farming, Technology, Languages, Healthcare, Logistics, Mining, DJ & Music, Podcasting, Tailoring, Carpentry, Plumbing, Hairdressing, Baking, Animal Husbandry, Irrigation, Renewable Energy, Design, Videography, Photography, Event Management, Project Management, Accounting, Marketing, Sales, Customer Service, and Leadership.
-            Pricing: Starter $3.50/course, Pro $10/month (all courses), Bundle $40 for 5 courses.
-            Be friendly, helpful, and concise. Keep responses under 3 sentences when possible.` },
-            ...state.aiMessageHistory.slice(-5).map(m => ({ 
-              role: m.role === 'user' ? 'user' : 'assistant', 
-              content: m.content 
-            })),
-            { role: 'user', content: userMessage }
-          ],
-          temperature: 0.7,
-          max_tokens: 300
+          model: "llama3-70b-8192",
+          messages: [{ role: 'system', content: 'You are Rise AI, assistant for Rise Africa Skills Platform. Help students find courses, understand skills, get career advice. Be friendly, helpful, concise.' }, ...state.aiMessageHistory.slice(-5).map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.content })), { role: 'user', content: userMessage }],
+          temperature: 0.7, max_tokens: 300
         })
       });
       const data = await response.json();
-      if (data.choices && data.choices[0]) {
-        return data.choices[0].message.content;
-      }
-    } catch (err) {
-      console.warn('Groq API error, falling back to simulation:', err);
-    }
+      if (data.choices && data.choices[0]) return data.choices[0].message.content;
+    } catch (err) { console.warn('Groq API error:', err); }
   }
-  
-  // Fallback: Simulated intelligent responses
-  return getSimulatedResponse(userMessage);
-}
-
-function getSimulatedResponse(message) {
-  const msg = message.toLowerCase();
-  
-  // Course recommendations
-  if (msg.includes('course') || msg.includes('learn') || msg.includes('study')) {
-    if (msg.includes('soap') || msg.includes('cosmetic')) return '🧼 Great choice! Our "Soap Making from Scratch" course is very popular. Also check out "Liquid Soap & Shampoo" and "Body Lotion & Creams". All are in the Cottage Industry category.';
-    if (msg.includes('farming') || msg.includes('agriculture')) return '🌾 We have excellent farming courses! "Fish Farming Basics", "Beekeeping Basics", and "Poultry Farming Guide" are top-rated. Also check our Crop Farming category for more.';
-    if (msg.includes('tech') || msg.includes('computer') || msg.includes('coding')) return '💻 Our Technology category has "Coding for Beginners", "Web Development", and "Data Analysis". All include hands-on projects.';
-    if (msg.includes('business') || msg.includes('start') || msg.includes('entrepreneur')) return '📈 For entrepreneurs, we recommend "Cottage Business Mastery", "Marketing Basics", and "Sales Techniques". Also check our Leadership category.';
-    return '📚 We have 500+ courses across 37 categories. Try searching for "farming", "soap", "coding", or "business" to find what interests you!';
+  const msg = userMessage.toLowerCase();
+  if (msg.includes('course') || msg.includes('learn')) {
+    if (msg.includes('soap') || msg.includes('cosmetic')) return '🧼 Check out "Soap Making from Scratch", "Liquid Soap & Shampoo", and "Body Lotion & Creams" in Cottage Industry!';
+    if (msg.includes('farming') || msg.includes('agriculture')) return '🌾 Try "Fish Farming Basics", "Beekeeping Basics", or "Poultry Farming Guide" – all top-rated!';
+    if (msg.includes('tech') || msg.includes('coding')) return '💻 Our Technology category has "Coding for Beginners", "Web Development", and "Data Analysis" – great for digital skills!';
+    if (msg.includes('business') || msg.includes('start')) return '📈 For entrepreneurs: "Cottage Business Mastery", "Marketing Basics", and "Sales Techniques"!';
+    return '📚 We have 500+ courses across 37 categories. Try searching for "farming", "soap", "coding", or "business"!';
   }
-  
-  // Pricing
-  if (msg.includes('price') || msg.includes('cost') || msg.includes('pay') || msg.includes('$')) {
-    return '💰 We have three plans: Starter ($3.50/course), Pro ($10/month for all courses), and Bundle ($40 for 5 courses). Pro is our best value!';
-  }
-  
-  // Certificates
-  if (msg.includes('certificate') || msg.includes('cert') || msg.includes('verify')) {
-    return '🎓 Yes! You get a verified certificate for every course you complete. You can verify any certificate using the "Verify" tab on our platform.';
-  }
-  
-  // Videos
-  if (msg.includes('video') || msg.includes('watch') || msg.includes('youtube')) {
-    return '🎬 We have 50+ real YouTube videos in our Skills Library. You can filter by category and level. Check the Videos tab!';
-  }
-  
-  // Categories
-  if (msg.includes('category') || msg.includes('type') || msg.includes('kind')) {
-    return '🏷️ We have 37 categories including Automotive, Beekeeping, Aquaculture, Cottage Industry, Technology, Healthcare, and many more. Browse the Categories section on our Home page!';
-  }
-  
-  // About
-  if (msg.includes('about') || msg.includes('mission') || msg.includes('who')) {
-    return '🌍 Rise Africa empowers African youth with practical vocational skills. We offer 500+ hands-on courses taught by industry experts. Our mission is to create self-sustaining livelihoods across Africa.';
-  }
-  
-  // Help
-  if (msg.includes('help') || msg.includes('support') || msg.includes('question')) {
-    return '🤝 I\'m here to help! You can ask me about courses, pricing, certificates, videos, or anything else about Rise Africa. What would you like to know?';
-  }
-  
-  // Default friendly response
-  return `👋 That's a great question! I'm here to help you learn more about Rise Africa. We offer 500+ vocational courses across 37 categories. What specific skill are you interested in?`;
+  if (msg.includes('price') || msg.includes('cost') || msg.includes('$')) return '💰 Starter: $3.50/course, Pro: $10/month (all courses), Bundle: $40 for 5 courses. Pro is best value!';
+  if (msg.includes('certificate') || msg.includes('cert')) return '🎓 Yes! Complete any course and get a verified certificate. Verify any certificate using our "Verify" tab.';
+  if (msg.includes('video') || msg.includes('watch')) return '🎬 We have 50+ real YouTube videos in our Skills Library. Check the Videos tab and filter by category!';
+  if (msg.includes('category') || msg.includes('type')) return '🏷️ We have 37 categories including Automotive, Beekeeping, Aquaculture, Cottage Industry, Technology, Healthcare, and more!';
+  if (msg.includes('about') || msg.includes('mission')) return '🌍 Rise Africa empowers African youth with 500+ practical vocational skills courses. Our mission: create self-sustaining livelihoods.';
+  if (msg.includes('help') || msg.includes('support')) return '🤝 I\'m here to help! Ask me about courses, pricing, certificates, videos, or anything else about Rise Africa.';
+  return `👋 Great question! I'm here to help you learn about Rise Africa. We offer 500+ vocational courses across 37 categories. What skill are you interested in?`;
 }
 
 // ================================================================
@@ -2602,11 +2475,7 @@ let currentCheckout = null;
 
 function selectPlan(plan) {
   if (!state.user) { openAuthModal(); return; }
-  const plans = {
-    starter: {name:'Starter', price:3.50, desc:'1 course access'},
-    pro: {name:'Pro', price:10.00, desc:'All courses monthly'},
-    bundle: {name:'Bundle', price:40.00, desc:'5 courses'}
-  };
+  const plans = { starter: {name:'Starter', price:3.50, desc:'1 course access'}, pro: {name:'Pro', price:10.00, desc:'All courses monthly'}, bundle: {name:'Bundle', price:40.00, desc:'5 courses'} };
   currentCheckout = {type:'plan', ...plans[plan]};
   showCheckout();
 }
@@ -2652,9 +2521,7 @@ function processPayment(e) {
   const ref = 'RIS-' + Date.now();
 
   if (PAYSTACK_PUBLIC_KEY.includes('xxxxxxxx')) {
-    setTimeout(() => {
-      completePayment(ref, currentCheckout, name, email);
-    }, 1500);
+    setTimeout(() => { completePayment(ref, currentCheckout, name, email); }, 1500);
     showToast('Processing payment...', 'info');
     return;
   }
@@ -2671,43 +2538,24 @@ function processPayment(e) {
         {display_name:'Item', variable_name:'item', value:currentCheckout.type === 'course' ? currentCheckout.title : currentCheckout.name}
       ]
     },
-    callback: function(response) {
-      completePayment(response.reference, currentCheckout, name, email);
-    },
-    onClose: function() {
-      showToast('Payment cancelled', 'info');
-    }
+    callback: function(response) { completePayment(response.reference, currentCheckout, name, email); },
+    onClose: function() { showToast('Payment cancelled', 'info'); }
   });
   handler.openIframe();
 }
 
 function completePayment(ref, item, name, email) {
   if (!state.user) return;
-  const payment = {
-    ref: ref,
-    item: item.type === 'course' ? item.title : item.name + ' Plan',
-    amount: item.price,
-    date: new Date().toISOString().split('T')[0],
-    status: 'success'
-  };
-
+  const payment = { ref, item: item.type === 'course' ? item.title : item.name + ' Plan', amount: item.price, date: new Date().toISOString().split('T')[0], status: 'success' };
   state.payments.push(payment);
   db.collection('users').doc(state.user.uid).update({
     payments: firebase.firestore.FieldValue.arrayUnion(payment)
   }).then(() => {
-    if (item.type === 'course') {
-      enrollCourse(item.id);
-    } else if (item.type === 'plan') {
-      if (item.name === 'Pro') {
-        COURSES.forEach(c => enrollCourse(c.id));
-        showToast('🎉 All courses unlocked!', 'success');
-      } else if (item.name === 'Bundle') {
-        const shuffled = [...COURSES].sort(() => 0.5 - Math.random());
-        shuffled.slice(0, 5).forEach(c => enrollCourse(c.id));
-        showToast('🎉 5 courses unlocked!', 'success');
-      } else {
-        enrollCourse(COURSES[0].id);
-      }
+    if (item.type === 'course') enrollCourse(item.id);
+    else if (item.type === 'plan') {
+      if (item.name === 'Pro') { COURSES.forEach(c => enrollCourse(c.id)); showToast('🎉 All courses unlocked!', 'success'); }
+      else if (item.name === 'Bundle') { const shuffled = [...COURSES].sort(() => 0.5 - Math.random()); shuffled.slice(0, 5).forEach(c => enrollCourse(c.id)); showToast('🎉 5 courses unlocked!', 'success'); }
+      else enrollCourse(COURSES[0].id);
     }
   }).catch(err => showToast('Error: ' + err.message, 'error'));
 
@@ -2726,12 +2574,7 @@ function completePayment(ref, item, name, email) {
   updateDashboard();
 }
 
-// ================================================================
-//  UPDATE DASHBOARD (for real-time updates)
-// ================================================================
 function updateDashboard() {
-  // This function is called after enrollments, progress updates, etc.
-  // It updates the dashboard UI if the dashboard modal is open
   if (document.getElementById('dashboardModal').classList.contains('active')) {
     const activeTab = document.querySelector('#dashboardModal .tab.active');
     if (activeTab) {
@@ -2760,30 +2603,21 @@ function initApp() {
   renderCalendar();
   switchTab('home');
 
-  // Scroll animations
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
-    });
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
   }, { threshold: 0.1 });
   document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
-  // Counters
   const counters = document.querySelectorAll('[data-count]');
   const counterObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const target = parseInt(entry.target.getAttribute('data-count'));
-        let current = 0;
-        const increment = target / 60;
+        let current = 0, increment = target / 60;
         const timer = setInterval(() => {
           current += increment;
-          if (current >= target) {
-            entry.target.textContent = target.toLocaleString();
-            clearInterval(timer);
-          } else {
-            entry.target.textContent = Math.floor(current).toLocaleString();
-          }
+          if (current >= target) { entry.target.textContent = target.toLocaleString(); clearInterval(timer); }
+          else entry.target.textContent = Math.floor(current).toLocaleString();
         }, 33);
         counterObserver.unobserve(entry.target);
       }
@@ -2791,18 +2625,10 @@ function initApp() {
   }, { threshold: 0.5 });
   counters.forEach(c => counterObserver.observe(c));
 
-  // Navbar scroll
   const nav = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-  });
-  
-  // Close AI chat on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && state.aiChatOpen) {
-      toggleAIChat();
-    }
-  });
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 50); });
+
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && state.aiChatOpen) toggleAIChat(); });
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
